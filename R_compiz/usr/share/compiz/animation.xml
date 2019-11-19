@@ -1,0 +1,1119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+  
+  <plugin useBcop="true" name="animation">
+    <short>Animations</short>
+    <long>Use various animations as window effects</long>
+    <feature>windowanimations</feature>
+    <category>Effects</category>
+    <deps>
+      <requirement>
+	<plugin>opengl</plugin>
+	<plugin>regex</plugin>
+      </requirement>
+      <relation type="after">
+	<plugin>decor</plugin>
+	<plugin>composite</plugin>
+	<plugin>opengl</plugin>
+	<plugin>regex</plugin>
+      </relation>
+      <relation type="before">
+	<plugin>fade</plugin>
+      </relation>
+    </deps>
+
+    <options>
+
+      <group>
+	<short>Open Animation</short>
+
+	<subgroup>
+	  <short>Animation Selection</short>
+	  <option type="list" name="open_effects">
+	    <short>Open Effect</short>
+	    <long>The animation effect shown when creating a window.</long>
+	    <type>string</type>
+	    <extensible/>
+	    <sort start="2"/>
+	    <default>
+	      <value>animation:Zoom</value>
+	      <value>animation:Fade</value>
+	      <value>animation:Fade</value>
+	    </default>
+	  </option>
+	  <option type="list" name="open_durations">
+	    <short>Duration</short>
+	    <long>Animation duration in milliseconds for open effect.</long>
+	    <type>int</type>
+	    <min>50</min>
+	    <max>4000</max>
+	    <default>
+	      <value>200</value>
+	      <value>150</value>
+	      <value>150</value>
+	    </default>
+	  </option>
+	  <option type="list" name="open_matches">
+	    <short>Window Match</short>
+	    <long>The windows that will be animated.</long>
+	    <type>match</type>
+	    <default>
+	      <value>(type=Normal | Dialog | ModalDialog | Unknown) &amp; !(name=gnome-screensaver)</value>
+	      <value>(type=Menu | PopupMenu | DropdownMenu | Combo)</value>
+	      <value>(type=Tooltip | Notification | Utility) &amp; !(name=compiz) &amp; !(title=notify-osd)</value>
+	    </default>
+	  </option>
+	  <option type="list" name="open_options">
+	    <short>Options</short>
+	    <long>Comma separated list of option value assignments to override effect settings, e.g.: fire_color=#0080ffff, fire_particles=700, fire_smoke=1</long>
+	    <type>string</type>
+	    <default>
+	      <value/>
+	      <value/>
+	      <value/>
+	    </default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Random Effects</short>
+	  <option type="list" name="open_random_effects">
+	    <short>Pool</short>
+	    <long>Pool of effects to be chosen from if Random effect is selected. Click reset to use all effects.</long>
+	    <type>string</type>
+	    <extensible/>
+	    <sort start="2"/>
+	    <default>
+	    </default>
+	  </option>
+	</subgroup>
+
+      </group>
+
+      <group>
+	<short>Close Animation</short>
+
+	<subgroup>
+	  <short>Animation Selection</short>
+	  <option type="list" name="close_effects">
+	    <short>Close Effect</short>
+	    <long>The animation effect shown when closing a window.</long>
+	    <type>string</type>
+	    <extensible/>
+	    <sort start="2"/>
+	    <default>
+	      <value>animation:Zoom</value>
+	      <value>animation:Fade</value>
+	      <value>animation:Fade</value>
+	    </default>
+	  </option>
+	  <option type="list" name="close_durations">
+	    <short>Duration</short>
+	    <long>Animation duration in milliseconds for close effect.</long>
+	    <type>int</type>
+	    <min>50</min>
+	    <max>4000</max>
+	    <default>
+	      <value>200</value>
+	      <value>150</value>
+	      <value>150</value>
+	    </default>
+	  </option>
+	  <option type="list" name="close_matches">
+	    <short>Window Match</short>
+	    <long>The windows that will be animated.</long>
+	    <type>match</type>
+	    <default>
+	      <value>(type=Normal | Dialog | ModalDialog | Unknown) &amp; !(name=gnome-screensaver)</value>
+	      <value>(type=Menu | PopupMenu | DropdownMenu | Combo)</value>
+	      <value>(type=Tooltip | Notification | Utility) &amp; !(name=compiz) &amp; !(title=notify-osd)</value>
+	    </default>
+	  </option>
+	  <option type="list" name="close_options">
+	    <short>Options</short>
+	    <long>Comma separated list of option value assignments to override effect settings, e.g.: fire_color=#0080ffff, fire_particles=700, fire_smoke=1</long>
+	    <type>string</type>
+	    <default>
+	      <value/>
+	      <value/>
+	      <value/>
+	    </default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Random Effects</short>
+	  <option type="list" name="close_random_effects">
+	    <short>Pool</short>
+	    <long>Pool of effects to be chosen from if Random effect is selected. Click reset to use all effects.</long>
+	    <type>string</type>
+	    <extensible/>
+	    <sort start="2"/>
+	    <default>
+	    </default>
+	  </option>
+	</subgroup>
+
+      </group>
+
+      <group>
+	<short>Minimize Animation</short>
+
+	<subgroup>
+	  <short>Animation Selection</short>
+	  <option type="list" name="minimize_effects">
+	    <short>Minimize Effect</short>
+	    <short xml:lang="bn">প্রভাব সর্বনিম্ন করা</short>
+	    <short xml:lang="bn_IN">প্রভাব সর্বনিম্ন করা</short>
+	    <short xml:lang="ca">Minimitza l'efecte</short>
+	    <short xml:lang="cs">Efekt minimalizace</short>
+	    <short xml:lang="da">Minimer effekt</short>
+	    <short xml:lang="de">Minimierungseffekt</short>
+	    <short xml:lang="el">Εφέ Ελαχιστοποίησης</short>
+	    <short xml:lang="es">Efecto Minimizar</short>
+	    <short xml:lang="eu">Ikonotze Efektua</short>
+	    <short xml:lang="fi">Pienennystehoste</short>
+	    <short xml:lang="fr">Effet de Minimisation</short>
+	    <short xml:lang="gl">Efecto ao Minimizar</short>
+	    <short xml:lang="gu">ન્યૂનતમ અસર</short>
+	    <short xml:lang="he">אפקט מזעור</short>
+	    <short xml:lang="hu">Minimalizálás effektus</short>
+	    <short xml:lang="it">Effetto minimizzazione</short>
+	    <short xml:lang="ja">最小化時の効果</short>
+	    <short xml:lang="ko">최소화 효과</short>
+	    <short xml:lang="nb">Minimereffekt</short>
+	    <short xml:lang="nl">Minimaliseer effect</short>
+	    <short xml:lang="or">ନ୍ଯୁନତମ ପ୍ରଭାବ</short>
+	    <short xml:lang="pl">Efekt minimalizacji</short>
+	    <short xml:lang="pt">Minimizar Efeito</short>
+	    <short xml:lang="pt_BR">Efeito ao Minimizar</short>
+	    <short xml:lang="ro">Efect de minimizare</short>
+	    <short xml:lang="ru">Эффект свертывания</short>
+	    <short xml:lang="sk">Efekt pri minimalizovaní</short>
+	    <short xml:lang="sv">Minimeringseffekt</short>
+	    <short xml:lang="tr">Küçültme Efekti</short>
+	    <short xml:lang="uk">Ефект згортання</short>
+	    <short xml:lang="zh_CN">最小化效果</short>
+	    <short xml:lang="zh_TW">最小化特效</short>
+	    <long>The animation effect shown when minimizing a window.</long>
+	    <type>string</type>
+	    <extensible/>
+	    <sort start="2"/>
+	    <default>
+	      <value>animation:Magic Lamp</value>
+	    </default>
+	  </option>
+	  <option type="list" name="minimize_durations">
+	    <short>Duration</short>
+	    <long>Animation duration in milliseconds for minimize effect.</long>
+	    <type>int</type>
+	    <min>50</min>
+	    <max>4000</max>
+	    <default>
+	      <value>300</value>
+	    </default>
+	  </option>
+	  <option type="list" name="minimize_matches">
+	    <short>Window Match</short>
+	    <long>The windows that will be animated.</long>
+	    <type>match</type>
+	    <default>
+	      <value>(type=Normal | Dialog | ModalDialog | Unknown)</value>
+	    </default>
+	  </option>
+	  <option type="list" name="minimize_options">
+	    <short>Options</short>
+	    <long>Comma separated list of option value assignments to override effect settings, e.g.: fire_color=#0080ffff, fire_particles=700, fire_smoke=1</long>
+	    <type>string</type>
+	    <default>
+	      <value/>
+	    </default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Random Effects</short>
+	  <option type="list" name="minimize_random_effects">
+	    <short>Pool</short>
+	    <long>Pool of effects to be chosen from if Random effect is selected. Click reset to use all effects.</long>
+	    <type>string</type>
+	    <extensible/>
+	    <sort start="2"/>
+	    <default>
+	    </default>
+	  </option>
+	</subgroup>
+
+      </group>
+      
+      <group>
+        <short>Unminimize Animation</short>
+
+        <subgroup>
+          <short>Animation Selection</short>
+          <option type="list" name="unminimize_effects">
+            <short>Unminimize Effect</short>
+            <long>The animation effect shown when unminimizing a window.</long>
+            <type>string</type>
+            <extensible/>
+            <sort start="2"/>
+            <default>
+              <value>animation:Magic Lamp</value>
+            </default>
+          </option>
+          <option type="list" name="unminimize_durations">
+            <short>Duration</short>
+            <long>Animation duration in milliseconds for unminimize effect.</long>
+            <type>int</type>
+            <min>50</min>
+            <max>4000</max>
+            <default>
+              <value>300</value>
+            </default>
+          </option>
+          <option type="list" name="unminimize_matches">
+            <short>Window Match</short>
+            <long>The windows that will be animated.</long>
+            <type>match</type>
+            <default>
+              <value>(type=Normal | Dialog | ModalDialog | Unknown)</value>
+            </default>
+          </option>
+          <option type="list" name="unminimize_options">
+            <short>Options</short>
+            <long>Comma separated list of option value assignments to override effect settings, e.g.: fire_color=#0080ffff, fire_particles=700, fire_smoke=1</long>
+            <type>string</type>
+            <default>
+              <value/>
+            </default>
+          </option>
+        </subgroup>
+
+        <subgroup>
+          <short>Random Effects</short>
+          <option type="list" name="unminimize_random_effects">
+            <short>Pool</short>
+            <long>Pool of effects to be chosen from if Random effect is selected. Click reset to use all effects.</long>
+            <type>string</type>
+            <extensible/>
+            <sort start="2"/>
+            <default>
+            </default>
+          </option>
+        </subgroup>
+
+      </group>
+
+      <group>
+	<short>Shade Animation</short>
+
+	<subgroup>
+	  <short>Animation Selection</short>
+	  <option type="list" name="shade_effects">
+	    <short>Shade Effect</short>
+	    <long>The animation effect shown when shading a window.</long>
+	    <type>string</type>
+	    <extensible/>
+	    <sort start="2"/>
+	    <default>
+	      <value>animation:Roll Up</value>
+	    </default>
+	  </option>
+	  <option type="list" name="shade_durations">
+	    <short>Duration</short>
+	    <long>Animation duration in milliseconds for shade effect.</long>
+	    <type>int</type>
+	    <min>50</min>
+	    <max>4000</max>
+	    <default>
+	      <value>300</value>
+	    </default>
+	  </option>
+	  <option type="list" name="shade_matches">
+	    <short>Window Match</short>
+	    <long>Window that should animate with this effect when shaded.</long>
+	    <type>match</type>
+	    <default>
+	      <value>(type=Normal | Dialog | ModalDialog | Utility | Unknown)</value>
+	    </default>
+	  </option>
+	  <option type="list" name="shade_options">
+	    <short>Options</short>
+	    <long>Comma separated list of option value assignments to override effect settings, e.g.: fire_color=#0080ffff, fire_particles=700, fire_smoke=1</long>
+	    <type>string</type>
+	    <default>
+	      <value/>
+	    </default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Random Effects</short>
+	  <option type="list" name="shade_random_effects">
+	    <short>Pool</short>
+	    <long>Pool of effects to be chosen from if Random effect is selected. Click reset to use all effects.</long>
+	    <type>string</type>
+	    <extensible/>
+	    <sort start="2"/>
+	    <default>
+	    </default>
+	  </option>
+	</subgroup>
+
+      </group>
+
+      <group>
+	<short>Focus Animation</short>
+	<subgroup>
+	  <short>Animation Selection</short>
+	  <option type="list" name="focus_effects">
+	    <short>Focus Effect</short>
+	    <short xml:lang="bn">ফোকাসের প্রভাব</short>
+	    <short xml:lang="bn_IN">ফোকাসের প্রভাব</short>
+	    <short xml:lang="ca">Passa el focus a l'efecte</short>
+	    <short xml:lang="cs">Efekt zaměření</short>
+	    <short xml:lang="da">Fokuseffekt</short>
+	    <short xml:lang="de">Effekt fokussieren</short>
+	    <short xml:lang="el">Εφέ Εστίασης</short>
+	    <short xml:lang="es">Efecto Enfocar</short>
+	    <short xml:lang="eu">Foku efektua</short>
+	    <short xml:lang="fi">Keskitystehoste</short>
+	    <short xml:lang="fr">Effet de focus</short>
+	    <short xml:lang="gl">Efecto de Enfoque</short>
+	    <short xml:lang="gu">ફોકસ અસર</short>
+	    <short xml:lang="he">אפקט מיקוד</short>
+	    <short xml:lang="hi">प्रभाव फोकस करें</short>
+	    <short xml:lang="hu">Fókusz effektus</short>
+	    <short xml:lang="it">Effetto al focus</short>
+	    <short xml:lang="ja">フォーカス時の効果</short>
+	    <short xml:lang="ko">초점 효과</short>
+	    <short xml:lang="nb">Fokuseffekt</short>
+	    <short xml:lang="nl">Focus effect</short>
+	    <short xml:lang="or">ଲକ୍ଷ୍ଯ ପ୍ରଭାବ</short>
+	    <short xml:lang="pa">ਫੋਕਸ ਪਰਭਾਵ</short>
+	    <short xml:lang="pl">Efekt wybierania</short>
+	    <short xml:lang="pt">Efeito Foco</short>
+	    <short xml:lang="pt_BR">Efeito Foco</short>
+	    <short xml:lang="ro">Efect de focalizare</short>
+	    <short xml:lang="ru">Эффект фокусировки</short>
+	    <short xml:lang="sk">Efekt zamerania</short>
+	    <short xml:lang="sv">Fokuseffekt</short>
+	    <short xml:lang="tr">Odaklama Efekti</short>
+	    <short xml:lang="uk">Ефект фокусування</short>
+	    <short xml:lang="zh_CN">聚焦效果</short>
+	    <short xml:lang="zh_TW">定焦特效</short>
+	    <long>The animation effect shown when focusing a window.</long>
+	    <type>string</type>
+	    <extensible/>
+	    <sort start="1"/>
+	    <default>
+	      <value>animation:None</value>
+	    </default>
+	  </option>
+	  <option type="list" name="focus_durations">
+	    <short>Duration</short>
+	    <long>Animation duration in milliseconds for focus effect.</long>
+	    <type>int</type>
+	    <min>50</min>
+	    <max>4000</max>
+	    <default>
+	      <value>300</value>
+	    </default>
+	  </option>
+	  <option type="list" name="focus_matches">
+	    <short>Window Match</short>
+	    <long>Window that should animate with this effect when focused.</long>
+	    <type>match</type>
+	    <default>
+	      <value>(type=Normal | Dialog | ModalDialog | Utility | Unknown) &amp; !(name=compiz)</value>
+	    </default>
+	  </option>
+	  <option type="list" name="focus_options">
+	    <short>Options</short>
+	    <long>Comma separated list of option value assignments to override effect settings, e.g.: fire_color=#0080ffff, fire_particles=700, fire_smoke=1</long>
+	    <type>string</type>
+	    <default>
+	      <value/>
+	    </default>
+	  </option>
+        </subgroup>
+      </group>
+
+      <group>
+	<short>Effect Settings</short>
+	<extensible/>
+
+	<option type="bool" name="all_random">
+	  <short>Random Animations For All Events</short>
+	  <long>All effects are chosen randomly, ignoring the selected effect. If None is selected for an event, that event won't be animated.</long>
+	  <default>false</default>
+	</option>
+	<option type="int" name="time_step">
+	  <short>Animation Time Step</short>
+	  <long>The amount of time in milliseconds between each render of the animation. The higher the number, the jerkier the movements become.</long>
+	  <default>10</default>
+	  <min>1</min>
+	  <max>400</max>
+	</option>
+
+	<subgroup>
+	  <short>Curved Fold</short>
+	  <option type="float" name="curved_fold_amp_mult">
+	    <short>Amplitude Multiplier</short>
+	    <long>Fold amplitude (size) is multiplied by this number. Negative values fold outward.</long>
+	    <default>1.0</default>
+	    <min>-1.5</min>
+	    <max>2</max>
+	    <precision>0.05</precision>
+	  </option>
+	  <option type="bool" name="curved_fold_zoom_to_taskbar">
+	    <short>Zoom to TaskBar on Minimize</short>
+	    <long>Whether the window should zoom to taskbar when minimized with Curved Fold effect.</long>
+	    <default>true</default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Dodge</short>
+	  <option type="int" name="dodge_mode">
+	    <short>Mode</short>
+	    <long>Fixed Clicked Window: The window that is clicked on will stay fixed. All Moving: The clicked window will do a dodging action as well.</long>
+	    <default>1</default>
+	    <min>0</min>
+	    <max>1</max>
+	    <desc>
+	      <value>0</value>
+	      <name>Fixed Clicked Window</name>
+	    </desc>
+	    <desc>
+	      <value>1</value>
+	      <name>All Moving</name>
+	    </desc>
+	  </option>
+	  <option type="float" name="dodge_gap_ratio">
+	    <short>Gap Ratio</short>
+	    <long>Ratio of gaps between dodge start times to focus duration.</long>
+	    <default>0.5</default>
+	    <min>0</min>
+	    <max>1</max>
+	    <precision>0.01</precision>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Dream</short>
+	  <option type="bool" name="dream_zoom_to_taskbar">
+	    <short>Zoom to TaskBar on Minimize</short>
+	    <long>Whether the window should zoom to taskbar when minimized with Dream effect.</long>
+	    <default>true</default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Glide 1</short>
+	  <option type="float" name="glide1_away_position">
+	    <short>Away Position</short>
+	    <long>Closeness of window to camera at the end of the animation (1.0: Close to camera, -2.0: Away from camera).</long>
+	    <default>1</default>
+	    <min>-2</min>
+	    <max>1</max>
+	    <precision>0.05</precision>
+	  </option>
+	  <option type="float" name="glide1_away_angle">
+	    <short>Away Angle</short>
+	    <long>Angle of window at the end of the animation.</long>
+	    <default>0</default>
+	    <min>-540</min>
+	    <max>540</max>
+	    <precision>5</precision>
+	  </option>
+	  <option type="bool" name="glide1_zoom_to_taskbar">
+	    <short>Zoom to TaskBar on Minimize</short>
+	    <long>Whether the window should zoom to taskbar when minimized with Glide 1 effect.</long>
+	    <default>false</default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Glide 2</short>
+	  <option type="float" name="glide2_away_position">
+	    <short>Away Position</short>
+	    <long>Closeness of window to camera at the end of the animation (1.0: Close to camera, -2.0: Away from camera).</long>
+	    <default>-0.4</default>
+	    <min>-2</min>
+	    <max>1</max>
+	    <precision>0.05</precision>
+	  </option>
+	  <option type="float" name="glide2_away_angle">
+	    <short>Away Angle</short>
+	    <long>Angle of window at the end of the animation.</long>
+	    <default>-45</default>
+	    <min>-540</min>
+	    <max>540</max>
+	    <precision>5</precision>
+	  </option>
+	  <option type="bool" name="glide2_zoom_to_taskbar">
+	    <short>Zoom to TaskBar on Minimize</short>
+	    <long>Whether the window should zoom to taskbar when minimized with Glide 2 effect.</long>
+	    <default>true</default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Horizontal Folds</short>
+	  <option type="float" name="horizontal_folds_amp_mult">
+	    <short>Amplitude Multiplier</short>
+	    <long>Fold amplitude (size) is multiplied by this number. Negative values fold outward.</long>
+	    <default>1.0</default>
+	    <min>-1</min>
+	    <max>3</max>
+	    <precision>0.05</precision>
+	  </option>
+	  <option type="int" name="horizontal_folds_num_folds">
+	    <short>Number of Horizontal Folds</short>
+	    <long>The number of horizontal folds that occur in the Horizontal Fold animation.</long>
+	    <default>3</default>
+	    <min>1</min>
+	    <max>50</max>
+	  </option>
+	  <option type="bool" name="horizontal_folds_zoom_to_taskbar">
+	    <short>Zoom to TaskBar on Minimize</short>
+	    <long>Whether the window should zoom to taskbar when minimized with Horizontal Folds effect.</long>
+	    <default>true</default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Magic Lamp</short>
+	  <option type="bool" name="magic_lamp_moving_end">
+	    <short>Open/Close Moving End</short>
+	    <long>On open/close, move magic lamp ending point with the mouse pointer.</long>
+	    <default>true</default>
+	  </option>
+	  <option type="int" name="magic_lamp_grid_res">
+	    <short>Grid Y Resolution</short>
+	    <long>Vertex grid resolution for Magic Lamp (Y dimension only). This is the number of points used to define the curves. The higher the number, the smoother the curves. However there will be a loss of performance (CPU usage increases).</long>
+	    <default>100</default>
+	    <min>2</min>
+	    <max>200</max>
+	  </option>
+	  <option type="int" name="magic_lamp_open_start_width">
+	    <short>Open Start Width</short>
+	    <long>Starting width of open effect and ending width of close effect for Magic Lamp.</long>
+	    <default>30</default>
+	    <min>0</min>
+	    <max>500</max>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Magic Lamp Wavy</short>
+	  <option type="bool" name="magic_lamp_wavy_moving_end">
+	    <short>Open/Close Moving End</short>
+	    <long>On open/close, move magic lamp ending point with the mouse pointer.</long>
+	    <default>true</default>
+	  </option>
+	  <option type="int" name="magic_lamp_wavy_grid_res">
+	    <short>Grid Y Resolution</short>
+	    <long>Vertex grid resolution for Magic Lamp Wavy (Y dimension only). This is the number of points used to define the curves. The higher the number, the smoother the curves. However there will be a loss of performance (CPU usage increases).</long>
+	    <default>100</default>
+	    <min>4</min>
+	    <max>200</max>
+	  </option>
+	  <option type="int" name="magic_lamp_wavy_max_waves">
+	    <short>Max Waves</short>
+	    <long>The maximum number of waves for Magic Lamp Wavy.</long>
+	    <default>3</default>
+	    <min>1</min>
+	    <max>20</max>
+	  </option>
+	  <option type="float" name="magic_lamp_wavy_amp_min">
+	    <short>Min Wave Amplitude</short>
+	    <long>The minimum wave amplitude (size of the waves) Magic Lamp Wavy will have.</long>
+	    <default>200</default>
+	    <min>200</min>
+	    <max>2000</max>
+	    <precision>5</precision>
+	  </option>
+	  <option type="float" name="magic_lamp_wavy_amp_max">
+	    <short>Max Wave Amplitude</short>
+	    <long>The maximum wave amplitude (size of the waves) Magic Lamp Wavy will have.</long>
+	    <default>300</default>
+	    <min>200</min>
+	    <max>2000</max>
+	    <precision>5</precision>
+	  </option>
+	  <option type="int" name="magic_lamp_wavy_open_start_width">
+	    <short>Open Start Width</short>
+	    <long>Starting width of open effect and ending width of close effect for Magic Lamp Wavy.</long>
+	    <default>30</default>
+	    <min>0</min>
+	    <max>500</max>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Roll Up</short>
+	  <option type="bool" name="rollup_fixed_interior">
+	    <short>Fixed Interior</short>
+	    <long>Fixed window interior during the Rollup animation.</long>
+	    <default>false</default>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Sidekick</short>
+	  <option type="float" name="sidekick_num_rotations">
+	    <short>Number of Rotations</short>
+	    <long>Number of rotations for Sidekick (plus or minus 10% for randomness).</long>
+	    <default>0.5</default>
+	    <min>0</min>
+	    <max>5</max>
+	    <precision>0.01</precision>
+	  </option>
+	  <option type="float" name="sidekick_springiness">
+	    <short>Springiness</short>
+	    <long>How spring-like the Sidekick animation should be.</long>
+	    <default>0.0</default>
+	    <min>0</min>
+	    <max>1</max>
+	    <precision>0.01</precision>
+	  </option>
+	  <option type="int" name="sidekick_zoom_from_center">
+	    <short>Zoom from Center</short>
+	    <long>Zoom from center when playing the Sidekick animation.</long>
+	    <default>0</default>
+	    <min>0</min>
+	    <max>3</max>
+	    <desc>
+	      <value>0</value>
+	      <name>Off</name>
+	      <name xml:lang="bg">Изключено</name>
+	      <name xml:lang="de">Aus</name>
+	      <name xml:lang="el">Κλειστό</name>
+	      <name xml:lang="es">Apagado</name>
+	      <name xml:lang="eu">Itzali</name>
+	      <name xml:lang="fi">Pois päältä</name>
+	      <name xml:lang="fr">Off</name>
+	      <name xml:lang="gl">Apagado</name>
+	      <name xml:lang="he">כבויה</name>
+	      <name xml:lang="hu">Kikapcsolva</name>
+	      <name xml:lang="it">Spento</name>
+	      <name xml:lang="ja">オフ</name>
+	      <name xml:lang="ko">끄기</name>
+	      <name xml:lang="pl">Wyłączenie</name>
+	      <name xml:lang="pt">Desligado</name>
+	      <name xml:lang="ro">Deconectat</name>
+	      <name xml:lang="ru">Отключить</name>
+	      <name xml:lang="sk">Vypnuté</name>
+	      <name xml:lang="tr">Kapalı</name>
+	      <name xml:lang="uk">Вимкнути</name>
+	      <name xml:lang="zh_CN">关闭</name>
+	      <name xml:lang="zh_TW">關</name>
+	    </desc>
+	    <desc>
+	      <value>1</value>
+	      <name>Minimize/Unminimize Only</name>
+	    </desc>
+	    <desc>
+	      <value>2</value>
+	      <name>Open/Close Only</name>
+	    </desc>
+	    <desc>
+	      <value>3</value>
+	      <name>On</name>
+	    </desc>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Wave</short>
+	  <option type="float" name="wave_width">
+	    <short>Wave Width</short>
+	    <long>The width of the wave relative to the window height.</long>
+	    <default>0.7</default>
+	    <min>0.02</min>
+	    <max>3</max>
+	    <precision>0.01</precision>
+	  </option>
+	  <option type="float" name="wave_amp_mult">
+	    <short>Wave Amplitude Multiplier</short>
+	    <long>Wave amplitude (size) is multiplied by this number. Negative values fold outward.</long>
+	    <default>1.0</default>
+	    <min>-20</min>
+	    <max>20</max>
+	    <precision>0.1</precision>
+	  </option>
+	</subgroup>
+
+	<subgroup>
+	  <short>Zoom</short>
+	  <short xml:lang="bg">Мащабиране</short>
+	  <short xml:lang="bn">জুম</short>
+	  <short xml:lang="bn_IN">জুম</short>
+	  <short xml:lang="ca">Zoom</short>
+	  <short xml:lang="cs">Zvětšení</short>
+	  <short xml:lang="da">Zoom</short>
+	  <short xml:lang="de">Zoom</short>
+	  <short xml:lang="el">Ζουμ</short>
+	  <short xml:lang="es">Zoom</short>
+	  <short xml:lang="eu">Zoom</short>
+	  <short xml:lang="fi">Zoom</short>
+	  <short xml:lang="fr">Zoom</short>
+	  <short xml:lang="gl">Zoom</short>
+	  <short xml:lang="gu">નાનું-મોટુ કરો</short>
+	  <short xml:lang="he">תקריב</short>
+	  <short xml:lang="hi">ज़ूम</short>
+	  <short xml:lang="hu">Nagyítás</short>
+	  <short xml:lang="it">Zoom</short>
+	  <short xml:lang="ja">ズーム</short>
+	  <short xml:lang="ko">확대</short>
+	  <short xml:lang="nb">Forstørr</short>
+	  <short xml:lang="nl">Zoom</short>
+	  <short xml:lang="or">ଜୁମକର(ବଡକର)</short>
+	  <short xml:lang="pl">Powiększenie</short>
+	  <short xml:lang="pt">Zoom</short>
+	  <short xml:lang="pt_BR">Zoom</short>
+	  <short xml:lang="ro">Lupă</short>
+	  <short xml:lang="ru">Изменить масштаб</short>
+	  <short xml:lang="sk">Priblíženie</short>
+	  <short xml:lang="sv">Zoom</short>
+	  <short xml:lang="tr">Büyüt</short>
+	  <short xml:lang="uk">Змінити масштаб</short>
+	  <short xml:lang="zh_CN">缩放</short>
+	  <short xml:lang="zh_TW">縮放</short>
+	  <option type="int" name="zoom_from_center">
+	    <short>Zoom from Center</short>
+	    <long>Zoom from center when playing the Zoom animation.</long>
+	    <default>0</default>
+	    <min>0</min>
+	    <max>3</max>
+	    <desc>
+	      <value>0</value>
+	      <name>Off</name>
+	      <name xml:lang="bg">Изключено</name>
+	      <name xml:lang="de">Aus</name>
+	      <name xml:lang="el">Κλειστό</name>
+	      <name xml:lang="es">Apagado</name>
+	      <name xml:lang="eu">Itzali</name>
+	      <name xml:lang="fi">Pois päältä</name>
+	      <name xml:lang="fr">Off</name>
+	      <name xml:lang="gl">Apagado</name>
+	      <name xml:lang="he">כבויה</name>
+	      <name xml:lang="hu">Kikapcsolva</name>
+	      <name xml:lang="it">Spento</name>
+	      <name xml:lang="ja">オフ</name>
+	      <name xml:lang="ko">끄기</name>
+	      <name xml:lang="pl">Wyłączenie</name>
+	      <name xml:lang="pt">Desligado</name>
+	      <name xml:lang="ro">Deconectat</name>
+	      <name xml:lang="ru">Отключить</name>
+	      <name xml:lang="sk">Vypnuté</name>
+	      <name xml:lang="tr">Kapalı</name>
+	      <name xml:lang="uk">Вимкнути</name>
+	      <name xml:lang="zh_CN">关闭</name>
+	      <name xml:lang="zh_TW">關</name>
+	    </desc>
+	    <desc>
+	      <value>1</value>
+	      <name>Minimize/Unminimize Only</name>
+	    </desc>
+	    <desc>
+	      <value>2</value>
+	      <name>Open/Close Only</name>
+	    </desc>
+	    <desc>
+	      <value>3</value>
+	      <name>On</name>
+	    </desc>
+	  </option>
+	  <option type="float" name="zoom_springiness">
+	    <short>Springiness</short>
+	    <long>How spring-like the Zoom animation should be.</long>
+	    <default>0.0</default>
+	    <min>0</min>
+	    <max>1</max>
+	    <precision>0.01</precision>
+	  </option>
+	</subgroup>
+      </group> 
+
+    </options>
+
+    <extension base_plugin="animation">
+      <base_option>open_effects</base_option>
+      <base_option>close_effects</base_option>
+      <base_option>minimize_effects</base_option>
+      <base_option>unminimize_effects</base_option>
+      <base_option>shade_effects</base_option>
+      <restriction>
+	<value>animation:None</value>
+	<name>None</name>
+	<name xml:lang="ar">بدون</name>
+	<name xml:lang="bg">Без избор</name>
+	<name xml:lang="bn">কিছু না</name>
+	<name xml:lang="bn_IN">কিছু না</name>
+	<name xml:lang="bs">Nijedan</name>
+	<name xml:lang="ca">Cap</name>
+	<name xml:lang="cs">Nic</name>
+	<name xml:lang="da">Ingen</name>
+	<name xml:lang="de">Keine</name>
+	<name xml:lang="el">Κανένα</name>
+	<name xml:lang="es">Ninguno</name>
+	<name xml:lang="et">Puudub</name>
+	<name xml:lang="eu">Bat ere ez</name>
+	<name xml:lang="fi">Ei mitään</name>
+	<name xml:lang="fr">Aucun</name>
+	<name xml:lang="gl">Ningún</name>
+	<name xml:lang="gu">કંઈ નહિં</name>
+	<name xml:lang="he">ללא</name>
+	<name xml:lang="hi">कुछ नहीं</name>
+	<name xml:lang="hr">Ništa</name>
+	<name xml:lang="hu">Egyik sem</name>
+	<name xml:lang="it">Niente</name>
+	<name xml:lang="ja">なし</name>
+	<name xml:lang="km">គ្មាន</name>
+	<name xml:lang="ko">없음</name>
+	<name xml:lang="lt">Nieko</name>
+	<name xml:lang="ml_IN">ഒന്നുമില്ല</name>
+	<name xml:lang="nb">Ingen</name>
+	<name xml:lang="nl">Geen</name>
+	<name xml:lang="or">କିଛିନାହିଁ</name>
+	<name xml:lang="pa">ਕੋਈ ਨਹੀਂ</name>
+	<name xml:lang="pl">Brak</name>
+	<name xml:lang="pt">Nenhum</name>
+	<name xml:lang="pt_BR">Nenhum</name>
+	<name xml:lang="ro">Nimic</name>
+	<name xml:lang="ru">Никакой</name>
+	<name xml:lang="sk">Žiadna</name>
+	<name xml:lang="sl">brez izbire</name>
+	<name xml:lang="sr">Nema</name>
+	<name xml:lang="sv">Ingen</name>
+	<name xml:lang="tr">Hiçbiri</name>
+	<name xml:lang="uk">Ніякий</name>
+	<name xml:lang="zh_CN">无</name>
+	<name xml:lang="zh_TW">無</name>
+      </restriction>
+      <restriction>
+	<value>animation:Random</value>
+	<name>Random</name>
+	<name xml:lang="bg">Произволно</name>
+	<name xml:lang="bn">ইচ্ছামত</name>
+	<name xml:lang="bn_IN">ইচ্ছামত</name>
+	<name xml:lang="cs">Náhodný</name>
+	<name xml:lang="de">Zufällig</name>
+	<name xml:lang="el">Τυχαία</name>
+	<name xml:lang="es">Aleatorio</name>
+	<name xml:lang="eu">Ausaz</name>
+	<name xml:lang="fi">Satunnainen</name>
+	<name xml:lang="fr">Aléatoire</name>
+	<name xml:lang="gl">Aleatorio</name>
+	<name xml:lang="gu">રેન્ડમ</name>
+	<name xml:lang="he">אקראי</name>
+	<name xml:lang="hi">क्रमहीन</name>
+	<name xml:lang="hu">Véletlen</name>
+	<name xml:lang="it">Casuale</name>
+	<name xml:lang="ja">ランダム</name>
+	<name xml:lang="ko">무작위로</name>
+	<name xml:lang="nb">Tilfeldig</name>
+	<name xml:lang="nl">Willekeurig</name>
+	<name xml:lang="or">କ୍ରମହୀନ</name>
+	<name xml:lang="pa">ਰੈਂਡਮ</name>
+	<name xml:lang="pl">Losowy</name>
+	<name xml:lang="pt">Aleatório</name>
+	<name xml:lang="pt_BR">Aleatório</name>
+	<name xml:lang="ro">Aleator</name>
+	<name xml:lang="ru">Случайно</name>
+	<name xml:lang="sk">Náhodné</name>
+	<name xml:lang="sv">Slumpmässigt</name>
+	<name xml:lang="tr">Rastgele</name>
+	<name xml:lang="uk">Випадковий</name>
+	<name xml:lang="zh_CN">随机</name>
+	<name xml:lang="zh_TW">隨機亂數</name>
+      </restriction>
+    </extension>
+
+    <extension base_plugin="animation">
+      <base_option>open_effects</base_option>
+      <base_option>open_random_effects</base_option>
+      <base_option>close_effects</base_option>
+      <base_option>close_random_effects</base_option>
+      <base_option>minimize_effects</base_option>
+      <base_option>minimize_random_effects</base_option>
+      <base_option>unminimize_effects</base_option>
+      <base_option>unminimize_random_effects</base_option>
+      <base_option>shade_effects</base_option>
+      <base_option>shade_random_effects</base_option>
+      <restriction>
+	<value>animation:Curved Fold</value>
+	<name>Curved Fold</name>
+      </restriction>
+      <restriction>
+	<value>animation:Horizontal Folds</value>
+	<name>Horizontal Folds</name>
+      </restriction>
+    </extension>
+
+    <extension base_plugin="animation">
+      <base_option>shade_effects</base_option>
+      <base_option>shade_random_effects</base_option>
+      <restriction>
+	<value>animation:Roll Up</value>
+	<name>Roll Up</name>
+      </restriction>
+    </extension>
+
+    <extension base_plugin="animation">
+      <base_option>open_effects</base_option>
+      <base_option>open_random_effects</base_option>
+      <base_option>close_effects</base_option>
+      <base_option>close_random_effects</base_option>
+      <base_option>minimize_effects</base_option>
+      <base_option>minimize_random_effects</base_option>
+      <base_option>unminimize_effects</base_option>
+      <base_option>unminimize_random_effects</base_option>
+      <restriction>
+	<value>animation:Dream</value>
+	<name>Dream</name>
+      </restriction>
+      <restriction>
+	<value>animation:Fade</value>
+	<name>Fade</name>
+      </restriction>
+      <restriction>
+	<value>animation:Glide 1</value>
+	<name>Glide 1</name>
+      </restriction>
+      <restriction>
+	<value>animation:Glide 2</value>
+	<name>Glide 2</name>
+      </restriction>
+      <restriction>
+	<value>animation:Magic Lamp</value>
+	<name>Magic Lamp</name>
+      </restriction>
+      <restriction>
+	<value>animation:Magic Lamp Wavy</value>
+	<name>Magic Lamp Wavy</name>
+      </restriction>
+      <restriction>
+	<value>animation:Sidekick</value>
+	<name>Sidekick</name>
+      </restriction>
+      <restriction>
+	<value>animation:Zoom</value>
+	<name>Zoom</name>
+	<name xml:lang="bg">Мащабиране</name>
+	<name xml:lang="bn">জুম</name>
+	<name xml:lang="bn_IN">জুম</name>
+	<name xml:lang="ca">Zoom</name>
+	<name xml:lang="cs">Zvětšení</name>
+	<name xml:lang="da">Zoom</name>
+	<name xml:lang="de">Zoom</name>
+	<name xml:lang="el">Ζουμ</name>
+	<name xml:lang="es">Zoom</name>
+	<name xml:lang="eu">Zoom</name>
+	<name xml:lang="fi">Zoom</name>
+	<name xml:lang="fr">Zoom</name>
+	<name xml:lang="gl">Zoom</name>
+	<name xml:lang="gu">નાનું-મોટુ કરો</name>
+	<name xml:lang="he">תקריב</name>
+	<name xml:lang="hi">ज़ूम</name>
+	<name xml:lang="hu">Nagyítás</name>
+	<name xml:lang="it">Zoom</name>
+	<name xml:lang="ja">ズーム</name>
+	<name xml:lang="ko">확대</name>
+	<name xml:lang="nb">Forstørr</name>
+	<name xml:lang="nl">Zoom</name>
+	<name xml:lang="or">ଜୁମକର(ବଡକର)</name>
+	<name xml:lang="pl">Powiększenie</name>
+	<name xml:lang="pt">Zoom</name>
+	<name xml:lang="pt_BR">Zoom</name>
+	<name xml:lang="ro">Lupă</name>
+	<name xml:lang="ru">Изменить масштаб</name>
+	<name xml:lang="sk">Priblíženie</name>
+	<name xml:lang="sv">Zoom</name>
+	<name xml:lang="tr">Büyüt</name>
+	<name xml:lang="uk">Змінити масштаб</name>
+	<name xml:lang="zh_CN">缩放</name>
+	<name xml:lang="zh_TW">縮放</name>
+      </restriction>
+    </extension>
+
+    <extension base_plugin="animation">
+      <base_option>open_effects</base_option>
+      <base_option>open_random_effects</base_option>
+      <base_option>close_effects</base_option>
+      <base_option>close_random_effects</base_option>
+      <restriction>
+	<value>animation:Wave</value>
+	<name>Wave</name>
+      </restriction>
+    </extension>
+
+    <extension base_plugin="animation">
+      <base_option>focus_effects</base_option>
+      <restriction>
+	<value>animation:None</value>
+	<name>None</name>
+	<name xml:lang="ar">بدون</name>
+	<name xml:lang="bg">Без избор</name>
+	<name xml:lang="bn">কিছু না</name>
+	<name xml:lang="bn_IN">কিছু না</name>
+	<name xml:lang="bs">Nijedan</name>
+	<name xml:lang="ca">Cap</name>
+	<name xml:lang="cs">Nic</name>
+	<name xml:lang="da">Ingen</name>
+	<name xml:lang="de">Keine</name>
+	<name xml:lang="el">Κανένα</name>
+	<name xml:lang="es">Ninguno</name>
+	<name xml:lang="et">Puudub</name>
+	<name xml:lang="eu">Bat ere ez</name>
+	<name xml:lang="fi">Ei mitään</name>
+	<name xml:lang="fr">Aucun</name>
+	<name xml:lang="gl">Ningún</name>
+	<name xml:lang="gu">કંઈ નહિં</name>
+	<name xml:lang="he">ללא</name>
+	<name xml:lang="hi">कुछ नहीं</name>
+	<name xml:lang="hr">Ništa</name>
+	<name xml:lang="hu">Egyik sem</name>
+	<name xml:lang="it">Niente</name>
+	<name xml:lang="ja">なし</name>
+	<name xml:lang="km">គ្មាន</name>
+	<name xml:lang="ko">없음</name>
+	<name xml:lang="lt">Nieko</name>
+	<name xml:lang="ml_IN">ഒന്നുമില്ല</name>
+	<name xml:lang="nb">Ingen</name>
+	<name xml:lang="nl">Geen</name>
+	<name xml:lang="or">କିଛିନାହିଁ</name>
+	<name xml:lang="pa">ਕੋਈ ਨਹੀਂ</name>
+	<name xml:lang="pl">Brak</name>
+	<name xml:lang="pt">Nenhum</name>
+	<name xml:lang="pt_BR">Nenhum</name>
+	<name xml:lang="ro">Nimic</name>
+	<name xml:lang="ru">Никакой</name>
+	<name xml:lang="sk">Žiadna</name>
+	<name xml:lang="sl">brez izbire</name>
+	<name xml:lang="sr">Nema</name>
+	<name xml:lang="sv">Ingen</name>
+	<name xml:lang="tr">Hiçbiri</name>
+	<name xml:lang="uk">Ніякий</name>
+	<name xml:lang="zh_CN">无</name>
+	<name xml:lang="zh_TW">無</name>
+      </restriction>
+      <restriction>
+	<value>animation:Dodge</value>
+	<name>Dodge</name>
+      </restriction>
+      <restriction>
+	<value>animation:Focus Fade</value>
+	<name>Fade</name>
+      </restriction>
+      <restriction>
+	<value>animation:Wave</value>
+	<name>Wave</name>
+      </restriction>
+    </extension>
+    
+  </plugin>
+</compiz>

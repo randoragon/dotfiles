@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+    <plugin name="inotify">
+	<short>File Watcher</short>
+	<long>File change notification plugin</long>
+	<long xml:lang="bn">ফাইল পরিবর্তন ঘোষণাকারী প্লাগইন</long>
+	<long xml:lang="bn_IN">ফাইল পরিবর্তন ঘোষণাকারী প্লাগইন</long>
+	<long xml:lang="cs">Modul upozornění změny soubou</long>
+	<long xml:lang="de">Überwachung von Änderungen an Dateien</long>
+	<long xml:lang="el">Πρόσθετο ειδοποίησης αλλαγής αρχείου</long>
+	<long xml:lang="es">Complemento de notificacion de cambio de archivo</long>
+	<long xml:lang="eu">Fitxategi aldaketaren jakinarazpen plugina</long>
+	<long xml:lang="fi">Käyttäjätilan tiedostojärjestelmä</long>
+	<long xml:lang="fr">Extension pour la notification de modification de fichier</long>
+	<long xml:lang="gl">Engadido de notificación de cambios en ficheiros</long>
+	<long xml:lang="gu">ફાઈલ બદલી સૂચન પ્લગઈન</long>
+	<long xml:lang="he">התקן הודעות על שינוי בקובץ</long>
+	<long xml:lang="hi">फाइल बदलाव अधिसूचना प्लगिन</long>
+	<long xml:lang="hu">Fájlváltozásról értesítő bővítmény</long>
+	<long xml:lang="it">Plugin notifica cambiamento file</long>
+	<long xml:lang="ja">ファイル変更通知プラグイン</long>
+	<long xml:lang="ko">파일 변화 알림 플러그인</long>
+	<long xml:lang="nb">Varslingstilleg for filendringer</long>
+	<long xml:lang="nl">Bestands wijziging meldings plug-in</long>
+	<long xml:lang="or">ଫାଇଲ ପରିବର୍ତ୍ତନ ବିଜ୍ଞାପନ ପ୍ଲଗଇନ</long>
+	<long xml:lang="pa">ਫਾਇਲ ਬਦਲਣ ਨੋਟੀਫਿਕੇਸ਼ਨ ਪਲੱਗਇਨ</long>
+	<long xml:lang="pl">Wtyczka powiadamiania o zmianie pliku</long>
+	<long xml:lang="pt">Plugin de notificação de ficheiros</long>
+	<long xml:lang="pt_BR">Plugin de notificação de modificação de arquivos</long>
+	<long xml:lang="ro">Modúl de notificare a modificării fișierului</long>
+	<long xml:lang="ru">Модуль извещения об изменении файла</long>
+	<long xml:lang="sk">Modul upozornenia zmeny súboru</long>
+	<long xml:lang="tr">Dosya değişimi uyarı eklentisi</long>
+	<long xml:lang="uk">Модуль сповіщення про зміну файлу</long>
+	<long xml:lang="zh_CN">文件修改通知插件</long>
+	<long xml:lang="zh_TW">檔案被改變時警告外掛</long>
+	<category>Utility</category>
+	<deps>
+	    <relation type="after">
+		<plugin>composite</plugin>
+		<plugin>opengl</plugin>
+		<plugin>decor</plugin>
+	    </relation>
+	</deps>
+    </plugin>
+</compiz>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+	<plugin useBcop="true" name="workspacenames">
+		<short>Workspace Naming</short>
+		<long>Assign names to viewports and display them upon viewport switches</long>
+		<category>Window Management</category>
+		<deps>
+			<relation type="after">
+				<plugin>opengl</plugin>
+				<plugin>composite</plugin>
+				<plugin>text</plugin>
+			</relation>
+			<requirement>
+				<plugin>opengl</plugin>
+				<plugin>text</plugin>
+			</requirement>
+		</deps>
+		<options>
+			<group>
+				<short>Names</short>
+				<subgroup>
+					<short>Workspace Names</short>
+					<option type="list" name="viewports">
+						<short>Viewport</short>
+						<long>Number of viewport to be named.</long>
+						<type>int</type>
+						<min>1</min>
+						<max>50</max>
+						<default>
+							<value>1</value>
+							<value>2</value>
+							<value>3</value>
+							<value>4</value>
+						</default>
+					</option>
+					<option type="list" name="names">
+						<short>Name</short>
+						<long>The name of the workspace.</long>
+						<type>string</type>
+						<default>
+							<value>Viewport 1</value>
+							<value>Viewport 2</value>
+							<value>Viewport 3</value>
+							<value>Viewport 4</value>
+						</default>
+					</option>
+				</subgroup>
+			</group>
+			<group>
+				<short>Appearance</short>
+				<short xml:lang="bg">Външен вид</short>
+				<short xml:lang="de">Erscheinung</short>
+				<short xml:lang="el">Εμφάνιση</short>
+				<short xml:lang="es">Apariencia</short>
+				<short xml:lang="eu">Itxura</short>
+				<short xml:lang="fi">Ulkoasu</short>
+				<short xml:lang="fr">Apparence</short>
+				<short xml:lang="gl">Apariencia</short>
+				<short xml:lang="he">מראה</short>
+				<short xml:lang="hu">Megjelenés</short>
+				<short xml:lang="it">Aspetto</short>
+				<short xml:lang="ja">外観</short>
+				<short xml:lang="ko">모양</short>
+				<short xml:lang="pl">Wygląd</short>
+				<short xml:lang="pt">Aparência</short>
+				<short xml:lang="ru">Внешний вид</short>
+				<short xml:lang="uk">Зовнішній вигляд</short>
+				<short xml:lang="zh_CN">外观</short>
+				<short xml:lang="zh_TW">外觀</short>
+				<option type="float" name="display_time">
+					<short>Display Time</short>
+					<long>Timeout of the workspacename display (in seconds).</long>
+					<min>0.1</min>
+					<max>5.0</max>
+					<precision>0.05</precision>
+					<default>1.5</default>
+				</option>
+				<option type="float" name="fade_time">
+					<short>Fade Time</short>
+					<short xml:lang="cs">Doba zprůhlednění</short>
+					<short xml:lang="de">Ausblendungszeit</short>
+					<short xml:lang="el">Χρόνος Ξεθωριάσματος</short>
+					<short xml:lang="es">Tiempo de desvanecimiento</short>
+					<short xml:lang="eu">Iraungitze denbora</short>
+					<short xml:lang="fi">Häivytysviive</short>
+					<short xml:lang="fr">Temps de Fondu</short>
+					<short xml:lang="gl">Tempo de desvanecemento</short>
+					<short xml:lang="gu">આછાપણાનો સમય</short>
+					<short xml:lang="he">משך עמעום</short>
+					<short xml:lang="hu">Elhalványítási idő</short>
+					<short xml:lang="it">Tempo dissolvenza</short>
+					<short xml:lang="ja">フェード時間</short>
+					<short xml:lang="ko">페이드 시간</short>
+					<short xml:lang="nb">Uttoningstid</short>
+					<short xml:lang="nl">Verduisteren tijdsduur</short>
+					<short xml:lang="or">ଫିକାହେବା ସମଯ</short>
+					<short xml:lang="pl">Czas przenikania</short>
+					<short xml:lang="pt">Tempo de Esmaecimento</short>
+					<short xml:lang="pt_BR">Tempo de desvanecimento</short>
+					<short xml:lang="ru">Время исчезновения</short>
+					<short xml:lang="sk">Doba stmavnutia</short>
+					<short xml:lang="sv">Toningstid</short>
+					<short xml:lang="tr">Solma Süresi</short>
+					<short xml:lang="uk">Час зникнення</short>
+					<short xml:lang="zh_CN">渐隐时间</short>
+					<short xml:lang="zh_TW">淡入/淡出時間</short>
+					<long>Time the workspacename display uses for the fade-out (in seconds).</long>
+					<min>0.0</min>
+					<max>5.0</max>
+					<precision>0.05</precision>
+					<default>0.25</default>
+				</option>
+				<subgroup>
+					<short>Text Display</short>
+					<option type="bool" name="bold_text">
+						<short>Bold Font</short>
+						<long>Render the workspacename using a bold font.</long>
+						<default>true</default>
+					</option>
+					<option type="int" name="text_font_size">
+						<short>Font Size</short>
+						<long>Font size for the text display (in pixels).</long>
+						<default>24</default>
+						<min>6</min>
+						<max>96</max>
+					</option>
+					<option type="int" name="text_placement">
+						<short>Text Placement</short>
+						<long>Selects where to place the text.</long>
+						<default>0</default>
+						<min>0</min>
+						<max>2</max>
+						<desc>
+							<value>0</value>
+							<name>Centered on screen</name>
+						</desc>
+						<desc>
+							<value>1</value>
+							<name>Top of screen minus offset</name>
+						</desc>
+						<desc>
+							<value>2</value>
+							<name>Bottom of screen plus offset</name>
+						</desc>
+					</option>
+					<option type="int" name="vertical_offset">
+						<short>Vertical Offset</short>
+						<long>Vertical offset from top or bottom of the screen (in pixels).</long>
+						<default>50</default>
+						<min>0</min>
+						<max>500</max>
+					</option>
+				</subgroup>
+				<subgroup>
+					<short>Colors</short>
+					<option type="color" name="back_color">
+						<short>Background Color</short>
+						<long>Background color and opacity of the workspacename display.</long>
+						<default>
+							<red>0x0000</red>
+							<green>0x0000</green>
+							<blue>0x0000</blue>
+							<alpha>0x9999</alpha>
+						</default>
+					</option>
+					<option type="color" name="font_color">
+						<short>Font Color</short>
+						<long>Font color and opacity of the workspacename display.</long>
+						<default>
+							<red>0xffff</red>
+							<green>0xffff</green>
+							<blue>0xffff</blue>
+							<alpha>0xffff</alpha>
+						</default>
+					</option>
+				</subgroup>
+			</group>
+		</options>	
+	</plugin>
+</compiz>

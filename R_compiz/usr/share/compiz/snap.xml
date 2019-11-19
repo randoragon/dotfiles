@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+    <plugin useBcop="true" name="snap">
+	<short>Snapping Windows</short>
+	<long>Enables windows edges resistance</long>
+	<category>Window Management</category>
+	<feature>edgeresistance</feature>
+	<deps>
+	    <relation type="after">
+		<plugin>opengl</plugin>
+		<plugin>composite</plugin>
+		<plugin>decor</plugin>
+	    </relation>
+	</deps>
+	<options>
+	    <group>
+		<short>Bindings</short>
+		<short xml:lang="el">Συνδυασμοί</short>
+		<short xml:lang="es">Vínculos</short>
+		<short xml:lang="eu">Laster-bideak</short>
+		<short xml:lang="fi">Pikanäppäimet</short>
+		<short xml:lang="fr">Assignations</short>
+		<short xml:lang="gl">Atallos de teclado</short>
+		<short xml:lang="he">צירופים</short>
+		<short xml:lang="hu">Gyorsbillentyűk</short>
+		<short xml:lang="it">Associazioni</short>
+		<short xml:lang="ja">割り当て</short>
+		<short xml:lang="ko">바로가기</short>
+		<short xml:lang="pl">Przyporządkowanie klawiszy</short>
+		<short xml:lang="pt">Atalhos</short>
+		<short xml:lang="ru">Закрепление</short>
+		<short xml:lang="uk">Закріплення</short>
+		<short xml:lang="zh_CN">绑定</short>
+		<short xml:lang="zh_TW">連結</short>
+		<option type="list" name="avoid_snap">
+		    <short>Avoid Snap Modifier</short>
+		    <long>Use these bindings to avoid snapping.</long>
+		    <type>int</type>
+		    <min>0</min>
+		    <max>3</max>
+		    <default>
+			<value>0</value>
+		    </default>
+		    <desc>
+			<value>0</value>
+			<name>Shift</name>
+		    </desc>
+		    <desc>
+			<value>1</value>
+			<name>Alt</name>
+		    </desc>
+		    <desc>
+			<value>2</value>
+			<name>Control</name>
+		    </desc>
+		    <desc>
+			<value>3</value>
+			<name>Meta</name>
+		    </desc>
+		</option>
+	    </group>
+	    <group>
+		<short>Behaviour</short>
+		<short xml:lang="bg">Поведение</short>
+		<short xml:lang="de">Verhalten</short>
+		<short xml:lang="el">Συμπεριφορά</short>
+		<short xml:lang="es">Comportamiento</short>
+		<short xml:lang="eu">Portaera</short>
+		<short xml:lang="fi">Käyttäytyminen</short>
+		<short xml:lang="fr">Comportement</short>
+		<short xml:lang="gl">Comportamento</short>
+		<short xml:lang="he">אופן</short>
+		<short xml:lang="hu">Viselkedés</short>
+		<short xml:lang="it">Comportamento</short>
+		<short xml:lang="ja">動作</short>
+		<short xml:lang="ko">동작</short>
+		<short xml:lang="pl">Zachowanie</short>
+		<short xml:lang="pt">Comportamento</short>
+		<short xml:lang="ru">Поведение</short>
+		<short xml:lang="uk">Поведінка</short>
+		<short xml:lang="zh_CN">特性</short>
+		<short xml:lang="zh_TW">特性</short>
+		<option type="list" name="snap_type">
+		    <short>Snap Type</short>
+		    <long>Choose 'Resistance', 'Attraction' or 'Full Mode'.</long>
+		    <type>int</type>
+		    <min>0</min>
+		    <max>1</max>
+		    <default>
+			<value>0</value>
+		    </default>
+		    <desc>
+			<value>0</value>
+			<name>Edge resistance</name>
+		    </desc>
+		    <desc>
+			<value>1</value>
+			<name>Edge attraction</name>
+		    </desc>
+		</option>
+		<option type="list" name="edges_categories">
+		    <short>Edges</short>
+		    <long>Snap to 'Screen Edges', 'Windows Edges' or 'Both'.</long>
+		    <type>int</type>
+		    <min>0</min>
+		    <max>1</max>
+		    <default>
+			<value>0</value>
+		    </default>
+		    <desc>
+			<value>0</value>
+			<name>Screen edges</name>
+		    </desc>
+		    <desc>
+			<value>1</value>
+			<name>Window edges</name>
+		    </desc>
+		</option>
+		<option type="int" name="resistance_distance">
+		    <short>Edge Resistance Distance</short>
+		    <long>The distance until edge resistance takes place.</long>
+		    <default>30</default>
+		    <min>1</min>
+		    <max>100</max>
+		</option>
+		<option type="int" name="attraction_distance">
+		    <short>Edge Attraction Distance</short>
+		    <long>The distance until edge attraction takes place.</long>
+		    <default>20</default>
+		    <min>1</min>
+		    <max>100</max>
+		</option>
+	    </group>
+	</options>
+    </plugin>
+</compiz>

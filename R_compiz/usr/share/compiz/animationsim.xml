@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+  <plugin useBcop="true" name="animationsim">
+    <short>Simple Animations</short>
+    <long>Animations that are simple on the eye</long>
+    <category>Effects</category>
+    <deps>
+	<requirement>
+	    <plugin>animation</plugin>
+	</requirement>
+	<relation type="after">
+	    <plugin>animation</plugin>
+	</relation>
+    </deps>
+    <options>
+
+      <group>
+	<short>Effect Settings</short>
+
+	<subgroup>
+	  <short>Fly In</short>
+	  <option type="int" name="flyin_direction">
+	    <short>Fly In Direction</short>
+	    <long>The direction in which the fly in should take place</long>
+	    <default>0</default>
+	    <desc>
+		<value>0</value>
+		<name>Up</name>
+	    </desc>
+	    <desc>
+		<value>1</value>
+		<name>Left</name>
+	    </desc>
+	    <desc>
+		<value>2</value>
+		<name>Down</name>
+	    </desc>
+	    <desc>
+		<value>3</value>
+		<name>Right</name>
+	    </desc>
+	    <desc>
+		<value>4</value>
+		<name>User Defined</name>
+	    </desc>
+	    <min>0</min>
+	    <max>4</max>
+	  </option>
+	  <option type="float" name="flyin_direction_x">
+	    <short>UD Direction X</short>
+	    <long>Direction and Distance X for user defined fly in</long>
+	    <default>0</default>
+	    <min>-1000</min>
+	    <max>1000</max>
+		<precision>0.01</precision>
+	  </option>
+	  <option type="float" name="flyin_direction_y">
+	    <short>UD Direction Y</short>
+	    <long>Direction and Distance Y for user defined fly in</long>
+	    <default>0</default>
+	    <min>-1000</min>
+	    <max>1000</max>
+		<precision>0.01</precision>
+	  </option>
+	  <option type="bool" name="flyin_fade">
+	    <short>Fade</short>
+	    <long>Fade when flying in</long>
+	    <default>true</default>
+	  </option>
+	  <option type="float" name="flyin_distance">
+	    <short>Distance</short>
+	    <long>Distance to fly in</long>
+	    <default>20</default>
+	    <min>5</min>
+	    <max>1000</max>
+		<precision>0.01</precision>
+	  </option>
+	</subgroup>
+	<subgroup>
+	  <short>Rotate In</short>
+	  <option type="int" name="rotatein_direction">
+	    <short>Rotate In Direction</short>
+	    <long>The direction in which the window rotates</long>
+	    <default>3</default>
+	    <desc>
+		<value>1</value>
+		<name>Up</name>
+	    </desc>
+	    <desc>
+		<value>2</value>
+		<name>Left</name>
+	    </desc>
+	    <desc>
+		<value>3</value>
+		<name>Down</name>
+	    </desc>
+	    <desc>
+		<value>4</value>
+		<name>Right</name>
+	    </desc>
+	    <min>1</min>
+	    <max>4</max>
+	  </option>
+	  <option type="float" name="rotatein_angle">
+	    <short>Angle</short>
+	    <long>Angle to start from</long>
+	    <default>90</default>
+	    <min>-720</min>
+	    <max>720</max>
+	  </option>
+	</subgroup>
+	<subgroup>
+	  <short>Bounce</short>
+	  <option type="float" name="bounce_max_size">
+	    <short>Maximum Size</short>
+	    <long>Maximum scale factor of window when bouncing</long>
+	    <default>1.2</default>
+	    <min>1.0</min>
+	    <max>3.0</max>
+	  </option>
+	  <option type="float" name="bounce_min_size">
+	    <short>Minimum Size</short>
+	    <long>Minimum scale factor of window when bouncing</long>
+	    <default>0.6</default>
+	    <min>0.1</min>
+	    <max>1.0</max>
+	  </option>
+	  <option type="int" name="bounce_number">
+	    <short>Number of Bounces</short>
+	    <long>How many bounces during the animation</long>
+	    <default>3</default>
+	    <min>0</min>
+	    <max>10</max>
+	  </option>
+	  <option type="bool" name="bounce_fade">
+	    <short>Fade</short>
+	    <long>Fade when flying in</long>
+	    <default>true</default>
+	  </option>
+	</subgroup>
+	<subgroup>
+	  <short>Sheet</short>
+	  <option type="float" name="sheet_start_percent">
+	    <short>Starting Percent</short>
+            <long>How wide the beginning of the sheet animation should be compared to the end</long>
+	    <default>80.0</default>
+	    <min>1.0</min>
+	    <max>150.0</max>
+	  </option>
+	</subgroup>
+	<subgroup>
+	  <short>Fan</short>
+	  <option type="float" name="fan_angle">
+	    <short>Fan Angle</short>
+	    <long>Angle of windows away from the main window</long>
+	    <default>35</default>
+	    <min>0</min>
+	    <max>90</max>
+	    <precision>0.1</precision>
+	  </option>
+	</subgroup>
+	<subgroup>
+	  <short>Expand Piecewise</short>
+	  <option type="bool" name="expandpw_horiz_first">
+	    <short>First expand horizontally</short>
+	    <long>If checked, initially expand horizontally, then vertically</long>
+	    <default>true</default>
+	  </option>
+	  <option type="int" name="expandpw_initial_horiz">
+	    <short>Initial horizontal size</short>
+	    <long>Number of pixels initially in horizontal direction</long>
+	    <default>20</default>
+	    <min>0</min>
+	    <max>50</max>
+	  </option>
+	  <option type="int" name="expandpw_initial_vert">
+	    <short>Initial vertical size</short>
+	    <long>Number of pixels initially in vertical direction</long>
+	    <default>20</default>
+	    <min>0</min>
+	    <max>50</max>
+	  </option>
+	  <option type="float" name="expandpw_delay">
+	    <short>Delay</short>
+	    <long>Delay between expanding horizontally and vertically (expressed as a fraction)</long>
+	    <default>0.25</default>
+	    <min>0.0</min>
+	    <max>1.0</max>
+	  </option>
+	</subgroup>
+
+      </group>
+
+    </options>
+
+    <extension base_plugin="animation">
+      <base_option>open_effects</base_option>
+      <base_option>open_random_effects</base_option>
+      <base_option>close_effects</base_option>
+      <base_option>close_random_effects</base_option>
+      <restriction>
+	<value>animationsim:Fly In</value>
+	<name>Fly In</name>
+      </restriction>
+      <restriction>
+	<value>animationsim:Bounce</value>
+	<name>Bounce</name>
+      </restriction>
+      <restriction>
+	<value>animationsim:Rotate In</value>
+	<name>Rotate In</name>
+      </restriction>
+      <restriction>
+	<value>animationsim:Sheet</value>
+	<name>Sheet</name>
+      </restriction>
+      <restriction>
+	<value>animationsim:Expand</value>
+	<name>Expand</name>
+      </restriction>
+      <restriction>
+	<value>animationsim:Expand Piecewise</value>
+	<name>Expand Piecewise</name>
+      </restriction>
+      <restriction>
+	<value>animationsim:Pulse</value>
+	<name>Pulse</name>
+	<name xml:lang="bg">Пулсиране</name>
+	<name xml:lang="bn">পালস</name>
+	<name xml:lang="bn_IN">পালস</name>
+	<name xml:lang="ca">Pulsa</name>
+	<name xml:lang="de">Pulsieren</name>
+	<name xml:lang="el">Παλμός</name>
+	<name xml:lang="es">Pulso</name>
+	<name xml:lang="eu">Pultso</name>
+	<name xml:lang="fi">Syke</name>
+	<name xml:lang="fr">Pulsation</name>
+	<name xml:lang="gl">Pulso</name>
+	<name xml:lang="gu">ધબકાર</name>
+	<name xml:lang="he">הבהוב</name>
+	<name xml:lang="hi">पल्स</name>
+	<name xml:lang="hu">Impulzus</name>
+	<name xml:lang="it">Pulsazione</name>
+	<name xml:lang="ja">点滅</name>
+	<name xml:lang="ko">진동</name>
+	<name xml:lang="nb">Puls</name>
+	<name xml:lang="nl">Puls</name>
+	<name xml:lang="or">ପଲ୍ସ(ଗତି)</name>
+	<name xml:lang="pa">ਪਲਸ</name>
+	<name xml:lang="pl">Pulsowanie</name>
+	<name xml:lang="pt">Pulso</name>
+	<name xml:lang="pt_BR">Pulso</name>
+	<name xml:lang="ro">Puls</name>
+	<name xml:lang="ru">Пульс</name>
+	<name xml:lang="sk">Pulz</name>
+	<name xml:lang="sl">Pulz</name>
+	<name xml:lang="sr">Puls</name>
+	<name xml:lang="sv">Puls</name>
+	<name xml:lang="tr">Darbe</name>
+	<name xml:lang="uk">Пульс</name>
+	<name xml:lang="zh_CN">脉冲</name>
+	<name xml:lang="zh_TW">Pulse</name>
+      </restriction>
+      <restriction>
+	<value>animationsim:Fan</value>
+	<name>Fan</name>
+      </restriction>
+    </extension>
+
+  </plugin>
+</compiz>

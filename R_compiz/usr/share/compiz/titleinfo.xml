@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+    <plugin useBcop="true" name="titleinfo">
+	<short>Title Bar Info</short>
+	<long>Shows additional information in the window title bar</long>
+	<category>Utility</category>
+	<deps>
+		<relation type="after">
+			<plugin>composite</plugin>
+			<plugin>opengl</plugin>
+			<plugin>decor</plugin>
+		</relation>
+	</deps>
+	<options>
+	    <option type="bool" name="show_remote_machine">
+		<short>Show Remote Machine Name</short>
+		<long>Show name of remote machine if a certain application is executed remotely.</long>
+		<default>true</default>
+	    </option>
+	    <option type="bool" name="show_root">
+		<short>Show Root</short>
+		<long>Show marker if you're logged in as root.</long>
+		<default>true</default>
+	    </option>
+	</options>
+    </plugin>
+</compiz>

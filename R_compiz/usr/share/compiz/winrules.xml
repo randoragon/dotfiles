@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+	
+	<plugin useBcop="true" name="winrules">
+		<short>Window Rules</short>
+		<long>Set windows rules</long>
+		<category>Window Management</category>
+		<deps>
+			<relation type="after">
+			    <plugin>opengl</plugin>
+			    <plugin>composite</plugin>
+			    <plugin>decor</plugin>
+			</relation>
+			<requirement>
+			    <plugin>regex</plugin>
+			</requirement>
+		</deps>
+		<options>
+			<group>
+				<short>Matches</short>
+				<option type="match" name="skiptaskbar_match">
+					<short>Skip taskbar</short>
+					<long>Don't show application in taskbar</long>
+					<default/>
+				</option>
+				<option type="match" name="skippager_match">
+					<short>Skip pager</short>
+					<long>Don't show application in pager</long>
+					<default/>
+				</option>
+				<option type="match" name="above_match">
+				<short>Above</short>
+					<long>Above others windows</long>
+					<default/>
+				</option>
+				<option type="match" name="below_match">
+					<short>Below</short>
+					<long>Below others windows</long>
+					<default/>
+				</option>
+				<option type="match" name="sticky_match">
+					<short>Sticky</short>
+					<long>Sticky windows</long>
+					<default/>
+				</option>
+				<option type="match" name="fullscreen_match">
+					<short>Fullscreen</short>
+					<long>Fullscreen windows</long>
+					<default/>
+				    </option>
+				<option type="match" name="maximize_match">
+					<short>Maximized</short>
+					<long>Maximized windows</long>
+				    <default/>
+				</option>
+				<option type="match" name="no_argb_match">
+					<short>No ARGB visuals</short>
+					<long>Windows that should be treated as not supporting transparency</long>
+					<default/>
+				</option>
+				<option type="match" name="no_move_match">
+					<short>Non movable windows</short>
+					<long>Set window as non movable</long>
+					<default/>
+				</option>
+				<option type="match" name="no_resize_match">
+					<short>Non resizable windows</short>
+					<long>Set window as non resizable</long>
+					<default/>
+				</option>
+				<option type="match" name="no_minimize_match">
+					<short>Non minimizable windows</short>
+					<long>Set window as non minimizable</long>
+					<default/>
+				</option>
+				<option type="match" name="no_maximize_match">
+					<short>Non maximizable windows</short>
+					<long>Set window as non maximizable</long>
+					<default/>
+				</option>
+				<option type="match" name="no_close_match">
+					<short>Non closable windows</short>
+					<long>Set window as non closable</long>
+					<default/>
+				</option>
+				<option type="match" name="no_focus_match">
+					<short>No focus</short>
+					<long>Windows will not have focus</long>
+					<default/>
+				</option>
+			</group>
+			<group>
+				<short>Size rules</short>
+				<subgroup>
+					<short>Fixed Size Windows</short>
+					<option type="list" name="size_matches">
+						<short>Sized Windows</short>
+						<long>Windows that should be resized by default</long>
+						<type>match</type>
+					</option>
+					<option type="list" name="size_width_values">
+						<short>Width</short>
+						<long>Width values</long>
+						<type>int</type>
+						<min>0</min>
+						<max>65536</max>
+						<default>500</default>
+					</option>
+					<option type="list" name="size_height_values">
+						<short>Height</short>
+						<long>Height values</long>
+						<type>int</type>
+						<min>0</min>
+						<max>65536</max>
+						<default>500</default>
+					</option>
+				</subgroup>
+			</group>
+		</options>
+	</plugin>
+</compiz>

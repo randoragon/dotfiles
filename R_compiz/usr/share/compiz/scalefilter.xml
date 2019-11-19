@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+    <plugin useBcop="true" name="scalefilter">
+	<short>Scale Window Title Filter</short>
+	<long>Window title filter facility for the scale plugin</long>
+	<category>Utility</category>
+	<deps>
+	    <relation type="after">
+		<plugin>composite</plugin>
+		<plugin>opengl</plugin>
+		<plugin>scale</plugin>
+		<plugin>text</plugin>
+	    </relation>
+	    <requirement>
+		<plugin>opengl</plugin>
+		<plugin>scale</plugin>
+		<plugin>regex</plugin>
+	    </requirement>
+	</deps>
+	<options>
+	    <group>
+		<short>Behaviour</short>
+		<short xml:lang="bg">Поведение</short>
+		<short xml:lang="de">Verhalten</short>
+		<short xml:lang="el">Συμπεριφορά</short>
+		<short xml:lang="es">Comportamiento</short>
+		<short xml:lang="eu">Portaera</short>
+		<short xml:lang="fi">Käyttäytyminen</short>
+		<short xml:lang="fr">Comportement</short>
+		<short xml:lang="gl">Comportamento</short>
+		<short xml:lang="he">אופן</short>
+		<short xml:lang="hu">Viselkedés</short>
+		<short xml:lang="it">Comportamento</short>
+		<short xml:lang="ja">動作</short>
+		<short xml:lang="ko">동작</short>
+		<short xml:lang="pl">Zachowanie</short>
+		<short xml:lang="pt">Comportamento</short>
+		<short xml:lang="ru">Поведение</short>
+		<short xml:lang="uk">Поведінка</short>
+		<short xml:lang="zh_CN">特性</short>
+		<short xml:lang="zh_TW">特性</short>
+		<option type="int" name="timeout">
+		    <short>Filter Type Timeout</short>
+		    <long>Time (in ms) after which the filter typing is automatically ended</long>
+		    <min>0</min>
+		    <max>10000</max>
+		    <default>0</default>
+		</option>
+		<option type="bool" name="filter_case_insensitive">
+		    <short>Filter Case Insensitive</short>
+		    <long>Use case insensitive string matching when filtering.</long>
+		    <default>true</default>
+		</option>
+		<option type="bool" name="filter_display">
+		    <short>Show Filter Text</short>
+		    <long>Show filter text.</long>
+		    <default>true</default>
+		</option>
+	    </group>
+	    <group>
+		<short>Appearance</short>
+		<short xml:lang="bg">Външен вид</short>
+		<short xml:lang="de">Erscheinung</short>
+		<short xml:lang="el">Εμφάνιση</short>
+		<short xml:lang="es">Apariencia</short>
+		<short xml:lang="eu">Itxura</short>
+		<short xml:lang="fi">Ulkoasu</short>
+		<short xml:lang="fr">Apparence</short>
+		<short xml:lang="gl">Apariencia</short>
+		<short xml:lang="he">מראה</short>
+		<short xml:lang="hu">Megjelenés</short>
+		<short xml:lang="it">Aspetto</short>
+		<short xml:lang="ja">外観</short>
+		<short xml:lang="ko">모양</short>
+		<short xml:lang="pl">Wygląd</short>
+		<short xml:lang="pt">Aparência</short>
+		<short xml:lang="ru">Внешний вид</short>
+		<short xml:lang="uk">Зовнішній вигляд</short>
+		<short xml:lang="zh_CN">外观</short>
+		<short xml:lang="zh_TW">外觀</short>
+		<option type="bool" name="font_bold">
+		    <short>Bold Font</short>
+		    <long>Use bold font for window title display</long>
+		    <default>true</default>
+		</option>
+		<option type="int" name="font_size">
+		    <short>Font Size</short>
+		    <long>Font size for window title display</long>
+		    <min>6</min>
+		    <max>48</max>
+		    <default>24</default>
+		</option>
+		<option type="int" name="border_size">
+		    <short>Title Border Size</short>
+		    <long>Size of the border around the window title</long>
+		    <min>1</min>
+		    <max>20</max>
+		    <default>5</default>
+		</option>
+		<option type="color" name="font_color">
+		    <short>Font Color</short>
+		    <long>Font color of the window title</long>
+		    <default>
+			<red>0xffff</red>
+			<green>0xffff</green>
+			<blue>0xffff</blue>
+			<alpha>0xffff</alpha>
+		    </default>
+		</option>
+		<option type="color" name="back_color">
+		    <short>Background Color</short>
+		    <long>Background color of the window title</long>
+		    <default>
+			<red>0x0000</red>
+			<green>0x0000</green>
+			<blue>0x0000</blue>
+			<alpha>0x9999</alpha>
+		    </default>
+		</option>
+	    </group>
+	</options>
+    </plugin>
+</compiz>

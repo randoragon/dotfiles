@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+    <plugin useBcop="true" name="firepaint">
+	<short>Firepaint</short>
+	<long>Paint fire particles with a specific or random color onto the screen</long>
+	<deps>
+	    <requirement>
+		<plugin>opengl</plugin>
+	    </requirement>
+	    <relation type="after">
+		<plugin>composite</plugin>
+		<plugin>opengl</plugin>
+		<plugin>decor</plugin>
+	    </relation>
+	</deps>
+	<category>Effects</category>
+	<options>
+	    <group>
+		<short>General</short>
+	    <option type="key" name="initiate_key">
+		<short>Initiate Key</short>
+		<long>Key shortcut to initiate fire drawing.</long>
+		<default/>
+	    </option>
+	    <option type="button" name="initiate_button">
+		<short>Initiate Button</short>
+		<long>Mouse button shortcut to initiate fire drawing.</long>
+		<default>&lt;Super&gt;&lt;Shift&gt;Button1</default>
+	    </option>
+	    <option type="key" name="clear_key">
+		<short>Clear Key</short>
+		<long>Key shortcut to remove all fire particles.</long>
+		<default>&lt;Super&gt;&lt;Shift&gt;c</default>
+	    </option>
+	    <option type="button" name="clear_button">
+		<short>Clear Button</short>
+		<long>Mouse button shortcut to remove all fire particles.</long>
+		<default/>
+	    </option>
+	    <option type="float" name="bg_brightness">
+		<short>Background Brightness</short>
+		<long>The brightness of the background during Firepaint (in percent).</long>
+		<default>50.0</default>
+		<min>0.0</min>
+		<max>100.0</max>
+		<precision>5.0</precision>
+	    </option>
+	    </group>
+	    <group>
+		<short>Particle Settings</short>
+	    <option type="action" name="add_particle">
+		<short>Add Particle</short>
+		<long>Adds a fire particle at position (x, y), where x and y are floats.</long>
+	    </option>
+	    <option type="int" name="num_Particles">
+		<short>Fire Particle Number</short>
+		<long>Maximum number of active particles.</long>
+		<default>3000</default>
+		<min>100</min>
+		<max>20000</max>
+	    </option>
+	    <option type="float" name="fire_size">
+		<short>Fire Particle Size</short>
+		<long>The size of the individual particles.</long>
+		<default>15.0</default>
+		<min>0.1</min>
+		<max>40</max>
+		<precision>0.1</precision>
+	    </option>
+	    <option type="float" name="fire_slowdown">
+		<short>Fire Particle Slowdown</short>
+		<long>The slowdown of the fire particles.</long>
+		<default>0.5</default>
+		<min>0.1</min>
+		<max>10</max>
+		<precision>0.1</precision>
+	    </option>
+	    <option type="float" name="fire_life">
+		<short>Fire Particle Life</short>
+		<long>The lifespan of the fire particles.</long>
+		<default>0.7</default>
+		<min>0.1</min>
+		<max>0.95</max>
+		<precision>0.05</precision>
+	    </option>
+	    <option type="color" name="fire_color">
+		<short>Fire Particle Color</short>
+		<long>The color and opacity of the fire particles.</long>
+		<default>
+		    <red>0xffff</red>
+		    <green>0x3333</green>
+		    <blue>0x0555</blue>
+		    <alpha>0xffff</alpha>
+		</default>
+	    </option>
+	    <option type="bool" name="fire_mystical">
+		<short>Randomly Colored Fire</short>
+		<long>Have random colors for the fire effect, also known as Mystical Fire.</long>
+		<default>false</default>
+	    </option>
+	    </group>
+	</options>
+    </plugin>
+</compiz>

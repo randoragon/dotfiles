@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+	<plugin useBcop="true" name="ring">
+		<short>Ring Switcher</short>
+		<long>Use a circular representation of open windows to switch focus between them</long>
+		<category>Window Management</category>
+		<deps>
+			<relation type="after">
+				<plugin>text</plugin>
+				<plugin>switcher</plugin>
+				<plugin>staticswitcher</plugin>
+				<plugin>decor</plugin>
+			</relation>
+			<requirement>
+				<plugin>opengl</plugin>
+			</requirement>
+		</deps>
+		<options>
+			<group>
+				<short>Bindings</short>
+				<short xml:lang="el">Συνδυασμοί</short>
+				<short xml:lang="es">Vínculos</short>
+				<short xml:lang="eu">Laster-bideak</short>
+				<short xml:lang="fi">Pikanäppäimet</short>
+				<short xml:lang="fr">Assignations</short>
+				<short xml:lang="gl">Atallos de teclado</short>
+				<short xml:lang="he">צירופים</short>
+				<short xml:lang="hu">Gyorsbillentyűk</short>
+				<short xml:lang="it">Associazioni</short>
+				<short xml:lang="ja">割り当て</short>
+				<short xml:lang="ko">바로가기</short>
+				<short xml:lang="pl">Przyporządkowanie klawiszy</short>
+				<short xml:lang="pt">Atalhos</short>
+				<short xml:lang="ru">Закрепление</short>
+				<short xml:lang="uk">Закріплення</short>
+				<short xml:lang="zh_CN">绑定</short>
+				<short xml:lang="zh_TW">連結</short>
+				<option type="key" name="next_key">
+					<short>Next Window Key</short>
+					<long>Reveals the ring and selects the next window on the current workspace.</long>
+					<default>&lt;Super&gt;Tab</default>
+				</option>
+				<option type="button" name="next_button">
+					<short>Next Window Button</short>
+					<long>Reveals the ring and selects the next window on the current workspace.</long>
+				</option>
+				<option type="key" name="prev_key">
+					<short>Previous Window Key</short>
+					<long>Reveals the ring and selects the previous window on the current workspace.</long>
+					<default>&lt;Super&gt;&lt;Shift&gt;Tab</default>
+				</option>
+				<option type="button" name="prev_button">
+					<short>Previous Window Button</short>
+					<long>Reveals the ring and selects the previous window on the current workspace.</long>
+				</option>
+				<option type="key" name="next_all_key">
+					<short>Next Window Key (All Workspaces)</short>
+					<long>Reveals the ring and selects the next window, taking into account all workspaces.</long>
+					<default>&lt;Super&gt;&lt;Alt&gt;Tab</default>
+				</option>
+				<option type="button" name="next_all_button">
+					<short>Next Window Button (All Workspaces)</short>
+					<long>Reveals the ring and selects the next window, taking into account all workspaces.</long>
+				</option>
+				<option type="key" name="prev_all_key">
+					<short>Previous Window Key (All Workspaces)</short>
+					<long>Reveals the ring and selects the previous window, taking into account all workspaces.</long>
+					<default>&lt;Super&gt;&lt;Shift&gt;&lt;Alt&gt;Tab</default>
+				</option>
+				<option type="button" name="prev_all_button">
+					<short>Previous Window Button (All Workspaces)</short>
+					<long>Reveals the ring and selects the previous window, taking into account all workspaces.</long>
+				</option>
+				<option type="key" name="next_group_key">
+					<short>Next Window Key (Group)</short>
+					<long>Reveals the ring and selects the next window of the currently focused application.</long>
+				</option>
+				<option type="button" name="next_group_button">
+					<short>Next Window Button (Group)</short>
+					<long>Reveals the ring and selects the next window of the currently focuse application.</long>
+				</option>
+				<option type="key" name="prev_group_key">
+					<short>Previous Window Key (Group)</short>
+					<long>Reveals the ring and selects the previous window of the currently focused application.</long>
+				</option>
+				<option type="button" name="prev_group_button">
+					<short>Previous Window Button (Group)</short>
+					<long>Reveals the ring and selects the previous window of the currently focused application.</long>
+				</option>
+			</group>
+			<group>
+				<short>General Options</short>
+				<short xml:lang="bg">Общи настройки</short>
+				<short xml:lang="bn">সাধারণ বিকল্প</short>
+				<short xml:lang="bn_IN">সাধারণ বিকল্প</short>
+				<short xml:lang="cs">Hlavní nastavení</short>
+				<short xml:lang="da">Generelle muligheder</short>
+				<short xml:lang="de">Allgemeine Optionen</short>
+				<short xml:lang="el">Γενικές Επιλογές</short>
+				<short xml:lang="es">Opciones Generales</short>
+				<short xml:lang="eu">Aukera orokorrak</short>
+				<short xml:lang="fi">Yleiset asetukset</short>
+				<short xml:lang="fr">Options Générales</short>
+				<short xml:lang="gl">Opcións Xerais</short>
+				<short xml:lang="gu">સામાન્ય વિકલ્પો</short>
+				<short xml:lang="he">אפשרויות כלליות</short>
+				<short xml:lang="hi">सामान्य विकल्प</short>
+				<short xml:lang="hr">Generalne opcije</short>
+				<short xml:lang="hu">Általános beállítások</short>
+				<short xml:lang="it">Opzioni generali</short>
+				<short xml:lang="ja">一般オプション</short>
+				<short xml:lang="ko">일반 설정</short>
+				<short xml:lang="nb">Generelle valg</short>
+				<short xml:lang="nl">Algemene opties</short>
+				<short xml:lang="or">ସାଧାରଣ ବିକଳ୍ପଗୁଡିକ</short>
+				<short xml:lang="pa">ਆਮ ਚੋਣਾਂ</short>
+				<short xml:lang="pl">Opcje Ogólne</short>
+				<short xml:lang="pt">Opções Gerais</short>
+				<short xml:lang="pt_BR">Opções Gerais</short>
+				<short xml:lang="ro">Opțiuni generale</short>
+				<short xml:lang="ru">Общие настройки</short>
+				<short xml:lang="sk">Všeobecné nastavenia</short>
+				<short xml:lang="sv">Allmänna alternativ</short>
+				<short xml:lang="tr">Genel Seçenekler</short>
+				<short xml:lang="uk">Загальні Налаштування</short>
+				<short xml:lang="zh_CN">常规选项</short>
+				<short xml:lang="zh_TW">通用選項</short>
+				<option type="match" name="window_match">
+					<short>Ring Windows</short>
+					<long>Windows that should be shown in the ring.</long>
+					<default>Normal | Dialog | ModalDialog | Utility | Unknown</default>
+				</option>
+				<option type="int" name="overlay_icon">
+					<short>Overlay Icon</short>
+					<short xml:lang="bn">ওভারলে চিত্রসংকেত</short>
+					<short xml:lang="bn_IN">ওভারলে চিত্রসংকেত</short>
+					<short xml:lang="ca">Superposa la icona</short>
+					<short xml:lang="cs">Překrýt ikonou</short>
+					<short xml:lang="da">Overlejringsikon</short>
+					<short xml:lang="de">Symbol überlagern</short>
+					<short xml:lang="el">Επίστρωση Εικονιδίου</short>
+					<short xml:lang="es">Superponer icono</short>
+					<short xml:lang="eu">Gainjarri Ikonoa</short>
+					<short xml:lang="fi">Aseta kuvake päälle</short>
+					<short xml:lang="fr">Superposer l'icône</short>
+					<short xml:lang="gl">Icona Superposta</short>
+					<short xml:lang="gu">ઓવરલે ચિહ્ન</short>
+					<short xml:lang="he">צלמית מודבקת</short>
+					<short xml:lang="hi">प्रतीक ढ़कें</short>
+					<short xml:lang="hu">Átfedő ikon</short>
+					<short xml:lang="it">Icona di sovrapposizione</short>
+					<short xml:lang="ja">重ね表示アイコン</short>
+					<short xml:lang="ko">아이콘 덧붙이기</short>
+					<short xml:lang="nb">Ikon for overlapp</short>
+					<short xml:lang="nl">Overlay icoon</short>
+					<short xml:lang="or">ବିସ୍ତୃତକରିବା ଆଇକନ</short>
+					<short xml:lang="pa">ਓਵਰਲੇ ਆਈਕਾਨ</short>
+					<short xml:lang="pl">Ikona okna</short>
+					<short xml:lang="pt">Ícone de Instalação Sobreposta</short>
+					<short xml:lang="pt_BR">Ícone de sobreposição</short>
+					<short xml:lang="ro">Pictogramă suprapusă</short>
+					<short xml:lang="ru">Наложить значок</short>
+					<short xml:lang="sk">Prekladať ikonou</short>
+					<short xml:lang="sv">Lägg ikoner över</short>
+					<short xml:lang="tr">Örtülü Durum Simgesi</short>
+					<short xml:lang="uk">Накласти значок</short>
+					<short xml:lang="zh_CN">覆盖图标</short>
+					<short xml:lang="zh_TW">覆蓋圖示</short>
+					<long>Which type of icon overlay to draw on windows in the ring.</long>
+					<default>1</default>
+					<min>0</min>
+					<max>2</max>
+					<desc>
+						<value>0</value>
+						<name>None</name>
+						<name xml:lang="ar">بدون</name>
+						<name xml:lang="bg">Без избор</name>
+						<name xml:lang="bn">কিছু না</name>
+						<name xml:lang="bn_IN">কিছু না</name>
+						<name xml:lang="bs">Nijedan</name>
+						<name xml:lang="ca">Cap</name>
+						<name xml:lang="cs">Nic</name>
+						<name xml:lang="da">Ingen</name>
+						<name xml:lang="de">Keine</name>
+						<name xml:lang="el">Κανένα</name>
+						<name xml:lang="es">Ninguno</name>
+						<name xml:lang="et">Puudub</name>
+						<name xml:lang="eu">Bat ere ez</name>
+						<name xml:lang="fi">Ei mitään</name>
+						<name xml:lang="fr">Aucun</name>
+						<name xml:lang="gl">Ningún</name>
+						<name xml:lang="gu">કંઈ નહિં</name>
+						<name xml:lang="he">ללא</name>
+						<name xml:lang="hi">कुछ नहीं</name>
+						<name xml:lang="hr">Ništa</name>
+						<name xml:lang="hu">Egyik sem</name>
+						<name xml:lang="it">Niente</name>
+						<name xml:lang="ja">なし</name>
+						<name xml:lang="km">គ្មាន</name>
+						<name xml:lang="ko">없음</name>
+						<name xml:lang="lt">Nieko</name>
+						<name xml:lang="ml_IN">ഒന്നുമില്ല</name>
+						<name xml:lang="nb">Ingen</name>
+						<name xml:lang="nl">Geen</name>
+						<name xml:lang="or">କିଛିନାହିଁ</name>
+						<name xml:lang="pa">ਕੋਈ ਨਹੀਂ</name>
+						<name xml:lang="pl">Brak</name>
+						<name xml:lang="pt">Nenhum</name>
+						<name xml:lang="pt_BR">Nenhum</name>
+						<name xml:lang="ro">Nimic</name>
+						<name xml:lang="ru">Никакой</name>
+						<name xml:lang="sk">Žiadna</name>
+						<name xml:lang="sl">brez izbire</name>
+						<name xml:lang="sr">Nema</name>
+						<name xml:lang="sv">Ingen</name>
+						<name xml:lang="tr">Hiçbiri</name>
+						<name xml:lang="uk">Ніякий</name>
+						<name xml:lang="zh_CN">无</name>
+						<name xml:lang="zh_TW">無</name>
+					</desc>
+					<desc>
+						<value>1</value>
+						<name>Emblem</name>
+						<name xml:lang="bg">Емблема</name>
+						<name xml:lang="bn">প্রতীক</name>
+						<name xml:lang="bn_IN">প্রতীক</name>
+						<name xml:lang="ca">Distintiu</name>
+						<name xml:lang="cs">Symbol</name>
+						<name xml:lang="da">Emblem</name>
+						<name xml:lang="de">Emblem</name>
+						<name xml:lang="el">Έμβλημα</name>
+						<name xml:lang="es">Emblema</name>
+						<name xml:lang="eu">Ikurra</name>
+						<name xml:lang="fi">Tunnus</name>
+						<name xml:lang="fr">Emblème</name>
+						<name xml:lang="gl">Emblema</name>
+						<name xml:lang="gu">સંજ્ઞા</name>
+						<name xml:lang="he">סמלון</name>
+						<name xml:lang="hi">प्रतीक</name>
+						<name xml:lang="hu">Embléma</name>
+						<name xml:lang="it">Simbolo</name>
+						<name xml:lang="ja">エンブレム</name>
+						<name xml:lang="ko">아이콘</name>
+						<name xml:lang="nb">Logo</name>
+						<name xml:lang="nl">Embleem</name>
+						<name xml:lang="or">ଚିହ୍ନ</name>
+						<name xml:lang="pa">ਨਿਸ਼ਾਨ</name>
+						<name xml:lang="pl">Emblemat</name>
+						<name xml:lang="pt">Emblema</name>
+						<name xml:lang="pt_BR">Emblema</name>
+						<name xml:lang="ro">Emblemă</name>
+						<name xml:lang="ru">Эмблема</name>
+						<name xml:lang="sk">Emblém</name>
+						<name xml:lang="sv">Emblem</name>
+						<name xml:lang="tr">Simge</name>
+						<name xml:lang="uk">Емблема</name>
+						<name xml:lang="zh_CN">标志</name>
+						<name xml:lang="zh_TW">象徵</name>
+					</desc>
+					<desc>
+						<value>2</value>
+						<name>Big</name>
+						<name xml:lang="bg">Голяма</name>
+						<name xml:lang="bn">বড়</name>
+						<name xml:lang="bn_IN">বড়</name>
+						<name xml:lang="ca">Gran</name>
+						<name xml:lang="cs">Velká</name>
+						<name xml:lang="da">Stor</name>
+						<name xml:lang="de">Groß</name>
+						<name xml:lang="el">Μεγάλο</name>
+						<name xml:lang="es">Grande</name>
+						<name xml:lang="et">Suur</name>
+						<name xml:lang="eu">Handia</name>
+						<name xml:lang="fi">Suuri</name>
+						<name xml:lang="fr">Grand</name>
+						<name xml:lang="gl">Grande</name>
+						<name xml:lang="gu">મોટું</name>
+						<name xml:lang="he">גדול</name>
+						<name xml:lang="hi">बड़ा</name>
+						<name xml:lang="hu">Nagy</name>
+						<name xml:lang="it">Grande</name>
+						<name xml:lang="ja">大きい</name>
+						<name xml:lang="km">ធំ</name>
+						<name xml:lang="ko">크게</name>
+						<name xml:lang="lt">Didelis</name>
+						<name xml:lang="nb">Stor</name>
+						<name xml:lang="nl">Groot</name>
+						<name xml:lang="or">ବଡ</name>
+						<name xml:lang="pa">ਵੱਡਾ</name>
+						<name xml:lang="pl">Duży</name>
+						<name xml:lang="pt">Grande</name>
+						<name xml:lang="pt_BR">Grande</name>
+						<name xml:lang="ro">Mare</name>
+						<name xml:lang="ru">Большой</name>
+						<name xml:lang="sk">Veľký</name>
+						<name xml:lang="sl">Velik</name>
+						<name xml:lang="sv">Stor</name>
+						<name xml:lang="tr">Büyük</name>
+						<name xml:lang="uk">Великий</name>
+						<name xml:lang="zh_CN">大</name>
+						<name xml:lang="zh_TW">大</name>
+					</desc>
+				</option>
+				<option type="float" name="speed">
+					<short>Speed</short>
+					<short xml:lang="bg">Скорост</short>
+					<short xml:lang="ca">Velocitat</short>
+					<short xml:lang="cs">Rychlost</short>
+					<short xml:lang="da">Hastighed</short>
+					<short xml:lang="de">Geschwindigkeit</short>
+					<short xml:lang="el">Ταχύτητα</short>
+					<short xml:lang="es">Velocidad</short>
+					<short xml:lang="eu">Abiadura</short>
+					<short xml:lang="fi">Nopeus</short>
+					<short xml:lang="fr">Vitesse</short>
+					<short xml:lang="gl">Velocidade</short>
+					<short xml:lang="gu">ઝડપ</short>
+					<short xml:lang="he">מהירות</short>
+					<short xml:lang="hu">Sebesség</short>
+					<short xml:lang="it">Velocità</short>
+					<short xml:lang="ja">速度</short>
+					<short xml:lang="ko">속도</short>
+					<short xml:lang="nb">Hastighet</short>
+					<short xml:lang="nl">Snelheid</short>
+					<short xml:lang="or">ଗତି</short>
+					<short xml:lang="pl">Szybkość</short>
+					<short xml:lang="pt">Velocidade</short>
+					<short xml:lang="pt_BR">Velocidade</short>
+					<short xml:lang="ro">Viteză</short>
+					<short xml:lang="ru">Скорость</short>
+					<short xml:lang="sk">Rýchlosť</short>
+					<short xml:lang="sv">Hastighet</short>
+					<short xml:lang="tr">Hız</short>
+					<short xml:lang="uk">Швидкість</short>
+					<short xml:lang="zh_CN">速度</short>
+					<short xml:lang="zh_TW">速度</short>
+					<long>The ring movement speed.</long>
+					<default>1.5</default>
+					<min>0.1</min>
+					<max>50.0</max>
+					<precision>0.1</precision>
+				</option>
+				<option type="float" name="timestep">
+					<short>Timestep</short>
+					<short xml:lang="ca">Etapa</short>
+					<short xml:lang="cs">Časový krok</short>
+					<short xml:lang="da">Tidstrin</short>
+					<short xml:lang="de">Zeitintervall</short>
+					<short xml:lang="el">Χρονικό Βήμα</short>
+					<short xml:lang="es">Paso</short>
+					<short xml:lang="eu">denbora-pausoa</short>
+					<short xml:lang="fi">Aikaviive</short>
+					<short xml:lang="fr">Intervalle</short>
+					<short xml:lang="gl">Saltos do tempo</short>
+					<short xml:lang="gu">સમયપગલું</short>
+					<short xml:lang="he">יחידת זמן</short>
+					<short xml:lang="hu">Időköz</short>
+					<short xml:lang="it">Intervallo</short>
+					<short xml:lang="ja">描画の時間刻み</short>
+					<short xml:lang="ko">시간 간격</short>
+					<short xml:lang="nb">Tidsskritt</short>
+					<short xml:lang="nl">Tijdstempel</short>
+					<short xml:lang="or">ସମଯସୋପାନ</short>
+					<short xml:lang="pl">Opóźnienie</short>
+					<short xml:lang="pt">Espaço de tempo</short>
+					<short xml:lang="pt_BR">Intervalo de tempo</short>
+					<short xml:lang="ro">Pas de timp</short>
+					<short xml:lang="ru">Шаг времени</short>
+					<short xml:lang="sk">Krok</short>
+					<short xml:lang="sv">Tidsintervall</short>
+					<short xml:lang="tr">Süre aralığı</short>
+					<short xml:lang="uk">Крок часу</short>
+					<short xml:lang="zh_CN">时间步长</short>
+					<short xml:lang="zh_TW">時間間隔</short>
+					<long>Ring switcher timestep.</long>
+					<default>1.2</default>
+					<min>0.1</min>
+					<max>50.0</max>
+					<precision>0.1</precision>
+				</option>
+				<option type="int" name="inactive_opacity">
+					<short>Inactive Window Opacity</short>
+					<long>Opacity (in percent) of unselected windows in the ring.</long>
+					<default>100</default>
+					<min>1</min>
+					<max>100</max>
+				</option>
+				<option type="bool" name="darken_back">
+					<short>Darken Background</short>
+					<short xml:lang="bg">Затъмняване на фона</short>
+					<short xml:lang="bn">পটভূমি গাঢ় করা</short>
+					<short xml:lang="bn_IN">পটভূমি গাঢ় করা</short>
+					<short xml:lang="ca">Enfosqueix el fons</short>
+					<short xml:lang="cs">Ztmavit pozadí</short>
+					<short xml:lang="da">Gør baggrund mørkere</short>
+					<short xml:lang="de">Hintergrund abdunkeln</short>
+					<short xml:lang="el">Σκοτείνιασμα Φόντου</short>
+					<short xml:lang="es">Oscurecer fondo</short>
+					<short xml:lang="eu">Ilundu atzeko-planoa</short>
+					<short xml:lang="fi">Tummenna tausta</short>
+					<short xml:lang="fr">Assombrir l'arrière-plan</short>
+					<short xml:lang="gl">Escurecer Fondo</short>
+					<short xml:lang="gu">ઘાટું પાશ્વભાગ</short>
+					<short xml:lang="he">החשך רקע</short>
+					<short xml:lang="hu">Sötétülő háttér</short>
+					<short xml:lang="it">Scurire lo sfondo</short>
+					<short xml:lang="ja">背景を暗くする</short>
+					<short xml:lang="ko">바탕 화면을 어둡게</short>
+					<short xml:lang="nb">Gjør bakgrunn mørkere</short>
+					<short xml:lang="nl">Achtergrond donker maken</short>
+					<short xml:lang="or">ପୃଷ୍ଠଭୂମିକୁ ଗାଢକର</short>
+					<short xml:lang="pl">Przyciemnij tło</short>
+					<short xml:lang="pt">Escurecer Segundo Plano</short>
+					<short xml:lang="pt_BR">Escurecer Segundo Plano</short>
+					<short xml:lang="ro">Întunecare fundal</short>
+					<short xml:lang="ru">Затемнить фон</short>
+					<short xml:lang="sk">Stmaviť pozadie</short>
+					<short xml:lang="sv">Mörka bakgrunden</short>
+					<short xml:lang="tr">Arkaplanı Koyulaştır</short>
+					<short xml:lang="uk">Затемнити тло</short>
+					<short xml:lang="zh_CN">背景变暗</short>
+					<short xml:lang="zh_TW">暗化背景</short>
+					<long>Darken background when showing the ring.</long>
+					<default>true</default>
+				</option>
+				<option type="bool" name="minimized">
+					<short>Show Minimized</short>
+					<long>Show windows that are minimized, shaded or in show-desktop mode.</long>
+					<default>true</default>
+				</option>
+				<option type="bool" name="select_with_mouse">
+					<short>Allow Mouse Selection</short>
+					<long>Allow the selection of windows by just clicking on them while the switcher is active.</long>
+					<default>false</default>
+				</option>
+			</group>
+			<group>
+				<short>Ring Appearance</short>
+				<option type="bool" name="ring_clockwise">
+					<short>Rotate Ring Clockwise On Next</short>
+					<long>Rotate the ring clockwise for the next window instead of counterclockwise.</long>
+					<default>false</default>
+				</option>
+				<option type="int" name="ring_width">
+					<short>Ring Width</short>
+					<long>Ring width (in percent of the screen width).</long>
+					<default>70</default>
+					<min>1</min>
+					<max>100</max>
+				</option>
+				<option type="int" name="ring_height">
+					<short>Ring Height</short>
+					<long>Ring height (in percent of the screen height).</long>
+					<default>60</default>
+					<min>1</min>
+					<max>100</max>
+				</option>
+				<option type="int" name="thumb_width">
+					<short>Thumbnail Width</short>
+					<long>Maximum horizontal size of a thumbnail in the ring.</long>
+					<default>350</default>
+					<min>10</min>
+					<max>1024</max>
+				</option>
+				<option type="int" name="thumb_height">
+					<short>Thumbnail Height</short>
+					<long>Maximum vertical size of a thumbnail in the ring.</long>
+					<default>250</default>
+					<min>10</min>
+					<max>1024</max>
+				</option>
+				<option type="float" name="min_brightness">
+					<short>Minimum Brightness Factor</short>
+					<long>Changes the minimum brightness factor for windows in the ring. The further away windows are, the less bright they are.</long>
+					<default>0.5</default>
+					<min>0.1</min>
+					<max>1.0</max>
+					<precision>0.01</precision>
+				</option>
+				<option type="float" name="min_scale">
+					<short>Minimum Scale Factor</short>
+					<long>Changes the minimum scale factor for windows in the ring. The further away the windows are, the smaller they are.</long>
+					<default>0.4</default>
+					<min>0.1</min>
+					<max>1.0</max>
+					<precision>0.01</precision>
+				</option>
+			</group>
+			<group>
+				<short>Window Title Display</short>
+				<option type="bool" name="window_title">
+					<short>Show Window Title</short>
+					<long>Show the window title of the currently selected window.</long>
+					<default>true</default>
+				</option>
+				<option type="bool" name="title_font_bold">
+					<short>Bold Font</short>
+					<long>Render the window title using a bold font.</long>
+					<default>false</default>
+				</option>
+				<option type="int" name="title_font_size">
+					<short>Font Size</short>
+					<long>Font size of the window title text (in pixels).</long>
+					<default>16</default>
+					<min>6</min>
+					<max>96</max>
+				</option>
+				<option type="color" name="title_back_color">
+					<short>Background Color</short>
+					<long>Color and opacity of the window title background.</long>
+					<default>
+						<red>0x0000</red>
+						<green>0x0000</green>
+						<blue>0x0000</blue>
+						<alpha>0x9999</alpha>
+					</default>
+				</option>
+				<option type="color" name="title_font_color">
+					<short>Font Color</short>
+					<long>Font color and opacity of the window title.</long>
+					<default>
+						<red>0xffff</red>
+						<green>0xffff</green>
+						<blue>0xffff</blue>
+						<alpha>0xffff</alpha>
+					</default>
+				</option>
+				<option type="int" name="title_text_placement">
+					<short>Text Placement</short>
+					<long>Selects where to place the window title.</long>
+					<default>0</default>
+					<min>0</min>
+					<max>2</max>
+					<desc>
+						<value>0</value>
+						<name>Centered on screen</name>
+					</desc>
+					<desc>
+						<value>1</value>
+						<name>Top of screen minus offset</name>
+					</desc>
+					<desc>
+						<value>2</value>
+						<name>Bottom of screen plus offset</name>
+					</desc>
+				</option>
+				<option type="int" name="vertical_offset">
+					<short>Vertical Offset</short>
+					<long>Vertical offset from top or bottom of the screen (in pixels).</long>
+					<default>50</default>
+					<min>0</min>
+					<max>500</max>
+				</option>
+			</group>
+		</options>
+	</plugin>
+</compiz>

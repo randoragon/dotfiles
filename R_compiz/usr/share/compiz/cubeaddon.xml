@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+	<plugin useBcop="true" name="cubeaddon">
+		<short>Cube Reflection and Deformation</short>
+		<long>Adds a reflection to the desktop cube and deformes it to a cylinder or sphere</long>
+		<category>Effects</category>
+		<deps>
+		<relation type="after">
+			<plugin>composite</plugin>
+			<plugin>opengl</plugin>
+			<plugin>cube</plugin>
+			<plugin>rotate</plugin>
+			<plugin>imgpng</plugin>
+			<plugin>imgsvg</plugin>
+			<plugin>imgjpeg</plugin>
+		</relation>
+		<requirement>
+			<plugin>opengl</plugin>
+			<plugin>cube</plugin>
+		</requirement>
+		</deps>
+		<options>
+			<group>
+				<short>Cube Caps</short>
+				<short xml:lang="el">Καπάκια Κύβου</short>
+				<short xml:lang="es">Capas del cubo</short>
+				<short xml:lang="eu">Kubo estalkiak</short>
+				<short xml:lang="fi">Kuution kannet</short>
+				<short xml:lang="fr">Habillage du cube</short>
+				<short xml:lang="gl">Tapas do Cubo</short>
+				<short xml:lang="he">מכסי הקוביה</short>
+				<short xml:lang="hu">Kocka fedőlapok</short>
+				<short xml:lang="it">Capi del cubo</short>
+				<short xml:lang="ja">キューブのふた</short>
+				<short xml:lang="ko">큐브 캡</short>
+				<short xml:lang="pl">Obrazki kostki</short>
+				<short xml:lang="pt">Topos Cubo</short>
+				<short xml:lang="ru">Шапка куба</short>
+				<short xml:lang="uk">Шапка куба</short>
+				<short xml:lang="zh_CN">立方体顶盖</short>
+				<short xml:lang="zh_TW">立方體上蓋</short>
+				<subgroup>
+					<short>Bindings</short>
+					<short xml:lang="el">Συνδυασμοί</short>
+					<short xml:lang="es">Vínculos</short>
+					<short xml:lang="eu">Laster-bideak</short>
+					<short xml:lang="fi">Pikanäppäimet</short>
+					<short xml:lang="fr">Assignations</short>
+					<short xml:lang="gl">Atallos de teclado</short>
+					<short xml:lang="he">צירופים</short>
+					<short xml:lang="hu">Gyorsbillentyűk</short>
+					<short xml:lang="it">Associazioni</short>
+					<short xml:lang="ja">割り当て</short>
+					<short xml:lang="ko">바로가기</short>
+					<short xml:lang="pl">Przyporządkowanie klawiszy</short>
+					<short xml:lang="pt">Atalhos</short>
+					<short xml:lang="ru">Закрепление</short>
+					<short xml:lang="uk">Закріплення</short>
+					<short xml:lang="zh_CN">绑定</short>
+					<short xml:lang="zh_TW">連結</short>
+					<option type="key" name="top_next_key">
+						<short>Next Top Image Key</short>
+						<long>Advance to the next image on the top face of the cube.</long>
+						<passive_grab>false</passive_grab>
+						<default>space</default>
+					</option>
+					<option type="button" name="top_next_button">
+						<short>Next Top Image Button</short>
+						<long>Advance to the next image on the top face of the cube.</long>
+						<passive_grab>false</passive_grab>
+					</option>
+					<option type="key" name="top_prev_key">
+						<short>Previous Top Image Key</short>
+						<long>Go back to the previous image on the top face of the cube.</long>
+						<passive_grab>false</passive_grab>
+						<default>Backspace</default>
+					</option>
+					<option type="button" name="top_prev_button">
+						<short>Previous Top Image Button</short>
+						<long>Go back to the previous image on the top face of the cube.</long>
+						<passive_grab>false</passive_grab>
+					</option>
+					<option type="key" name="bottom_next_key">
+						<short>Next Bottom Image Key</short>
+						<long>Advance to the next image on the bottom face of the cube.</long>
+						<passive_grab>false</passive_grab>
+					</option>
+					<option type="button" name="bottom_next_button">
+						<short>Next Bottom Image Button</short>
+						<long>Advance to the next image on the bottom face of the cube.</long>
+						<passive_grab>false</passive_grab>
+					</option>
+					<option type="key" name="bottom_prev_key">
+						<short>Previous Bottom Image Key</short>
+						<long>Go back to the previous image on the bottom face of the cube.</long>
+						<passive_grab>false</passive_grab>
+					</option>
+					<option type="button" name="bottom_prev_button">
+						<short>Previous Bottom Image Button</short>
+						<long>Go back to the previous image on the bottom face of the cube.</long>
+						<passive_grab>false</passive_grab>
+					</option>
+				</subgroup>
+			</group>
+			<group>
+				<short>Reflection</short>
+				<option type="bool" name="reflection">
+					<short>Enabled</short>
+					<long>Render a reflective ground below the desktop cube.</long>
+					<default>true</default>
+				</option>
+				<option type="color" name="ground_color1">
+					<short>Ground Color (near)</short>
+					<long>Color of the ground (near).</long>
+					<default>
+						<red>0xb333</red>
+						<green>0xb333</green>
+						<blue>0xb333</blue>
+						<alpha>0xcccc</alpha>
+					</default>
+				</option>
+				<option type="color" name="ground_color2">
+					<short>Ground Color (far)</short>
+					<long>Color of the ground (far).</long>
+					<default>
+						<red>0xb333</red>
+						<green>0xb333</green>
+						<blue>0xb333</blue>
+						<alpha>0x0000</alpha>
+					</default>
+				</option>
+				<option type="float" name="ground_size">
+					<short>Reflection Ground Size</short>
+					<long>Size of the ground the reflection is rendered on.</long>
+					<default>0.5</default>
+					<min>0.0</min>
+					<max>1.0</max>
+					<precision>0.01</precision>
+				</option>
+				<option type="float" name="intensity">
+					<short>Intensity</short>
+					<long>The intensity of the reflection.</long>
+					<default>0.4</default>
+					<min>0.0</min>
+					<max>1.0</max>
+					<precision>0.01</precision>
+				</option>
+				<option type="bool" name="auto_zoom">
+					<short>Auto Zoom</short>
+					<long>Zoom out automatically to make the cube fit the screen.</long>
+					<default>true</default>
+				</option>
+				<option type="bool" name="zoom_manual_only">
+					<short>Mouse Rotate Auto Zoom Only</short>
+					<long>Zoom out automatically on mouse rotate only.</long>
+					<default>true</default>
+				</option>
+				<option type="int" name="mode">
+					<short>Reflection Mode</short>
+					<long>The mode of the reflection.</long>
+					<default>0</default>
+					<min>0</min>
+					<max>3</max>
+					<desc>
+						<value>0</value>
+						<name>Jumpy</name>
+					</desc>
+					<desc>
+						<value>1</value>
+						<name>Jumpy reflection</name>
+					</desc>
+					<desc>
+						<value>2</value>
+						<name>Distance</name>
+					</desc>
+					<desc>
+						<value>3</value>
+						<name>Above</name>
+					</desc>
+				</option>
+			</group>
+			<group>
+				<short>Deformation</short>
+				<option type="int" name="deformation">
+					<short>Deformation</short>
+					<long>The deformation mode.</long>
+					<default>1</default>
+					<min>0</min>
+					<max>2</max>
+					<desc>
+						<value>0</value>
+						<name>None</name>
+						<name xml:lang="ar">بدون</name>
+						<name xml:lang="bg">Без избор</name>
+						<name xml:lang="bn">কিছু না</name>
+						<name xml:lang="bn_IN">কিছু না</name>
+						<name xml:lang="bs">Nijedan</name>
+						<name xml:lang="ca">Cap</name>
+						<name xml:lang="cs">Nic</name>
+						<name xml:lang="da">Ingen</name>
+						<name xml:lang="de">Keine</name>
+						<name xml:lang="el">Κανένα</name>
+						<name xml:lang="es">Ninguno</name>
+						<name xml:lang="et">Puudub</name>
+						<name xml:lang="eu">Bat ere ez</name>
+						<name xml:lang="fi">Ei mitään</name>
+						<name xml:lang="fr">Aucun</name>
+						<name xml:lang="gl">Ningún</name>
+						<name xml:lang="gu">કંઈ નહિં</name>
+						<name xml:lang="he">ללא</name>
+						<name xml:lang="hi">कुछ नहीं</name>
+						<name xml:lang="hr">Ništa</name>
+						<name xml:lang="hu">Egyik sem</name>
+						<name xml:lang="it">Niente</name>
+						<name xml:lang="ja">なし</name>
+						<name xml:lang="km">គ្មាន</name>
+						<name xml:lang="ko">없음</name>
+						<name xml:lang="lt">Nieko</name>
+						<name xml:lang="ml_IN">ഒന്നുമില്ല</name>
+						<name xml:lang="nb">Ingen</name>
+						<name xml:lang="nl">Geen</name>
+						<name xml:lang="or">କିଛିନାହିଁ</name>
+						<name xml:lang="pa">ਕੋਈ ਨਹੀਂ</name>
+						<name xml:lang="pl">Brak</name>
+						<name xml:lang="pt">Nenhum</name>
+						<name xml:lang="pt_BR">Nenhum</name>
+						<name xml:lang="ro">Nimic</name>
+						<name xml:lang="ru">Никакой</name>
+						<name xml:lang="sk">Žiadna</name>
+						<name xml:lang="sl">brez izbire</name>
+						<name xml:lang="sr">Nema</name>
+						<name xml:lang="sv">Ingen</name>
+						<name xml:lang="tr">Hiçbiri</name>
+						<name xml:lang="uk">Ніякий</name>
+						<name xml:lang="zh_CN">无</name>
+						<name xml:lang="zh_TW">無</name>
+					</desc>
+					<desc>
+						<value>1</value>
+						<name>Cylinder</name>
+					</desc>
+					<desc>
+						<value>2</value>
+						<name>Sphere</name>
+					</desc>
+				</option>
+				<option type="bool" name="unfold_deformation">
+					<short>Unfold Cube Deformation</short>
+					<long>Apply the deformation in unfold cube mode.</long>
+					<default>true</default>
+				</option>
+				<option type="bool" name="cylinder_manual_only">
+					<short>Mouse Rotate Deformation Only</short>
+					<long>Initiates cube cylinder deformation only if rotation is mouse driven.</long>
+					<default>false</default>
+				</option>
+				<subgroup>
+					<short>Sphere</short>
+					<option type="bool" name="deform_caps">
+						<short>Deform Caps</short>
+						<long>Deform the cube caps also.</long>
+						<default>true</default>
+					</option>
+					<option type="float" name="sphere_aspect">
+						<short>Aspect Ratio</short>
+						<long>The aspect ratio of the deformed cube.</long>
+						<min>0.0</min>
+						<max>1.0</max>
+						<precision>0.1</precision>
+						<default>0.0</default>
+					</option>
+				</subgroup>
+			</group>
+			<group>
+				<short>Cube Caps</short>
+				<short xml:lang="el">Καπάκια Κύβου</short>
+				<short xml:lang="es">Capas del cubo</short>
+				<short xml:lang="eu">Kubo estalkiak</short>
+				<short xml:lang="fi">Kuution kannet</short>
+				<short xml:lang="fr">Habillage du cube</short>
+				<short xml:lang="gl">Tapas do Cubo</short>
+				<short xml:lang="he">מכסי הקוביה</short>
+				<short xml:lang="hu">Kocka fedőlapok</short>
+				<short xml:lang="it">Capi del cubo</short>
+				<short xml:lang="ja">キューブのふた</short>
+				<short xml:lang="ko">큐브 캡</short>
+				<short xml:lang="pl">Obrazki kostki</short>
+				<short xml:lang="pt">Topos Cubo</short>
+				<short xml:lang="ru">Шапка куба</short>
+				<short xml:lang="uk">Шапка куба</short>
+				<short xml:lang="zh_CN">立方体顶盖</short>
+				<short xml:lang="zh_TW">立方體上蓋</short>
+				<subgroup>
+					<short>Behaviour</short>
+					<short xml:lang="bg">Поведение</short>
+					<short xml:lang="de">Verhalten</short>
+					<short xml:lang="el">Συμπεριφορά</short>
+					<short xml:lang="es">Comportamiento</short>
+					<short xml:lang="eu">Portaera</short>
+					<short xml:lang="fi">Käyttäytyminen</short>
+					<short xml:lang="fr">Comportement</short>
+					<short xml:lang="gl">Comportamento</short>
+					<short xml:lang="he">אופן</short>
+					<short xml:lang="hu">Viselkedés</short>
+					<short xml:lang="it">Comportamento</short>
+					<short xml:lang="ja">動作</short>
+					<short xml:lang="ko">동작</short>
+					<short xml:lang="pl">Zachowanie</short>
+					<short xml:lang="pt">Comportamento</short>
+					<short xml:lang="ru">Поведение</short>
+					<short xml:lang="uk">Поведінка</short>
+					<short xml:lang="zh_CN">特性</short>
+					<short xml:lang="zh_TW">特性</short>
+					<option type="bool" name="draw_top">
+						<short>Draw Top Face</short>
+						<long>Draw the top face of the cube.</long>
+						<default>true</default>
+					</option>
+					<option type="bool" name="draw_bottom">
+						<short>Draw Bottom Face</short>
+						<long>Draw the bottom face of the cube.</long>
+						<default>true</default>
+					</option>
+					<option type="bool" name="adjust_top">
+						<short>Adjust Top Image</short>
+						<long>Adjust the top face image to the rotation.</long>
+						<default>false</default>
+					</option>
+					<option type="bool" name="adjust_bottom">
+						<short>Adjust Bottom Image</short>
+						<long>Adjust the bottom face image to the rotation.</long>
+						<default>false</default>
+					</option>
+					<option type="bool" name="top_scale">
+						<short>Scale Top Image</short>
+						<long>Scale the image to cover the top face of cube.</long>
+						<default>true</default>
+					</option>
+					<option type="bool" name="bottom_scale">
+						<short>Scale Bottom Image</short>
+						<long>Scale the image to cover the bottom face of cube.</long>
+						<default>true</default>
+					</option>
+					<option type="bool" name="top_aspect">
+						<short>Maintain Top Image Aspect Ratio</short>
+						<long>Maintain top cap image aspect ratio.</long>
+						<default>true</default>
+					</option>
+					<option type="bool" name="bottom_aspect">
+						<short>Maintain Bottom Image Aspect Ratio</short>
+						<long>Maintain bottom cap image aspect ratio.</long>
+						<default>true</default>
+					</option>
+					<option type="bool" name="top_clamp">
+						<short>Clamp Top Face Image To Border</short>
+						<long>Clamp the top face image to the border. This is often the best, if your image doesn't fit the size of the cube or if it's transparent. It can lead to some ugly dotted lines when enabled (especially with large enough images) though.</long>
+						<default>true</default>
+					</option>
+					<option type="bool" name="bottom_clamp">
+						<short>Clamp bottom face image to border</short>
+						<long>Clamp the bottom face image to the border. This is often the best, if your image doesn't fit the size of the cube or if it's transparent. It can lead to some ugly dotted lines when enabled (especially with large enough images) though.</long>
+						<default>true</default>
+					</option>
+				</subgroup>
+				<subgroup>
+					<short>Top</short>
+					<option type="list" name="top_images">
+						<short>Image files</short>
+						<short xml:lang="bg">Изображения</short>
+						<short xml:lang="ca">Fitxers d'imatge</short>
+						<short xml:lang="cs">Obrázkové soubory</short>
+						<short xml:lang="da">Billedfiler</short>
+						<short xml:lang="de">Bilddateien</short>
+						<short xml:lang="el">Αρχεία εικόνας</short>
+						<short xml:lang="es">Archivos de imagen</short>
+						<short xml:lang="eu">Irudi fitxategiak</short>
+						<short xml:lang="fi">Kuvatiedostot</short>
+						<short xml:lang="fr">Fichiers image</short>
+						<short xml:lang="gl">Arquivos de imaxe</short>
+						<short xml:lang="gu">ચિત્ર ફાઈલો</short>
+						<short xml:lang="he">קבצי תמונה</short>
+						<short xml:lang="hu">Képfájlok</short>
+						<short xml:lang="it">File immagine</short>
+						<short xml:lang="ja">画像ファイル</short>
+						<short xml:lang="ko">그림 파일</short>
+						<short xml:lang="nb">Bildefiler</short>
+						<short xml:lang="nl">Afbeeldings bestanden</short>
+						<short xml:lang="or">ଚିତ୍ର ଫାଇଲଗୁଡିକ</short>
+						<short xml:lang="pl">Pliki obrazków</short>
+						<short xml:lang="pt">Arquivos de imagem</short>
+						<short xml:lang="pt_BR">Arquivos de imagem</short>
+						<short xml:lang="ro">Fișiere imagine</short>
+						<short xml:lang="ru">Файлы изображений</short>
+						<short xml:lang="sk">Obrázkové súbory</short>
+						<short xml:lang="sv">Bildfiler</short>
+						<short xml:lang="tr">Resim dosyaları</short>
+						<short xml:lang="uk">Файли зображення</short>
+						<short xml:lang="zh_CN">图像文件</short>
+						<short xml:lang="zh_TW">影像檔</short>
+						<long>List of .png and .svg files that should be rendered on the top face of the cube.</long>
+						<type>string</type>
+						<hints>file;image;</hints>
+						<default>
+							<value>fusioncap.png</value>
+						</default>
+						<hints>file;image;</hints>
+					</option>
+				</subgroup>
+				<subgroup>
+					<short>Bottom</short>
+					<option type="list" name="bottom_images">
+						<short>Image files</short>
+						<short xml:lang="bg">Изображения</short>
+						<short xml:lang="ca">Fitxers d'imatge</short>
+						<short xml:lang="cs">Obrázkové soubory</short>
+						<short xml:lang="da">Billedfiler</short>
+						<short xml:lang="de">Bilddateien</short>
+						<short xml:lang="el">Αρχεία εικόνας</short>
+						<short xml:lang="es">Archivos de imagen</short>
+						<short xml:lang="eu">Irudi fitxategiak</short>
+						<short xml:lang="fi">Kuvatiedostot</short>
+						<short xml:lang="fr">Fichiers image</short>
+						<short xml:lang="gl">Arquivos de imaxe</short>
+						<short xml:lang="gu">ચિત્ર ફાઈલો</short>
+						<short xml:lang="he">קבצי תמונה</short>
+						<short xml:lang="hu">Képfájlok</short>
+						<short xml:lang="it">File immagine</short>
+						<short xml:lang="ja">画像ファイル</short>
+						<short xml:lang="ko">그림 파일</short>
+						<short xml:lang="nb">Bildefiler</short>
+						<short xml:lang="nl">Afbeeldings bestanden</short>
+						<short xml:lang="or">ଚିତ୍ର ଫାଇଲଗୁଡିକ</short>
+						<short xml:lang="pl">Pliki obrazków</short>
+						<short xml:lang="pt">Arquivos de imagem</short>
+						<short xml:lang="pt_BR">Arquivos de imagem</short>
+						<short xml:lang="ro">Fișiere imagine</short>
+						<short xml:lang="ru">Файлы изображений</short>
+						<short xml:lang="sk">Obrázkové súbory</short>
+						<short xml:lang="sv">Bildfiler</short>
+						<short xml:lang="tr">Resim dosyaları</short>
+						<short xml:lang="uk">Файли зображення</short>
+						<short xml:lang="zh_CN">图像文件</short>
+						<short xml:lang="zh_TW">影像檔</short>
+						<long>List of .png and .svg files that should be rendered on the bottom face of the cube.</long>
+						<type>string</type>
+						<hints>file;image;</hints>
+						<default>
+							<value>compizcap.png</value>
+						</default>
+						<hints>file;image;</hints>
+					</option>
+				</subgroup>
+			</group>
+		</options>
+	</plugin>
+</compiz>

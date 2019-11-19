@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+    <plugin name="imgpng">
+	<short>PNG</short>
+	<long>PNG image loader</long>
+	<category>Image Loading</category>
+	<feature>imageext:png</feature>
+	<feature>imagemime:image/png</feature>
+	<deps>
+	    <relation type="after">
+		<plugin>composite</plugin>
+		<plugin>opengl</plugin>
+		<plugin>decor</plugin>
+	    </relation>
+	</deps>
+    </plugin>
+</compiz>

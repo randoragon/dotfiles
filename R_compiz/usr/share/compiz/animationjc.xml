@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+  
+  <plugin useBcop="true" name="animationjc">
+    <short>Animations Experimental</short>
+    <long>Extra window animations</long>
+    <category>Effects</category>
+    <deps>
+      <requirement>
+	<plugin>opengl</plugin>
+	<plugin>animation</plugin>
+      </requirement>
+      <relation type="after">
+	<plugin>opengl</plugin>
+	<plugin>composite</plugin>
+	<plugin>animation</plugin>
+	<plugin>decor</plugin>
+      </relation>
+    </deps>
+
+    <options>
+    <group>
+      <short>Effect Settings</short>
+
+      <subgroup>
+        <short>Black Hole</short>
+	<option type="float" name="blackhole_delay">
+	  <short>Delay</short>
+	  <default>0.75</default>
+	  <min>0.0</min>
+	  <max>0.99</max>
+	  <precision>0.01</precision>
+	</option>
+      </subgroup>
+
+      <subgroup>
+        <short>Flicker</short>
+	<option type="int" name="flicker_amplitude">
+	  <short>Amplitude</short>
+	  <default>3</default>
+	  <min>1</min>
+	  <max>10</max>
+	</option>
+      </subgroup>
+
+      <subgroup>
+        <short>Ghost</short>
+	<option type="int" name="ghost_grid">
+	  <short>Grid</short>
+	  <default>20</default>
+	  <min>2</min>
+	  <max>20</max>
+	</option>
+
+	<option type="float" name="ghost_saturation">
+	  <short>Saturation</short>
+	  <short xml:lang="ca">Saturació</short>
+	  <short xml:lang="cs">Sytost</short>
+	  <short xml:lang="da">Farvemætning</short>
+	  <short xml:lang="de">Sättigung</short>
+	  <short xml:lang="el">Κορεσμός</short>
+	  <short xml:lang="es">Saturación</short>
+	  <short xml:lang="eu">Saturazioa</short>
+	  <short xml:lang="fi">Kylläisyys</short>
+	  <short xml:lang="fr">Saturation</short>
+	  <short xml:lang="gl">Saturación</short>
+	  <short xml:lang="he">רווייה</short>
+	  <short xml:lang="hu">Telítettség</short>
+	  <short xml:lang="it">Saturazione</short>
+	  <short xml:lang="ja">彩度</short>
+	  <short xml:lang="ko">채도</short>
+	  <short xml:lang="nb">Metning</short>
+	  <short xml:lang="nl">Verzadiging</short>
+	  <short xml:lang="or">ସଂପୂର୍ଣ୍ଣ ମିଶ୍ରଣ</short>
+	  <short xml:lang="pl">Nasycenie</short>
+	  <short xml:lang="pt">Saturação</short>
+	  <short xml:lang="pt_BR">Saturação</short>
+	  <short xml:lang="ru">Насыщенность</short>
+	  <short xml:lang="sk">Sýtosť</short>
+	  <short xml:lang="sv">Färgmättnad</short>
+	  <short xml:lang="tr">Doygunluk</short>
+	  <short xml:lang="uk">Насиченість</short>
+	  <short xml:lang="zh_CN">饱和度</short>
+	  <short xml:lang="zh_TW">飽和度</short>
+	  <default>0.0</default>
+	  <min>0.0</min>
+	  <max>1.0</max>
+	  <precision>0.1</precision>
+	</option>
+
+	<option type="float" name="ghost_amplitude">
+	  <short>Amplitude</short>
+	  <default>1.0</default>
+	  <min>0.0</min>
+	  <max>5.0</max>
+	</option>
+
+	<option type="float" name="ghost_wave_speed">
+	  <short>Wave Speed</short>
+	  <default>1.0</default>
+	  <min>0.0</min>
+	  <max>5.0</max>
+	</option>
+      </subgroup>
+
+      <subgroup>
+        <short>Popcorn</short>
+	<option type="float" name="popcorn_kernel_height">
+	  <short>Kernel Height</short>
+	  <default>1.0</default>
+	  <min>0.0</min>
+	  <max>5.0</max>
+	  <precision>0.1</precision>
+	</option>
+      </subgroup>
+
+      <subgroup>
+        <short>Raindrop</short>
+
+	<option type="float" name="raindrop_amplitude">
+	  <short>Amplitude</short>
+	  <default>1.0</default>
+	  <min>-5.0</min>
+	  <max>5.0</max>
+	  <precision>0.1</precision>
+	</option>
+
+	<option type="float" name="raindrop_wavelength">
+	  <short>Wavelength</short>
+	  <default>0.4</default>
+	  <min>0.0</min>
+	  <max>1.0</max>
+	  <precision>0.05</precision>
+	</option>
+
+	<option type="int" name="raindrop_num_waves">
+	  <short>Number of Waves</short>
+	  <default>1</default>
+	  <min>1</min>
+	  <max>5</max>
+	</option>
+      </subgroup>
+    </group>
+    </options>
+
+    <extension base_plugin="animation">
+      <base_option>open_effects</base_option>
+      <base_option>open_random_effects</base_option>
+      <base_option>close_effects</base_option>
+      <base_option>close_random_effects</base_option>
+      <base_option>minimize_effects</base_option>
+      <base_option>minimize_random_effects</base_option>
+      <restriction>
+        <value>animationjc:Black Hole</value>
+        <name>Black Hole</name>
+      </restriction>
+      <restriction>
+        <value>animationjc:Ghost</value>
+        <name>Ghost</name>
+      </restriction>
+      <restriction>
+        <value>animationjc:Popcorn</value>
+        <name>Popcorn</name>
+      </restriction>
+    </extension>
+
+    <extension base_plugin="animation">
+      <base_option>open_effects</base_option>
+      <base_option>open_random_effects</base_option>
+      <base_option>close_effects</base_option>
+      <base_option>close_random_effects</base_option>
+      <base_option>focus_effects</base_option>
+      <restriction>
+        <value>animationjc:Flicker</value>
+        <name>Flicker</name>
+      </restriction>
+      <restriction>
+        <value>animationjc:Raindrop</value>
+        <name>Raindrop</name>
+      </restriction>
+    </extension>
+  </plugin>
+</compiz>

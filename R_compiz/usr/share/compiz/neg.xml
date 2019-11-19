@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<compiz>
+    <plugin useBcop="true" name="neg">
+	<short>Negative</short>
+	<long>Used to set a window or screen negative</long>
+	<category>Accessibility</category>
+	<deps>
+	    <requirement>
+		<plugin>opengl</plugin>\
+	    </requirement>
+	    <relation type="after">
+		<plugin>composite</plugin>
+		<plugin>opengl</plugin>
+		<plugin>blur</plugin>
+		<plugin>decor</plugin>
+	    </relation>
+	</deps>
+	<options>
+	    <option type="key" name="window_toggle_key">
+		<short>Toggle Window Negative</short>
+		<long>Toggle active window negative</long>
+		<default>&lt;Super&gt;n</default>
+	    </option>
+	    <option type="bool" name="activate_at_startup">
+	    <short>plugin should be active at startup</short>
+	    <long>if active, the plugin will start active, with windows inverted</long>
+	    <default>false</default>
+	    </option>
+	    <option type="key" name="screen_toggle_key">
+		<short>Toggle Screen Negative</short>
+		<long>Toggle screen negative</long>
+		<default>&lt;Super&gt;m</default>
+	    </option>
+	    <option type="match" name="neg_match">
+		<short>Neg Windows</short>
+		<long>Windows to be negative by default</long>
+		<default>any</default>
+	    </option>
+	    <option type="match" name="exclude_match">
+		<short>Exclude Windows</short>
+		<long>Windows to exclude from negating</long>
+		<default>type=Desktop</default>
+	    </option>
+	    <option type="bool" name="neg_decorations">
+		<short>Negate Decorations</short>
+		<long>Also negate window decorations, not only the window contents.</long>
+		<default>false</default>
+	    </option>
+	</options>
+    </plugin>
+</compiz>

@@ -14,19 +14,14 @@
 		</LastUsedFile>
 		<MostRecentlyUsed>
 			<MaxItemCount>12</MaxItemCount>
-			<Items>
-				<ConnectionInfo>
-					<Path>../../../home/pcache/***REMOVED***</Path>
-					<CredProtMode>Obf</CredProtMode>
-					<CredSaveMode>NoSave</CredSaveMode>
-				</ConnectionInfo>
-			</Items>
+			<Items />
 		</MostRecentlyUsed>
 		<WorkingDirectories>
 			<Item>Database@../../../home/pcache/Dropbox</Item>
 		</WorkingDirectories>
 		<Start>
 			<CheckForUpdate>false</CheckForUpdate>
+			<CheckForUpdateConfigured>true</CheckForUpdateConfigured>
 		</Start>
 		<FileOpening />
 		<FileClosing />
@@ -37,12 +32,12 @@
 	</Application>
 	<Logging />
 	<MainWindow>
-		<X>465</X>
-		<Y>190</Y>
-		<Width>989</Width>
-		<Height>699</Height>
-		<SplitterHorizontalFrac>0.8333</SplitterHorizontalFrac>
-		<SplitterVerticalFrac>0.25</SplitterVerticalFrac>
+		<X>-16381</X>
+		<Y>-16381</Y>
+		<Width>-16381</Width>
+		<Height>-16381</Height>
+		<SplitterHorizontalFrac>4.94065645841247E-324</SplitterHorizontalFrac>
+		<SplitterVerticalFrac>4.94065645841247E-324</SplitterVerticalFrac>
 		<CloseButtonMinimizesWindow>true</CloseButtonMinimizesWindow>
 		<MinimizeToTray>true</MinimizeToTray>
 		<ToolBar />
@@ -51,19 +46,26 @@
 		<EntryListColumnCollection>
 			<Column>
 				<Type>Title</Type>
-				<Width>256</Width>
+				<Width>138</Width>
 			</Column>
 			<Column>
 				<Type>UserName</Type>
-				<Width>330</Width>
+				<Width>138</Width>
 			</Column>
 			<Column>
 				<Type>Password</Type>
 				<Width>138</Width>
 				<HideWithAsterisks>true</HideWithAsterisks>
 			</Column>
+			<Column>
+				<Type>Url</Type>
+				<Width>138</Width>
+			</Column>
+			<Column>
+				<Type>Notes</Type>
+				<Width>138</Width>
+			</Column>
 		</EntryListColumnCollection>
-		<EntryListColumnDisplayOrder>0 1 2</EntryListColumnDisplayOrder>
 		<ListSorting>
 			<Order>Ascending</Order>
 		</ListSorting>
@@ -134,10 +136,6 @@
 		</SearchParameters>
 		<KeySources>
 			<Association>
-				<DatabasePath>../../../home/pcache/Documents/***REMOVED***</DatabasePath>
-				<Password>true</Password>
-			</Association>
-			<Association>
 				<DatabasePath>../../../home/pcache/***REMOVED***</DatabasePath>
 				<Password>true</Password>
 			</Association>
@@ -145,9 +143,8 @@
 	</Defaults>
 	<Integration>
 		<HotKeyGlobalAutoType>0</HotKeyGlobalAutoType>
-		<HotKeySelectedAutoType>0</HotKeySelectedAutoType>
+		<HotKeyGlobalAutoTypePassword>0</HotKeyGlobalAutoTypePassword>
 		<HotKeyShowWindow>0</HotKeyShowWindow>
-		<HotKeyEntryMenu>0</HotKeyEntryMenu>
 		<UrlSchemeOverrides>
 			<BuiltInOverridesEnabled>1</BuiltInOverridesEnabled>
 			<CustomOverrides />

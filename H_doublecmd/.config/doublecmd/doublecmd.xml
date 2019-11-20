@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<doublecmd DCVersion="0.9.1 beta" ConfigVersion="10">
+<doublecmd DCVersion="0.9.6 beta" ConfigVersion="10">
   <Toolbars>
     <MainToolbar>
       <Row>
@@ -129,6 +129,83 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_qtcreator/</Path>
+                  <Path Filename="H_workrave">/home/pcache/dotfiles/</Path>
+                  <Path Filename=".workrave">/home/pcache/dotfiles/H_workrave/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_workrave/.workrave/</Path>
+                  <Path Filename=".workrave">/home/pcache/dotfiles/H_workrave/</Path>
+                  <Path Filename="H_i3">/home/pcache/dotfiles/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_i3/</Path>
+                  <Path Filename="i3">/home/pcache/dotfiles/H_i3/.config/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_i3/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_i3/.config/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_i3/</Path>
+                  <Path Filename="i3">/home/pcache/dotfiles/H_i3/.config/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_i3/.config/i3/</Path>
+                  <Path Filename="i3">/home/pcache/dotfiles/H_i3/.config/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_i3/</Path>
+                  <Path Filename="H_polybar">/home/pcache/dotfiles/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_polybar/</Path>
+                  <Path Filename="polybar">/home/pcache/dotfiles/H_polybar/.config/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_polybar/.config/polybar/</Path>
+                  <Path Filename="polybar">/home/pcache/dotfiles/H_polybar/.config/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_polybar/</Path>
+                  <Path Filename="H_compiz">/home/pcache/dotfiles/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_compiz/</Path>
+                  <Path Filename="compiz">/home/pcache/dotfiles/H_compiz/.config/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_compiz/.config/compiz/</Path>
+                  <Path Filename="compiz">/home/pcache/dotfiles/H_compiz/.config/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_compiz/</Path>
+                  <Path Filename="H_hedgewars">/home/pcache/dotfiles/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_hedgewars/</Path>
+                  <Path Filename="hedgewars">/home/pcache/dotfiles/H_hedgewars/.config/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_hedgewars/.config/hedgewars/</Path>
+                  <Path Filename="hedgewars">/home/pcache/dotfiles/H_hedgewars/.config/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_hedgewars/</Path>
+                  <Path Filename="H_hedgewars">/home/pcache/dotfiles/</Path>
+                  <Path Filename=".hedgewars">/home/pcache/dotfiles/H_hedgewars/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_hedgewars/.hedgewars/</Path>
+                  <Path Filename=".hedgewars">/home/pcache/dotfiles/H_hedgewars/</Path>
+                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
+                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="testUnit.sh">/home/pcache/dotfiles/H_dbu/Dropbox-Uploader/</Path>
+                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
+                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_dbu/Dropbox-Uploader/</Path>
+                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
+                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="CHANGELOG.md">/home/pcache/dotfiles/H_dbu/Dropbox-Uploader/</Path>
+                  <Path Filename=".dropbox_uploader">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>0</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="chrome">/home/pcache/Software/firefox/browser/</Path>
+                  <Path Filename="icons">/home/pcache/Software/firefox/browser/chrome/</Path>
+                  <Path Filename="default">/home/pcache/Software/firefox/browser/chrome/icons/</Path>
+                  <Path Filename="default128.png">/home/pcache/Software/firefox/browser/chrome/icons/default/</Path>
+                  <Path Filename="default">/home/pcache/Software/firefox/browser/chrome/icons/</Path>
+                  <Path Filename="icons">/home/pcache/Software/firefox/browser/chrome/</Path>
+                  <Path Filename="chrome">/home/pcache/Software/firefox/browser/</Path>
                   <Path Filename="browser">/home/pcache/Software/firefox/</Path>
                   <Path Filename="thunderbird">/home/pcache/Software/</Path>
                   <Path Filename="chrome">/home/pcache/Software/thunderbird/</Path>
@@ -171,14 +248,7 @@
                   <Path Filename="zlib1.dll">/home/pcache/.local/share/Steam/steamapps/common/Geometry Dash/</Path>
                   <Path Filename="Geometry Dash">/home/pcache/.local/share/Steam/steamapps/common/</Path>
                   <Path Filename="..">/home/pcache/.local/share/Steam/steamapps/</Path>
-                  <Path Filename="..">/media/pcache/CDROM/</Path>
-                  <Path Filename="..">/media/pcache/</Path>
-                  <Path Filename="rozprawka3.pdf">/home/pcache/Documents/</Path>
-                  <Path Filename="..">/home/pcache/Videos/</Path>
-                  <Path Filename="Captures">/media/ntfs2/Piotr/Libraries/Videos/</Path>
-                  <Path Filename="Documents">/media/ntfs2/Piotr/Libraries/</Path>
-                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Documents/</Path>
-                  <Path Filename="rozprawka4.pdf">/home/pcache/Documents/</Path>
+                  <Path Filename="ulauncher">/home/pcache/.local/share/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -202,56 +272,126 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="vim-smooth-scroll">/home/pcache/.vim/plugged/</Path>
-                  <Path Filename="after">/home/pcache/.vim/</Path>
-                  <Path Filename="..">/home/pcache/.vim/after/</Path>
-                  <Path Filename="autoload">/home/pcache/.vim/</Path>
-                  <Path Filename="..">/home/pcache/</Path>
-                  <Path Filename="SchoolNotes">/home/pcache/Documents/</Path>
-                  <Path Filename="gentoc.py">/home/pcache/Documents/SchoolNotes/</Path>
-                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Software/Steam/steamapps/common/Geometry Dash/</Path>
-                  <Path Filename="..">/media/ntfs1/Users/Piotr/AppData/Local/GeometryDash/</Path>
-                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Software/Steam/steamapps/common/Geometry Dash/</Path>
-                  <Path Filename="Hacknet">/media/ntfs2/Piotr/Libraries/Software/Steam/steamapps/common/</Path>
-                  <Path Filename="Libraries">/media/ntfs2/Piotr/</Path>
-                  <Path Filename="Documents">/media/ntfs2/Piotr/Libraries/</Path>
-                  <Path Filename="Rick and Morty">/media/ntfs2/Piotr/Libraries/Videos/</Path>
-                  <Path Filename="Season 2">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="10' The Wedding Squanchers.mp4">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 2/</Path>
-                  <Path Filename="Season 1">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="9 Something Ricked This Way Comes.mp4">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 1/</Path>
-                  <Path Filename="Season 2">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="2 Mortynight Run.mp4">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 2/</Path>
-                  <Path Filename="Season 2">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 2/</Path>
-                  <Path Filename="Season 1">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="10' Close-Rick Counters of the Rick Kind.mp4">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 1/</Path>
-                  <Path Filename="Season 1">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 1/</Path>
-                  <Path Filename="Season 2">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="6' The Ricks Must be Crazy.mp4">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 2/</Path>
-                  <Path Filename="..">/home/pcache/Documents/</Path>
+                  <Path Filename="compiz">/home/pcache/.config/</Path>
+                  <Path Filename="fusion-icon">/home/pcache/.config/compiz/</Path>
+                  <Path Filename="compiz">/home/pcache/.config/</Path>
+                  <Path Filename="fusion-icon">/home/pcache/.config/compiz/</Path>
+                  <Path Filename="cordless">/home/pcache/.config/</Path>
+                  <Path Filename="config.json">/home/pcache/.config/cordless/</Path>
+                  <Path Filename="dconf">/home/pcache/.config/</Path>
+                  <Path Filename="user">/home/pcache/.config/dconf/</Path>
+                  <Path Filename="Simplenote">/home/pcache/.config/</Path>
+                  <Path Filename="Cookies-journal">/home/pcache/.config/Simplenote/</Path>
+                  <Path Filename="yay">/home/pcache/.config/</Path>
+                  <Path Filename="..">/home/pcache/.config/yay/</Path>
+                  <Path Filename="xfce4">/home/pcache/.config/</Path>
+                  <Path Filename="panel">/home/pcache/.config/xfce4/</Path>
+                  <Path Filename="catfish">/home/pcache/.config/</Path>
+                  <Path Filename="..">/home/pcache/.config/catfish/</Path>
+                  <Path Filename="catfish">/home/pcache/.config/</Path>
+                  <Path Filename=".conky">/home/pcache/</Path>
+                  <Path Filename=".themepacks">/home/pcache/.conky/</Path>
+                  <Path Filename=".emerald">/home/pcache/</Path>
+                  <Path Filename="themes">/home/pcache/.emerald/</Path>
+                  <Path Filename="Untitled Theme">/home/pcache/.emerald/themes/</Path>
+                  <Path Filename="buttons.close.png">/home/pcache/.emerald/themes/Untitled Theme/</Path>
+                  <Path Filename="Untitled Theme">/home/pcache/.emerald/themes/</Path>
+                  <Path Filename="theme">/home/pcache/.emerald/</Path>
+                  <Path Filename="buttons.glow.png">/home/pcache/.emerald/theme/</Path>
+                  <Path Filename="theme">/home/pcache/.emerald/</Path>
+                  <Path Filename="go">/home/pcache/</Path>
+                  <Path Filename="..">/home/pcache/go/</Path>
+                  <Path Filename=".hedgewars">/home/pcache/</Path>
+                  <Path Filename="settings.ini">/home/pcache/.hedgewars/</Path>
+                  <Path Filename=".hedgewars">/home/pcache/</Path>
+                  <Path Filename="..">/home/pcache/.hedgewars/</Path>
+                  <Path Filename=".hedgewars">/home/pcache/</Path>
+                  <Path Filename="Videos">/home/pcache/.hedgewars/</Path>
+                  <Path Filename="..">/home/pcache/.hedgewars/Videos/</Path>
+                  <Path Filename="Logs">/home/pcache/.hedgewars/</Path>
+                  <Path Filename="..">/home/pcache/.hedgewars/Logs/</Path>
+                  <Path Filename="Schemes">/home/pcache/.hedgewars/</Path>
+                  <Path Filename="..">/home/pcache/.hedgewars/Schemes/</Path>
+                  <Path Filename="Schemes">/home/pcache/.hedgewars/</Path>
+                  <Path Filename=".local">/home/pcache/</Path>
+                  <Path Filename="share">/home/pcache/.local/</Path>
+                  <Path Filename="webkitgtk">/home/pcache/.local/share/</Path>
+                  <Path Filename="share">/home/pcache/.local/</Path>
+                  <Path Filename=".fltk">/home/pcache/</Path>
+                  <Path Filename="..">/home/pcache/.fltk/</Path>
+                  <Path Filename=".mono">/home/pcache/</Path>
+                  <Path Filename="..">/home/pcache/.mono/</Path>
+                  <Path Filename=".mono">/home/pcache/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>1</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
+                  <Path Filename="..">/media/ntfs2/</Path>
+                  <Path Filename="..">/media/ntfs1/</Path>
+                  <Path Filename="media">/</Path>
+                  <Path Filename="..">/media/ntfs2/</Path>
+                  <Path Filename="..">/media/ntfs1/</Path>
+                  <Path Filename="..">/media/ntfs2/</Path>
+                  <Path Filename="QtCreator">/home/pcache/Coding/</Path>
+                  <Path Filename="..">/home/pcache/Coding/QtCreator/</Path>
+                  <Path Filename="qtext">/home/pcache/Coding/</Path>
+                  <Path Filename="qtext.pro.user.3e1ac3d.20">/home/pcache/Coding/qtext/</Path>
                   <Path Filename="..">/home/pcache/Videos/</Path>
-                  <Path Filename="Rick and Morty">/media/ntfs2/Piotr/Libraries/Videos/</Path>
-                  <Path Filename="Season 3">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="3' Pickle Rick.mp4">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 3/</Path>
-                  <Path Filename="Season 2">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="4' Total Rickwall.mp4">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 2/</Path>
-                  <Path Filename="..">/media/pcache/CDROM/</Path>
-                  <Path Filename="..">/media/pcache/</Path>
-                  <Path Filename="GML Tutorials">/media/ntfs2/Piotr/Libraries/Videos/</Path>
-                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Videos/GML Tutorials/</Path>
-                  <Path Filename="Rick and Morty">/media/ntfs2/Piotr/Libraries/Videos/</Path>
-                  <Path Filename="Season 3">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/</Path>
-                  <Path Filename="6 Rest and Ricklaxation.mp4">/media/ntfs2/Piotr/Libraries/Videos/Rick and Morty/Season 3/</Path>
-                  <Path Filename="EFI">/media/pcache/ARCH_201911/</Path>
-                  <Path Filename="Movies">/media/ntfs2/Piotr/Libraries/Videos/</Path>
-                  <Path Filename="Interstellar.srt">/media/ntfs2/Piotr/Libraries/Videos/Movies/</Path>
+                  <Path Filename="Piotr">/media/ntfs2/</Path>
+                  <Path Filename="Libraries">/media/ntfs2/Piotr/</Path>
+                  <Path Filename="Videos">/media/ntfs2/Piotr/Libraries/</Path>
+                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Videos/</Path>
+                  <Path Filename="Videos">/media/ntfs2/Piotr/Libraries/</Path>
                   <Path Filename="Finalized Videos">/media/ntfs2/Piotr/Libraries/Videos/</Path>
                   <Path Filename="Geometry Dash">/media/ntfs2/Piotr/Libraries/Videos/Finalized Videos/</Path>
                   <Path Filename="Starlight Fury Drop.mp4">/media/ntfs2/Piotr/Libraries/Videos/Finalized Videos/Geometry Dash/</Path>
-                  <Path Filename="yus.mp4">/media/ntfs2/Piotr/Libraries/Videos/Finalized Videos/</Path>
-                  <Path Filename="Movies">/media/ntfs2/Piotr/Libraries/Videos/</Path>
+                  <Path Filename=".vim">/home/pcache/</Path>
+                  <Path Filename="plugged">/home/pcache/.vim/</Path>
+                  <Path Filename="vim-smooth-scroll">/home/pcache/.vim/plugged/</Path>
+                  <Path Filename="plugin">/home/pcache/.vim/plugged/vim-smooth-scroll/</Path>
+                  <Path Filename="smooth_scroll.vim">/home/pcache/.vim/plugged/vim-smooth-scroll/plugin/</Path>
+                  <Path Filename="plugin">/home/pcache/.vim/plugged/vim-smooth-scroll/</Path>
+                  <Path Filename="vim-smooth-scroll">/home/pcache/.vim/plugged/</Path>
+                  <Path Filename="view">/home/pcache/.vim/</Path>
+                  <Path Filename="etc">/</Path>
+                  <Path Filename="..">/media/ntfs1/</Path>
+                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Videos/Finalized Videos/Geometry Dash/</Path>
+                  <Path Filename="..">/media/ntfs1/</Path>
+                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Videos/Finalized Videos/Geometry Dash/</Path>
+                  <Path Filename="..">/media/ntfs2/</Path>
+                  <Path Filename="..">/media/ntfs1/</Path>
+                  <Path Filename="Piotr">/media/ntfs2/</Path>
+                  <Path Filename="Libraries">/media/ntfs2/Piotr/</Path>
+                  <Path Filename="Software">/media/ntfs2/Piotr/Libraries/</Path>
+                  <Path Filename="Steam">/media/ntfs2/Piotr/Libraries/Software/</Path>
+                  <Path Filename="steamapps">/media/ntfs2/Piotr/Libraries/Software/Steam/</Path>
+                  <Path Filename="common">/media/ntfs2/Piotr/Libraries/Software/Steam/steamapps/</Path>
+                  <Path Filename="Geometry Dash">/media/ntfs2/Piotr/Libraries/Software/Steam/steamapps/common/</Path>
+                  <Path Filename="zlib1.dll">/media/ntfs2/Piotr/Libraries/Software/Steam/steamapps/common/Geometry Dash/</Path>
+                  <Path Filename="Users">/media/ntfs1/</Path>
+                  <Path Filename="Piotr">/media/ntfs1/Users/</Path>
+                  <Path Filename="AppData">/media/ntfs1/Users/Piotr/</Path>
+                  <Path Filename="Local">/media/ntfs1/Users/Piotr/AppData/</Path>
+                  <Path Filename="GeometryDash">/media/ntfs1/Users/Piotr/AppData/Local/</Path>
+                  <Path Filename="407642.mp3">/media/ntfs1/Users/Piotr/AppData/Local/GeometryDash/</Path>
+                  <Path Filename="..">/etc/init.d/</Path>
+                  <Path Filename="">/etc/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -276,6 +416,7 @@
   </Language>
   <Behaviours>
     <GoToRoot>False</GoToRoot>
+    <ActiveRight>False</ActiveRight>
     <RunInTerminalStayOpenCmd>x-terminal-emulator</RunInTerminalStayOpenCmd>
     <RunInTerminalStayOpenParams>-e sh -c '{command}; echo -n Press ENTER to exit... ; read a'</RunInTerminalStayOpenParams>
     <RunInTerminalCloseCmd>x-terminal-emulator</RunInTerminalCloseCmd>
@@ -553,6 +694,9 @@
       <CopyPermissions>False</CopyPermissions>
       <ExcludeEmptyTemplateDirectories>True</ExcludeEmptyTemplateDirectories>
     </Options>
+    <Extract>
+      <Overwrite>False</Overwrite>
+    </Extract>
   </FileOperations>
   <Log Enabled="False" LogFileWithDateInName="False">
     <FileName>%DC_CONFIG_PATH%/doublecmd.log</FileName>
@@ -587,6 +731,7 @@
     <ShowPathInPopup>False</ShowPathInPopup>
     <ShowOnlyValidEnv>True</ShowOnlyValidEnv>
     <WhereToAddNewHotDir>2</WhereToAddNewHotDir>
+    <InplaceRenameButton>False</InplaceRenameButton>
   </Miscellaneous>
   <Thumbnails Save="True">
     <Width>128</Width>
@@ -613,7 +758,7 @@
     <Exclude>False</Exclude>
     <ExcludeDirs/>
     <CustomIcons>0</CustomIcons>
-    <PixelsPerInch>96</PixelsPerInch>
+    <PixelsPerInch>101</PixelsPerInch>
     <ShowInMenus Enabled="True">
       <Size>16</Size>
     </ShowInMenus>
@@ -633,14 +778,6 @@
     <HotDir Name="&amp;Coding" Path="/home/pcache/Coding"/>
     <HotDir Name="&amp;L_Downloads" Path="/home/pcache/Downloads"/>
     <HotDir Name="&amp;B_Dropbox" Path="/home/pcache/Dropbox"/>
-    <HotDir Name="--" Path=""/>
-    <HotDir Name="-&amp;NTFS2" Path=""/>
-    <HotDir Name="&amp;Documents" Path="/media/ntfs2/Piotr/Libraries/Documents"/>
-    <HotDir Name="&amp;Pictures" Path="/media/ntfs2/Piotr/Libraries/Pictures"/>
-    <HotDir Name="&amp;Music" Path="/media/ntfs2/Piotr/Libraries/Music"/>
-    <HotDir Name="&amp;Videos" Path="/media/ntfs2/Piotr/Libraries/Videos"/>
-    <HotDir Name="&amp;Software" Path="/media/ntfs2/Piotr/Libraries/Software"/>
-    <HotDir Name="&amp;L_Download" Path="/media/ntfs2/Piotr/Libraries/Download"/>
     <HotDir Name="--" Path=""/>
     <HotDir Name="&amp;Steam" Path="/home/pcache/.local/share/Steam/steamapps/common"/>
     <HotDir Name="&amp;Home" Path="/home/pcache"/>
@@ -678,7 +815,7 @@
   <SyncDirs>
     <Subdirs>False</Subdirs>
     <ByContent>False</ByContent>
-    <Asymmetric>False</Asymmetric>
+    <Asymmetric Save="False">False</Asymmetric>
     <IgnoreDate>False</IgnoreDate>
     <FilterCopyRight>True</FilterCopyRight>
     <FilterEqual>True</FilterEqual>
@@ -790,7 +927,7 @@
       <Name>Default</Name>
       <CustomView>False</CustomView>
       <FileSystem>&lt;General&gt;</FileSystem>
-      <PixelsPerInch>96</PixelsPerInch>
+      <PixelsPerInch>101</PixelsPerInch>
       <CursorBorder Enabled="False">
         <Color>-2147483643</Color>
       </CursorBorder>
@@ -798,7 +935,7 @@
         <Column>
           <Title>Name</Title>
           <FuncString>[DC().GETFILENAME{}] </FuncString>
-          <Width>250</Width>
+          <Width>263</Width>
           <Align>0</Align>
           <Font>
             <Name>Sans</Name>
@@ -821,7 +958,7 @@
         <Column>
           <Title>Ext</Title>
           <FuncString>[DC().GETFILEEXT{}]</FuncString>
-          <Width>50</Width>
+          <Width>53</Width>
           <Align>0</Align>
           <Font>
             <Name>Sans</Name>
@@ -844,7 +981,7 @@
         <Column>
           <Title>Size</Title>
           <FuncString>[DC().GETFILESIZE{}]</FuncString>
-          <Width>70</Width>
+          <Width>74</Width>
           <Align>1</Align>
           <Font>
             <Name>Sans</Name>
@@ -867,7 +1004,7 @@
         <Column>
           <Title>Date</Title>
           <FuncString>[DC().GETFILETIME{}]</FuncString>
-          <Width>140</Width>
+          <Width>147</Width>
           <Align>1</Align>
           <Font>
             <Name>Sans</Name>
@@ -890,7 +1027,7 @@
         <Column>
           <Title>Attr</Title>
           <FuncString>[DC().GETFILEATTR{}]</FuncString>
-          <Width>281</Width>
+          <Width>296</Width>
           <Align>0</Align>
           <Font>
             <Name>Sans</Name>

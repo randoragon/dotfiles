@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<doublecmd DCVersion="0.9.1 beta">
+<doublecmd DCVersion="0.9.6 beta">
   <Hotkeys Version="46">
     <Form Name="Main">
       <Hotkey>
@@ -42,10 +42,6 @@
         <Shortcut>Shift+F8</Shortcut>
         <Command>cm_Delete</Command>
         <Param>trashcan=reversesetting</Param>
-      </Hotkey>
-      <Hotkey>
-        <Shortcut>F9</Shortcut>
-        <Command>cm_RunTerm</Command>
       </Hotkey>
       <Hotkey>
         <Shortcut>Alt+F8</Shortcut>
@@ -335,6 +331,10 @@
       <Hotkey>
         <Shortcut>Alt+3</Shortcut>
         <Command>cm_SortBySize</Command>
+      </Hotkey>
+      <Hotkey>
+        <Shortcut>F9</Shortcut>
+        <Command>cm_RunTerm</Command>
       </Hotkey>
       <Hotkey>
         <Shortcut>Del</Shortcut>

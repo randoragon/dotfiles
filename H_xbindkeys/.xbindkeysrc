@@ -51,6 +51,8 @@
     control+shift + Print
 "ulauncher"
     control + space
+"i3lock -c 0A0A0A"
+    control+alt + l
 
 # Xfce4 Settings
 
@@ -62,8 +64,6 @@
     shift + Print
 "xfce4-screenshooter -f -s /home/pcache/Pictures/Screenshots"
     control + Print
-"xflock4"
-    control+alt + l
 "xfce4-session-logout"
     control+alt + Delete
 

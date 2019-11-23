@@ -116,7 +116,7 @@
   <Tabs>
     <OpenedTabs>
       <Left>
-        <ActiveTab>0</ActiveTab>
+        <ActiveTab>1</ActiveTab>
         <Tab>
           <FileView Type="columns">
             <Sortings>
@@ -129,32 +129,6 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_qtcreator/</Path>
-                  <Path Filename="H_workrave">/home/pcache/dotfiles/</Path>
-                  <Path Filename=".workrave">/home/pcache/dotfiles/H_workrave/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_workrave/.workrave/</Path>
-                  <Path Filename=".workrave">/home/pcache/dotfiles/H_workrave/</Path>
-                  <Path Filename="H_i3">/home/pcache/dotfiles/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_i3/</Path>
-                  <Path Filename="i3">/home/pcache/dotfiles/H_i3/.config/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_i3/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_i3/.config/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_i3/</Path>
-                  <Path Filename="i3">/home/pcache/dotfiles/H_i3/.config/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_i3/.config/i3/</Path>
-                  <Path Filename="i3">/home/pcache/dotfiles/H_i3/.config/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_i3/</Path>
-                  <Path Filename="H_polybar">/home/pcache/dotfiles/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_polybar/</Path>
-                  <Path Filename="polybar">/home/pcache/dotfiles/H_polybar/.config/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_polybar/.config/polybar/</Path>
-                  <Path Filename="polybar">/home/pcache/dotfiles/H_polybar/.config/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_polybar/</Path>
-                  <Path Filename="H_compiz">/home/pcache/dotfiles/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_compiz/</Path>
-                  <Path Filename="compiz">/home/pcache/dotfiles/H_compiz/.config/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_compiz/.config/compiz/</Path>
-                  <Path Filename="compiz">/home/pcache/dotfiles/H_compiz/.config/</Path>
                   <Path Filename=".config">/home/pcache/dotfiles/H_compiz/</Path>
                   <Path Filename="H_hedgewars">/home/pcache/dotfiles/</Path>
                   <Path Filename=".config">/home/pcache/dotfiles/H_hedgewars/</Path>
@@ -178,7 +152,33 @@
                   <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
                   <Path Filename="CHANGELOG.md">/home/pcache/dotfiles/H_dbu/Dropbox-Uploader/</Path>
                   <Path Filename=".dropbox_uploader">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="R_lynx">/home/pcache/dotfiles/</Path>
+                  <Path Filename="home">/home/pcache/dotfiles/R_lynx/</Path>
+                  <Path Filename="pcache">/home/pcache/dotfiles/R_lynx/home/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/home/pcache/</Path>
+                  <Path Filename="pcache">/home/pcache/dotfiles/R_lynx/home/</Path>
+                  <Path Filename="etc">/home/pcache/dotfiles/R_lynx/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/etc/</Path>
+                  <Path Filename="etc">/home/pcache/dotfiles/R_lynx/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/etc/</Path>
+                  <Path Filename="etc">/home/pcache/dotfiles/R_lynx/</Path>
+                  <Path Filename="R_lynx">/home/pcache/dotfiles/</Path>
+                  <Path Filename="etc">/home/pcache/dotfiles/R_lynx/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/etc/</Path>
+                  <Path Filename="home">/home/pcache/dotfiles/R_lynx/</Path>
+                  <Path Filename="pcache">/home/pcache/dotfiles/R_lynx/home/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/home/pcache/</Path>
+                  <Path Filename="pcache">/home/pcache/dotfiles/R_lynx/home/</Path>
+                  <Path Filename="home">/home/pcache/dotfiles/R_lynx/</Path>
                   <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
+                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_dbu/Dropbox-Uploader/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
+                  <Path Filename=".dropbox_uploader">/home/pcache/dotfiles/H_dbu/</Path>
+                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
+                  <Path Filename="timetable.png">/home/pcache/Desktop/</Path>
+                  <Path Filename="">/home/pcache/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -187,79 +187,6 @@
             </ColumnsView>
           </FileView>
         </Tab>
-        <Tab>
-          <FileView Type="columns">
-            <Sortings>
-              <Sorting>
-                <Direction>1</Direction>
-                <Function>0</Function>
-              </Sorting>
-            </Sortings>
-            <History>
-              <Entry Active="True">
-                <FileSource Type="FileSystem"/>
-                <Paths>
-                  <Path Filename="chrome">/home/pcache/Software/firefox/browser/</Path>
-                  <Path Filename="icons">/home/pcache/Software/firefox/browser/chrome/</Path>
-                  <Path Filename="default">/home/pcache/Software/firefox/browser/chrome/icons/</Path>
-                  <Path Filename="default128.png">/home/pcache/Software/firefox/browser/chrome/icons/default/</Path>
-                  <Path Filename="default">/home/pcache/Software/firefox/browser/chrome/icons/</Path>
-                  <Path Filename="icons">/home/pcache/Software/firefox/browser/chrome/</Path>
-                  <Path Filename="chrome">/home/pcache/Software/firefox/browser/</Path>
-                  <Path Filename="browser">/home/pcache/Software/firefox/</Path>
-                  <Path Filename="thunderbird">/home/pcache/Software/</Path>
-                  <Path Filename="chrome">/home/pcache/Software/thunderbird/</Path>
-                  <Path Filename="icons">/home/pcache/Software/thunderbird/chrome/</Path>
-                  <Path Filename="default">/home/pcache/Software/thunderbird/chrome/icons/</Path>
-                  <Path Filename="default48.png">/home/pcache/Software/thunderbird/chrome/icons/default/</Path>
-                  <Path Filename="Aseprite">/home/pcache/.local/share/Steam/steamapps/common/</Path>
-                  <Path Filename="data">/home/pcache/.local/share/Steam/steamapps/common/Aseprite/</Path>
-                  <Path Filename="icons">/home/pcache/.local/share/Steam/steamapps/common/Aseprite/data/</Path>
-                  <Path Filename="ext128.png">/home/pcache/.local/share/Steam/steamapps/common/Aseprite/data/icons/</Path>
-                  <Path Filename="..">/media/pcache/NTFS Storage/Piotr/Libraries/Music/Electronic/</Path>
-                  <Path Filename="..">/media/pcache/</Path>
-                  <Path Filename=".config">/home/pcache/</Path>
-                  <Path Filename="doublecmd">/home/pcache/.config/</Path>
-                  <Path Filename="..">/home/pcache/.config/doublecmd/</Path>
-                  <Path Filename="..">/boot/</Path>
-                  <Path Filename="grubenv">/boot/grub/</Path>
-                  <Path Filename="dev">/</Path>
-                  <Path Filename="..">/home/</Path>
-                  <Path Filename="..">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/Coding/</Path>
-                  <Path Filename="..">/home/pcache/Dropbox/</Path>
-                  <Path Filename="..">/boot/grub/fonts/</Path>
-                  <Path Filename="..">/home/pcache/Documents/</Path>
-                  <Path Filename="..">/home/pcache/Videos/</Path>
-                  <Path Filename="..">/home/pcache/Templates/</Path>
-                  <Path Filename="..">/home/pcache/Pictures/</Path>
-                  <Path Filename="..">/home/pcache/Public/</Path>
-                  <Path Filename="..">/home/pcache/Music/</Path>
-                  <Path Filename="Dropbox-Uploader">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/Documents/</Path>
-                  <Path Filename="..">/media/ntfs1/</Path>
-                  <Path Filename="..">/media/ntfs2/</Path>
-                  <Path Filename="prezentacja.pdf">/home/pcache/Documents/</Path>
-                  <Path Filename="Geometry Dash">/home/pcache/.local/share/Steam/steamapps/common/</Path>
-                  <Path Filename="steam_api.dll">/home/pcache/.local/share/Steam/steamapps/common/Geometry Dash/</Path>
-                  <Path Filename="Geometry Dash">/home/pcache/.local/share/Steam/steamapps/common/</Path>
-                  <Path Filename="Resources">/home/pcache/.local/share/Steam/steamapps/common/Geometry Dash/</Path>
-                  <Path Filename="..">/home/pcache/.local/share/Steam/steamapps/common/Geometry Dash/Resources/</Path>
-                  <Path Filename="zlib1.dll">/home/pcache/.local/share/Steam/steamapps/common/Geometry Dash/</Path>
-                  <Path Filename="Geometry Dash">/home/pcache/.local/share/Steam/steamapps/common/</Path>
-                  <Path Filename="..">/home/pcache/.local/share/Steam/steamapps/</Path>
-                  <Path Filename="ulauncher">/home/pcache/.local/share/</Path>
-                </Paths>
-              </Entry>
-            </History>
-            <ColumnsView>
-              <ColumnsSet>Default</ColumnsSet>
-            </ColumnsView>
-          </FileView>
-        </Tab>
-      </Left>
-      <Right>
-        <ActiveTab>0</ActiveTab>
         <Tab>
           <FileView Type="columns">
             <Sortings>
@@ -272,46 +199,79 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="compiz">/home/pcache/.config/</Path>
-                  <Path Filename="fusion-icon">/home/pcache/.config/compiz/</Path>
-                  <Path Filename="compiz">/home/pcache/.config/</Path>
-                  <Path Filename="fusion-icon">/home/pcache/.config/compiz/</Path>
-                  <Path Filename="cordless">/home/pcache/.config/</Path>
-                  <Path Filename="config.json">/home/pcache/.config/cordless/</Path>
-                  <Path Filename="dconf">/home/pcache/.config/</Path>
-                  <Path Filename="user">/home/pcache/.config/dconf/</Path>
-                  <Path Filename="Simplenote">/home/pcache/.config/</Path>
-                  <Path Filename="Cookies-journal">/home/pcache/.config/Simplenote/</Path>
-                  <Path Filename="yay">/home/pcache/.config/</Path>
-                  <Path Filename="..">/home/pcache/.config/yay/</Path>
-                  <Path Filename="xfce4">/home/pcache/.config/</Path>
-                  <Path Filename="panel">/home/pcache/.config/xfce4/</Path>
-                  <Path Filename="catfish">/home/pcache/.config/</Path>
-                  <Path Filename="..">/home/pcache/.config/catfish/</Path>
-                  <Path Filename="catfish">/home/pcache/.config/</Path>
-                  <Path Filename=".conky">/home/pcache/</Path>
-                  <Path Filename=".themepacks">/home/pcache/.conky/</Path>
-                  <Path Filename=".emerald">/home/pcache/</Path>
-                  <Path Filename="themes">/home/pcache/.emerald/</Path>
-                  <Path Filename="Untitled Theme">/home/pcache/.emerald/themes/</Path>
-                  <Path Filename="buttons.close.png">/home/pcache/.emerald/themes/Untitled Theme/</Path>
-                  <Path Filename="Untitled Theme">/home/pcache/.emerald/themes/</Path>
-                  <Path Filename="theme">/home/pcache/.emerald/</Path>
-                  <Path Filename="buttons.glow.png">/home/pcache/.emerald/theme/</Path>
-                  <Path Filename="theme">/home/pcache/.emerald/</Path>
-                  <Path Filename="go">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/go/</Path>
-                  <Path Filename=".hedgewars">/home/pcache/</Path>
-                  <Path Filename="settings.ini">/home/pcache/.hedgewars/</Path>
-                  <Path Filename=".hedgewars">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/.hedgewars/</Path>
-                  <Path Filename=".hedgewars">/home/pcache/</Path>
-                  <Path Filename="Videos">/home/pcache/.hedgewars/</Path>
-                  <Path Filename="..">/home/pcache/.hedgewars/Videos/</Path>
-                  <Path Filename="Logs">/home/pcache/.hedgewars/</Path>
-                  <Path Filename="..">/home/pcache/.hedgewars/Logs/</Path>
-                  <Path Filename="Schemes">/home/pcache/.hedgewars/</Path>
-                  <Path Filename="..">/home/pcache/.hedgewars/Schemes/</Path>
+                  <Path Filename="Videos">/home/pcache/</Path>
+                  <Path Filename="ram-s4-1.mp4">/home/pcache/Videos/</Path>
+                  <Path Filename="Videos">/home/pcache/</Path>
+                  <Path Filename="..">/home/pcache/Music/</Path>
+                  <Path Filename="..">/home/pcache/</Path>
+                  <Path Filename="pcache">/home/</Path>
+                  <Path Filename="Music">/home/pcache/</Path>
+                  <Path Filename="pcache">/home/</Path>
+                  <Path Filename=".pki">/home/pcache/</Path>
+                  <Path Filename="Creative Commons">/home/pcache/Music/</Path>
+                  <Path Filename="Music">/home/pcache/</Path>
+                  <Path Filename="..">/home/pcache/Music/</Path>
+                  <Path Filename="Music">/home/pcache/</Path>
+                  <Path Filename="Music">/home/pcache/Music/</Path>
+                  <Path Filename="Electronic">/home/pcache/Music/Music/</Path>
+                  <Path Filename="..">/home/pcache/Music/Music/Electronic/</Path>
+                  <Path Filename="..">/home/pcache/Music/Music/</Path>
+                  <Path Filename="Music">/home/pcache/Music/</Path>
+                  <Path Filename="Classics">/home/pcache/Music/Music/</Path>
+                  <Path Filename="AlbumArt_{B5020207-474E-4720-90B2-E22F819C2D00}_Small.jpg">/home/pcache/Music/Music/Classics/</Path>
+                  <Path Filename="Miscellaneous">/home/pcache/Music/Music/</Path>
+                  <Path Filename="Music">/home/pcache/Music/</Path>
+                  <Path Filename="..">/home/pcache/Music/Music/</Path>
+                  <Path Filename="Music">/home/pcache/Music/</Path>
+                  <Path Filename="Music">/home/pcache/</Path>
+                  <Path Filename="Music">/home/pcache/Music/</Path>
+                  <Path Filename="Anime">/home/pcache/Music/Music/</Path>
+                  <Path Filename="..">/home/pcache/Music/Music/Anime/</Path>
+                  <Path Filename="..">/home/pcache/Music/Music/</Path>
+                  <Path Filename="Jean Jacques Burnel - Desire.mp3">/home/pcache/Music/</Path>
+                  <Path Filename=".bashrc">/home/pcache/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="bin">/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                </Paths>
+              </Entry>
+            </History>
+            <ColumnsView>
+              <ColumnsSet>Default</ColumnsSet>
+            </ColumnsView>
+          </FileView>
+        </Tab>
+      </Left>
+      <Right>
+        <ActiveTab>1</ActiveTab>
+        <Tab>
+          <FileView Type="columns">
+            <Sortings>
+              <Sorting>
+                <Direction>1</Direction>
+                <Function>12</Function>
+              </Sorting>
+            </Sortings>
+            <History>
+              <Entry Active="True">
+                <FileSource Type="FileSystem"/>
+                <Paths>
                   <Path Filename="Schemes">/home/pcache/.hedgewars/</Path>
                   <Path Filename=".local">/home/pcache/</Path>
                   <Path Filename="share">/home/pcache/.local/</Path>
@@ -321,7 +281,47 @@
                   <Path Filename="..">/home/pcache/.fltk/</Path>
                   <Path Filename=".mono">/home/pcache/</Path>
                   <Path Filename="..">/home/pcache/.mono/</Path>
-                  <Path Filename=".mono">/home/pcache/</Path>
+                  <Path Filename="lynx_bookmarks.html">/home/pcache/</Path>
+                  <Path Filename="pcache">/home/</Path>
+                  <Path Filename="..">/home/pcache/</Path>
+                  <Path Filename="pcache">/home/</Path>
+                  <Path Filename="dotfiles">/home/pcache/</Path>
+                  <Path Filename="H_qtcreator">/home/pcache/dotfiles/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_qtcreator/</Path>
+                  <Path Filename="QtProject">/home/pcache/dotfiles/H_qtcreator/.config/</Path>
+                  <Path Filename="qtcreator">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/qtcreator/</Path>
+                  <Path Filename="qtcreator">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/qtcreator/</Path>
+                  <Path Filename="QtCreator.ini">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
+                  <Path Filename=".config">/home/pcache/</Path>
+                  <Path Filename="compiz">/home/pcache/.config/</Path>
+                  <Path Filename="..">/home/pcache/.config/compiz/</Path>
+                  <Path Filename="compiz">/home/pcache/.config/</Path>
+                  <Path Filename="fusion-icon">/home/pcache/.config/compiz/</Path>
+                  <Path Filename="compiz-1">/home/pcache/.config/</Path>
+                  <Path Filename="compizconfig">/home/pcache/.config/compiz-1/</Path>
+                  <Path Filename="Default.ini">/home/pcache/.config/compiz-1/compizconfig/</Path>
+                  <Path Filename="compizconfig">/home/pcache/.config/compiz-1/</Path>
+                  <Path Filename="compiz-1">/home/pcache/.config/</Path>
+                  <Path Filename=".config">/home/pcache/</Path>
+                  <Path Filename="doublecmd">/home/pcache/.config/</Path>
+                  <Path Filename="shortcuts.scf">/home/pcache/.config/doublecmd/</Path>
+                  <Path Filename="ulauncher">/home/pcache/.config/</Path>
+                  <Path Filename=".hedgewars">/home/pcache/</Path>
+                  <Path Filename="settings.ini">/home/pcache/.hedgewars/</Path>
+                  <Path Filename=".hedgewars">/home/pcache/</Path>
+                  <Path Filename="pcache">/home/</Path>
+                  <Path Filename=".config">/home/pcache/</Path>
+                  <Path Filename="KeePass">/home/pcache/.config/</Path>
+                  <Path Filename="KeePass.config.xml">/home/pcache/.config/KeePass/</Path>
+                  <Path Filename="QtProject">/home/pcache/.config/</Path>
+                  <Path Filename="QtCreator.ini">/home/pcache/.config/QtProject/</Path>
+                  <Path Filename="QtProject">/home/pcache/.config/</Path>
+                  <Path Filename=".config">/home/pcache/</Path>
+                  <Path Filename="pcache">/home/</Path>
+                  <Path Filename=".xsession-errors">/home/pcache/</Path>
+                  <Path Filename="">/boot/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -335,63 +335,63 @@
             <Sortings>
               <Sorting>
                 <Direction>1</Direction>
-                <Function>1</Function>
+                <Function>12</Function>
               </Sorting>
             </Sortings>
             <History>
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="..">/media/ntfs2/</Path>
-                  <Path Filename="..">/media/ntfs1/</Path>
-                  <Path Filename="media">/</Path>
-                  <Path Filename="..">/media/ntfs2/</Path>
-                  <Path Filename="..">/media/ntfs1/</Path>
-                  <Path Filename="..">/media/ntfs2/</Path>
-                  <Path Filename="QtCreator">/home/pcache/Coding/</Path>
-                  <Path Filename="..">/home/pcache/Coding/QtCreator/</Path>
-                  <Path Filename="qtext">/home/pcache/Coding/</Path>
-                  <Path Filename="qtext.pro.user.3e1ac3d.20">/home/pcache/Coding/qtext/</Path>
-                  <Path Filename="..">/home/pcache/Videos/</Path>
-                  <Path Filename="Piotr">/media/ntfs2/</Path>
-                  <Path Filename="Libraries">/media/ntfs2/Piotr/</Path>
-                  <Path Filename="Videos">/media/ntfs2/Piotr/Libraries/</Path>
-                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Videos/</Path>
-                  <Path Filename="Videos">/media/ntfs2/Piotr/Libraries/</Path>
-                  <Path Filename="Finalized Videos">/media/ntfs2/Piotr/Libraries/Videos/</Path>
-                  <Path Filename="Geometry Dash">/media/ntfs2/Piotr/Libraries/Videos/Finalized Videos/</Path>
-                  <Path Filename="Starlight Fury Drop.mp4">/media/ntfs2/Piotr/Libraries/Videos/Finalized Videos/Geometry Dash/</Path>
-                  <Path Filename=".vim">/home/pcache/</Path>
-                  <Path Filename="plugged">/home/pcache/.vim/</Path>
-                  <Path Filename="vim-smooth-scroll">/home/pcache/.vim/plugged/</Path>
-                  <Path Filename="plugin">/home/pcache/.vim/plugged/vim-smooth-scroll/</Path>
-                  <Path Filename="smooth_scroll.vim">/home/pcache/.vim/plugged/vim-smooth-scroll/plugin/</Path>
-                  <Path Filename="plugin">/home/pcache/.vim/plugged/vim-smooth-scroll/</Path>
-                  <Path Filename="vim-smooth-scroll">/home/pcache/.vim/plugged/</Path>
-                  <Path Filename="view">/home/pcache/.vim/</Path>
-                  <Path Filename="etc">/</Path>
-                  <Path Filename="..">/media/ntfs1/</Path>
-                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Videos/Finalized Videos/Geometry Dash/</Path>
-                  <Path Filename="..">/media/ntfs1/</Path>
-                  <Path Filename="..">/media/ntfs2/Piotr/Libraries/Videos/Finalized Videos/Geometry Dash/</Path>
-                  <Path Filename="..">/media/ntfs2/</Path>
-                  <Path Filename="..">/media/ntfs1/</Path>
-                  <Path Filename="Piotr">/media/ntfs2/</Path>
-                  <Path Filename="Libraries">/media/ntfs2/Piotr/</Path>
-                  <Path Filename="Software">/media/ntfs2/Piotr/Libraries/</Path>
-                  <Path Filename="Steam">/media/ntfs2/Piotr/Libraries/Software/</Path>
-                  <Path Filename="steamapps">/media/ntfs2/Piotr/Libraries/Software/Steam/</Path>
-                  <Path Filename="common">/media/ntfs2/Piotr/Libraries/Software/Steam/steamapps/</Path>
-                  <Path Filename="Geometry Dash">/media/ntfs2/Piotr/Libraries/Software/Steam/steamapps/common/</Path>
-                  <Path Filename="zlib1.dll">/media/ntfs2/Piotr/Libraries/Software/Steam/steamapps/common/Geometry Dash/</Path>
-                  <Path Filename="Users">/media/ntfs1/</Path>
-                  <Path Filename="Piotr">/media/ntfs1/Users/</Path>
-                  <Path Filename="AppData">/media/ntfs1/Users/Piotr/</Path>
-                  <Path Filename="Local">/media/ntfs1/Users/Piotr/AppData/</Path>
-                  <Path Filename="GeometryDash">/media/ntfs1/Users/Piotr/AppData/Local/</Path>
-                  <Path Filename="407642.mp3">/media/ntfs1/Users/Piotr/AppData/Local/GeometryDash/</Path>
-                  <Path Filename="..">/etc/init.d/</Path>
-                  <Path Filename="">/etc/</Path>
+                  <Path Filename="H_qtcreator">/home/pcache/dotfiles/</Path>
+                  <Path Filename=".config">/home/pcache/dotfiles/H_qtcreator/</Path>
+                  <Path Filename="QtProject">/home/pcache/dotfiles/H_qtcreator/.config/</Path>
+                  <Path Filename="qtcreator">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/qtcreator/</Path>
+                  <Path Filename="qtcreator">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
+                  <Path Filename="..">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/qtcreator/</Path>
+                  <Path Filename="QtCreator.ini">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
+                  <Path Filename=".config">/home/pcache/</Path>
+                  <Path Filename="compiz">/home/pcache/.config/</Path>
+                  <Path Filename="..">/home/pcache/.config/compiz/</Path>
+                  <Path Filename="compiz">/home/pcache/.config/</Path>
+                  <Path Filename="fusion-icon">/home/pcache/.config/compiz/</Path>
+                  <Path Filename="compiz-1">/home/pcache/.config/</Path>
+                  <Path Filename="compizconfig">/home/pcache/.config/compiz-1/</Path>
+                  <Path Filename="Default.ini">/home/pcache/.config/compiz-1/compizconfig/</Path>
+                  <Path Filename="compizconfig">/home/pcache/.config/compiz-1/</Path>
+                  <Path Filename="compiz-1">/home/pcache/.config/</Path>
+                  <Path Filename=".config">/home/pcache/</Path>
+                  <Path Filename="doublecmd">/home/pcache/.config/</Path>
+                  <Path Filename="shortcuts.scf">/home/pcache/.config/doublecmd/</Path>
+                  <Path Filename="ulauncher">/home/pcache/.config/</Path>
+                  <Path Filename=".hedgewars">/home/pcache/</Path>
+                  <Path Filename="settings.ini">/home/pcache/.hedgewars/</Path>
+                  <Path Filename=".hedgewars">/home/pcache/</Path>
+                  <Path Filename="pcache">/home/</Path>
+                  <Path Filename=".config">/home/pcache/</Path>
+                  <Path Filename="KeePass">/home/pcache/.config/</Path>
+                  <Path Filename="KeePass.config.xml">/home/pcache/.config/KeePass/</Path>
+                  <Path Filename="gconf">/home/pcache/.config/</Path>
+                  <Path Filename="..">/mnt/deb/home/pcache/Desktop/</Path>
+                  <Path Filename=".config">/mnt/deb/home/pcache/</Path>
+                  <Path Filename="QtProject">/mnt/deb/home/pcache/.config/</Path>
+                  <Path Filename="QtCreator.ini">/mnt/deb/home/pcache/.config/QtProject/</Path>
+                  <Path Filename="..">/mnt/deb/home/pcache/.config/</Path>
+                  <Path Filename=".tmux.conf">/mnt/deb/home/pcache/</Path>
+                  <Path Filename="..">/mnt/deb/</Path>
+                  <Path Filename="deb">/mnt/</Path>
+                  <Path Filename="home">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/</Path>
+                  <Path Filename="pcache">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/home/</Path>
+                  <Path Filename="Coding">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/home/pcache/</Path>
+                  <Path Filename="..">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/home/pcache/Coding/</Path>
+                  <Path Filename="Videos">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/home/pcache/</Path>
+                  <Path Filename="..">/run/media/</Path>
+                  <Path Filename="mnt">/</Path>
+                  <Path Filename="ntfs2">/mnt/</Path>
+                  <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/ntfs2/</Path>
+                  <Path Filename="..">/mnt/</Path>
+                  <Path Filename="..">/home/pcache/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -594,10 +594,10 @@
       <IconSize>16</IconSize>
       <ReportErrorWithCommands>False</ReportErrorWithCommands>
     </ButtonBar>
-    <DriveBar1>True</DriveBar1>
+    <DriveBar1>False</DriveBar1>
     <DriveBar2>True</DriveBar2>
     <DriveBarFlat>True</DriveBarFlat>
-    <DrivesListButton Enabled="False">
+    <DrivesListButton Enabled="True">
       <ShowLabel>True</ShowLabel>
       <ShowFileSystem>True</ShowFileSystem>
       <ShowFreeSpace>True</ShowFreeSpace>
@@ -613,11 +613,11 @@
     <KeyButtons>False</KeyButtons>
     <InterfaceFlat>True</InterfaceFlat>
     <DriveFreeSpace>True</DriveFreeSpace>
-    <DriveIndicator>False</DriveIndicator>
+    <DriveIndicator>True</DriveIndicator>
     <ProgressInMenuBar>True</ProgressInMenuBar>
     <PanelOfOperationsInBackground>True</PanelOfOperationsInBackground>
     <HorizontalFilePanels>False</HorizontalFilePanels>
-    <ShortFormatDriveInfo>True</ShortFormatDriveInfo>
+    <ShortFormatDriveInfo>False</ShortFormatDriveInfo>
   </Layout>
   <FilesViews>
     <Sorting>

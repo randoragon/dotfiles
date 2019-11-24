@@ -78,6 +78,10 @@
     Mod2+Mod4 + End
 "mpc --port=6601 prev"
     Mod2+Mod4 + Delete
+"amixer set Master 5%+"
+    Mod2+Mod4 + Prior
+"amixer set Master 5%-"
+    Mod2+Mod4 + Next
 
 # set directly keycode (here control + f with my keyboard)
 #"xterm"

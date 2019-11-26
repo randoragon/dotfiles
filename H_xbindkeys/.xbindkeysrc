@@ -52,6 +52,10 @@
     control + space
 "i3lock -c 0A0A0A"
     control+alt + l
+"xfce4-terminal -e ncmpcpp"
+    control+alt + m
+"xfce4-terminal -e vim"
+    control+alt + v
 
 # Xfce4 Settings
 "xfce4-terminal"

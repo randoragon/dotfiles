@@ -44,6 +44,8 @@
     control+shift+alt + w
 "doublecmd"
     control+alt + e
+"xfce4-terminal -e 'sudo doublecmd'"
+    control+shift+alt + e
 "firefox"
     control+alt + b
 "peek"

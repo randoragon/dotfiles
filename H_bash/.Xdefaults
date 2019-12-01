@@ -118,8 +118,13 @@ URxvt*shading: 20
 URxvt*saveLines: 12000
 URxvt*foreground: White
 URxvt*background: Black
-URxvt*font: xft:DejaVu Sans Mono:pixelsize=12:antialias=true:hinting=true
-URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=12:antialias=true:hinting=true
+URxvt*font: xft:DejaVu Sans Mono:pixelsize=14:antialias=true:hinting=true, \
+            xft:Inconsolata-Regular, \
+            xft:Unifont
+URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=14:antialias=true:hinting=true, \
+                xft:Inconsolata-Bold, \
+                xft:Unifont
+URxvt*letterSpace: 0
 URxvt*color4: RoyalBlue
 URxvt*color12: RoyalBlue
 ! Source: (https://unix.stackexchange.com/a/46376)

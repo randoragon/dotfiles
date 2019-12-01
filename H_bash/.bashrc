@@ -410,8 +410,10 @@ PROMPT_COMMAND=bash_prompt_command
 bash_prompt
 unset bash_prompt
 
-
+# ALIASES
 alias ls='ls --color=auto'
+alias setkblayoutpl='setxkbmap -layout pl'
+alias setlangus='LANG=en_US.utf8 && LC_ALL="en_US.utf8"'
 
 ### EOF ###
 

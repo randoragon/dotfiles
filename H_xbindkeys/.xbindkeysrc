@@ -50,8 +50,6 @@
     control+alt + b
 "peek"
     control+shift + Print
-"ulauncher"
-    control + space
 "i3lock -c 0A0A0A"
     control+alt + l
 "xfce4-terminal -e ncmpcpp"

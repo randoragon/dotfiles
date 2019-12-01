@@ -417,4 +417,3 @@ alias setlangus='LANG=en_US.utf8 && LC_ALL="en_US.utf8"'
 export TERM=termite
 
 ### EOF ###
-

@@ -165,6 +165,7 @@ gaps inner 0
 gaps outer 0
 
 # Startup Applications
+exec_always --no-startup-id picom
 exec_always --no-startup-id feh --bg-fill ~/Pictures/background.png
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id nm-applet

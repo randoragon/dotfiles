@@ -46,6 +46,10 @@
     control+alt + e
 "gksudo doublecmd"
     control+shift+alt + e
+"thunar"
+    control+alt + r
+"gksudo thunar"
+    control+shift+alt + r
 "firefox"
     control+alt + b
 "peek"
@@ -86,6 +90,8 @@
     Mod2+Mod4 + Prior
 "amixer set Master 5%-"
     Mod2+Mod4 + Next
+"xmodmap ~/.Xmodmap"
+    control+shift+alt + m
 
 # set directly keycode (here control + f with my keyboard)
 #"xterm"

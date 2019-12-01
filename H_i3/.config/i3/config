@@ -171,6 +171,8 @@ exec_always --no-startup-id nm-applet
 exec_always --no-startup-id xfce4-power-manager
 exec_always --no-startup-id mpd
 exec_always --no-startup-id xbindkeys
+exec_always --no-startup-id redshift-gtk
+exec_always --no-startup-id discord
 
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad

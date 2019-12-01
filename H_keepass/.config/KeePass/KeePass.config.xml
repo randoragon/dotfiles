@@ -14,7 +14,13 @@
 		</LastUsedFile>
 		<MostRecentlyUsed>
 			<MaxItemCount>12</MaxItemCount>
-			<Items />
+			<Items>
+				<ConnectionInfo>
+					<Path>../../../home/pcache/***REMOVED***</Path>
+					<CredProtMode>Obf</CredProtMode>
+					<CredSaveMode>NoSave</CredSaveMode>
+				</ConnectionInfo>
+			</Items>
 		</MostRecentlyUsed>
 		<WorkingDirectories>
 			<Item>Database@../../../home/pcache/Dropbox</Item>
@@ -32,12 +38,12 @@
 	</Application>
 	<Logging />
 	<MainWindow>
-		<X>-16381</X>
-		<Y>-16381</Y>
-		<Width>-16381</Width>
-		<Height>-16381</Height>
-		<SplitterHorizontalFrac>4.94065645841247E-324</SplitterHorizontalFrac>
-		<SplitterVerticalFrac>4.94065645841247E-324</SplitterVerticalFrac>
+		<X>467</X>
+		<Y>171</Y>
+		<Width>989</Width>
+		<Height>737</Height>
+		<SplitterHorizontalFrac>0.8333</SplitterHorizontalFrac>
+		<SplitterVerticalFrac>0.25</SplitterVerticalFrac>
 		<CloseButtonMinimizesWindow>true</CloseButtonMinimizesWindow>
 		<MinimizeToTray>true</MinimizeToTray>
 		<ToolBar />
@@ -66,6 +72,7 @@
 				<Width>138</Width>
 			</Column>
 		</EntryListColumnCollection>
+		<EntryListColumnDisplayOrder>0 1 2 3 4</EntryListColumnDisplayOrder>
 		<ListSorting>
 			<Order>Ascending</Order>
 		</ListSorting>

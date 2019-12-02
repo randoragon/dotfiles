@@ -130,8 +130,8 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# exit i3 (logs you out of your X session) (REPLACED BY "Logout Options")
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -164,7 +164,18 @@ bindsym $mod+r mode "resize"
 gaps inner 0
 gaps outer 0
 
-# Startup Applications
+# Logout Options (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)
+mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
+  bindsym l exec i3-msg exit
+  bindsym r exec systemctl reboot
+  bindsym p exec systemctl shutdown
+  bindsym s mode "default", exec systemctl suspend
+  bindsym Escape mode "default"
+  bindsym Return mode "default"
+}
+bindsym $mod+Shift+e mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff"
+
+# Startup Essentials
 exec_always --no-startup-id picom
 exec_always --no-startup-id feh --bg-fill ~/Pictures/background.png
 exec_always --no-startup-id ~/.config/polybar/launch.sh
@@ -173,10 +184,29 @@ exec_always --no-startup-id xfce4-power-manager
 exec_always --no-startup-id mpd
 exec_always --no-startup-id xbindkeys
 exec_always --no-startup-id ~/.config/redshift/launch.sh
-exec_always --no-startup-id discord
+
+# ScratchPad Applications
+exec i3-sensible-terminal --class scratch-term
+for_window [class="scratch-term"] floating enable, move to scratchpad, resize set 1000 650
+bindsym $mod+p [class="scratch-term"] scratchpad show
+exec i3-sensible-terminal --class scratch-music -e ncmpcpp
+for_window [class="scratch-music"] floating enable, move to scratchpad, resize set 1000 650
+bindsym $mod+m [class="scratch-music"] scratchpad show
+bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp, [class="scratch-music"] floating enable
+exec thunderbird
+for_window [class="Thunderbird"] floating enable, move to scratchpad, resize set 1650 1040
+bindsym $mod+t [class="Thunderbird"] scratchpad show
+exec firefox
+for_window [class="firefox"] move to scratchpad, resize set 1650 1040
+bindsym $mod+b [class="firefox"] scratchpad show
+exec discord
+for_window [class="discord"] move to scratchpad, resize set 1920 1040
+bindsym $mod+d [class="discord"] scratchpad show
 
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
-bindsym $mod+d exec dmenu_run
+bindsym Ctrl+space exec dmenu_run
 bindsym $mod+Return exec i3-sensible-terminal
+# Source: (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)
+bindsym $mod+c exec "~/.config/i3/i3-plus smart_center 1000x650,1650x950,1920x1040"

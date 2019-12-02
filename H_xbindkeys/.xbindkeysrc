@@ -56,13 +56,13 @@
     control+shift + Print
 "i3lock -c 0A0A0A"
     control+alt + l
-"xfce4-terminal -e ncmpcpp"
+"termite -e ncmpcpp"
     control+alt + m
-"xfce4-terminal -e vim"
+"termite -e vim"
     control+alt + v
 
 # Xfce4 Settings
-"xfce4-terminal"
+"termite --class=floating"
     control+alt + t
 "xfce4-screenshooter -r -s /home/pcache/Pictures/Screenshots"
     Print

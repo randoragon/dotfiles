@@ -38,10 +38,10 @@
 	</Application>
 	<Logging />
 	<MainWindow>
-		<X>467</X>
-		<Y>171</Y>
-		<Width>989</Width>
-		<Height>737</Height>
+		<X>435</X>
+		<Y>697</Y>
+		<Width>1004</Width>
+		<Height>657</Height>
 		<SplitterHorizontalFrac>0.8333</SplitterHorizontalFrac>
 		<SplitterVerticalFrac>0.25</SplitterVerticalFrac>
 		<CloseButtonMinimizesWindow>true</CloseButtonMinimizesWindow>
@@ -74,6 +74,7 @@
 		</EntryListColumnCollection>
 		<EntryListColumnDisplayOrder>0 1 2 3 4</EntryListColumnDisplayOrder>
 		<ListSorting>
+			<Column>1</Column>
 			<Order>Ascending</Order>
 		</ListSorting>
 	</MainWindow>
@@ -137,7 +138,7 @@
 		<UserProfiles />
 	</PasswordGenerator>
 	<Defaults>
-		<OptionsTabIndex>4</OptionsTabIndex>
+		<OptionsTabIndex>0</OptionsTabIndex>
 		<SearchParameters>
 			<ComparisonMode>InvariantCultureIgnoreCase</ComparisonMode>
 		</SearchParameters>

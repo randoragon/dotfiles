@@ -180,19 +180,21 @@ exec_always --no-startup-id picom
 exec_always --no-startup-id feh --bg-fill ~/Pictures/background.png
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id nm-applet
-exec_always --no-startup-id xfce4-power-manager
-exec_always --no-startup-id mpd
 exec_always --no-startup-id xbindkeys
+exec_always --no-startup-id xfce4-power-manager
 exec_always --no-startup-id ~/.config/redshift/launch.sh
+exec_always --no-startup-id dropbox
+exec_always --no-startup-id mpd
 
 # ScratchPad Applications
 exec i3-sensible-terminal --class scratch-term
 for_window [class="scratch-term"] floating enable, move to scratchpad, resize set 1000 650
 bindsym $mod+p [class="scratch-term"] scratchpad show
+bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term
 exec i3-sensible-terminal --class scratch-music -e ncmpcpp
 for_window [class="scratch-music"] floating enable, move to scratchpad, resize set 1000 650
 bindsym $mod+m [class="scratch-music"] scratchpad show
-bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp, [class="scratch-music"] floating enable
+bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp
 exec thunderbird
 for_window [class="Thunderbird"] floating enable, move to scratchpad, resize set 1650 1040
 bindsym $mod+t [class="Thunderbird"] scratchpad show
@@ -202,10 +204,14 @@ bindsym $mod+b [class="firefox"] scratchpad show
 exec discord
 for_window [class="discord"] move to scratchpad, resize set 1920 1040
 bindsym $mod+d [class="discord"] scratchpad show
+exec keepassxc
+for_window [class="KeePassXC"] floating enable, move to scratchpad, resize set 1000 650
+bindsym $mod+o [class="KeePassXC"] scratchpad show
 
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+plus [floating] move scratchpad
 bindsym Ctrl+space exec dmenu_run
 bindsym $mod+Return exec i3-sensible-terminal
 # Source: (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)

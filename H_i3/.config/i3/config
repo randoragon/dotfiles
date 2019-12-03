@@ -166,9 +166,9 @@ gaps outer 0
 
 # Logout Options (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)
 mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
-  bindsym l exec i3-msg exit
-  bindsym r exec systemctl reboot
-  bindsym p exec systemctl shutdown
+  bindsym l mode "default", exec i3-msg exit
+  bindsym r mode "default", exec systemctl reboot
+  bindsym p mode "default", exec systemctl poweroff
   bindsym s mode "default", exec systemctl suspend
   bindsym Escape mode "default"
   bindsym Return mode "default"
@@ -191,28 +191,40 @@ exec i3-sensible-terminal --class scratch-term
 for_window [class="scratch-term"] floating enable, move to scratchpad, resize set 1000 650
 bindsym $mod+p [class="scratch-term"] scratchpad show
 bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term
+
 exec i3-sensible-terminal --class scratch-music -e ncmpcpp
 for_window [class="scratch-music"] floating enable, move to scratchpad, resize set 1000 650
 bindsym $mod+m [class="scratch-music"] scratchpad show
 bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp
+
 exec thunderbird
-for_window [class="Thunderbird"] floating enable, move to scratchpad, resize set 1650 1040
-bindsym $mod+t [class="Thunderbird"] scratchpad show
+for_window [class="(T|t)hunderbird"] floating enable, move to scratchpad, resize set 1650 1040
+bindsym $mod+t [class="(T|t)hunderbird"] scratchpad show
+bindsym $mod+Shift+t exec thunderbird
+
 exec firefox
-for_window [class="firefox"] move to scratchpad, resize set 1650 1040
-bindsym $mod+b [class="firefox"] scratchpad show
+for_window [class="(F|f)irefox"] move to scratchpad, resize set 1650 1040
+bindsym $mod+b [class="(F|f)irefox"] scratchpad show
+bindsym $mod+Shift+b exec firefox
+
 exec discord
-for_window [class="discord"] move to scratchpad, resize set 1920 1040
-bindsym $mod+d [class="discord"] scratchpad show
+for_window [class="(D|d)iscord"] move to scratchpad, resize set 1920 1040
+bindsym $mod+d [class="(D|d)iscord"] scratchpad show
+bindsym $mod+Shift+d exec discord
+
 exec keepassxc
-for_window [class="KeePassXC"] floating enable, move to scratchpad, resize set 1000 650
-bindsym $mod+o [class="KeePassXC"] scratchpad show
+for_window [class="(K|k)ee(P|p)ass(X|x)(C|c)"] floating enable, move to scratchpad, resize set 1000 650
+bindsym $mod+o [class="(K|k)ee(P|p)ass(X|x)(C|c)"] scratchpad show
+bindsym $mod+Shift+o exec keepassxc
 
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 bindsym $mod+Shift+plus [floating] move scratchpad
-bindsym Ctrl+space exec dmenu_run
+#bindsym Ctrl+space exec dmenu_run
+bindsym Ctrl+space exec "rofi -show drun -modi drun,run,ssh -show-icons -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi"
 bindsym $mod+Return exec i3-sensible-terminal
 # Source: (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)
 bindsym $mod+c exec "~/.config/i3/i3-plus smart_center 1000x650,1650x950,1920x1040"
+bindsym $mod+plus exec rofi -show calc -modi "calc:qalc +u8" -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi
+bindsym $mod+Tab exec "rofi -show window -modi window -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi"

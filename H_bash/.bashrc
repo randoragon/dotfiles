@@ -246,7 +246,7 @@ bash_prompt() {
 	esac
 
     # BASH PROMT (generate promt and remove format from the rest)
-	PS1="$TITLEBAR\n${PROMT_USER}${SEPARATOR_1}${PROMT_HOST}${SEPARATOR_2}${PROMT_PWD}${SEPARATOR_3}${PROMT_INPUT}"
+	PS1="${PROMT_USER}${SEPARATOR_1}${PROMT_HOST}${SEPARATOR_2}${PROMT_PWD}${SEPARATOR_3}${PROMT_INPUT}"
 
 	## For terminal line coloring, leaving the rest standard
 	none="$(tput sgr0)"
@@ -275,6 +275,13 @@ unset bash_prompt
 
 ###-----------------------------MY-CONFIGURATION-----------------------------###
 
+################################################################################
+##  LOCALE                                                                   ##
+################################################################################
+
+setxkbmap -layout pl
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 ################################################################################
 ##  ALIASES                                                                   ##
@@ -282,7 +289,7 @@ unset bash_prompt
 
 alias ls='ls --color=auto'
 alias setkblayoutpl='setxkbmap -layout pl'
-alias setlangus='LANG=en_US.utf8 && LC_ALL="en_US.utf8"'
+alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
 
 
 ################################################################################

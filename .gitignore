@@ -1,0 +1,13 @@
+# Files created automatically by programs
+
+H_doublecmd/**/history.xml
+H_doublecmd/**/multiarc.ini
+H_doublecmd/**/pixmaps.cache
+H_doublecmd/**/pixmaps.txt
+H_doublecmd/**/session.ini
+
+H_mpd/**/mpd.db
+H_mpd/**/mpd.log
+H_mpd/**/mpd.pid
+H_mpd/**/mpdstate
+

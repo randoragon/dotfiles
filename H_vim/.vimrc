@@ -62,6 +62,7 @@ let g:AutoPairsShortcutToggle='<Leader>0'
 " Basic Settings {{{1
 filetype plugin indent on
 syntax on
+set encoding=utf-8
 set nocompatible
 set nowrap
 set number

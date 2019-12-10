@@ -199,16 +199,6 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="Videos">/home/pcache/</Path>
-                  <Path Filename="ram-s4-1.mp4">/home/pcache/Videos/</Path>
-                  <Path Filename="Videos">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/Music/</Path>
-                  <Path Filename="..">/home/pcache/</Path>
-                  <Path Filename="pcache">/home/</Path>
-                  <Path Filename="Music">/home/pcache/</Path>
-                  <Path Filename="pcache">/home/</Path>
-                  <Path Filename=".pki">/home/pcache/</Path>
-                  <Path Filename="Creative Commons">/home/pcache/Music/</Path>
                   <Path Filename="Music">/home/pcache/</Path>
                   <Path Filename="..">/home/pcache/Music/</Path>
                   <Path Filename="Music">/home/pcache/</Path>
@@ -249,6 +239,16 @@
                   <Path Filename="..">/mnt/ntfs1/</Path>
                   <Path Filename="..">/mnt/ntfs2/</Path>
                   <Path Filename="..">/mnt/ntfs1/</Path>
+                  <Path Filename="..">/mnt/</Path>
+                  <Path Filename=".thunderbird">/home/pcache/Downloads/</Path>
+                  <Path Filename="..">/home/pcache/Downloads/.thunderbird/</Path>
+                  <Path Filename=".thunderbird">/home/pcache/Downloads/</Path>
+                  <Path Filename=".thunderbird">/home/pcache/</Path>
+                  <Path Filename="..">/home/pcache/.thunderbird/</Path>
+                  <Path Filename=".vim">/home/pcache/</Path>
+                  <Path Filename="***REMOVED***">/home/pcache/Documents/</Path>
+                  <Path Filename=".thunderbird">/home/pcache/Downloads/</Path>
+                  <Path Filename="..">/home/pcache/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -412,7 +412,7 @@
     <FolderTabs Save="True"/>
   </Configuration>
   <Language>
-    <POFileName>doublecmd.en.po</POFileName>
+    <POFileName>doublecmd.C.po</POFileName>
   </Language>
   <Behaviours>
     <GoToRoot>False</GoToRoot>

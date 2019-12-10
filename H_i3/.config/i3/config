@@ -176,15 +176,16 @@ mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
 bindsym $mod+Shift+e mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff"
 
 # Startup Essentials
-exec_always --no-startup-id picom
-exec_always --no-startup-id feh --bg-fill ~/Pictures/background.png
-exec_always --no-startup-id ~/.config/polybar/launch.sh
-exec_always --no-startup-id nm-applet
+exec_always picom
+exec feh --bg-fill ~/Pictures/background.png
+exec ~/.config/polybar/launch.sh
+exec nm-applet
 exec_always --no-startup-id xbindkeys
-exec_always --no-startup-id xfce4-power-manager
-exec_always --no-startup-id ~/.config/redshift/launch.sh
-exec_always --no-startup-id dropbox
-exec_always --no-startup-id mpd
+exec xfce4-power-manager
+exec ~/.config/redshift/launch.sh
+exec dropbox
+exec mpd
+exec rescuetime
 
 # ScratchPad Applications
 exec i3-sensible-terminal --class scratch-term

@@ -95,13 +95,13 @@ label-mode-padding = 2
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 ; focused = Active workspace on focused monitor
-label-focused = %index%
+label-focused = %{F#FFB42A}%name%%icon%%{F-}
 label-focused-background = ${colors.background-alt}
 label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
-label-unfocused-padding = 2
+label-unfocused = %name%
+label-unfocused-padding = 1
 ; visible = Active workspace on unfocused monitor
 label-visible = %index%
 label-visible-background = ${self.label-focused-background}
@@ -111,8 +111,9 @@ label-visible-padding = ${self.label-focused-padding}
 label-urgent = %index%
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
-; Separator in between workspaces
-; label-separator = |
+ws-icon-0 = ; Firefox
+ws-icon-1 = ; Thunderbird
+ws-icon-2 = ; Discord
 
 [module/mpd]
 type = internal/mpd

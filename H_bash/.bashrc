@@ -298,10 +298,12 @@ alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
 
 # Defaults
 export TERM=termite
+alias sysupdate='sudo pacman -Syu && yay -Syu && sudo snap refresh'
 
 # GalliumOS (Ubuntu based)
 if [ "$HOSTNAME" = "gallium" ]; then
     export TERM=xterm-termite
+    alias sysupdate='sudo apt update && sudo apt upgrade && sudo snap refresh'
     # enable apt auto-completion (https://askubuntu.com/questions/133086/bash-tab-auto-complete-not-working-for-apt)
     if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
         . /etc/bash_completion

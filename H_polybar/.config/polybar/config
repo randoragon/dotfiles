@@ -43,14 +43,13 @@ padding-left = 0
 padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
-font-0 = dejavu sans:fontformat=truetype:size=10:antialias=true;3
-font-1 = unifont:fontformat=truetype:size=10:antialias=true;3
-font-2 = fixed:pixelsize=10;3
-font-3 = siji:pixelsize=10;3
-font-4 = dejavu sans:fontformat=truetype:size=10:weight=bold:antialias=true;3
-modules-left = bspwm i3 mpd
+font-0 = font awesome 5 free solid:fontformat=truetype:size=11:antialias=true;3
+font-1 = font awesome 5 brands regular:fontformat=truetype:size=11:antialias=true;3
+font-2 = dejavu sans:fontformat=truetype:size=10:antialias=true;3
+font-3 = dejavu sans:fontformat=truetype:size=10:weight=bold:antialias=true;3
+modules-left = bspwm i3 pulseaudio mpd
 modules-center = date
-modules-right = filesystem xbacklight pulseaudio memory cpu temperature wlan eth battery 
+modules-right = filesystem memory cpu temperature wlan eth battery
 tray-position = right
 tray-padding = 2
 ;tray-background = #0063ff
@@ -119,57 +118,59 @@ label-urgent-padding = 2
 type = internal/mpd
 host = 127.0.0.1
 port = 6601
-format-online = %{B#1a1a1a}%{F#c0c070} <toggle>  %{T5}<label-time>%{T-}  <label-song> %{B- F-}
+format-online = %{B#1a1a1a}%{F#c0c070}  <toggle> %{T4}<label-time>%{T-}  <label-song> %{B- F-}
 label-song = %artist% - %title%
 label-time = %elapsed%/%total%
-label-offline = 🎜 mpd is offline
+label-offline =  mpd is offline
 label-song-maxlen = 35
 label-song-ellipsis = true
- icon-play = ⏵
- icon-pause = ⏸
-; icon-stop = ⏹
-; icon-prev = ⏮
-; icon-next = ⏭
-; icon-seekb = ⏪
-; icon-seekf = ⏩
-; icon-random = 🔀
-; icon-repeat = 🔁
-; icon-repeatone = 🔂
-; icon-single = 🔂
-; icon-consume = ✀
-; bar-progress-width = 10
-; bar-progress-indicator = ■
-; bar-progress-fill = ■
-; bar-progress-empty =  
+icon-play = 
+icon-pause = 
+
+[module/filesystem]
+type = internal/fs
+mount-0 = /
+interval = 10
+fixed-values = true
+format-mounted-foreground = #d0b070
+format-unmounted-foreground = ${self.format-mounted-foreground}
+format-mounted = "  <label-mounted>"
+format-unmounted = "  <label-unmounted>"
+label-mounted = %{T4}%free%%{T-} (%percentage_free%%)
+label-unmounted = %{T4}not mounted%{T-}
+spacing = 4
 
 [module/cpu]
 type = internal/cpu
-interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
+interval = 1
+format-prefix = 
+format-prefix-foreground = #944
+format = <label> <ramp-coreload>
 label = %percentage:2%%
+label-foreground = #F99
+ramp-coreload-0 = %{F#22FF66}▁
+ramp-coreload-1 = %{F#44DD55}▂
+ramp-coreload-2 = %{F#66BB44}▃
+ramp-coreload-3 = %{F#889933}▄
+ramp-coreload-4 = %{F#AA6622}▅
+ramp-coreload-5 = %{F#BB4411}▆
+ramp-coreload-6 = %{F#DD2200}▇
+ramp-coreload-7 = %{F#FF0000}█
 
 [module/memory]
 type = internal/memory
-interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
+interval = 1
+format-prefix = " "
+format-prefix-foreground = #377
 label = %percentage_used%%
+label-foreground = #7FF
 
 [module/wlan]
 type = internal/network
-interface = net1
+interface = lo
 interval = 3.0
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #9f78e1
 label-connected = %essid%
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
 ramp-signal-0 = 
 ramp-signal-1 = 
 ramp-signal-2 = 
@@ -180,16 +181,9 @@ ramp-signal-foreground = ${colors.foreground-alt}
 [module/eth]
 type = internal/network
 interface = enp0s31f6
-interval = 3.0
-format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+interval = 1.0
+format-connected = <label-connected>
+label-connected = %{F#482} %{F#AF6}%downspeed%  %{F#268} %{F#7CF}%upspeed%
 
 [module/date]
 type = internal/date
@@ -198,34 +192,23 @@ date-alt = %m/%d/%y
 date = %A, %e %b %Y
 time = %H:%M:%S
 time-alt = %H:%M:%S
-format-prefix = 
+;format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline =
-label = %{T5}%date% %time%%{T-}
+label = %{T4}%date% %time%%{T-}
 
 [module/pulseaudio]
 type = internal/pulseaudio
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL %percentage%%
+format-volume = <ramp-volume> <label-volume>
+label-volume = %percentage%%
 label-volume-foreground = ${root.foreground}
-label-muted = 🔇 muted
+label-muted =  muted
 label-muted-foreground = #666
-bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-foreground = #999
+click-right = pavucontrol &
 
 [module/battery]
 type = internal/battery
@@ -253,19 +236,21 @@ animation-charging-framerate = 750
 
 [module/temperature]
 type = internal/temperature
+interval = 1
 thermal-zone = 0
-warn-temperature = 60
+base-temperature = 30
+warn-temperature = 80
 format = <ramp> <label>
-format-underline =
-format-warn = <ramp> <label-warn>
-format-warn-underline = #ff1111
 label = %temperature-c%
-label-warn = %temperature-c% HOT!
-label-warn-foreground = #ff6666
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
+label-foreground = #F99
+format-warn = <ramp> <label-warn>
+label-warn = %{T4}%temperature-c% HOT!%{T-}
+label-warn-foreground = #F00
+format-warn-underline = #FF1111
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = #944
 
 [settings]
 screenchange-reload = true

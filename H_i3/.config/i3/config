@@ -63,10 +63,8 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# split in horizontal orientation
-bindsym $mod+Shift+v split h
-
-# split in vertical orientation
+# split in horizontal/vertical orientation
+bindsym $mod+b split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
@@ -164,6 +162,14 @@ bindsym $mod+r mode "resize"
 gaps inner 0
 gaps outer 0
 
+# Window/Workspace settings
+floating_maximum_size 1920 x 1080
+default_floating_border normal
+default_border pixel 2
+hide_edge_borders smart
+focus_follows_mouse no
+workspace_auto_back_and_forth yes
+
 # Logout Options (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)
 mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
   bindsym l mode "default", exec i3-msg exit
@@ -176,9 +182,9 @@ mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
 bindsym $mod+Shift+e mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff"
 
 # Startup Essentials
-exec_always picom
+exec_always "~/.config/picom/restart.sh"
+exec_always ~/.config/polybar/launch.sh
 exec feh --bg-fill ~/Pictures/background.png
-exec ~/.config/polybar/launch.sh
 exec nm-applet
 exec_always --no-startup-id xbindkeys
 exec xfce4-power-manager
@@ -186,37 +192,37 @@ exec ~/.config/redshift/launch.sh
 exec dropbox
 exec mpd
 exec rescuetime
+exec megasync
 
-# ScratchPad Applications
-exec i3-sensible-terminal --class scratch-term
+# ScratchPad/Workspace Applications
 for_window [class="scratch-term"] floating enable, move to scratchpad, resize set 1000 650
 bindsym $mod+p [class="scratch-term"] scratchpad show
 bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term
+exec i3-sensible-terminal --class scratch-term
 
-exec i3-sensible-terminal --class scratch-music -e ncmpcpp
 for_window [class="scratch-music"] floating enable, move to scratchpad, resize set 1000 650
 bindsym $mod+m [class="scratch-music"] scratchpad show
 bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp
+exec i3-sensible-terminal --class scratch-music -e ncmpcpp
 
-exec thunderbird
 for_window [class="(T|t)hunderbird"] floating enable, move to scratchpad, resize set 1650 1040
 bindsym $mod+t [class="(T|t)hunderbird"] scratchpad show
 bindsym $mod+Shift+t exec thunderbird
+exec thunderbird
 
-exec firefox
-for_window [class="(F|f)irefox"] move to scratchpad, resize set 1650 1040
-bindsym $mod+b [class="(F|f)irefox"] scratchpad show
+assign [class="(F|f)irefox"] 3
 bindsym $mod+Shift+b exec firefox
+exec firefox
 
-exec discord
 for_window [class="(D|d)iscord"] move to scratchpad, resize set 1920 1040
 bindsym $mod+d [class="(D|d)iscord"] scratchpad show
 bindsym $mod+Shift+d exec discord
+exec discord
 
-exec keepassxc
 for_window [class="(K|k)ee(P|p)ass(X|x)(C|c)"] floating enable, move to scratchpad, resize set 1000 650
 bindsym $mod+o [class="(K|k)ee(P|p)ass(X|x)(C|c)"] scratchpad show
 bindsym $mod+Shift+o exec keepassxc
+exec keepassxc
 
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad

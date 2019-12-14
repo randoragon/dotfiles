@@ -90,6 +90,8 @@
     Mod2+Mod4 + Prior
 "amixer set Master 5%-"
     Mod2+Mod4 + Next
+"amixer set Master toggle"
+    Mod2+Mod4 + BackSpace
 "xmodmap ~/.Xmodmap"
     control+shift+alt + m
 

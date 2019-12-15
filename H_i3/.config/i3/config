@@ -3,33 +3,32 @@
 #
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
-#
 
 # i3 config file (v4)
-#
 
-# Define Mod key (Windows)
+# Windows Key
 set $mod Mod4
+
+# Alt Key
+set $alt Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-#font pango:monospace 10
-
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango:DejaVu Sans Mono 8
 
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
+# class                 border  backgr. text    indicator child_border
+client.focused          #4c7899 #285577 #ffffff #AAFF00   #448800
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+client.background       #000000
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
@@ -44,8 +43,6 @@ bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -56,8 +53,6 @@ bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
@@ -65,14 +60,15 @@ bindsym $mod+Shift+Right move right
 
 # split in horizontal/vertical orientation
 bindsym $mod+v split v
+bindsym $mod+Shift+v split h
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
+bindsym $mod+w layout tabbed
+bindsym $mod+Shift+w layout stacking
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -84,7 +80,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+s focus child
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -113,6 +109,7 @@ bindsym $mod+0 workspace number $ws10
 bindsym $mod+b workspace ""
 bindsym $mod+t workspace ""
 bindsym $mod+d workspace ""
+bindsym $mod+g workspace ""
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -133,41 +130,23 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session) (REPLACED BY "Logout Options")
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-# resize window (you can also use the mouse for that)
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+bindsym $mod+Control+h resize shrink width 10 px or 10 ppt
+bindsym $mod+Control+j resize grow height 10 px or 10 ppt
+bindsym $mod+Control+k resize shrink height 10 px or 10 ppt
+bindsym $mod+Control+l resize grow width 10 px or 10 ppt
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+bindsym $mod+Control+Left resize shrink width 10 px or 10 ppt
+bindsym $mod+Control+Down resize grow height 10 px or 10 ppt
+bindsym $mod+Control+Up resize shrink height 10 px or 10 ppt
+bindsym $mod+Control+Right resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
-}
-
-bindsym $mod+r mode "resize"
-
-# Padding
+# Gaps
 gaps inner 0
 gaps outer 0
 
 # Window/Workspace settings
 floating_maximum_size 1920 x 1080
-default_floating_border normal
-default_border pixel 2
+default_border pixel 1
 hide_edge_borders smart
 focus_follows_mouse no
 workspace_auto_back_and_forth yes
@@ -183,48 +162,65 @@ mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
 }
 bindsym $mod+Shift+e mode "exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff"
 
-# Startup Essentials
-exec_always "~/.config/picom/restart.sh"
-exec_always ~/.config/polybar/launch.sh
-exec feh --bg-fill ~/Pictures/background.png
-exec nm-applet
-exec_always --no-startup-id xbindkeys
-exec xfce4-power-manager
-exec ~/.config/redshift/launch.sh
-exec dropbox
-exec mpd
-exec rescuetime
-exec megasync
-
-# ScratchPad/Workspace Applications
+# Application Settings
+## scratch term
 for_window [class="scratch-term"] floating enable, move to scratchpad, resize set 1000 650
+no_focus [class="scratch-term"]
 bindsym $mod+p [class="scratch-term"] scratchpad show
-bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term
-exec i3-sensible-terminal --class scratch-term
-
+## ncmpcpp
 for_window [class="scratch-music"] floating enable, move to scratchpad, resize set 1000 650
+no_focus [class="scratch-music"]
 bindsym $mod+m [class="scratch-music"] scratchpad show
-bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp
-exec i3-sensible-terminal --class scratch-music -e ncmpcpp
-
+## thunderbird
 assign [class="(T|t)hunderbird"] ""
-bindsym $mod+Shift+t exec thunderbird
-exec thunderbird
-
-assign [class="(F|f)irefox"] ""
-bindsym $mod+Shift+b exec firefox
-exec firefox
+no_focus [class="(T|t)hunderbird"]
+## discord
 assign [class="(D|d)iscord"] ""
-bindsym $mod+Shift+d exec discord
-exec discord
-
+no_focus [class="(D|d)iscord"]
+## firefox
+assign [class="(F|f)irefox"] ""
+no_focus [class="(F|f)irefox"]
+## keepassxc
 for_window [class="(K|k)ee(P|p)ass(X|x)(C|c)"] floating enable, move to scratchpad, resize set 1000 650
+no_focus [class="(K|k)ee(P|p)ass(X|x)(C|c)"]
 bindsym $mod+o [class="(K|k)ee(P|p)ass(X|x)(C|c)"] scratchpad show
-bindsym $mod+Shift+o exec keepassxc
-exec keepassxc
-
-# Application Config
+## doublecmd
 for_window [class="(D|d)oublecmd" window_role="[^(TfrmMain)]{1}$"] floating enable
+## steam
+assign [class="(S|s)team"] ""
+no_focus [class="(S|s)team"]
+
+# Application Shortcuts
+bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term
+bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp
+bindsym $mod+Shift+t exec thunderbird
+bindsym $mod+Shift+d exec discord
+bindsym $mod+Shift+b exec firefox
+bindsym $mod+Shift+o exec keepassxc
+bindsym $mod+Shift+g exec steam
+
+# Set default workspace to 1 (must be set before startup calls!)
+exec --no-startup-id "i3-msg workspace number 1"
+
+# Startup Scripts/Daemons
+exec_always --no-startup-id "~/.config/picom/restart.sh"
+exec_always --no-startup-id "~/.config/polybar/launch.sh"
+exec_always --no-startup-id "xbindkeys"
+exec --no-startup-id "feh --bg-fill ~/Pictures/background.png"
+exec --no-startup-id "nm-applet"
+exec --no-startup-id "xfce4-power-manager"
+exec --no-startup-id "~/.config/redshift/launch.sh"
+exec --no-startup-id "dropbox"
+exec --no-startup-id "mpd"
+exec --no-startup-id "rescuetime"
+exec --no-startup-id "megasync"
+
+
+# Startup Applications
+exec --no-startup-id "i3-sensible-terminal --class scratch-term"
+exec --no-startup-id "i3-sensible-terminal --class scratch-music -e ncmpcpp"
+exec --no-startup-id "discord"
+exec --no-startup-id "thunderbird"
 
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad
@@ -236,4 +232,5 @@ bindsym $mod+Return exec i3-sensible-terminal
 # Source: (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)
 bindsym $mod+c exec "~/.config/i3/i3-plus smart_center 1000x650,1650x950,1920x1040"
 bindsym $mod+plus exec rofi -show calc -modi "calc:qalc +u8" -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi
-bindsym $mod+Tab exec "rofi -show window -modi window -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi"
+bindsym $alt+Tab exec "rofi -show window -modi window -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi"
+

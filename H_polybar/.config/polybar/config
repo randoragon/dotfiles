@@ -114,6 +114,7 @@ label-urgent-padding = 2
 ws-icon-0 = ; Firefox
 ws-icon-1 = ; Thunderbird
 ws-icon-2 = ; Discord
+ws-icon-3 = ; Steam
 
 [module/mpd]
 type = internal/mpd

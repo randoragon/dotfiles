@@ -223,6 +223,9 @@ bindsym $mod+o [class="(K|k)ee(P|p)ass(X|x)(C|c)"] scratchpad show
 bindsym $mod+Shift+o exec keepassxc
 exec keepassxc
 
+# Application Config
+for_window [class="(D|d)oublecmd" window_role="[^(TfrmMain)]{1}$"] floating enable
+
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show

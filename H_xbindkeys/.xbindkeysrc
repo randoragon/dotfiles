@@ -38,10 +38,12 @@
 #keystate_scrolllock= enable
 
 # Generic Launchers
+"termite --class=floating"
+    control+alt + t
 "xbindkeys_show" 
     control+shift + q
 "catfish"
-    control+shift+alt + w
+    control+alt + w
 "doublecmd"
     control+alt + e
 "gksudo doublecmd"
@@ -60,10 +62,12 @@
     control+alt + m
 "termite -e vim"
     control+alt + v
+"discord"
+    control+alt + d
+"keepassxc"
+    control+alt + o
 
 # Xfce4 Settings
-"termite --class=floating"
-    control+alt + t
 "xfce4-screenshooter -r -s /home/pcache/Pictures/Screenshots"
     Print
 "xfce4-screenshooter -w -s /home/pcache/Pictures/Screenshots"
@@ -86,11 +90,11 @@
     Mod2+Mod4 + End
 "mpc --port=6601 prev"
     Mod2+Mod4 + Delete
-"amixer set Master 5%+"
+"pactl set-sink-volume @DEFAULT_SINK@ +5%"
     Mod2+Mod4 + Prior
-"amixer set Master 5%-"
+"pactl set-sink-volume @DEFAULT_SINK@ -5%"
     Mod2+Mod4 + Next
-"amixer set Master toggle"
+"pactl set-sink-mute @DEFAULT_SINK@ toggle"
     Mod2+Mod4 + BackSpace
 "xmodmap ~/.Xmodmap"
     control+shift+alt + m

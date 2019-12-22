@@ -226,7 +226,7 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 bindsym $mod+Shift+plus [floating] move scratchpad
 #bindsym Ctrl+space exec dmenu_run
-bindsym Ctrl+space exec "rofi -show combi -modi combi -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi"
+bindsym Ctrl+space exec "rofi -show combi"
 bindsym $mod+Return exec i3-sensible-terminal
 # Source: (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)
 bindsym $mod+c exec "~/.config/i3/i3-plus smart_center 1000x650,1650x950,1920x1040"

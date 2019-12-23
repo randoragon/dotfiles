@@ -90,9 +90,9 @@
     Mod2+Mod4 + End
 "mpc --port=6601 prev"
     Mod2+Mod4 + Delete
-"pactl set-sink-volume @DEFAULT_SINK@ +5%"
+"pactl set-sink-volume @DEFAULT_SINK@ +2%"
     Mod2+Mod4 + Prior
-"pactl set-sink-volume @DEFAULT_SINK@ -5%"
+"pactl set-sink-volume @DEFAULT_SINK@ -2%"
     Mod2+Mod4 + Next
 "pactl set-sink-mute @DEFAULT_SINK@ toggle"
     Mod2+Mod4 + BackSpace

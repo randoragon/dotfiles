@@ -158,7 +158,7 @@ bash_prompt() {
 	## Choose your color combination here                                     ##
 	############################################################################
 	local FONT_COLOR_1=$WHITE
-	local BACKGROUND_1=$BLUE
+	local BACKGROUND_1=$D_GRAY
 	local TEXTEFFECT_1=$BOLD
 	
 	local FONT_COLOR_2=$WHITE
@@ -169,7 +169,7 @@ bash_prompt() {
 	local BACKGROUND_3=$WHITE
 	local TEXTEFFECT_3=$BOLD
 	
-	local PROMT_FORMAT=$BLUE_BOLD
+	local PROMT_FORMAT=$TOXIC_GREEN_BOLD
 
 	############################################################################
 	## TEXT FORMATING                                                         ##

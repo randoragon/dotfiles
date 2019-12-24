@@ -199,7 +199,7 @@ no_focus [class="(S|s)team"]
 for_window [class="(S|s)team" title="(S|s)team - (N|n)ews.*"] floating enable, border normal
 
 # Application Shortcuts
-bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term
+bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term --title "Scratch Term"
 bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp
 bindsym $mod+Shift+o exec keepassxc
 
@@ -222,7 +222,7 @@ exec --no-startup-id "megasync"
 
 
 # Startup Applications
-exec --no-startup-id "i3-sensible-terminal --class scratch-term"
+exec --no-startup-id "i3-sensible-terminal --class scratch-term --title 'Scratch Term'"
 exec --no-startup-id "i3-sensible-terminal --class scratch-music -e ncmpcpp"
 exec --no-startup-id "discord"
 exec --no-startup-id "thunderbird"

@@ -77,7 +77,7 @@
 "xfce4-session-logout"
     control+alt + Delete
 
-# Custom Scripts
+# Music & Volume Control
 "switchaudiodevice HEADPHONES"
     control+alt + h
 "switchaudiodevice SPEAKERS"
@@ -96,6 +96,16 @@
     Mod2+Mod4 + Next
 "pactl set-sink-mute @DEFAULT_SINK@ toggle"
     Mod2+Mod4 + BackSpace
+
+# Rofi
+"~/.config/rofi/playlists.sh"
+    Mod2+Mod4+shift + Insert
+"rofi -show combi"
+    control + space
+"rofi -show calc -modi 'calc:qalc +u8'"
+    Mod2+Mod4 + equal
+
+# Restart xmodmap
 "xmodmap ~/.Xmodmap"
     control+shift+alt + m
 

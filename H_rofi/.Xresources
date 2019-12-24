@@ -2,7 +2,7 @@ rofi.theme: ~/.config/rofi/gruvbox-dark-hard-colon.rasi
 rofi.modi: combi
 rofi.show-icons: true
 rofi.combi-modi: window,drun,run
-rofi.matching: fuzzy
+rofi.matching: normal
 rofi.kb-primary-paste: Control+V,Shift+Insert
 rofi.kb-secondary-paste: Control+v,Insert
 rofi.kb-clear-line: Control+l

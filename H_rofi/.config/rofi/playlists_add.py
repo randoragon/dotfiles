@@ -21,10 +21,10 @@ if __name__ == '__main__':
     song = str(proc.stdout.read())[2:-3]
 
     f = open(playlist, 'r')
-    if song+'\n' not in f.readlines():
+    if song not in list(filter(lambda x: x.replace('\n', ''), f.readlines())):
         f.close()
         f = open(playlist, 'a')
-        f.write(song)
+        f.write('\n'+song)
         f.close()
         sys.exit(0)
     else:

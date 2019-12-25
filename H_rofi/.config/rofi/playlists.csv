@@ -1,6 +1,6 @@
-Intense,~/.mpd/save_to_playlist.sh ~/Music/Music/Playlists/Intense.m3u
-Calm,~/.mpd/save_to_playlist.sh ~/Music/Music/Playlists/Calm.m3u
-Japanese,~/.mpd/save_to_playlist.sh ~/Music/Music/Playlists/Japanese.m3u
-Epic,~/.mpd/save_to_playlist.sh ~/Music/Music/Playlists/Epic.m3u
-Happy,~/.mpd/save_to_playlist.sh ~/Music/Music/Playlists/Happy.m3u
-Safe,~/.mpd/save_to_playlist.sh ~/Music/Music/Playlists/Safe.m3u
+Intense,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Intense.m3u
+Calm,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Calm.m3u
+Japanese,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Japanese.m3u
+Epic,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Epic.m3u
+Happy,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Happy.m3u
+Safe,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Safe.m3u

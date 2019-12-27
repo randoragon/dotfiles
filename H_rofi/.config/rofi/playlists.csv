@@ -1,10 +1,6 @@
-Intense,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Intense.m3u
-Calm,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Calm.m3u
-Japanese,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Japanese.m3u
-Epic,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Epic.m3u
-Happy,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Happy.m3u
-Safe,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Safe.m3u
-Strange,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Strange.m3u
-Test,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Test.m3u
-Test2,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Test2.m3u
-Hello,python3 ~/.config/rofi/playlists_add.py ~/Music/Music/Playlists/Hello.m3u
+Intense,python3 ~/.config/rofi/playlists_add.py ~/Music/Playlists/Intense.m3u
+Calm,python3 ~/.config/rofi/playlists_add.py ~/Music/Playlists/Calm.m3u
+Epic,python3 ~/.config/rofi/playlists_add.py ~/Music/Playlists/Epic.m3u
+Happy,python3 ~/.config/rofi/playlists_add.py ~/Music/Playlists/Happy.m3u
+Safe,python3 ~/.config/rofi/playlists_add.py ~/Music/Playlists/Safe.m3u
+Strange,python3 ~/.config/rofi/playlists_add.py ~/Music/Playlists/Strange.m3u

@@ -3,7 +3,6 @@
 " Plugins {{{1
 call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
-Plug 'https://gitlab.com/code-stats/code-stats-vim.git'
 Plug 'airblade/vim-gitgutter'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'junegunn/fzf.vim'
@@ -20,12 +19,7 @@ Plug 'nessss/vim-gml'
 Plug 'godlygeek/tabular'
 call plug#end()
 
-" Code::Stats configuration {{{2
-let g:codestats_api_key = 'SFMyNTY.VW1GdVpHOXlZV2R2Ymc9PSMjTkRFNE53PT0.bviw3yv-REnT0ltinbrsKx5WE6jxJ4YAaENngGoUCDE'
-" }}}
-
 " Airline {{{2
-let g:airline_section_x = airline#section#create_right(['tagbar', 'filetype', '%{CodeStatsXp()}'])
 let g:airline_detect_spell=0
 let g:airline_detect_spellang=0
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
@@ -42,9 +36,9 @@ let g:AutoPairsMapCR = 1
 " }}}
 
 " Tabular keyboard shortcuts {{{2
-nnoremap = :Tabular/=<CR>
-nnoremap , :Tabular/,/l0r1<CR>
-nnoremap ; :Tabular/;/l0r1<CR>
+vnoremap = :Tabular/=<CR>
+vnoremap , :Tabular/,/l0r1<CR>
+vnoremap ; :Tabular/;/l0r1<CR>
 " }}}
 
 " ALE {{{2
@@ -179,8 +173,6 @@ nmap <silent> <Leader>t :Vex!<CR>
 if has("gui_running")
 	set guioptions-=T
 	set guioptions-=m
-else
-    map n <A-n>
 endif
 " }}}
 

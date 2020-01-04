@@ -188,11 +188,11 @@ no_focus [class="(D|d)iscord"]
 assign [class="(F|f)irefox"] ""
 no_focus [class="(F|f)irefox"]
 ## keepassxc
-for_window [class="(K|k)ee(P|p)ass(X|x)(C|c)"] floating enable, move to scratchpad, resize set 1000 650
+for_window [class="(K|k)ee(P|p)ass(X|x)(C|c)"] floating enable, border normal, move to scratchpad, resize set 1000 650
 no_focus [class="(K|k)ee(P|p)ass(X|x)(C|c)"]
 bindsym $mod+o [class="(K|k)ee(P|p)ass(X|x)(C|c)"] scratchpad show
 ## doublecmd
-for_window [class="(D|d)oublecmd" window_role="[^(TfrmMain)]{1}$"] floating enable
+for_window [class="(D|d)oublecmd" window_role="[^(TfrmMain)]{1}$"] floating enable, border normal
 ## steam
 assign [class="(S|s)team"] ""
 no_focus [class="(S|s)team"]

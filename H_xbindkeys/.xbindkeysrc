@@ -67,7 +67,13 @@
 "keepassxc"
     control+alt + o
 
-# Xfce4 Settings
+# CopyQ
+"copyq menu"
+    mod2+mod4 + v
+"copyq toggle"
+    mod2+mod4 + c
+
+# Screenshots
 "xfce4-screenshooter -r -s /home/pcache/Pictures/Screenshots"
     Print
 "xfce4-screenshooter -w -s /home/pcache/Pictures/Screenshots"

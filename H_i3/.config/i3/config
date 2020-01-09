@@ -151,7 +151,7 @@ focus_follows_mouse no
 workspace_auto_back_and_forth yes
 
 # Logout Options (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)
-mode "Exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
+mode "EXIT: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
     bindsym l mode "default", exec i3-msg exit
     bindsym r mode "default", exec systemctl reboot
     bindsym p mode "default", exec systemctl poweroff
@@ -160,9 +160,9 @@ mode "Exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
-bindsym $mod+Shift+e mode "Exit: [l]ogout, [r]eboot, [s]uspend, [p]oweroff"
+bindsym $mod+Shift+e mode "EXIT: [l]ogout, [r]eboot, [s]uspend, [p]oweroff"
 
-mode "Window Manip" {
+mode "WINMANIP" {
     #bindsym h mode "default", exec putwindow h
     #bindsym j mode "default", exec putwindow h
     #bindsym k mode "default", exec putwindow k
@@ -172,7 +172,7 @@ mode "Window Manip" {
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
-bindsym $mod+q mode "Window Manip"
+bindsym $mod+q mode "WINMANIP"
 
 # Application Settings
 ## scratch term

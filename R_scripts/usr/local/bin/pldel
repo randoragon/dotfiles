@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 # This script does the reverse of plnew, it deletes a m3u playlist and removes its entry from the csv file.
 
@@ -7,6 +7,9 @@ PLAYLIST_DIR = '~/Music/Music/Playlists/'
 
 import sys
 import os
+
+def rprint(msg):
+    return os.system('rofi -e "{}" -markup'.format(msg))
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

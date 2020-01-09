@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # This script intakes a m3u playlist path, reads the current playing song in MPD,
 # and then appends the song's path to the playlist file IF the song isn't already

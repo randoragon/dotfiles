@@ -53,8 +53,8 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal/vertical orientation
-bindsym $mod+v split v
-bindsym $mod+Shift+v split h
+bindsym $mod+backslash split v
+bindsym $mod+Shift+backslash split h
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -214,7 +214,7 @@ exec --no-startup-id "dropbox"
 exec --no-startup-id "mpd"
 exec --no-startup-id "rescuetime"
 exec --no-startup-id "megasync"
-
+exec --no-startup-id "copyq"
 
 # Startup Applications
 exec --no-startup-id "i3-sensible-terminal --class scratch-term --title 'Scratch Term'"
@@ -228,7 +228,5 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Shift+plus [floating] move scratchpad
 #bindsym Ctrl+space exec dmenu_run
 bindsym $mod+Return exec i3-sensible-terminal
-# Source: (https://samsaffron.com/archive/2019/04/09/my-i3-window-manager-setup)
-#bindsym $mod+c exec "~/.config/i3/i3-plus smart_center 996x650,1652x956,1916x1041"
 # User specific environment and startup programs:
 bindsym $alt+Tab exec "rofi -show window -modi window -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi"

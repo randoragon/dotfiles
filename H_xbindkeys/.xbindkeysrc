@@ -38,7 +38,7 @@
 #keystate_scrolllock= enable
 
 # Generic Launchers
-"termite --class=floating"
+"x-terminal-emulator --class=floating"
     control+alt + t
 "xbindkeys_show" 
     control+shift + q
@@ -58,9 +58,9 @@
     control+shift + Print
 "i3lock -c 0A0A0A"
     control+alt + l
-"termite -e ncmpcpp"
+"x-terminal-emulator -e ncmpcpp"
     control+alt + m
-"termite -e vim"
+"x-terminal-emulator -e vim"
     control+alt + v
 "discord"
     control+alt + d
@@ -114,7 +114,7 @@
     XF86AudioMicMute
 
 # Rofi
-"~/.config/rofi/playlists.sh"
+"~/.config/rofi/playlists"
     Mod2+Mod4+shift + Insert
 "rofi -show combi"
     control + space

@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Author: Randoragon
-# This script uses my self-written mpd-playlist-rofi integration scripts to create
-# playlists and add them to the *.csv file for rofi entry adding.
-
-python3 ~/.mpd/playlists_new.py $1
-

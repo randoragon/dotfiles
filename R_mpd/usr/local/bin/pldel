@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Author: Randoragon
-# This script uses my self-written mpd-playlist-rofi integration scripts to delete
-# playlists and remove them from the *.csv file for rofi entry adding.
-
-python3 ~/.mpd/playlists_del.py $1
-

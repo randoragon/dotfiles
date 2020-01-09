@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # This script creates a new m3u playlist and adds adequate entries to the playlists.csv file
 # to make other scripts work with the new playlist out of the box.

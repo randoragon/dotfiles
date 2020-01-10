@@ -14,7 +14,7 @@ set $alt Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:DejaVu Sans Mono 9
+font pango:DejaVu Sans Mono 8
 
 # COLORS
 ## class                border  backgr. text    indicator child_border
@@ -163,11 +163,33 @@ mode "EXIT: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
 bindsym $mod+Shift+e mode "EXIT: [l]ogout, [r]eboot, [s]uspend, [p]oweroff"
 
 mode "WINMANIP" {
-    #bindsym h mode "default", exec putwindow h
-    #bindsym j mode "default", exec putwindow h
-    #bindsym k mode "default", exec putwindow k
-    #bindsym l mode "default", exec putwindow l
-    bindsym c mode "default", exec windowcenter
+    bindsym h mode "default", exec windowput h
+    bindsym j mode "default", exec windowput j
+    bindsym k mode "default", exec windowput k
+    bindsym l mode "default", exec windowput l
+    bindsym u mode "default", exec windowput u
+    bindsym i mode "default", exec windowput i
+    bindsym o mode "default", exec windowput o
+    bindsym p mode "default", exec windowput p
+    bindsym m mode "default", exec windowput m
+    bindsym $mod+h mode "default", exec windowput H
+    bindsym $mod+j mode "default", exec windowput J
+    bindsym $mod+k mode "default", exec windowput K
+    bindsym $mod+l mode "default", exec windowput L
+    bindsym $mod+u mode "default", exec windowput U
+    bindsym $mod+i mode "default", exec windowput I
+    bindsym $mod+o mode "default", exec windowput O
+    bindsym $mod+p mode "default", exec windowput P
+    bindsym $mod+m mode "default", exec windowput M
+    bindsym Control+h mode "default", exec windowput ^h
+    bindsym Control+j mode "default", exec windowput ^j
+    bindsym Control+k mode "default", exec windowput ^k
+    bindsym Control+l mode "default", exec windowput ^l
+    bindsym Control+u mode "default", exec windowput ^u
+    bindsym Control+i mode "default", exec windowput ^i
+    bindsym Control+o mode "default", exec windowput ^o
+    bindsym Control+p mode "default", exec windowput ^p
+    bindsym Control+m mode "default", exec windowput ^m
     bindsym $mod+q mode "default"
     bindsym Escape mode "default"
     bindsym Return mode "default"

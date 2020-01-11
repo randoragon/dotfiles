@@ -163,33 +163,38 @@ mode "EXIT: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
 bindsym $mod+Shift+e mode "EXIT: [l]ogout, [r]eboot, [s]uspend, [p]oweroff"
 
 mode "WINMANIP" {
-    bindsym h mode "default", exec windowput h
-    bindsym j mode "default", exec windowput j
-    bindsym k mode "default", exec windowput k
-    bindsym l mode "default", exec windowput l
-    bindsym u mode "default", exec windowput u
-    bindsym i mode "default", exec windowput i
-    bindsym o mode "default", exec windowput o
-    bindsym p mode "default", exec windowput p
-    bindsym m mode "default", exec windowput m
-    bindsym $mod+h mode "default", exec windowput H
-    bindsym $mod+j mode "default", exec windowput J
-    bindsym $mod+k mode "default", exec windowput K
-    bindsym $mod+l mode "default", exec windowput L
-    bindsym $mod+u mode "default", exec windowput U
-    bindsym $mod+i mode "default", exec windowput I
-    bindsym $mod+o mode "default", exec windowput O
-    bindsym $mod+p mode "default", exec windowput P
-    bindsym $mod+m mode "default", exec windowput M
-    bindsym Control+h mode "default", exec windowput ^h
-    bindsym Control+j mode "default", exec windowput ^j
-    bindsym Control+k mode "default", exec windowput ^k
-    bindsym Control+l mode "default", exec windowput ^l
-    bindsym Control+u mode "default", exec windowput ^u
-    bindsym Control+i mode "default", exec windowput ^i
-    bindsym Control+o mode "default", exec windowput ^o
-    bindsym Control+p mode "default", exec windowput ^p
-    bindsym Control+m mode "default", exec windowput ^m
+    # For some reason these scripts need to be ran twice to work 100% of the time,
+    # but it shouldn't even be an issue with the scripts, just some weird i3 behavior.
+    bindsym h mode "default", exec windowput h && windowput h
+    bindsym j mode "default", exec windowput j && windowput j
+    bindsym k mode "default", exec windowput k && windowput k
+    bindsym l mode "default", exec windowput l && windowput l
+    bindsym u mode "default", exec windowput u && windowput u
+    bindsym i mode "default", exec windowput i && windowput i
+    bindsym o mode "default", exec windowput o && windowput o
+    bindsym p mode "default", exec windowput p && windowput p
+    bindsym m mode "default", exec windowput m && windowput m
+    bindsym s mode "default", exec windowput s && windowput s
+    bindsym $mod+h mode "default", exec windowput H && windowput H
+    bindsym $mod+j mode "default", exec windowput J && windowput J
+    bindsym $mod+k mode "default", exec windowput K && windowput K
+    bindsym $mod+l mode "default", exec windowput L && windowput L
+    bindsym $mod+u mode "default", exec windowput U && windowput U
+    bindsym $mod+i mode "default", exec windowput I && windowput I
+    bindsym $mod+o mode "default", exec windowput O && windowput O
+    bindsym $mod+p mode "default", exec windowput P && windowput P
+    bindsym $mod+m mode "default", exec windowput M && windowput M
+    bindsym $mod+s mode "default", exec windowput S && windowput S
+    bindsym Control+h mode "default", exec windowput ^h && windowput ^h
+    bindsym Control+j mode "default", exec windowput ^j && windowput ^j
+    bindsym Control+k mode "default", exec windowput ^k && windowput ^k
+    bindsym Control+l mode "default", exec windowput ^l && windowput ^l
+    bindsym Control+u mode "default", exec windowput ^u && windowput ^u
+    bindsym Control+i mode "default", exec windowput ^i && windowput ^i
+    bindsym Control+o mode "default", exec windowput ^o && windowput ^o
+    bindsym Control+p mode "default", exec windowput ^p && windowput ^p
+    bindsym Control+m mode "default", exec windowput ^m && windowput ^m
+    bindsym Control+s mode "default", exec windowput ^s && windowput ^s
     bindsym $mod+q mode "default"
     bindsym Escape mode "default"
     bindsym Return mode "default"
@@ -226,6 +231,8 @@ no_focus [class="(S|s)team"]
 for_window [class="(S|s)team" title="(S|s)team - (N|n)ews.*"] floating enable, border normal
 ## copyq
 for_window [class="(C|c)opy(Q|q)"] floating enable, border normal
+## feh
+for_window [class="(F|f)eh"] floating enable, border normal
 
 # Application Shortcuts
 bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term --title "Scratch Term"

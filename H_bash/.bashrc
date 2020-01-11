@@ -290,6 +290,8 @@ export LC_ALL=en_US.UTF-8
 alias ls='ls --color=auto'
 alias setkblayoutpl='setxkbmap -layout pl'
 alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
+alias rm='rmtrash'
+alias rmdir='rmdirtrash'
 
 
 ################################################################################

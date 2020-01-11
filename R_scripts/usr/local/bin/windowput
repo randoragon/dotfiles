@@ -18,6 +18,11 @@
 # ^h    ^l
 #    ^j   
 # (using ^i, ^o, ^u, ^p, ^m is equivalent to i, o, u, p, m)
+#
+# 4. Resizes the window in relation to its center
+# s - small  (33% x 33%)
+# S - medium (66% x 75%)
+# ^s - large (100% x 100%)
 
 # define the height in px of the top system-bar (for polybar this is "height" + 2*"border")
 TOPMARGIN=22
@@ -155,4 +160,22 @@ elif [ "$POSITION" == "^l" ]; then
     X=$(( $SCREEN_W - $WIN_W - $BORDER ))
     Y=$WIN_Y
     wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
+elif [ "$POSITION" == "s" ]; then
+    W=$(( $SCREEN_W / 3 ))
+    H=$(( $SCREEN_H / 3 ))
+    X=$(( $WIN_X - ($W - $WIN_W) / 2 ))
+    Y=$(( $WIN_Y - ($H - $WIN_H) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
+elif [ "$POSITION" == "S" ]; then
+    W=$(( $SCREEN_W * 2 / 3 ))
+    H=$(( $SCREEN_H * 3 / 4 ))
+    X=$(( $WIN_X - ($W - $WIN_W) / 2 ))
+    Y=$(( $WIN_Y - ($H - $WIN_H) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
+elif [ "$POSITION" == "^s" ]; then
+    W=$(( $SCREEN_W - 2 * $BORDER ))
+    H=$(( $SCREEN_H - $TOPMARGIN - $BORDER - $DECO_H ))
+    X=$BORDER
+    Y=$(( $TOPMARGIN + $DECO_H ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
 fi

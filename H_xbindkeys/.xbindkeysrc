@@ -49,7 +49,7 @@
 "gksudo doublecmd"
     control+shift+alt + e
 "thunar"
-    control+alt + r
+    control+alt + i
 "gksudo thunar"
     control+shift+alt + r
 "firefox"

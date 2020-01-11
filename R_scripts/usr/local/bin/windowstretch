@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Continually increases or decreases a window's width.
+# First parameter: w or h (width or height)
+# Second parameter: speed of expansion/shrinking (if 0, the process ends automatically)
+
+# Only allow one instance at a time
+if [[ "$(pgrep windowstretch)" == *$'\n'* ]]; then exit; fi
+
+# Verify 2nd parameter
+case $2 in
+    0) echo "Multiplier has been set to 0, which is pointless. Exiting..."; exit;;
+    *[^0-9.]) echo "Invalid parameter: only numbers accepted."; exit;;
+esac
+
+if [[ $1 == w ]]; then
+    while true
+    do
+        i3-msg "resize grow width $2"
+        sleep 0.02
+    done
+elif [[ $1 == h ]]; then
+    while true
+    do
+        i3-msg "resize grow height $2"
+        sleep 0.02
+    done
+fi

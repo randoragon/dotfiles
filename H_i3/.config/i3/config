@@ -47,18 +47,36 @@ bindsym $mod+Shift+h exec windowmove x -20
 bindsym $mod+Shift+j exec windowmove y 20
 bindsym $mod+Shift+k exec windowmove y -20
 bindsym $mod+Shift+l exec windowmove x 20
-bindsym --release $mod+Shift+h exec killall windowmove
-bindsym --release $mod+Shift+j exec killall windowmove
-bindsym --release $mod+Shift+k exec killall windowmove
-bindsym --release $mod+Shift+l exec killall windowmove
+bindsym --release $mod+Shift+h exec killall windowmove && killall windowstretch
+bindsym --release $mod+Shift+j exec killall windowmove && killall windowstretch
+bindsym --release $mod+Shift+k exec killall windowmove && killall windowstretch
+bindsym --release $mod+Shift+l exec killall windowmove && killall windowstretch
 bindsym $mod+Shift+Left  exec windowmove x -20
 bindsym $mod+Shift+Down  exec windowmove y 20
 bindsym $mod+Shift+Up    exec windowmove y -20
 bindsym $mod+Shift+Right exec windowmove x 20
-bindsym --release $mod+Shift+Left  exec killall windowmove
-bindsym --release $mod+Shift+Down  exec killall windowmove
-bindsym --release $mod+Shift+Up    exec killall windowmove
-bindsym --release $mod+Shift+Right exec killall windowmove
+bindsym --release $mod+Shift+Left  exec killall windowmove && killall windowstretch
+bindsym --release $mod+Shift+Down  exec killall windowmove && killall windowstretch
+bindsym --release $mod+Shift+Up    exec killall windowmove && killall windowstretch
+bindsym --release $mod+Shift+Right exec killall windowmove && killall windowstretch
+
+# resize focused window
+bindsym $mod+Control+h exec windowstretch w -20
+bindsym $mod+Control+l exec windowstretch w 20
+bindsym $mod+Control+j exec windowstretch h 20
+bindsym $mod+Control+k exec windowstretch h -20
+bindsym --release $mod+Control+h exec killall windowstretch && killall windowmove
+bindsym --release $mod+Control+l exec killall windowstretch && killall windowmove
+bindsym --release $mod+Control+j exec killall windowstretch && killall windowmove
+bindsym --release $mod+Control+k exec killall windowstretch && killall windowmove
+bindsym $mod+Control+Left            exec windowstretch w -20
+bindsym $mod+Control+Right           exec windowstretch w 20
+bindsym $mod+Control+Down            exec windowstretch h 20
+bindsym $mod+Control+Up              exec windowstretch h -20
+bindsym --release $mod+Control+Left  exec killall windowstretch && killall windowmove
+bindsym --release $mod+Control+Right exec killall windowstretch && killall windowmove
+bindsym --release $mod+Control+Down  exec killall windowstretch && killall windowmove
+bindsym --release $mod+Control+Up    exec killall windowstretch && killall windowmove
 
 # split in horizontal/vertical orientation
 bindsym $mod+backslash split v
@@ -139,28 +157,6 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session) (REPLACED BY "Logout Options")
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-
-bindsym $mod+Control+h exec windowstretch w -20
-bindsym $mod+Control+l exec windowstretch w 20
-bindsym $mod+Control+j exec windowstretch h 20
-bindsym $mod+Control+k exec windowstretch h -20
-bindsym --release $mod+Control+h exec killall windowstretch
-bindsym --release $mod+Control+l exec killall windowstretch
-bindsym --release $mod+Control+j exec killall windowstretch
-bindsym --release $mod+Control+k exec killall windowstretch
-
-#bindsym $mod+Control+Left resize shrink width 10 px or 10 ppt
-#bindsym $mod+Control+Down resize grow height 10 px or 10 ppt
-#bindsym $mod+Control+Up resize shrink height 10 px or 10 ppt
-#bindsym $mod+Control+Right resize grow width 10 px or 10 ppt
-bindsym $mod+Control+Left            exec windowstretch w -20
-bindsym $mod+Control+Right           exec windowstretch w 20
-bindsym $mod+Control+Down            exec windowstretch h 20
-bindsym $mod+Control+Up              exec windowstretch h -20
-bindsym --release $mod+Control+Left  exec killall windowstretch
-bindsym --release $mod+Control+Right exec killall windowstretch
-bindsym --release $mod+Control+Down  exec killall windowstretch
-bindsym --release $mod+Control+Up    exec killall windowstretch
 
 # Window/Workspace settings
 floating_maximum_size 1920 x 1080

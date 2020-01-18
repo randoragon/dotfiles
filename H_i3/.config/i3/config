@@ -43,18 +43,18 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+h exec windowmove x -20
-bindsym $mod+Shift+j exec windowmove y 20
-bindsym $mod+Shift+k exec windowmove y -20
-bindsym $mod+Shift+l exec windowmove x 20
+bindsym $mod+Shift+h [con_id=__focused__ tiling] move left, [con_id=__focused__ floating] exec windowmove x -20
+bindsym $mod+Shift+j [con_id=__focused__ tiling] move down, [con_id=__focused__ floating] exec windowmove y 20
+bindsym $mod+Shift+k [con_id=__focused__ tiling] move up, [con_id=__focused__ floating] exec windowmove y -20
+bindsym $mod+Shift+l [con_id=__focused__ tiling] move right, [con_id=__focused__ floating] exec windowmove x 20
 bindsym --release $mod+Shift+h exec killall windowmove && killall windowstretch
 bindsym --release $mod+Shift+j exec killall windowmove && killall windowstretch
 bindsym --release $mod+Shift+k exec killall windowmove && killall windowstretch
 bindsym --release $mod+Shift+l exec killall windowmove && killall windowstretch
-bindsym $mod+Shift+Left  exec windowmove x -20
-bindsym $mod+Shift+Down  exec windowmove y 20
-bindsym $mod+Shift+Up    exec windowmove y -20
-bindsym $mod+Shift+Right exec windowmove x 20
+bindsym $mod+Shift+Left  [con_id=__focused__ tiling] move left, [con_id=__focused__ floating] exec windowmove x -20
+bindsym $mod+Shift+Down  [con_id=__focused__ tiling] move left, [con_id=__focused__ floating] exec windowmove y 20
+bindsym $mod+Shift+Up    [con_id=__focused__ tiling] move left, [con_id=__focused__ floating] exec windowmove y -20
+bindsym $mod+Shift+Right [con_id=__focused__ tiling] move left, [con_id=__focused__ floating] exec windowmove x 20
 bindsym --release $mod+Shift+Left  exec killall windowmove && killall windowstretch
 bindsym --release $mod+Shift+Down  exec killall windowmove && killall windowstretch
 bindsym --release $mod+Shift+Up    exec killall windowmove && killall windowstretch
@@ -277,6 +277,8 @@ exec --no-startup-id "mpd"
 exec --no-startup-id "rescuetime"
 exec --no-startup-id "megasync"
 exec --no-startup-id "copyq"
+exec --no-startup-id "flameshot"
+#exec --no-startup-id "gromit-mpx"
 
 # Startup Applications
 exec --no-startup-id "i3-sensible-terminal --class scratch-term --title 'Scratch Term'"

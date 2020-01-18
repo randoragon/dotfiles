@@ -74,11 +74,9 @@
     mod2+mod4 + c
 
 # Screenshots
-"xfce4-screenshooter -r -s /home/pcache/Pictures/Screenshots"
+"flameshot gui"
     Print
-"xfce4-screenshooter -w -s /home/pcache/Pictures/Screenshots"
-    shift + Print
-"xfce4-screenshooter -f -s /home/pcache/Pictures/Screenshots"
+"flameshot full -c"
     control + Print
 
 # Music & Volume Control

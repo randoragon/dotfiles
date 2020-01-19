@@ -253,6 +253,8 @@ for_window [class="(S|s)team" title="(S|s)team - (N|n)ews.*"] floating enable, b
 for_window [class="(C|c)opy(Q|q)"] floating enable, border normal
 ## feh
 for_window [class="(F|f)eh"] floating enable, border normal
+## flameshot
+for_window [class="(F|f)lameshot"] floating enable, border none
 
 # Application Shortcuts
 bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term --title "Scratch Term"

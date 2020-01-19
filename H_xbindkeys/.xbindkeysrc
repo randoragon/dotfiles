@@ -54,8 +54,6 @@
     control+shift+alt + r
 "firefox"
     control+alt + b
-"peek"
-    control+shift + Print
 "i3lock -c 0A0A0A"
     control+alt + l
 "x-terminal-emulator -e ncmpcpp"
@@ -78,6 +76,10 @@
     Print
 "flameshot full -c"
     control + Print
+"flameshot full -p $HOME/Pictures/Screenshots/ && gimp $HOME/Pictures/Screenshots/screenshot_$(date +%F_%H-%M-%S).png"
+    control+shift + Print
+"peek"
+    control+alt + Print
 
 # Music & Volume Control
 "mpc --port=6601 toggle"

@@ -261,6 +261,7 @@ bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term --title "Scr
 bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp
 bindsym $mod+Shift+o exec keepassxc
 bindsym $mod+Shift+i exec thunar
+bindsym Control+$alt+l exec "i3lock -e -f -m -i ~/Pictures/background_lock.png -k --indicator --keylayout 0 --radius=160 --timecolor=7de317bb --datecolor=7de31788 --layoutcolor=7de31766 --wrongcolor=ffffffff --datestr='%A, %d %b %Y'"
 
 # Set default workspace to 1 (must be set before startup calls!)
 exec --no-startup-id "i3-msg workspace number 1"

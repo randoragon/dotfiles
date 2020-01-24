@@ -53,6 +53,16 @@ nnoremap <Leader>a :ALEToggle<CR>
 let g:AutoPairsShortcutToggle='<Leader>0'
 " }}}
 
+" FZF {{{2
+nnoremap <C-F>f :Files<CR>
+nnoremap <C-F>l :Lines<CR>
+nnoremap <C-F>c :Commands<CR>
+nnoremap <C-F>t :Tags<CR>
+nnoremap <C-F>m :Marks<CR>
+nnoremap <C-F>h :Helptags<CR>
+nnoremap <C-F>a :Ag<CR>
+" }}}
+
 " }}}
 
 " Basic Settings {{{1
@@ -122,15 +132,6 @@ nnoremap <C-w>j :set splitbelow<CR>:new<CR>
 nnoremap <C-w>k :set nosplitbelow<CR>:new<CR>:set splitbelow<CR>
 nnoremap L gt
 nnoremap H gT
-" }}}
-
-" Fuzzy Search {{{1
-nnoremap <C-F>f :Files<CR>
-nnoremap <C-F>l :Lines<CR>
-nnoremap <C-F>c :Commands<CR>
-nnoremap <C-F>t :Tags<CR>
-nnoremap <C-F>m :Marks<CR>
-nnoremap <C-F>h :Helptags<CR>
 " }}}
 
 " Backup directories {{{1

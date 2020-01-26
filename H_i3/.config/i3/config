@@ -218,12 +218,15 @@ mode "WINMANIP" {
 bindsym $mod+q mode "WINMANIP"
 
 # Application Settings
+## float option
+for_window [class="^floatme$"] floating enable, border normal
+for_window [title="^floatme$"] floating enable, border normal
 ## scratch term
-for_window [class="scratch-term"] floating enable, border normal, move to scratchpad, resize set 1000 650
+for_window [class="scratch-term"] floating enable, border normal, move to scratchpad
 no_focus [class="scratch-term"]
 bindsym $mod+p [class="scratch-term"] scratchpad show
 ## ncmpcpp
-for_window [class="scratch-music"] floating enable, border normal, move to scratchpad, resize set 1000 650
+for_window [class="scratch-music"] floating enable, border normal, move to scratchpad
 no_focus [class="scratch-music"]
 bindsym $mod+m [class="scratch-music"] scratchpad show
 ## thunderbird
@@ -236,13 +239,13 @@ no_focus [class="(D|d)iscord"]
 assign [class="(F|f)irefox"] ""
 no_focus [class="(F|f)irefox"]
 ## keepassxc
-for_window [class="(K|k)ee(P|p)ass(X|x)(C|c)"] floating enable, border normal, move to scratchpad, resize set 1000 650
+for_window [class="(K|k)ee(P|p)ass(X|x)(C|c)"] floating enable, border normal, move to scratchpad
 no_focus [class="(K|k)ee(P|p)ass(X|x)(C|c)"]
 bindsym $mod+o [class="(K|k)ee(P|p)ass(X|x)(C|c)"] scratchpad show
 ## doublecmd
 for_window [class="(D|d)oublecmd" window_role="[^(TfrmMain)]{1}$"] floating enable, border normal
 ## thunar
-for_window [class="(T|t)hunar"] floating enable, border normal, move to scratchpad, resize set 1000 650
+for_window [class="(T|t)hunar"] floating enable, border normal, move to scratchpad
 no_focus [class="(T|t)hunar"]
 bindsym $mod+i [class="(T|t)hunar"] scratchpad show
 ## steam

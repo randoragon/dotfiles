@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Intakes a git branch name and a file inside a stow-managed dotfiles folder, and automatically opens a vimdiff session with both files,
+# after a closed edit it makes all the necessary replacements to place the diffed file inside the dotfiles directory.
+
+BRANCH="$1"
+FILEPATH="$2"
+
+# Check if git branch exists
+if [[ -z $(git rev-parse --verify --quiet $BRANCH) ]]; then echo "Error: no git branch named '$1' inside this directory."; exit; fi
+
+# Check if file exists
+if [[ ! -f $FILEPATH ]]; then echo "Error: no file named '$2' was found."; exit; fi
+FILENAME="$(basename $2)"
+
+# Create a safe directory to process files
+DIR="$HOME/.cache/dotmerge"
+mkdir -p $DIR
+
+cp $FILEPATH "$DIR/$FILENAME"
+git checkout $BRANCH -- $FILEPATH
+mv $FILEPATH "$DIR/$FILENAME.$BRANCH"
+
+vimdiff "$DIR/$FILENAME" "$DIR/$FILENAME.$BRANCH"
+wait
+
+mv "$DIR/$FILENAME" $FILEPATH
+rm "$DIR/$FILENAME.$BRANCH"
+

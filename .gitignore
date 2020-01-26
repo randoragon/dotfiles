@@ -11,3 +11,13 @@ H_mpd/**/mpd.log
 H_mpd/**/mpd.pid
 H_mpd/**/mpdstate
 
+H_copyq/.config/copyq/copyq_geometry.ini
+H_copyq/.config/copyq/copyq_tab_*.dat
+!H_copyq/.config/copyq/copyq_tab_UHJlJnNldHM=.dat
+H_copyq/.config/copyq/*.bak
+H_copyq/.config/copyq/copyq_tabs.ini
+H_copyq/.config/copyq/copyq-bak.conf
+
+H_megacmd/**/excluded
+H_megacmd/**/lockMCMD
+H_megacmd/**/mega*

@@ -1,0 +1,12 @@
+[Desktop Entry]
+
+Type=Application
+Version=1.0
+Name=mpdplay
+Comment=Script for playing a music file through MPD
+Exec=mpdplay %F
+Icon=
+Terminal=false
+Categories=
+MimeType=audio/mpeg;audio/ogg;audio/wav;audio/aac;audio/flac;audio/mp4;audio/x-m4a;audio/vnd.dolby.dd-raw
+MimeType=application/ogg;application/x-ogg;audio/ogg;audio/vorbis;audio/x-vorbis;audio/x-vorbis+ogg;audio/opus;application/x-flac;audio/flac;audio/x-flac;audio/mpeg;audio/mpg;audio/mp1;audio/mp2;audio/mp3;audio/x-mp1;audio/x-mp2;audio/x-mp3;audio/x-mpeg;audio/x-mpg;application/x-extension-m4a;audio/aac;audio/m4a;audio/mp4;audio/x-m4a;audio/x-aac;audio/webm;audio/3gpp;audio/3gpp2;x-content/audio-player;audio/dv;audio/x-aiff;audio/wav;audio/x-wav;audio/x-adpcm;audio/ac3;audio/eac3;audio/vnd.dts;audio/vnd.dts.hd;audio/vnd.dolby.heaac.1;audio/vnd.dolby.heaac.2;audio/vnd.dolby.mlp;audio/basic;audio/x-wavpack;application/x-shockwave-flash;

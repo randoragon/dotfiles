@@ -169,16 +169,10 @@ label-foreground = #7FF
 
 [module/wlan]
 type = internal/network
-interface = lo
-interval = 3.0
-format-connected = <ramp-signal> <label-connected>
-label-connected = %essid%
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
+interface = wlp2s0
+interval = 1.0
+format-connected = <label-connected>
+label-connected = %{F#482} %{F#AF6}%downspeed%  %{F#268} %{F#7CF}%upspeed%
 
 [module/eth]
 type = internal/network
@@ -218,23 +212,13 @@ battery = BAT0
 adapter = ADP1
 full-at = 98
 time-format = %H:%M
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
 format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
 label-discharging = %percentage%% (%time%)
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 750
+format-charging = %{F#AA0} %{F#FFFF00}<label-charging>
+label-charging = ${self.label-discharging}
+ramp-capacity-0 = %{F#944}%{F#C22}
+ramp-capacity-1 = %{F#994}%{F#BB2}
+ramp-capacity-2 = %{F#494}%{F#2C2}
 
 [module/temperature]
 type = internal/temperature

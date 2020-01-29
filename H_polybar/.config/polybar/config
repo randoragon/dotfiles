@@ -224,7 +224,7 @@ ramp-foreground = #944
 [module/updates]
 type = custom/script
 interval = 10
-exec = cat "$HOME/.cache/updatecount.txt"
+exec = cat "/tmp/updatecount"
 click-left = updatecount
 format = <label>
 

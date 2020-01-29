@@ -10,7 +10,7 @@
 # the script will run in "daemon" mode, polling updates every
 # X seconds and saving results in a file.
 
-FILE="tmp/updatecount"
+FILE="/tmp/updatecount"
 
 # Create directory in case it doesn't exist
 mkdir -p "$(dirname $FILE)"

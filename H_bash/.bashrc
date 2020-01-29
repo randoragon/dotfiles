@@ -301,7 +301,7 @@ alias i3lock="i3lock -e -f -m -i ~/Pictures/background_lock.png -k --indicator -
 
 # Defaults
 export TERM=termite
-alias sysupdate='sudo pacman -Syu && yay -Syu && sudo snap refresh'
+alias sysupdate='sudo pacman -Syu && yay -Syu && sudo snap refresh && updatecount'
 
 # GalliumOS (Ubuntu based)
 if [ "$HOSTNAME" = "gallium" ]; then

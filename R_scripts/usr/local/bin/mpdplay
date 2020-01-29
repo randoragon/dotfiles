@@ -4,7 +4,7 @@
 # then skips the current playing song and plays the parameter one.
 
 # Quit if no arguments
-if [[ "$1" == '' ]]; then exit; fi
+if [[ $# == 0 ]]; then exit; fi
 
 # WARNING: the below formula assumes mpd config is stored in $HOME/.mpd
 # and that the port is passed after a colon in host:port format

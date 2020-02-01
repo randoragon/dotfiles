@@ -1,24 +1,40 @@
 "LINUX VIMRC
 
+" Basic Settings {{{1
+filetype plugin indent on
+syntax on
+set encoding=utf-8
+set nocompatible
+set nowrap
+set number
+set path+=** " Enables recursive :find
+set showcmd
+let mapleader=','
+nnoremap \ ,
+map Y y$
+set backspace=indent,eol,start
+set hidden
+set wildmenu
+set ruler
+" }}}
+
 " Plugins {{{1
 call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
-Plug 'ycm-core/YouCompleteMe'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-speeddating'
-Plug 'glts/vim-magnum'
-Plug 'glts/vim-radical'
 Plug 'tpope/vim-repeat'
+Plug 'glts/vim-radical'
+Plug 'glts/vim-magnum'
 Plug 'dense-analysis/ale'
 Plug 'easymotion/vim-easymotion'
 Plug 'flazz/vim-colorschemes'
 Plug 'ternjs/tern_for_vim'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
-Plug 'nessss/vim-gml'
 Plug 'godlygeek/tabular'
 call plug#end()
 
@@ -63,24 +79,6 @@ nnoremap <C-F>h :Helptags<CR>
 nnoremap <C-F>a :Ag<CR>
 " }}}
 
-" }}}
-
-" Basic Settings {{{1
-filetype plugin indent on
-syntax on
-set encoding=utf-8
-set nocompatible
-set nowrap
-set number
-set path+=** " Enables recursive :find
-set showcmd
-let mapleader=','
-nnoremap \ ,
-map Y y$
-set backspace=indent,eol,start
-set hidden
-set wildmenu
-set ruler
 " }}}
 
 " Indentation settings {{{1

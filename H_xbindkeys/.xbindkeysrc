@@ -51,7 +51,7 @@
 "thunar"
     control+alt + i
 "gksudo thunar"
-    control+shift+alt + r
+    control+shift+alt + i
 "firefox"
     control+alt + b
 "x-terminal-emulator -e ncmpcpp"

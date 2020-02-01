@@ -28,5 +28,5 @@ if [[ -z $(mpc --port=$PORT insert "file://$SONG" 2>&1) ]]; then
     mpc --port=$PORT next
 else
     STDOUT=$(mpc --port=$PORT insert "file://$SONG" 2>&1)
-    rofi -markup -e "<span background='red'><b>mpdplay: mpc:</b></span> $STDOUT"
+    rofi -markup -e "<span background='red'><b>mpdplay: mpc:</b></span> <span background='blue'>$SONG</span> $STDOUT "
 fi

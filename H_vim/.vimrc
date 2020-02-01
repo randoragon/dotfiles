@@ -145,9 +145,11 @@ set writebackup
 nnoremap <Leader>l :redraw!<CR>
 " }}}
 
-" Make j and k movement wrap-friendly {{{1
+" Make motions more wrap-friendly {{{1
 nnoremap k gk
+nnoremap gk k
 nnoremap j gj
+nnoremap gj j
 " }}}
 
 " Fullscreen shortcut {{{1

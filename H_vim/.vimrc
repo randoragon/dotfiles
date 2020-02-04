@@ -70,13 +70,22 @@ let g:AutoPairsShortcutToggle='<Leader>0'
 " }}}
 
 " FZF {{{2
-nnoremap <C-F>f :Files<CR>
-nnoremap <C-F>l :Lines<CR>
-nnoremap <C-F>c :Commands<CR>
-nnoremap <C-F>t :Tags<CR>
-nnoremap <C-F>m :Marks<CR>
-nnoremap <C-F>h :Helptags<CR>
-nnoremap <C-F>a :Ag<CR>
+nnoremap <C-f>f     : Files<CR>
+nnoremap <C-f><C-f> : Files<CR>
+nnoremap <C-f>l     : Lines<CR>
+nnoremap <C-f><C-l> : Lines<CR>
+nnoremap <C-f>c     : Commands<CR>
+nnoremap <C-f><C-c> : Commands<CR>
+nnoremap <C-f>t     : Tags<CR>
+nnoremap <C-f><C-t> : Tags<CR>
+nnoremap <C-f>m     : Marks<CR>
+nnoremap <C-f><C-m> : Marks<CR>
+nnoremap <C-f>h     : Helptags<CR>
+nnoremap <C-f><C-h> : Helptags<CR>
+nnoremap <C-f>a     : Ag<CR>
+nnoremap <C-f><C-a> : Ag<CR>
+nnoremap <C-f>b     : Buffers<CR>
+nnoremap <C-f><C-b> : Buffers<CR>
 " }}}
 
 " }}}
@@ -130,6 +139,9 @@ nnoremap <C-w>j :set splitbelow<CR>:new<CR>
 nnoremap <C-w>k :set nosplitbelow<CR>:new<CR>:set splitbelow<CR>
 nnoremap L gt
 nnoremap H gT
+
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-p> :bNext<CR>
 " }}}
 
 " Backup directories {{{1

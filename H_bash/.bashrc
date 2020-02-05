@@ -303,6 +303,7 @@ alias i3lock="i3lock -e -f -m -i ~/Pictures/background_lock.png -k --indicator -
 alias gs="git status"
 alias ga="git add"
 alias gd="git diff"
+alias gds="git diff --staged"
 alias gc="git commit"
 alias gp="git push"
 

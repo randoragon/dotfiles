@@ -166,7 +166,7 @@ label-connected = %{F#482} %{F#AF6}%downspeed%  %{F#268} %{F#7CF}%upspeed%
 [module/date]
 type = internal/date
 interval = 1
-date = %A, %e %b
+date = %a %b %e
 time = %H:%M:%S
 ;date-alt = %m/%d/%y
 ;time-alt = %H:%M:%S

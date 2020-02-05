@@ -6,6 +6,7 @@ alias mml='vim ~/.config/mimeapps.list'
 alias brc='vim ~/.bashrc'
 alias vrc='vim ~/.vimrc'
 alias api='vim ~/Dropbox/Scripts/arch_postinstall.sh'
+alias xbk='vim ~/.xbindkeysrc'
 
 # Directories
 alias cdoc='cd ~/Documents && ls'

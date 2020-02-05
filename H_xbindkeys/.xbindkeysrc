@@ -56,7 +56,7 @@
     control+alt + b
 "x-terminal-emulator -e ncmpcpp"
     control+alt + m
-"mpd"
+"mpd --kill && mpd"
     control+shift+alt + m
 "x-terminal-emulator -e vim"
     control+alt + v

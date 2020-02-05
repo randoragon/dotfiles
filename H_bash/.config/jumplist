@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Files
+alias jpl='vim ~/.config/jumplist'
+alias mml='vim ~/.config/mimeapps.list'
+alias brc='vim ~/.bashrc'
+alias vrc='vim ~/.vimrc'
+alias api='vim ~/Dropbox/Scripts/arch_postinstall.sh'
+
+# Directories
+alias cdoc='cd ~/Documents && ls'
+alias cdpi='cd ~/Pictures && ls'
+alias cdmu='cd ~/Music && ls'
+alias cdvi='cd ~/Videos && ls'
+alias cdpr='cd ~/Projects && ls'
+alias cdso='cd ~/Software && ls'
+alias cdow='cd ~/Downloads && ls'
+alias cdot='cd ~/dotfiles && ls'
+alias cdro='cd ~/Dropbox && ls'
+alias cdme='cd ~/MEGA && ls'
+alias cdap='cd ~/.local/share/applications && ls'
+alias cdsc='cd ~/.scripts && ls'
+alias cdrs='cd ~/dotfiles/R_scripts/usr/local/bin && ls'

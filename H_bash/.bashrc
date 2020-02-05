@@ -275,6 +275,10 @@ unset bash_prompt
 
 ###-----------------------------MY-CONFIGURATION-----------------------------###
 
+# Enable beets tab-completion
+eval "$(beet completion)"
+export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
+
 ################################################################################
 ##  LOCALE                                                                   ##
 ################################################################################
@@ -287,6 +291,7 @@ export LC_ALL=en_US.UTF-8
 ##  ALIASES                                                                   ##
 ################################################################################
 
+# General
 alias ls='ls --color=auto'
 alias setkblayoutpl='setxkbmap -layout pl'
 alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
@@ -294,6 +299,15 @@ alias rm='rmtrash'
 alias rmdir='rmdirtrash'
 alias i3lock="i3lock -e -f -m -i ~/Pictures/background_lock.png -k --indicator --keylayout 0 --radius=160 --timecolor=7de317bb --datecolor=7de31788 --layoutcolor=7de31766 --wrongcolor=ffffffff --datestr='%A, %d %b %Y'"
 
+# Git 
+alias gs="git status"
+alias ga="git add"
+alias gd="git diff"
+alias gc="git commit"
+alias gp="git push"
+
+# Jumplist
+source "$HOME/.config/jumplist"
 
 ################################################################################
 ##  HOST-SPECIFIC CONFIGURATION                                               ##

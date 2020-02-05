@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Replacement for xdg-utils, which uses mimeopen from perl-file-mimetypes
+
+/usr/bin/vendor_perl/mimeopen -n "$@"
+

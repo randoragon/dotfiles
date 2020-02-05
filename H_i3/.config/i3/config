@@ -230,30 +230,32 @@ for_window [class="scratch-music"] floating enable, border normal, move to scrat
 no_focus [class="scratch-music"]
 bindsym $mod+m [class="scratch-music"] scratchpad show
 ## thunderbird
-assign [class="(T|t)hunderbird"] ""
-no_focus [class="(T|t)hunderbird"]
+assign [class="(?i)thunderbird"] ""
+no_focus [class="(?i)thunderbird"]
 ## discord
-assign [class="(D|d)iscord"] ""
-no_focus [class="(D|d)iscord"]
+assign [class="(?i)discord"] ""
+no_focus [class="(?i)discord"]
 ## firefox
-assign [class="(F|f)irefox"] ""
-no_focus [class="(F|f)irefox"]
+assign [class="(?i)firefox"] ""
+no_focus [class="(?i)firefox"]
 ## keepassxc
-for_window [class="(K|k)ee(P|p)ass(X|x)(C|c)"] floating enable, border normal, move to scratchpad
-no_focus [class="(K|k)ee(P|p)ass(X|x)(C|c)"]
-bindsym $mod+o [class="(K|k)ee(P|p)ass(X|x)(C|c)"] scratchpad show
+for_window [class="(?i)keepassxc"] floating enable, border normal, move to scratchpad
+no_focus [class="(?i)keepassxc"]
+bindsym $mod+o [class="(?i)keepassxc"] scratchpad show
 ## doublecmd
-for_window [class="(D|d)oublecmd" window_role="[^(TfrmMain)]{1}$"] floating enable, border normal
+for_window [class="(?i)doublecmd" window_role="[^(TfrmMain)]{1}$"] floating enable, border normal
 ## steam
-assign [class="(S|s)team"] ""
-no_focus [class="(S|s)team"]
-for_window [class="(S|s)team" title="(S|s)team - (N|n)ews.*"] floating enable, border normal
+assign [class="(?i)steam"] ""
+no_focus [class="(?i)steam"]
+for_window [class="(?i)steam" title="(?i)steam - news.*"] floating enable, border normal
 ## copyq
-for_window [class="(C|c)opy(Q|q)"] floating enable, border normal
+for_window [class="(?i)copyq"] floating enable, border normal
 ## feh
-for_window [class="(F|f)eh"] floating enable, border normal
+for_window [class="(?i)feh"] floating enable, border normal
 ## flameshot
-for_window [class="(F|f)lameshot"] floating enable, border none
+for_window [class="(?i)flameshot"] floating enable, border none
+## mpv
+for_window [class="(?i)mpv"] floating enable, border normal
 
 # Application Shortcuts
 bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term --title "Scratch Term"

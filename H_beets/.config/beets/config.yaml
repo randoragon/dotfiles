@@ -1,0 +1,130 @@
+# RANDORAGON's BEETS CONFIG
+
+# Directory for beets to store raw data in
+library: ~/Beets/library.db
+
+# Directory to move amended items into
+directory: ~/Beets
+
+# Formats used when producing output with beets list
+format_item: $artist - $title
+format_album: $albumartist - $album
+sort_item: artist+ album+ disc+ track+
+sort_album: albumartist+ album+
+sort_case_insensitive: yes
+
+# Import options
+import: 
+    write: no
+    move: no
+    copy: yes
+    resume: ask
+    incremental: yes
+    from_scratch: no
+    log: ~/.config/beets/import.log
+    languages: en pl de ja jp
+    autotag: yes
+
+# Paths
+paths:
+    default: $artist/$title
+    singleton: $artist/$title
+    comp: Compilations/$title
+
+# PLUGINS ----------------------------------------------------
+# https://beets.readthedocs.io/en/stable/plugins/index.html
+# fetchart       : download album art
+# lastgenre      : download genre
+# chroma         : enables matching by acoustic fingerprint instead of just tags
+# fromfilename   : guesses metadata from filename
+# acousticbrainz : fetch tags from AcousticBrainz
+# edit           : edit tags with any text editor
+# embedart       : embed album art directly into the music files
+# ftintitle      : converts tags like "artist feat. guest - title" to "artist - title feat. guest"
+# mbsync         : update MusicBrainz tags with "beet mbsync QUERY". Affects only items with MusicBrainzID
+# mpdstats       : collects play count, skip count, last played and rating from MPD
+# mpdupdate      : updates MPD library everytime beets library changes
+# replaygain     : calculates replaygain
+# thumbnails     : adds metadata for displaying file thumbnails in thunar etc.
+# fuzzy          : enables fuzzy searching by prefixing the query with ~
+# info           : enables listing quaried items' tag information
+# spotify        : allows to create spotify playlists from local library
+# web            : allows running a local web server with a provisional HTML library view
+plugins: fetchart lastgenre chroma fromfilename acousticbrainz edit embedart ftintitle mbsync mpdstats mpdupdate replaygain thumbnails fuzzy info spotify web
+
+chroma:
+    auto: yes
+
+acoustid:
+    # Send local fingerprints to with "beet submit"
+    apikey: plCTgUVJgu
+
+acousticbrainz:
+    auto: yes
+    force: no
+    tags: []
+
+edit:
+    itemfields: title artist album
+    albumfields: album albumartist
+
+fetchart:
+    auto: yes
+    minwidth: 0
+    maxwidth: 0
+    enforce_ratio: no
+    sources: filesystem covertart itunes amazon albumart wikipedia google
+    google_key: ***REMOVED***
+    store_source: no
+
+embedart:
+    auto: yes
+    compare_threshold: 0
+    ifempty: no
+    maxwidth: 0
+    remove_art_file: yes
+
+ftintitle:
+    auto: yes
+    drop: no
+    format: feat. {0}
+
+lastgenre:
+    auto: yes
+    canonical: no
+    count: 2
+    fallback: ''
+    force: no
+    min_weight: 10
+    prefer_specific: no
+    source: track
+    separator: ' '
+    whitelist: yes
+
+mpd:
+    port: 6601
+    rating: yes
+    rating_mix: 0.75
+
+replaygain:
+    backend: gstreamer
+    auto: yes
+    overwrite: no
+    targetlevel: 89
+
+thumbnails:
+    auto: yes
+    force: no
+    dolphin: no
+
+fuzzy:
+    threshold: 0.7
+    prefix: ~
+
+web:
+    host: 127.0.0.1
+    port: 8337
+    reverse_proxy: false
+    include_paths: false
+
+# ENDOF PLUGINS ----------------------------------------------

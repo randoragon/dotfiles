@@ -278,6 +278,8 @@ unset bash_prompt
 # Enable beets tab-completion
 eval "$(beet completion)"
 export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
+export EDITOR=vim
+export TRASH="$HOME/.local/share/Trash/files"
 
 ################################################################################
 ##  LOCALE                                                                   ##

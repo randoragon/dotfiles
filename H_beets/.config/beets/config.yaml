@@ -36,7 +36,7 @@ paths:
 # fetchart       : download album art
 # lastgenre      : download genre
 # chroma         : enables matching by acoustic fingerprint instead of just tags
-# fromfilename   : guesses metadata from filename
+# fromfilename   : guesses metadata from filename (disabled right now)
 # acousticbrainz : fetch tags from AcousticBrainz
 # edit           : edit tags with any text editor
 # embedart       : embed album art directly into the music files
@@ -50,7 +50,8 @@ paths:
 # info           : enables listing quaried items' tag information
 # spotify        : allows to create spotify playlists from local library
 # web            : allows running a local web server with a provisional HTML library view
-plugins: fetchart lastgenre chroma fromfilename acousticbrainz edit embedart ftintitle mbsync mpdstats mpdupdate replaygain thumbnails fuzzy info spotify web
+# duplicates     : finds duplicate tracks or albums
+plugins: fetchart lastgenre chroma acousticbrainz edit embedart ftintitle mbsync mpdstats mpdupdate replaygain thumbnails fuzzy info spotify web duplicates
 
 chroma:
     auto: yes
@@ -119,12 +120,21 @@ thumbnails:
 
 fuzzy:
     threshold: 0.7
-    prefix: ~
+    prefix: "~"
 
 web:
     host: 127.0.0.1
     port: 8337
     reverse_proxy: false
     include_paths: false
+
+duplicates:
+    keys: [title]
+    album: no
+    count: no
+    delete: no
+    full: no
+    merge: no
+    path: yes
 
 # ENDOF PLUGINS ----------------------------------------------

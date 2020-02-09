@@ -278,7 +278,6 @@ unset bash_prompt
 export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
 export EDITOR=vim
 export TRASH="$HOME/.local/share/Trash/files"
-export i3_LAYOUTS="$HOME/.config/i3/layouts"
 
 ################################################################################
 ##  LOCALE                                                                   ##

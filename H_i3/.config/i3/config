@@ -173,8 +173,8 @@ mode "EXIT: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
     bindsym p mode "default", exec systemctl poweroff
     bindsym s mode "default", exec systemctl suspend
     bindsym $mod+Shift+e mode "default"
-    bindsym Escape       mode "default"
-    bindsym Return       mode "default"
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
 }
 bindsym $mod+Shift+e mode "EXIT: [l]ogout, [r]eboot, [s]uspend, [p]oweroff"
 

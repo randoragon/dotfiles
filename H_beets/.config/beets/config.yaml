@@ -1,7 +1,7 @@
 # RANDORAGON's BEETS CONFIG
 
 # Directory for beets to store raw data in
-library: ~/Beets/library.db
+library: ~/.config/beets/library.db
 
 # Directory to move amended items into
 directory: ~/Beets
@@ -20,6 +20,7 @@ import:
     copy: yes
     resume: ask
     incremental: yes
+    quiet: no
     from_scratch: no
     log: ~/.config/beets/import.log
     languages: en pl de ja jp

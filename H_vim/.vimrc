@@ -131,6 +131,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+nnoremap <Bar> <C-w><Bar>
+nnoremap _ <C-w>_
 set splitbelow
 set splitright
 nnoremap <C-w>l :set splitright<CR>:vnew<CR>

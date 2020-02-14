@@ -1,0 +1,14 @@
+# Always extract audio
+-x
+
+# Use this format for downloaded files
+-o "~/Music/Downloads/%(title)s.%(ext)s"
+
+# If link refers to both a playlist and a video, download only one video
+--no-playlist
+
+# Maximize audio quality
+--audio-quality 0
+
+# Convert audio to mp3
+--audio-format mp3

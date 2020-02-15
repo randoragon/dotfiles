@@ -2,9 +2,9 @@
 -x
 
 # Use this format for downloaded files
--o "~/Music/Downloads/%(title)s.%(ext)s"
+-o "~/Downloads/Music/%(title)s.%(ext)s"
 
-# If link refers to both a playlist and a video, download only one video
+# If link refers to both a playlist and a video, download only the video
 --no-playlist
 
 # Maximize audio quality

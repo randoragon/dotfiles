@@ -4,7 +4,7 @@
 library: ~/.config/beets/library.db
 
 # Directory to move amended items into
-directory: ~/Beets
+directory: ~/Music
 
 # Formats used when producing output with beets list
 format_item: $artist - $title
@@ -19,8 +19,10 @@ import:
     move: no
     copy: yes
     resume: ask
-    incremental: yes
+    incremental: no
+    incremental_skip_later: no
     quiet: no
+    detail: yes
     from_scratch: no
     log: ~/.config/beets/import.log
     languages: en pl de ja jp
@@ -28,16 +30,16 @@ import:
 
 # Paths
 paths:
-    default: $artist/$title
-    singleton: $artist/$title
-    comp: Compilations/$title
+    default: $albumartist/$album%aunique{}/$title
+    singleton: $artist/no album/$title
+    comp: Compilations/$album%aunique{}/$title
 
 # PLUGINS ----------------------------------------------------
 # https://beets.readthedocs.io/en/stable/plugins/index.html
 # fetchart       : download album art
 # lastgenre      : download genre
 # chroma         : enables matching by acoustic fingerprint instead of just tags
-# fromfilename   : guesses metadata from filename (disabled right now)
+# fromfilename   : guesses metadata from filename
 # acousticbrainz : fetch tags from AcousticBrainz
 # edit           : edit tags with any text editor
 # embedart       : embed album art directly into the music files
@@ -52,7 +54,7 @@ paths:
 # spotify        : allows to create spotify playlists from local library
 # web            : allows running a local web server with a provisional HTML library view
 # duplicates     : finds duplicate tracks or albums
-plugins: fetchart lastgenre chroma acousticbrainz edit embedart ftintitle mbsync mpdstats mpdupdate replaygain thumbnails fuzzy info spotify web duplicates
+plugins: fetchart lastgenre chroma acousticbrainz edit embedart ftintitle mbsync mpdstats mpdupdate replaygain thumbnails fuzzy info spotify web duplicates fromfilename
 
 chroma:
     auto: yes
@@ -64,16 +66,16 @@ acoustid:
 acousticbrainz:
     auto: yes
     force: no
-    tags: []
+    tags: [] # all
 
 edit:
-    itemfields: title artist album
+    itemfields: track title artist album
     albumfields: album albumartist
 
 fetchart:
     auto: yes
     minwidth: 0
-    maxwidth: 0
+    maxwidth: 500
     enforce_ratio: no
     sources: filesystem covertart itunes amazon albumart wikipedia google
     google_key: ***REMOVED***
@@ -83,7 +85,7 @@ embedart:
     auto: yes
     compare_threshold: 0
     ifempty: no
-    maxwidth: 0
+    maxwidth: 500
     remove_art_file: yes
 
 ftintitle:
@@ -130,7 +132,7 @@ web:
     include_paths: false
 
 duplicates:
-    keys: [title]
+    keys: [mb_trackid, mb_albumid]
     album: no
     count: no
     delete: no

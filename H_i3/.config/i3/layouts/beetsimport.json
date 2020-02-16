@@ -1,0 +1,44 @@
+// vim:ts=4:sw=4:et
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 410,
+       "width": 651,
+       "x": 0,
+       "y": 0
+    },
+    "name": null,
+    "percent": 0.5,
+    "swallows": [
+       {
+       "class": "^X\\-terminal\\-emulator$",
+       "instance": "^x\\-terminal\\-emulator$"
+       }
+    ],
+    "type": "con"
+}
+
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 1054,
+       "width": 958,
+       "x": 0,
+       "y": 24
+    },
+    "name": "Double Commander 0.9.8 beta build 9296; 2020/02/01",
+    "percent": 0.5,
+    "swallows": [
+       {
+       "class": "^Doublecmd$",
+       "instance": "^doublecmd$",
+       "window_role": "^TfrmMain$"
+       }
+    ],
+    "type": "con"
+}
+

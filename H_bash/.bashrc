@@ -316,7 +316,7 @@ source "$HOME/.config/jumplist"
 
 # Defaults
 export TERM=termite
-alias sysupdate='sudo pacman -Syu && yay -Syu && sudo snap refresh && updatecount'
+alias sysupdate='sudo pacman -Syu && yay -Syu && sudo snap refresh && sudo youtube-dl -U && updatecount'
 
 # GalliumOS (Ubuntu based)
 if [ "$HOSTNAME" = "gallium" ]; then

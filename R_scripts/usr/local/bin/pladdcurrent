@@ -13,7 +13,8 @@ def rprint(msg):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        rprint('<i>E: playlists_add.py:</i> <b>Exactly one parameter required (received {})</b>'.format(len(sys.argv)-1))
+        print('E: pladdcurrent: Exactly one parameter required (received {})'.format(len(sys.argv)-1))
+        rprint('<i>E: pladdcurrent:</i> <b>Exactly one parameter required (received {})</b>'.format(len(sys.argv)-1))
         sys.exit(1)
     
     playlist = str(sys.argv[1])
@@ -28,5 +29,6 @@ if __name__ == '__main__':
         f.close()
         sys.exit(0)
     else:
-        rprint('<i>I: playlists_add.py:</i> <b>This song is already on the playlist!</b>')
+        print('I: pladdcurrent: This song is already on the playlist!')
+        rprint('<i>I: pladdcurrent:</i> <b>This song is already on the playlist!</b>')
         sys.exit(2)

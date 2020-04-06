@@ -6,9 +6,10 @@
 import os
 import sys
 
-CSV_FILE = '/home/pcache/.config/rofi/playlists.csv'
-ADD_SCRIPT = '~/.config/rofi/playlists_add.py'
-PLAYLIST_DIR = '~/Music/Music/Playlists/'
+HOME_DIR = os.path.expanduser('~')
+CSV_FILE = f'{HOME_DIR}/.config/rofi/playlists.csv'
+ADD_SCRIPT = 'pladdcurrent'
+PLAYLIST_DIR = '~/Music/Playlists/' # the tilde here is deliberate
 
 def rprint(msg):
     return os.system('rofi -e "{}" -markup'.format(msg))
@@ -22,18 +23,18 @@ def file_exists(path):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        rprint('<i>E: playlists_new.py:</i> <b>Exactly one parameter required (received {})</b>'.format(len(sys.argv)-1))
+        rprint('<i>E: plnew:</i> <b>Exactly one parameter required (received {})</b>'.format(len(sys.argv)-1))
         sys.exit(1)
     
     plname = str(sys.argv[1])
     playlist = PLAYLIST_DIR + plname + '.m3u'
-
-    if not file_exists(playlist):
+    if not file_exists(os.path.expanduser(playlist)):
         os.system('touch {}'.format(playlist))
         f = open(CSV_FILE, 'a')
-        f.write('{},python3 {} {}\n'.format(plname, ADD_SCRIPT, playlist))
+        f.write(f'{plname},{ADD_SCRIPT} {playlist}\n')
         f.close()
         sys.exit(0)
     else:
-        rprint('<i>W: playlists_new.py:</i> <b>This playlist already exists!</b>')
+        print('plnew: This playlist already exists!')
+        rprint('<i>W: plnew:</i> <b>This playlist already exists!</b>')
         sys.exit(1)

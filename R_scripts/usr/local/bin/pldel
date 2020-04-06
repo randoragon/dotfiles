@@ -2,18 +2,21 @@
 
 # This script does the reverse of plnew, it deletes a m3u playlist and removes its entry from the csv file.
 
-CSV_FILE = '~/.config/rofi/playlists.csv'
-PLAYLIST_DIR = '~/Music/Music/Playlists/'
 
 import sys
 import os
+
+HOME_DIR = os.path.expanduser('~')
+CSV_FILE = f'{HOME_DIR}/.config/rofi/playlists.csv'
+PLAYLIST_DIR = f'{HOME_DIR}/Music/Playlists/'
 
 def rprint(msg):
     return os.system('rofi -e "{}" -markup'.format(msg))
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        rprint('<i>E: playlists_del.py:</i> <b>Exactly one parameter required (received {})</b>'.format(len(sys.argv)-1))
+        print('E: pldel: Exactly one parameter required (received {})'.format(len(sys.argv)-1))
+        rprint('<i>E: pldel:</i> <b>Exactly one parameter required (received {})</b>'.format(len(sys.argv)-1))
         sys.exit(1)
 
     plname = str(sys.argv[1])

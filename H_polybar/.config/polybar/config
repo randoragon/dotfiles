@@ -204,7 +204,6 @@ ramp-capacity-2 = %{F#494}%{F#2C2}
 
 [module/temperature]
 type = internal/temperature
-hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input
 interval = 1
 thermal-zone = 0
 base-temperature = 30

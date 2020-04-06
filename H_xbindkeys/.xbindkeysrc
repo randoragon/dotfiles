@@ -117,7 +117,7 @@
 "~/.config/rofi/playlists"
     Mod2+Mod4+shift + Insert
 "rofi -show combi"
-    control + space
+    Mod2+Mod4 + Tab
 "rofi -show calc -modi 'calc:qalc +u8'"
     Mod2+Mod4 + equal
 

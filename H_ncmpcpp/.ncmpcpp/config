@@ -195,7 +195,7 @@ current_item_inactive_column_suffix = $/r$(end)
 ## Note: Custom command that will be executed each time song changes. Useful for
 ## notifications etc.
 ##
-#execute_on_song_change = ""
+execute_on_song_change = echo "$(mpc current --format '%artist% - %title%')    " > ~/.cache/obs-now-playing.txt
 #
 ##
 ## Note: Custom command that will be executed each time player state
@@ -256,7 +256,7 @@ progressbar_look = ▬🔘
 #
 ## Available values: artist, album_artist, date, genre, composer, performer.
 ##
-media_library_primary_tag = genre
+media_library_primary_tag = artist
 #
 media_library_albums_split_by_date = no
 #
@@ -340,9 +340,9 @@ startup_screen = media_library
 #
 #ask_before_clearing_playlists = yes
 #
-#clock_display_seconds = no
+clock_display_seconds = yes
 #
-display_volume_level = no
+display_volume_level = yes
 #
 #display_bitrate = no
 #

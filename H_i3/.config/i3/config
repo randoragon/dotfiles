@@ -171,7 +171,7 @@ mode "EXIT: [l]ogout, [r]eboot, [s]uspend, [p]oweroff" {
     bindsym l mode "default", exec i3-msg exit
     bindsym r mode "default", exec systemctl reboot
     bindsym p mode "default", exec systemctl poweroff
-    bindsym s mode "default", exec systemctl suspend
+    bindsym s mode "default", exec physlock && systemctl suspend
     bindsym $mod+Shift+e mode "default"
     bindsym Escape mode "default"
     bindsym Return mode "default"

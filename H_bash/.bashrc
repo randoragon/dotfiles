@@ -297,7 +297,6 @@ alias setkblayoutpl='setxkbmap -layout pl'
 alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
 alias rm='rmtrash'
 alias rmdir='rmdirtrash'
-alias i3lock="i3lock -e -f -m -i ~/Pictures/background_lock.png -k --indicator --keylayout 0 --radius=160 --timecolor=7de317bb --datecolor=7de31788 --layoutcolor=7de31766 --wrongcolor=ffffffff --datestr='%A, %d %b %Y'"
 
 # Git 
 alias gs="git status"

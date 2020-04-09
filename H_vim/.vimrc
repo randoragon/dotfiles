@@ -114,9 +114,10 @@ endfunction
 
 augroup fold_switch
     autocmd!
-    autocmd BufRead,BufNewFile .vimrc setlocal foldmethod=marker | set foldlevel=0
-    autocmd BufRead,BufNewFile *.py setlocal foldmethod=indent foldnestmax=2
-    autocmd BufRead,BufNewFile *.md setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
+    autocmd BufWinEnter * :normal zR
+    autocmd! BufWinEnter .vimrc setlocal foldmethod=marker foldlevel=0
+    autocmd! BufWinEnter *.py   setlocal foldmethod=indent | :normal zR
+    autocmd! BufWinEnter *.md   setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
 augroup END
 " }}}
 
@@ -182,9 +183,24 @@ nnoremap <Leader>p :call PreviewMarkdown()<CR>
 
 " netrw (tree view) settings {{{1
 let g:netrw_banner = 0
-let g:netrw_liststyle = 0
-let g:netrw_winsize = 25
-nmap <silent> <Leader>t :Vex!<CR>
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 30
+let g:netrw_preview = 1
+nmap <silent> <Leader>t :Lex!<CR>
+
+" Suppress some netrw maps
+" (Source: https://stackoverflow.com/questions/34136749/remove-netrw-s-up-and-s-down-mapping-in-vim)
+augroup netrw_maps
+  autocmd!
+  autocmd filetype netrw call ApplyNetrwMaps()
+augroup END
+
+function ApplyNetrwMaps()
+    nnoremap <buffer> <C-h> <C-w>h
+    nnoremap <buffer> <C-j> <C-w>j
+    nnoremap <buffer> <C-k> <C-w>k
+    nnoremap <buffer> <C-l> <C-w>l
+endfunction
 " }}}
 
 " Disable toolbars in gVim {{{1

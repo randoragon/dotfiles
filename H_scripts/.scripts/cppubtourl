@@ -1,0 +1,128 @@
+#!/bin/sh
+
+# CoPy PUBlisher TO URL (mp3 tags)
+
+# This script scans all mp3 files in the music directory
+# and copies the Publisher metadata to the URL metadata
+# for every file whose Publisher field matches a URL regex.
+#
+# The reason this exists is because I used to store fair use
+# music's URLs in the Publisher field on Windows back when using
+# AIMP. I don't remember why, but this script makes it easy
+# to migrate all that data to the proper field it belongs, URL.
+#
+# NOTE 1: the URL data will not be deleted from the Publisher field,
+# just copied. This is because I have no reason to delete it,
+# it might prove useful if some day I have to stream on Windows.
+#
+# NOTE 2: If the URL field is already occupied by some data which
+# is not equal to the value that's about to be set, the script
+# will prompt the user about it and let them decide manually.
+#
+# NOTE 3: The ID3v2 "WXXX" (User defined URL frame) is intended
+# to be used with the following syntax: "description:URL".
+# There can be an unlimited number of different WXXXs, so long
+# each has a unique description. Since I don't care about having
+# multiple, nor about having a description, I will delete all 
+# WXXX fields, and then assign the ":URL" string (gets truncated
+# to raw URL with no description).
+# Read more: (http://id3.org/id3v2.4.0-frames)
+#
+# DEPENDENCIES:
+# - id3ted 
+# - mid3v2 (python-mutagen)
+# (id3ted currently doesn't support writing WXXX in a stable way, so I need mid3v2 to just do that)
+
+
+# Set to 1 to print information about "Kept" files (unchanged)
+PRINT_KEPT=0
+
+# Create temporary files for count variables and path list
+tmp="/tmp/$(basename "$0")_count"
+input="/tmp/$(basename "$0")_input"
+
+# Declare functions for easy manipulation of counters
+# 1 - added; 2 - kept; 3 - replaced; 4 - skipped; 5 - scanned
+tmpwrite () { printf "$1\n$2\n$3\n$4\n$5" > "$tmp"; }
+tmpadd () {
+    val="$(sed -n "$1p" "$tmp")"
+    sed -i "$1s/.*/$(expr "$val" + 1)/" "$tmp"
+}
+tmpwrite 0 0 0 0 0
+
+
+# Find every mp3 file, recursively, and follow symlinks
+# Save the full path list to the temporary file for while loop redirection
+find -L "$HOME/Music" -type f -name '*.mp3' > "$input"
+    
+# Iterate through every input path and run code for it
+while read f <&3; do
+    # Update the count variable
+    tmpadd 5
+
+    # Extract url from the publisher field
+    url=$(id3ted -l "$f" | sed -n "s/^TPUB: //p" | sed "s/;/\//g")
+
+    if [ -n "$url" -a -n "$(expr "$url" : "^https\?://\([^/#?:]\+\)\(\.[\w]\+\)*")" ]; then
+
+
+        # Store the current value of the URL field, in case it contains precious data
+        prev_url="$(id3ted -l "$f" | sed -n "s/^WXXX: \[.*\]: //p")"
+
+        if [ -z "$prev_url" ]; then
+            # mp3 files can contain multiple WXXX fields, so to ensure there's only one
+            # we delete all of them prior to adding the one we need
+            id3ted -r WXXX "$f"
+            mid3v2 --WXXX ":$url" "$f"
+            echo "  $(tput setaf 4)File$(tput setaf 7): $f"
+            echo " $(tput setaf 5)Added$(tput setaf 7): $url"
+            tmpadd 1
+            echo ""
+        elif [ "$prev_url" = "$url" ]; then
+            # If the existing value is the same as the one we're trying to write, skip
+            [ "$PRINT_KEPT" -eq 1 ] \
+                && echo "  $(tput setaf 4)File$(tput setaf 7): $f" \
+                && echo "  $(tput setaf 2)Kept$(tput setaf 7): $url" \
+                && echo ""
+            tmpadd 2
+        else
+            # If a value exists, but does not match the one we're trying to write,
+            # ask the user if the old one should be overwritten or not
+            echo "  $(tput setaf 4)File$(tput setaf 7): $f"
+            echo "  $(tput setaf 1)WARN$(tput setaf 7): Preexisting URL found!"
+            echo "   $(tput setaf 3)Old$(tput setaf 7): $prev_url"
+            echo "   $(tput setaf 2)New$(tput setaf 7): $url"
+            printf "  Replace? [y/N] "
+            read response
+            if [ "$response" = "y" ]; then
+                id3ted -r WXXX "$f"
+                mid3v2 --WXXX ":$url" "$f"
+                echo "  Changed old to new."
+                tmpadd 3
+            else
+                echo "  Skipped."
+                tmpadd 4
+            fi
+            echo ""
+        fi
+    fi
+done 3<"$input"
+
+# Delete the input file
+rm "$input"
+
+# Extract final count and delete tmp
+f1=$(sed -n "1p" "$tmp")
+f2=$(sed -n "2p" "$tmp")
+f3=$(sed -n "3p" "$tmp")
+f4=$(sed -n "4p" "$tmp")
+f5=$(sed -n "5p" "$tmp")
+rm "$tmp"
+
+# Print information about the affected files etc.
+echo " PROCESS OVERVIEW"
+echo "    Added: $(tput setaf 3)$f1$(tput setaf 7)"
+echo "     Kept: $(tput setaf 3)$f2$(tput setaf 7)"
+echo " Replaced: $(tput setaf 3)$f3$(tput setaf 7)"
+echo "  Skipped: $(tput setaf 3)$f4$(tput setaf 7)"
+echo "  Scanned: $(tput setaf 3)$f5$(tput setaf 7)"

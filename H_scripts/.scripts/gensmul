@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# GENerate Stream MUsic List
+
+# This script intakes a music directory, and does the following:
+# 1. Scan the music library for files which have their comment
+#    metadata beginning with "Creative Commons" or "Royalty Free"
+#    AND have a URL stored in the URL and/or Publisher fields.
+# 2. Add all matches of the above search to the "Fair Use" playlist.
+# 3. Generate a markdown-formatted list of all matched files,
+#    containing their artists, titles, and linking the URL.
+#
+# For a track to be detected, it needs to have the "License" metadata
+# field set to begin with either "Creative Commons" or "Royalty Free".
+# The URL field will be used for markdown links.
+#
+# This script was created so that listing music for various streaming
+# platforms is made easier.
+#
+# DEPENDENCIES:
+# - mid3v2 (python-mutagen)
+# - pladd (my own script)
+
+MUSIC_DIR="$HOME/Music/"
+export OUTFILE="fairuse.md"
+
+# Wipe the outfile
+printf '' > "$OUTFILE"
+
+find -L "$HOME/Music" -type f -name '*.mp3' | while read f; do
+    # Cache tags for multiple extractions
+    tags="$(id3ted -l "$f")"
+    
+    # Extract license string
+    license="$(echo "$tags" | sed -n "s/^TCOP: //p")"
+
+    # The list should only include files that have a matching license
+    if [ -n "$(expr "$license" : "^\(Creative Commons\|Royalty Free\)")" ]; then
+        artist="$(echo "$tags" | sed -n "s/^TPE1: //p")"
+        title="$(echo "$tags" | sed -n "s/^TIT2: //p")"
+        url="$(echo "$tags" | sed -n "s/^WXXX: \[.*\]: //p")"
+        # Keep the outfile sorted while adding more lines
+        # (method source: https://stackoverflow.com/a/10658677/10792539)
+        echo "[$artist - $title]($url)" | sort -o "$OUTFILE" -m - "$OUTFILE"
+    fi
+done
+
+# Add markdown list numbering
+tmpfile="/tmp/$(basename "$0")_awk"
+awk 'BEGIN{i=1} /.*/{printf "%d. % s\n",i,$0; i++}' "$OUTFILE" > "$tmpfile"
+mv "$tmpfile" "$OUTFILE"
+
+echo "Successfully exported to $(dirname $(realpath "$0"))/fairuse.md"

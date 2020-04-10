@@ -1,11 +1,14 @@
 #!/bin/sh
 
+# This file is for aliases that take you places
+
 # Files
-alias jpl='vim ~/.config/jumplist'
+alias jmp='vim ~/.config/jumprc'
+alias als='vim ~/.config/aliasrc'
 alias mml='vim ~/.config/mimeapps.list'
 alias brc='vim ~/.bashrc'
 alias vrc='vim ~/.vimrc'
-alias api='vim ~/Dropbox/Scripts/arch_postinstall.sh'
+alias api='vim ~/dotfiles/H_scripts/.scripts/arch_postinstall.sh'
 alias xbk='vim ~/.xbindkeysrc'
 
 # Directories
@@ -20,6 +23,12 @@ alias cdot='cd ~/dotfiles && ls'
 alias cdro='cd ~/Dropbox && ls'
 alias cdme='cd ~/MEGA && ls'
 alias cdap='cd ~/.local/share/applications && ls'
+alias cdrap='cd /usr/share/applications && ls'
 alias cdsc='cd ~/.scripts && ls'
-alias cdrs='cd ~/dotfiles/R_scripts/usr/local/bin && ls'
+alias cdls='cd ~/.local/bin && ls'
+alias cdrs='cd ~/usr/local/bin && ls'
+alias cddap='cd ~/dotfiles/H_xdg-mime/.local/share/applications && ls'
+alias cddsc='cd ~/dotfiles/H_scripts/.scripts && ls'
+alias cddls='cd ~/dotfiles/H_scripts/.local/bin && ls'
+alias cddrs='cd ~/dotfiles/R_scripts/usr/local/bin && ls'
 alias cdtr='cd ~/.local/share/Trash/files && ls'

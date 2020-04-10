@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# This file is for storing abbreviations for commands
+
 # General
 alias ls='ls --color=auto'
 alias setkblayoutpl='setxkbmap -layout pl'

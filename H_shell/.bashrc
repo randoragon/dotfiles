@@ -270,59 +270,7 @@ PROMPT_COMMAND=bash_prompt_command
 bash_prompt
 unset bash_prompt
 
+# Load jumplist and aliases
+[ -f "$HOME/.config/jumprc" ] && . "$HOME/.config/jumprc"
+[ -f "$HOME/.config/aliasrc" ] && . "$HOME/.config/aliasrc"
 
-
-
-###-----------------------------MY-CONFIGURATION-----------------------------###
-
-export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
-export EDITOR=vim
-export TRASH="$HOME/.local/share/Trash/files"
-
-################################################################################
-##  LOCALE                                                                   ##
-################################################################################
-
-setxkbmap -layout pl
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-################################################################################
-##  ALIASES                                                                   ##
-################################################################################
-
-# General
-alias ls='ls --color=auto'
-alias setkblayoutpl='setxkbmap -layout pl'
-alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
-alias rm='rmtrash'
-alias rmdir='rmdirtrash'
-
-# Git 
-alias gs="git status"
-alias ga="git add"
-alias gd="git diff"
-alias gds="git diff --staged"
-alias gc="git commit"
-alias gp="git push"
-
-# Jumplist
-source "$HOME/.config/jumplist"
-
-################################################################################
-##  HOST-SPECIFIC CONFIGURATION                                               ##
-################################################################################
-
-# Defaults
-export TERM=termite
-alias sysupdate='sudo pacman -Syu && yay -Syu && sudo snap refresh && sudo youtube-dl -U && updatecount'
-
-# GalliumOS (Ubuntu based)
-if [ "$HOSTNAME" = "gallium" ]; then
-    export TERM=xterm-termite
-    alias sysupdate='sudo apt update && sudo apt upgrade && sudo snap refresh'
-    # enable apt auto-completion (https://askubuntu.com/questions/133086/bash-tab-auto-complete-not-working-for-apt)
-    if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-        . /etc/bash_completion
-    fi
-fi

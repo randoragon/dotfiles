@@ -310,28 +310,13 @@ bindsym Control+$alt+l exec "physlock"
 exec --no-startup-id "i3-msg workspace number 1"
 
 # Startup Scripts/Daemons
+exec --no-startup-id "feh --bg-fill ~/Pictures/background.png"
 exec_always --no-startup-id "~/.config/picom/restart.sh"
 exec_always --no-startup-id "~/.config/polybar/launch.sh"
-exec_always --no-startup-id "xbindkeys"
-exec_always --no-startup-id "xmodmap ~/.Xmodmap"
-exec_always --no-startup-id "dunst"
-exec --no-startup-id "feh --bg-fill ~/Pictures/background.png"
-exec --no-startup-id "nm-applet"
-exec --no-startup-id "xfce4-power-manager"
-exec --no-startup-id "~/.config/redshift/launch.sh"
-exec --no-startup-id "dropbox"
-exec --no-startup-id "mpd"
-exec --no-startup-id "rescuetime"
-exec --no-startup-id "megasync"
-exec --no-startup-id "copyq"
-exec --no-startup-id "flameshot"
-#exec --no-startup-id "gromit-mpx"
 
 # Startup Applications
 exec --no-startup-id "i3-sensible-terminal --class scratch-term --title 'Scratch Term'"
 exec --no-startup-id "i3-sensible-terminal --class scratch-music -e ncmpcpp"
-exec --no-startup-id "discord"
-exec --no-startup-id "thunderbird"
 
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad

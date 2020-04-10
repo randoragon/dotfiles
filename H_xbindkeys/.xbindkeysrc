@@ -121,12 +121,6 @@
 "rofi -show calc -modi 'calc:qalc +u8'"
     Mod2+Mod4 + equal
 
-# Restart xmodmap
-"xmodmap ~/.Xmodmap"
-    control+shift+alt + m
-"xmodmap ~/.Xmodmap"
-    Menu
-
 # set directly keycode (here control + f with my keyboard)
 #"xterm"
 #  c:41 + m:0x4

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Scans the current directory and moves all mp3 files
+# whose genre ID3 frames contain the given genre,
+# then moves those files to a target directory.
+
 import eyed3
 import sys
 from os import listdir

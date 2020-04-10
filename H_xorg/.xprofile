@@ -1,0 +1,25 @@
+# This file is sourced whenever an X session is started,
+# either by startx or by some other display manager.
+# It's run between the initialization of X and the WM.
+
+
+
+# Autostart utilities
+nm-applet &
+xfce4-power-manager &
+~/.config/redshift/launch.sh &
+copyq &
+flameshot &
+xbindkeys &
+xmodmap "~/.Xmodmap" &
+dunst &
+picom --config "~/.config/picom/picom.conf" &
+xidlehook --not-when-audio --timer 600 'physlock' '' &
+
+# Autostart other programs
+#discord &
+#thunderbird &
+#dropbox &
+#mpd &
+#rescuetime &
+#megasync &

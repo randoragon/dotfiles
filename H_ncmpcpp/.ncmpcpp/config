@@ -13,7 +13,7 @@ mpd_host = localhost
 mpd_port = 6601
 mpd_connection_timeout = 5
 mpd_music_dir = "~/Music"
-mpd_crossfade_time = 5
+mpd_crossfade_time = 3
 
 ##### music visualizer #####
 visualizer_fifo_path = /tmp/mpd.fifo

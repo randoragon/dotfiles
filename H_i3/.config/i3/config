@@ -317,6 +317,7 @@ exec_always --no-startup-id "~/.config/polybar/launch.sh"
 # Startup Applications
 exec --no-startup-id "i3-sensible-terminal --class scratch-term --title 'Scratch Term'"
 exec --no-startup-id "i3-sensible-terminal --class scratch-music -e ncmpcpp"
+exec --no-startup-id "~/.xprofile"
 
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# This script fetches all pacman packages installed by me.
+# This does not include packages from base and base-devel.
+# https://bbs.archlinux.org/viewtopic.php?pid=690438
+
+pacman -Qei | awk '/^Name/ { name=$3 } /^Groups/ { if ( $3 != "base" && $3 != "base-devel" ) { print name } }'

@@ -1,0 +1,101 @@
+#!/usr/bin/sh
+
+# This script extracts current CPU temperature from the 'sensors' command output.
+# Then it formats it for polybar to display.
+# There's more functionality, like setting thresholds for warnings and custom
+# commands hooked to specific events.
+#
+# DEPENDENCIES
+# - lm_sensors
+# - libnotify
+# - perl
+# - mpv (optional, for playing the SFX)
+# - mpc (optional, requires an MPD_PORT variable)
+
+WARN=80
+CRIT=100
+INTERVAL=1
+FILE="$HOME/.cache/cputemp"
+SFX="$HOME/.sfx/alarm.wav"
+PREFIX=""
+
+# Runs when temp is in range <-∞;WARN)
+norm () {
+    # Log temperature
+    echo "$1" > "$FILE"
+}
+
+# Runs when temp is in range <WARN;CRIT)
+warn () {
+    # Read temperature
+    prev="$(cat "$FILE")"
+
+    # If crossed, trigger warn_enter
+    [ "$(echo "$prev < $WARN" | bc)" -eq 1 ] && warn_enter "$1"
+
+    # Log temperature
+    echo "$1" > "$FILE"
+}
+
+# Runs when temp is in range <CRIT;+∞)
+crit () {
+    # Read temperature
+    prev="$(cat "$FILE")"
+
+    # If crossed, trigger warn_enter
+    [ "$(echo "$prev < $CRIT" | bc)" -eq 1 ] && crit_enter "$1"
+
+    # Log temperature
+    echo "$1" > "$FILE"
+}
+
+# Runs when temperature crosses from <-∞;WARN) to <WARN;CRIT)
+warn_enter () {
+    topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
+    notify-send -i cpu -u critical "WARNING!" "<b>CPU Temperature High!</b>\n<u>Top Process</u>: $topcmd"
+}
+
+# Runs when temperature crosses from <WARN;CRIT) to <CRIT;+∞)
+crit_enter () {
+    topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
+    notify-send -i cpu -u critical "DANGER!" "<b>CPU Temperature Critical!</b>\n<u>Top Process</u>: $topcmd"
+    mpc --port=$MPD_PORT pause
+    mpv "$SFX" &
+}
+
+# Extract the highest temperature from sensors output
+# This command probably needs to be tweaked for each
+# machine separately, as the output will likely vary.
+text="$(sensors \
+    | sed -n "/^coretemp-isa/,/^$/ p" \
+    | perl -pe 's|^.*?\+([0-9.]+°C).*|\1|' \
+    | sed '/^[^0-9]/d' \
+    | sort -r \
+    | sed 'q')"
+
+# Get the raw number, without the Celcius suffix
+temp="$(echo "$text" | sed 's/[^0-9.]//g')"
+
+# Default temp color
+col='%{F#F99}'
+
+# Compare the number to find the right range
+if [ "$(echo "$temp >= $WARN" | bc)" -eq 1 ]; then
+    if [ "$(echo "$temp < $CRIT" | bc)" -eq 1 ]; then
+        warn "$temp"
+        col='%{F#FF1111}'
+        text="$text HOT!"
+    else
+        crit "$temp"
+        # Blink effect
+        case "$(expr "$(date +%S)" % 2)" in
+            0) col='%{F#FF0000}' ;;
+            1) col='%{F#FFFFFF}' ;;
+        esac
+        text="$text DANGER!"
+    fi
+else
+    norm "$temp"
+fi
+
+echo "%{F#944}$PREFIX" "$col$text"

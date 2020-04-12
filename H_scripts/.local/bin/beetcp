@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# BEET Cherry Pick
+
+# This script makes beets import every file in a directory
+# one by one, making it easy to search for each track separately
+# and find each one's respective album without relying on
+# the auto grouping feature (which doesn't always do a good job).
+
+file="/tmp/$(basename "$0")_files"
+find "$1" -maxdepth 1 -type f -name '*.mp3' > "$file"
+
+while read f <&3; do
+    beet import "$f"
+done 3<"$file"

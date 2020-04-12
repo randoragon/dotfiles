@@ -32,6 +32,7 @@ export LC_ALL=en_US.UTF-8
 export EDITOR=vim
 export TERM=termite
 export BROWSER=firefox
+export PAGER=less
 
 # Default directories
 export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
@@ -39,8 +40,13 @@ export TRASH="$HOME/.local/share/Trash/files"
 
 # Other configuration
 export MPD_HOST="$HOME/.mpd/socket"
+export MPD_PORT=6601
 export i3_LAYOUTS="$HOME/.config/i3/layouts"
 export LYNX_CFG="$HOME/.config/lynx/config"
+export NNN_OPENER=mimeo
+export NNN_BMS='h:~;d:~/Documents'
+export NNN_COLORS='6532'
+export NNN_TRASH=1
 
 # Start graphical server on tty1 if not already running.
 [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x Xorg >/dev/null && exec startx

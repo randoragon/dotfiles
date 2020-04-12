@@ -7,7 +7,7 @@
 cd ~
 mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
     Projects/Dev Projects/Art Projects/Video Projects/Music Projects/Other \
-    .scripts .local/bin
+    .scripts .local/bin .sfx
 
 # Installs from the official arch repository
 sudo pacman -Syu

@@ -48,7 +48,7 @@ font-2 = dejavu sans:fontformat=truetype:size=8:antialias=true;3
 font-3 = dejavu sans:fontformat=truetype:size=8:weight=bold:antialias=true;3
 modules-left = i3 pulseaudio mpd
 modules-center = date
-modules-right = updates filesystem memory cpu temperature wlan eth battery
+modules-right = updates filesystem memory cpu cputemp wlan eth battery
 tray-position = right
 tray-padding = 1
 tray-background = ${colors.background}
@@ -202,28 +202,16 @@ ramp-capacity-0 = %{F#944}%{F#C22}
 ramp-capacity-1 = %{F#994}%{F#BB2}
 ramp-capacity-2 = %{F#494}%{F#2C2}
 
-[module/temperature]
-type = internal/temperature
+[module/cputemp]
+type = custom/script
 interval = 1
-thermal-zone = 0
-base-temperature = 30
-warn-temperature = 80
-format = <ramp> <label>
-label = %temperature-c%
-label-foreground = #F99
-format-warn = <ramp> <label-warn>
-label-warn = %{T4}%temperature-c% HOT!%{T-}
-label-warn-foreground = #F00
-format-warn-underline = #FF1111
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = #944
+exec = cputemp 2>&-
+format = <label>
 
 [module/updates]
 type = custom/script
 interval = 10
-exec = sh -c 'cat "$HOME/.cache/updatecount" 2>/dev/null'
+exec = sh -c 'cat "$HOME/.cache/updatecount" 2>&-'
 click-left = updatecount
 format = <label>
 

@@ -1,0 +1,14 @@
+#!/usr/bin/sh
+
+# This script parses my default jumprc file and formats it
+# for lf to autocreate mappings that match the jumprc aliases.
+
+JUMPRC="$HOME/.config/jumprc"
+OUTFILE="/tmp/$(basename "$0")_maps"
+
+echo "$( \
+    sed -n '/^alias cd\w\+='"'"'cd .*/{
+    s/alias/map/ ; s/='"'"'/ :/ ; s/ &&.*//p
+    }' \
+    "$JUMPRC"
+)" > "$OUTFILE"

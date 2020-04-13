@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # This file is for aliases that take you places
+# The directories section is read by genlfjmp script
 
 # Files
 alias jmp='vim ~/.config/jumprc'

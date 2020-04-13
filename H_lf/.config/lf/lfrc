@@ -1,16 +1,8 @@
+# Set ZSH
+set shell zsh
+
 # Enable icons
 set icons
-
-# Image and video previews
-# https://github.com/gokcehan/lf/wiki/Previews
-cmd preview_image ${{
-    "$HOME/.config/lf/draw_img.sh" "$f"
-}}
-cmd preview_video ${{
-    CACHE="$(mktemp /tmp/thumb_cache.XXXXX)"
-    ffmpegthumbnailer -i "$f" -o "$CACHE" -s 0
-    "$HOME/.config/lf/draw_img.sh" "$CACHE" && rm "$CACHE"
-}}
 
 # Trash and delete files
 map x :trash
@@ -18,9 +10,10 @@ map X :delete
 cmd trash %set -f; mv $fx "$HOME/.local/share/Trash/files"
 cmd trash ${{
     set -f
+    clear
     printf "$fx\n"
-    printf "move to trash?[y/n]"
-    read ans
+    printf "move to trash? [y/N]"
+    read -q ans
     [ $ans = "y" ] && mv $fx "$HOME/.local/share/Trash/files"
 }} 
 
@@ -47,3 +40,10 @@ cmd bulk-rename ${{
     lf -remote "send $id unselect"
 }}
 map R :bulk-rename
+
+# Generate directory shortcuts from jumplist
+map c
+map cd<enter> :cd ~
+map cd/ :cd /
+$"$HOME/.scripts/genlfjmp"
+:source "/tmp/genlfjmp_maps"

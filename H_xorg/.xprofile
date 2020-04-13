@@ -2,6 +2,8 @@
 # it should be executed by the window manager/desktop environment.
 # It's run between the initialization of X and the WM.
 
+# Set keyboard layout
+setxkbmap -layout pl
 
 # Autostart utilities
 xwallpaper --zoom ~/Pictures/background.png

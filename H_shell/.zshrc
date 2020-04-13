@@ -30,6 +30,10 @@ typeset -U PATH path
 path=("$HOME/.local/bin" "$path[@]")
 export PATH
 
+# Enable variable word splitting
+# http://zsh.sourceforge.net/FAQ/zshfaq03.html
+setopt shwordsplit
+
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
     tmp="$(mktemp)"

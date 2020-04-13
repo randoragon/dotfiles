@@ -18,7 +18,7 @@ sudo pacman -S --needed \
     picom rofi \
     keepassxc \
     stow \
-    xorg xorg-xinit xterm xbindkeys xorg-drivers numlockx \
+    xorg xorg-xinit xterm xbindkeys xorg-drivers numlockx xwallpaper \
     ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
     iputils \
     grub-customizer \
@@ -27,15 +27,15 @@ sudo pacman -S --needed \
     networkmanager \
     wpa_supplicant wireless_tools gnome-keyring \
     patch \
-    feh mpv \
+    sxiv mpv \
     python python3 python-pip go \
     tmux \
-    doublecmd thunar thunar-archive-plugin thunar-volman thunar-media-tags-plugin xarchiver \
+    lf doublecmd thunar thunar-archive-plugin thunar-volman thunar-media-tags-plugin xarchiver \
     zip unzip \
     curl \
     firefox thunderbird \
     qalculate-gtk \
-    htop xfce4-taskmanager gnome-system-monitor \
+    htop xfce4-taskmanager \
     mousepad \
     fakeroot \
     npm \

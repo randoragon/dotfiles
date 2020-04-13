@@ -1,17 +1,10 @@
-[Added Associations]
-
-[Removed Associations]
-
 [Default Applications]
-audio/mpeg=mpv.desktop
-application/mpeg=mpv.desktop
+application/mpeg=mpv.desktop;
 application/pdf=firefox.desktop;
-application/vnd.oasis.opendocument.text=libreoffice-writer.desktop
-application/x-bittorrent=torrent.desktop
-image/gif=mpv.desktop
-image/png=feh.desktop
-message/rfc822=userapp-Thunderbird-KSAJB0.desktop
-text/html=firefox.desktop
-text/plain=vim.desktop
-x-scheme-handler/magnet=torrent.desktop
-x-scheme-handler/mailto=userapp-Thunderbird-KSAJB0.desktop
+audio/mpeg=mpv.desktop;
+image/gif=image.desktop;
+image/png=image.desktop;
+image/jpeg=image.desktop;
+inode/directory=file.desktop;
+text/plain=text.desktop;
+text/x-shellscript=text.desktop;

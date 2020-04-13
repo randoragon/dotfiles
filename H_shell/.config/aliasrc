@@ -8,6 +8,8 @@ alias setkblayoutpl='setxkbmap -layout pl'
 alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
 alias rm='rmtrash'
 alias rmdir='rmdirtrash'
+alias nnn='nnn -R'
+alias sxiv='sxiv -qab'
 
 # Git 
 alias gs="git status"

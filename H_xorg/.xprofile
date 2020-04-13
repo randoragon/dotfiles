@@ -4,6 +4,7 @@
 
 
 # Autostart utilities
+xwallpaper --zoom ~/Pictures/background.png
 nm-applet &
 xfce4-power-manager &
 ~/.config/redshift/launch.sh &

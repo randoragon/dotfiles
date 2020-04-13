@@ -1,0 +1,49 @@
+# Enable icons
+set icons
+
+# Image and video previews
+# https://github.com/gokcehan/lf/wiki/Previews
+cmd preview_image ${{
+    "$HOME/.config/lf/draw_img.sh" "$f"
+}}
+cmd preview_video ${{
+    CACHE="$(mktemp /tmp/thumb_cache.XXXXX)"
+    ffmpegthumbnailer -i "$f" -o "$CACHE" -s 0
+    "$HOME/.config/lf/draw_img.sh" "$CACHE" && rm "$CACHE"
+}}
+
+# Trash and delete files
+map x :trash
+map X :delete
+cmd trash %set -f; mv $fx "$HOME/.local/share/Trash/files"
+cmd trash ${{
+    set -f
+    printf "$fx\n"
+    printf "move to trash?[y/n]"
+    read ans
+    [ $ans = "y" ] && mv $fx "$HOME/.local/share/Trash/files"
+}} 
+
+# Put to background
+map <c-z> $ kill -STOP $PPID
+
+# Bulk rename
+cmd bulk-rename ${{
+    old="$(mktemp)"
+    new="$(mktemp)"
+    [ -n $fs ] && fs="$(ls)"
+    printf "$fs\n" > "$old"
+    printf "$fs\n" > "$new"
+    "$EDITOR" "$new"
+    [ "$(cat "$new" | wc -l)" -ne "$(cat "$old" | wc -l)" ] && exit
+    paste "$old" "$new" | while read names; do
+        src="$(printf "$names" | cut -f1)"
+        dst="$(printf "$names" | cut -f2)"
+        [ "$src" = "$dst" ] && continue
+        [ -e "$dst" ] && continue
+        mv "$src" "$dst"
+    done
+    rm "$old" "$new"
+    lf -remote "send $id unselect"
+}}
+map R :bulk-rename

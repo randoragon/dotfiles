@@ -295,6 +295,8 @@ for_window [class="(?i)steam" title="(?i)steam - news.*"] floating enable, borde
 for_window [class="(?i)copyq"] floating enable, border normal
 ## feh
 for_window [class="(?i)feh"] floating enable, border normal
+## sxiv
+for_window [class="(?i)sxiv"] floating enable, border normal
 ## flameshot
 for_window [class="(?i)flameshot"] floating enable, border none
 ## mpv
@@ -310,7 +312,6 @@ bindsym Control+$alt+l exec "physlock"
 exec --no-startup-id "i3-msg workspace number 1"
 
 # Startup Scripts/Daemons
-exec --no-startup-id "feh --bg-fill ~/Pictures/background.png"
 exec_always --no-startup-id "~/.config/picom/restart.sh"
 exec_always --no-startup-id "~/.config/polybar/launch.sh"
 

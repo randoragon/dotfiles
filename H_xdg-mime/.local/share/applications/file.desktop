@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=lf
+Exec=/usr/bin/termite -e lf %f

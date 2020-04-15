@@ -2,3 +2,4 @@
 Type=Application
 Name=lf
 Exec=/usr/bin/termite -e lf %f
+Icon=/usr/share/icons/Adwaita/64x64/places/folder-symbolic.symbolic.png

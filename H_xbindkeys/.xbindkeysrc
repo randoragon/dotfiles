@@ -44,11 +44,11 @@
     control+shift + q
 "catfish"
     control+alt + w
-"doublecmd"
+"doublecmd --no-splash"
     control+alt + e
 "gksudo doublecmd"
     control+shift+alt + e
-"thunar"
+"x-terminal-emulator -e lf"
     control+alt + i
 "gksudo thunar"
     control+shift+alt + i

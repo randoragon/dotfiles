@@ -1,4 +1,5 @@
 # Set ZSH
+# I need the read -q command
 set shell zsh
 
 # Enable icons
@@ -10,7 +11,6 @@ set ifs "\n"
 # Trash and delete files
 map x :trash
 map X :delete
-cmd trash %set -f; mv $fx "$HOME/.local/share/Trash/files"
 cmd trash ${{
     set -f
     clear
@@ -20,6 +20,32 @@ cmd trash ${{
     [ $ans = "y" ] && mv $fx "$HOME/.local/share/Trash/files"
 }} 
 
+# Alternate selection bindings
+map v :{{
+    toggle
+    up
+}}
+map <c-v> :invert
+
+# Fuzzy Find
+cmd fuzzy-find ${{
+    match="$(find . -maxdepth 1 | fzf)"
+    if [ -n $match ]; then
+        [ "$(expr "$match" : "^\..*")" -ne 0 ] && lf -remote "send set hidden"
+        lf -remote "send select '$match'"
+    fi
+}}
+cmd fuzzy-find-recursive ${{
+    match="$(find . | fzf)"
+    if [ -n $match ]; then
+        [ "$(expr "$match" : "^\..*")" -ne 0 ] && lf -remote "send set hidden"
+        lf -remote "send cd '$(dirname "$match")'"
+        lf -remote "send select '$(basename "$match")'"
+    fi
+}}
+map o :fuzzy-find
+map O :fuzzy-find-recursive
+
 # Put to background
 map <c-z> $ kill -STOP $PPID
 
@@ -27,7 +53,7 @@ map <c-z> $ kill -STOP $PPID
 cmd bulk-rename ${{
     old="$(mktemp)"
     new="$(mktemp)"
-    [ -n $fs ] && fs="$(ls)"
+    [ -z $fs ] && fs="$(ls)"
     printf "$fs\n" > "$old"
     printf "$fs\n" > "$new"
     "$EDITOR" "$new"
@@ -45,9 +71,9 @@ cmd bulk-rename ${{
 map R :bulk-rename
 
 # Print file information
-cmd info ${{
+cmd info !{{
     clear
-    printf "\\n$(echo "$fx" | fls)" | less -R
+    printf "\\n$(echo "$fx" | fls)"
 }}
 map I :info
 

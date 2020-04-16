@@ -29,18 +29,18 @@ map <c-v> :invert
 
 # Fuzzy Find
 cmd fuzzy-find ${{
-    match="$(find . -maxdepth 1 | fzf)"
+    match="$(find . -maxdepth 1 | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
     if [ -n $match ]; then
-        [ "$(expr "$match" : "^\..*")" -ne 0 ] && lf -remote "send set hidden"
-        lf -remote "send select '$match'"
+        [ "$(expr "$match" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
+        lf -remote "send $id select '$match'"
     fi
 }}
 cmd fuzzy-find-recursive ${{
-    match="$(find . | fzf)"
+    match="$(find . | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
     if [ -n $match ]; then
-        [ "$(expr "$match" : "^\..*")" -ne 0 ] && lf -remote "send set hidden"
-        lf -remote "send cd '$(dirname "$match")'"
-        lf -remote "send select '$(basename "$match")'"
+        [ "$(expr "$match" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
+        lf -remote "send $id cd '$(dirname "$match")'"
+        lf -remote "send $id select '$(basename "$match")'"
     fi
 }}
 map o :fuzzy-find
@@ -73,7 +73,10 @@ map R :bulk-rename
 # Print file information
 cmd info !{{
     clear
-    printf "\\n$(echo "$fx" | fls)"
+    printf "\n Computing..."
+    CONTENT="$(echo "$fx" | fls)"
+    clear
+    printf "\n$CONTENT"
 }}
 map I :info
 

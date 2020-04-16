@@ -62,13 +62,21 @@ h () { printf "$(tput setaf $HFG && tput setab $HBG)$*$(tput setaf 7 && tput set
 f () { printf "$(tput setaf $BC)$*$(tput setaf 7)"; } # Frame
 
 # If multiple paths, calculate just the total size
-[ "$#" -gt 1 ] \
-    && printf \
+if [ "$#" -gt 1 ]; then
+    FCOUNT=0; DCOUNT=0
+    for x in "$@"; do
+        [ -f "$x" ] && FCOUNT=$(expr $FCOUNT + 1) && continue
+        [ -d "$x" ] && DCOUNT=$(expr $DCOUNT + 1) && continue
+    done
+    printf \
  " $(f ┏━)$(h " BULK INFORMATION ")$(f ━╍╍┅┉)
  $(f ┃)  $(b Item Count:) $#
+ $(f ┃)       $(b Files:) $FCOUNT
+ $(f ┃) $(b Directories:) $DCOUNT
  $(f ┃)  $(b Total Size:) $(du -csh "$@" 2>&- | awk 'END{ print $1 }')
  $(f ┗━━━━━━━━━━━━━━━━━━━╍╍┅┉)
 "  && exit 0
+fi
 
 # Detect MIME type, desktop file and default application
 handle_mime () {
@@ -149,6 +157,7 @@ else
  $(f ┃)    $(b Location:) '$f'
  $(f ┃)        $(b Type:) Directory
  $(f ┃)  $(b Total Size:) $(du -sh "$f" 2>&- | awk '{ print $1 }')
+ $(f ┃)  $(b Item Count:) $(ls -A "$f" | wc -l)
  $(f ┃)   $(b MIME Type:) $MIME
  $(f ┃)   $(b Opened By:) $OPENEDBY
  $(f ┃) $(b Owner/Group:) $(stat -c '%U/%G (%u/%g)' "$f")

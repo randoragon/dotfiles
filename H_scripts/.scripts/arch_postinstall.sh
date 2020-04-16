@@ -105,7 +105,6 @@ yay -S --needed \
     network-manager-applet \
     trash-cli rmtrash \
     snapd \
-    mimeo \
     screenkey \
     id3ted \
     etcher-bin \
@@ -158,13 +157,12 @@ stow H_termite
 stow H_tmux
 stow H_vim
 stow H_xbindkeys
-stow H_xdg-mime
+stow H_mime
 stow H_xorg
 stow H_youtube-dl
 
-# Symlink common auto-openers to mimeo
-[ -L /usr/bin/xdg-open ] || sudo ln -sfT /usr/bin/mimeo /usr/bin/xdg-open
-[ -L /usr/bin/exo-open ] || sudo ln -sfT /usr/bin/mimeo /usr/bin/exo-open
+# Symlink common auto-openers to xdg-open
+[ -L /usr/bin/exo-open ] || sudo ln -sfT /usr/bin/xdg-open /usr/bin/exo-open
 
 # enable ntp (time synchronization)
 sudo systemctl enable ntpd.service

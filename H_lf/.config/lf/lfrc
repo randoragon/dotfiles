@@ -4,6 +4,9 @@ set shell zsh
 # Enable icons
 set icons
 
+# Define file separator
+set ifs "\n"
+
 # Trash and delete files
 map x :trash
 map X :delete
@@ -11,8 +14,8 @@ cmd trash %set -f; mv $fx "$HOME/.local/share/Trash/files"
 cmd trash ${{
     set -f
     clear
-    printf "$fx\n"
-    printf "move to trash? [y/N]"
+    echo -e "$fx\\n"
+    echo -n "move to trash? [y/N] "
     read -q ans
     [ $ans = "y" ] && mv $fx "$HOME/.local/share/Trash/files"
 }} 
@@ -40,6 +43,13 @@ cmd bulk-rename ${{
     lf -remote "send $id unselect"
 }}
 map R :bulk-rename
+
+# Print file information
+cmd info ${{
+    clear
+    printf "\\n$(echo "$fx" | fls)" | less -R
+}}
+map I :info
 
 # Generate directory shortcuts from jumplist
 map c

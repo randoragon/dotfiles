@@ -31,14 +31,14 @@ map <c-v> :invert
 cmd fuzzy-find ${{
     match="$(find . -maxdepth 1 | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
     if [ -n $match ]; then
-        [ "$(expr "$match" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
+        [ "$(expr "$(basename "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
         lf -remote "send $id select '$match'"
     fi
 }}
 cmd fuzzy-find-recursive ${{
     match="$(find . | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
     if [ -n $match ]; then
-        [ "$(expr "$match" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
+        [ "$(expr "$(basename "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
         lf -remote "send $id cd '$(dirname "$match")'"
         lf -remote "send $id select '$(basename "$match")'"
     fi

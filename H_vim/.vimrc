@@ -99,7 +99,7 @@ set softtabstop=4
 " }}}
 
 " Fold settings {{{1
-set foldmethod=syntax
+set foldmethod=manual
 
 " For markdown folding, src: https://stackoverflow.com/a/4677454 (comments) {{{2
 function MarkdownLevel()

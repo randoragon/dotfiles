@@ -11,6 +11,7 @@ alias rmdir='rmdirtrash'
 alias nnn='nnn -R'
 alias sxiv='sxiv -qab'
 alias fzf='fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up'
+alias xo='xdg-open'
 
 # Git 
 alias gs="git status"

@@ -26,7 +26,11 @@ cmd trash ${{
     printf -- "$fx\n"
     printf -- "move to trash? [y/N] "
     read -q ans
-    [ $ans = "y" ] && mv -- $fx "$HOME/.local/share/Trash/files"
+    [ $ans = "y" -o $ans = "Y" ] && {
+        printf -- "$fx\n" | while read l; do
+            mv -- "$l" "$HOME/.local/share/Trash/files"
+        done
+    }
 }} 
 
 # Alternate selection bindings

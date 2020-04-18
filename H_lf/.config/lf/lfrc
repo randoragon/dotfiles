@@ -5,19 +5,28 @@ set shell zsh
 # Enable icons
 set icons
 
+# Enable period refresh
+set period 1
+
 # Define file separator
 set ifs "\n"
+
+# Remap find-prev
+map \\ :find-prev
+
+# Map "Leader" key
+map ,
+map ,p :set preview!
 
 # Trash and delete files
 map x :trash
 map X :delete
 cmd trash ${{
-    set -f
     clear
-    echo -e "$fx\\n"
-    echo -n "move to trash? [y/N] "
+    printf -- "$fx\n"
+    printf -- "move to trash? [y/N] "
     read -q ans
-    [ $ans = "y" ] && mv $fx "$HOME/.local/share/Trash/files"
+    [ $ans = "y" ] && mv -- $fx "$HOME/.local/share/Trash/files"
 }} 
 
 # Alternate selection bindings
@@ -31,16 +40,16 @@ map <c-v> :invert
 cmd fuzzy-find ${{
     match="$(find . -maxdepth 1 | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
     if [ -n $match ]; then
-        [ "$(expr "$(basename "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
+        [ "$(expr "$(basename -- "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
         lf -remote "send $id select '$match'"
     fi
 }}
 cmd fuzzy-find-recursive ${{
     match="$(find . | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
     if [ -n $match ]; then
-        [ "$(expr "$(basename "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
-        lf -remote "send $id cd '$(dirname "$match")'"
-        lf -remote "send $id select '$(basename "$match")'"
+        [ "$(expr "$(basename -- "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
+        lf -remote "send $id cd '$(dirname -- "$match")'"
+        lf -remote "send $id select '$(basename -- "$match")'"
     fi
 }}
 map o :fuzzy-find
@@ -57,15 +66,15 @@ cmd bulk-rename ${{
     printf "$fs\n" > "$old"
     printf "$fs\n" > "$new"
     "$EDITOR" "$new"
-    [ "$(cat "$new" | wc -l)" -ne "$(cat "$old" | wc -l)" ] && exit
+    [ "$(cat -- "$new" | wc -l)" -ne "$(cat -- "$old" | wc -l)" ] && exit
     paste "$old" "$new" | while read names; do
-        src="$(printf "$names" | cut -f1)"
-        dst="$(printf "$names" | cut -f2)"
+        src="$(printf -- "$names" | cut -f1)"
+        dst="$(printf -- "$names" | cut -f2)"
         [ "$src" = "$dst" ] && continue
         [ -e "$dst" ] && continue
-        mv "$src" "$dst"
+        mv -- "$src" "$dst"
     done
-    rm "$old" "$new"
+    rm -- "$old" "$new"
     lf -remote "send $id unselect"
 }}
 map R :bulk-rename
@@ -74,11 +83,197 @@ map R :bulk-rename
 cmd info !{{
     clear
     printf "\n Computing..."
-    CONTENT="$(echo "$fx" | fls)"
+    CONTENT="$(printf -- "$fx\n" | fls)"
     clear
-    printf "\n$CONTENT"
+    printf -- "\n$CONTENT"
 }}
 map I :info
+
+# Create/Open archives
+cmd tar ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.tar" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.tar" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mktar -vi -- "$FILE"
+}}
+
+cmd tar-gz ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.tar.gz" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.tar.gz" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mktar -vzi -- "$FILE"
+}}
+
+cmd tar-bz ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.tar.bz" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.tar.bz" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mktar -vji -- "$FILE"
+}}
+
+cmd tar-xz ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.tar.xz" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.tar.xz" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mktar -vJi -- "$FILE"
+}}
+
+cmd tar-m ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.tar" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.tar" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mktar -vimm -- "$FILE"
+}}
+
+cmd tar-gz-m ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.tar.gz" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.tar.gz" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mktar -vzimm -- "$FILE"
+}}
+
+cmd tar-bz-m ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.tar.bz" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.tar.bz" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mktar -vjimm -- "$FILE"
+}}
+
+cmd tar-xz-m ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.tar.xz" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.tar.xz" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mktar -vJimm -- "$FILE"
+}}
+
+cmd tar-extract ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'directory name required'" && exit
+    [ -f "$FILE" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE" -a -n "$(ls -A "$FILE" 2>&-)" ] && {
+        lf -remote "send $id echo 'a non-empty directory with this name already exists'"
+        exit
+    }
+    mkdir -p -- "$FILE"
+    tar -xvf "$f" -C "$FILE"
+}}
+
+# Archive mappings
+map t
+map tct &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :tar<space>$parsed"
+}}
+map tcz &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :tar-gz<space>$parsed"
+}}
+map tcj &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :tar-bz<space>$parsed"
+}}
+map tcJ &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :tar-xz<space>$parsed"
+}}
+map tcmt &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :tar-m<space>$parsed"
+}}
+map tcmz &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :tar-gz-m<space>$parsed"
+}}
+map tcmj &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :tar-bz-m<space>$parsed"
+}}
+map tcmJ &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :tar-xz<space>$parsed"
+}}
+map te &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's:\.\(tar\.bz\|tar\.bz2\|tbz\|tbz2\|tar\.gz\|tgz\|tar\.xz\|txz\)$::')"
+    parsed="$(printf -- "$parsed" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :tar-extract<space>$parsed"
+}}
 
 # Generate directory shortcuts from jumplist
 map c
@@ -86,3 +281,4 @@ map cd<enter> :cd ~
 map cd/ :cd /
 $"$HOME/.scripts/genlfjmp"
 :source "/tmp/genlfjmp_maps"
+

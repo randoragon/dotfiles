@@ -1,0 +1,360 @@
+#!/usr/bin/sh
+
+# Copyright © 2020 Randoragon
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# For options and usage examples run "mktar -h" or "mktar --help"
+
+
+# Error codes
+ERR_BADARG=1
+ERR_EXISTINGFILE=2
+ERR_MERGEDUPE=3
+ERR_BADPATH=4
+HELP_MSG="Try 'mktar --help' for more information."
+
+# stderr wrappers
+eecho ()   { [ $noerr -ne 1 ] && printf -- "$@\n$HELP_MSG\n" >&2 ; } # Errors
+wecho ()   { [ $nowarn -ne 1 ] && printf -- "$@\n" >&2 ; }           # Warnings
+debug ()   { [ -n "$DEBUG" ] && printf -- "$@\n" >&2 ; }
+DEBUG=
+
+# Checks if every argument is a file/directory/symlink
+exists () {
+    for y in "$@"; do
+        [ ! -f "$y" -a ! -d "$y" -a ! -L "$y" ] && return
+    done
+    printf '1'
+}
+
+# Ranks a path by the number of parent dirs
+dirrank () {
+    printf -- "$(printf -- "$(realpath -- "$1")" | tr -cd '/' | wc -m)"
+}
+
+# Finds the nth parent dir of a path (1st is always root)
+ndirname () {
+    [ $2 -eq 1 ] && printf "/" && return 0
+    p="$(realpath -- "$1")"
+    max="$(dirrank "$p")"
+    for i in $(seq $(expr $max - $2 + 1)); do
+        p="$(dirname -- "$p")"
+    done
+    printf -- "$p/"
+}
+
+# Does the same thing as ndirname, but 1 is basename, 2 is basename of basename, etc.
+nbasename () {
+    p="$(basename -- "$1")"
+    b="$(dirname -- "$1")"
+    for i in $(seq "$(expr $2 - 1)"); do
+        p="$(basename -- "$b")/$p"
+        b="$(dirname -- "$b")"
+    done
+    printf -- "$p"
+}
+
+# Help page
+usage () {
+echo \
+"MKTAR
+
+NAME
+        mktar - a smart tar wrapper for creating archives
+
+SYNOPSIS
+    mktar OPTIONS PATH... [NAME]
+
+DESCRIPTION
+    Creates an archive \"NAME.tar.EXT\" with all PATHs stored within.
+    Symlinks are automatically dereferenced. Orphaned symlinks
+    are skipped with a warning issued to stderr.
+
+    EXT is dependant on the used (if used) compression program,
+    which can be defined using similar options as GNU tar,
+    or omitted for a plain \"NAME.tar\" file.
+
+    An additional feature is subdirectory trimming.
+    GNU tar doesn't handle absolute paths very well and recreates
+    the entire subdirectory structure, which is unnecessary.
+    For example, running:
+
+        tar -chzf archive.tar.gz /home/user/file
+
+    ...creates an archive with two subdirectories: home and user
+    mktar cleverly cuts off as much of the path from the left
+    as possible, so that running:
+
+        mktar -z /home/user/file archive
+
+    ...is a wrapper for:
+
+        tar -chzf archive.tar.gz -C /home/user file
+
+    When given multiple PATHs, the script will figure out the
+    \"highest common subdirectory\" to pass to tar as the -C
+    parameter.
+
+    NAME can be omitted if only one PATH is supplied. When
+    that happens, NAME is assumed to be \"PATH.tar.EXT\".
+    This rule does not apply when using the -i option.
+
+OPTIONS
+    -f, --force
+        If NAME collides with an existing file, overwrite it.
+        By default the operation will be aborted.
+
+    -m, --merge
+        By default, if PATHs reference files/dirs from different
+        subdirectories, the subdirectory structure is preserved
+        inside the new archive. This option prevents that by
+        dropping all of the files/dirs in one common directory
+        prior to compression. Aborts in case of name collisions.
+        You can pass this parameter twice to skip colliding
+        files instead of aborting the entire operation. PATHs
+        passed earlier take priority over the latter ones.
+
+    -i, --input
+        Reads newline-delimited paths from stdin. NAME must
+        be passed as an argument and cannot be omitted.
+
+    -v, --verbose
+        Passes the -v flag to tar, making it verbose.
+        You can pass it multiple times, for more information
+        read tar's manual on the -v or --verbose option.
+
+    -p, --pretend
+        Prints the command that would be run and exits.
+        Note that when using the -m option, a temporary location
+        will be created to dump symlinks to all the PATHs in,
+        and those alternate paths will be printed instead.
+
+    -z, --gzip
+        Filter the archive through gzip
+
+    -j, --bzip2
+        Filter the archive through bzip2
+
+    -J, --xz
+        Filter the archive through xz
+
+    -q, --quiet
+        Pass it once to suppress just warnings, or twice
+        to suppress all messages.
+
+EXAMPLES
+    Create an archive for system and user xinitrcs:
+
+        mktar -m /etc/X11/xinit/xinitrc ~/.xinitrc xfiles
+
+    Compress a single file to file.tar.gz:
+
+        mktar -z file
+
+    Backup Documents directory structure:
+
+        mktar ~/Documents docs_backup
+
+    Archive all txt files from home directory:
+
+        find ~ -maxdepth 1 -type f -name '*.txt' | mktar -i txts
+
+RETURN CODES
+    0 - finished successfully
+    1 - failed to parse arguments
+    2 - FILE exists and no --force option passed
+    3 - duplicate filenames when merging and only one -m passed
+    4 - invalid PATH
+
+AUTHOR
+    Written by Randoragon.
+
+BUGS
+    Note that I wrote this script for myself without the intent
+    of making it a public product, so I don't guarantee anything.
+    Email:   <randoragongamedev@gmail.com>
+    Discord: Randoragon#1958
+
+COPYRIGHT
+    Copyright © 2020 Randoragon, MIT License
+"
+}
+
+# Handle options
+autoname=0
+overwrite=0
+merge=0
+mnoskip=0
+stdin=0
+pretend=0
+verbose=
+compress=
+nowarn=0
+noerr=0
+OPTS="$(getopt -n mktar -s sh -o qhfmivpzjJ -l quiet,help,merge,input,verbose,force,pretend,gzip,bzip2,xz -- "$@")"
+[ $? -eq 1 ] && echo "$HELP_MSG" && exit $ERR_BADARG
+eval set -- "$OPTS"
+while true; do
+    case "$1" in
+        -f|--force) overwrite=1 ; shift ;;
+        -m|--merge) [ $merge -eq 1 ] && mnoskip=1 || merge=1 ; shift ;;
+        -i|--input) stdin=1 ; shift ;;
+        -v|--verbose) verbose="v$verbose" ; shift ;;
+        -p|--pretend) pretend=1 ; shift ;;
+        -z|--gzip) compress=z ; shift ;;
+        -j|--bzip2) compress=j ; shift ;;
+        -J|--xz) compress=J ; shift ;;
+        -h|--help) usage ; exit ; shift ;;
+        -q|--quiet) [ $nowarn -eq 1 ] && noerr=1 || nowarn=1 ; exit ; shift ;;
+        --) shift ; break ;;
+        *) break ;;
+    esac
+done
+[ $# -eq 1 -a $stdin -ne 1 ] && autoname=1
+
+# Set up some variables
+paths=
+[ $# -eq 0 ] && eecho "mktar: Not enough arguments." && exit $ERR_BADARG
+
+# Handle reading from stdin
+[ $stdin -eq 1 ] && {
+    cmd="$0"
+    opts="$verbose$compress"
+    opts="$opts$([ $merge -eq 1 ] && printf m)"
+    opts="$opts$([ $mnoskip -eq 1 ] && printf m)"
+    opts="$opts$([ $overwrite -eq 1 ] && printf f)"
+    opts="$opts$([ $pretend -eq 1 ] && printf p)"
+    opts="$opts$([ $nowarn -eq 1 ] && printf q)"
+    opts="$opts$([ $noerr -eq 1 ] && printf q)"
+    opts="$([ -n "$opts" ] && printf -- '-')$opts"
+    outfile="$1"
+    while read line; do
+        paths="$paths
+$line"
+    done
+    handlestdin () {
+        IFS="
+"
+        "$cmd" "$opts" -- $@ "$outfile"
+        unset IFS
+    }
+    handlestdin "$paths"
+    exit
+}
+
+# Validate and parse paths
+i=1
+for x in "$@"; do
+    [ -z "$(exists "$x")" ] && [ $autoname -eq 1 -o $i -ne $# ] && eecho "mktar: Invalid path: '$x'" && exit $ERR_BADPATH
+    [ $i -lt $# -o $autoname -eq 1 ] && paths="$paths
+$x"
+    [ $i -eq $# ] && {
+        ext () {
+            [ -z $compress ] && printf tar && return
+            [ $compress = z ] && printf tar.gz && return
+            [ $compress = j ] && printf tar.bz && return
+            [ $compress = J ] && printf tar.xz && return
+        }
+        outfile="$PWD/"$(basename -- "$x")".$(ext)"
+        [ $overwrite -ne 1 -a -n "$(exists "$outfile")" ] && eecho "mktar: '$outfile' already exists. Use -f to force an overwrite." && exit $ERR_EXISTINGFILE
+    }
+    i=$(expr $i + 1)
+done
+
+# Handle merge option
+[ $merge -eq 1 ] && {
+    tmp="$(mktemp -dp /tmp mktar_mergeXXX)"
+    maxpath="$tmp"
+    move () {
+        IFS="
+"
+        trimmedpaths=
+        for x in $@; do
+            t="$(readlink -e -- "$x")"
+            [ -z "$t" ] && wecho "Warning: '$x' is an orphaned symlink (skipping)." && continue
+            d="$tmp/$(basename -- "$x")"
+            [ -f "$d" ] && {
+                [ $mnoskip -eq 1 ] && wecho "Warning: duplicate name '$(basename -- "$x")' (skipping)." && continue
+                eecho "mktar: duplicate name '$(basename -- "$x")'." && exit $ERR_MERGEDUPE
+            }
+            ln -s "$(realpath -- $x)" "$tmp/$(basename -- "$x")"
+            trimmedpaths="$trimmedpaths
+$(basename -- "$x")"
+        done
+        unset IFS
+    }
+    move "$paths"
+} || {
+
+    # Find the highset common parent dir
+    check () {
+        IFS="
+"
+        foo () { printf -- "$1"; }
+        lastval="$(ndirname "$(foo $@)" $i)"
+        for p in $@; do
+            [ "$(ndirname "$p" $i)" != "$lastval" ] && unset IFS && return 1
+            lastval="$(ndirname "$p" $i)"
+        done
+        printf "1"
+        unset IFS
+    }
+    i="$(dirrank "$1")"
+    while [ -z "$(check "$paths")" ]; do
+        i=$(expr $i - 1)
+    done
+    maxpathindex="$i"
+
+    # Trim all the paths to leave out only the right portion not included in $maxpath
+    trimmedpaths=
+    trim () {
+        IFS="
+"
+        foo () { printf -- "$1"; }
+        maxpath="$(ndirname "$(foo $@)" $maxpathindex)"
+        for p in $@; do
+            q="$(realpath -- "$p")"
+            trimmedpaths="$trimmedpaths
+$(nbasename "$q" $(expr $(dirrank "$q") - $maxpathindex + 1))"
+        done
+        unset IFS
+    }
+    trim "$paths"
+}
+
+# Create the archive
+createtar () {
+    IFS="
+"
+    opts="-ch$compress$verbose"f
+    [ $pretend -eq 1 ] && {
+        printf -- "tar $opts '$outfile' -C '$maxpath' "
+        foo () { for line in $@; do printf -- "'$line' "; done; }
+        foo "$trimmedpaths"
+        printf '\n'
+    } || {
+        tar "$opts" "$outfile" -C "$maxpath" $@
+    }
+    unset IFS
+}
+createtar "$trimmedpaths"
+
+# Delete temporary data
+[ -d "$tmp" ] && rm -rf "$tmp"

@@ -30,7 +30,7 @@ sudo pacman -S --needed \
     sxiv mpv \
     python python3 python-pip go \
     tmux \
-    lf doublecmd thunar thunar-archive-plugin thunar-volman thunar-media-tags-plugin xarchiver \
+    lf doublecmd xarchiver \
     zip unzip \
     curl \
     firefox thunderbird \
@@ -63,7 +63,8 @@ sudo pacman -S --needed \
     figlet sl cmatrix \
     traceroute tree \
     python-mutagen \ # mid3v2
-    zsh zsh-completions
+    zsh zsh-completions \
+    tar gzip bzip2 xz zip unzip unrar jar 7z
 
 # Update npm, install node-gyp and configure npm
 npm_installed="$(npm list -g --depth=0 | sed "/^\/.*/d")"

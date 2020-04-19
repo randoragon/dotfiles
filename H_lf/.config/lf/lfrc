@@ -339,16 +339,16 @@ cmd extract ${{
     clear
     unset IFS
     FILE="$*"
-    [ -z "$FILE" ] && lf -remote "send $id echo 'directory name required'" && exit
-    [ -f "$FILE" ] && {
-        lf -remote "send $id echo 'a file with this name already exists'"
-        exit
-    } || [ -d "$FILE" -a -n "$(ls -A "$FILE" 2>&-)" ] && {
-        lf -remote "send $id echo 'a non-empty directory with this name already exists'"
-        exit
-    }
-    mkdir -p -- "$FILE"
-    tar -xvf "$f" -C "$FILE"
+    [ -n "$FILE" ] && {
+        [ -f "$FILE" ] && {
+            lf -remote "send $id echo 'a file with this name already exists'"
+            exit
+        } || [ -d "$FILE" -a -n "$(ls -A "$FILE" 2>&-)" ] && {
+            lf -remote "send $id echo 'a non-empty directory with this name already exists'"
+            exit
+        }
+        extract "$f" "$FILE"
+    } || extract "$f"
 }}
 
 # Archive mappings
@@ -433,12 +433,7 @@ map tcm7 &{{
     parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :7z-m<space>$parsed"
 }}
-map te &{{
-    selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's:\.\(tar\.bz\|tar\.bz2\|tbz\|tbz2\|tar\.gz\|tgz\|tar\.xz\|txz\)$::')"
-    parsed="$(printf -- "$parsed" | sed 's/ /<space>/g')"
-    lf -remote "send $id push :extract<space>$parsed"
-}}
+map te :push :extract<space>
 
 # Generate directory shortcuts from jumplist
 map c

@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# Extracts any common archive format into a custom directory
+# Simple wrapper for tar, unzip, rar, jar and 7z.
+#
+# Two parameters:
+# extract ARCHIVE [DIRECTORY]
+# if ARCHIVE is -, reads stdin
+# if no DIRECTORY, assumes the same name ARCHIVE~
+
+# Check argument count
+[ $# -eq 0 ] && echo "extract: Not enough arguments." && exit 1
+
+# Handle stdin
+[ "$1" = '-' ] && {
+    read line
+    "$0" "$line" "$2"
+    exit
+}
+
+# Parse arguments
+ar="$(realpath -- $1)"
+[ $# -gt 1 ] && nm="$2" || nm="$(basename -- "$1")"'~'
+[ -f "$nm" -o -d "$nm" ] && echo "extract: '$nm' already exists." && exit 2
+
+# Extract
+case "$ar" in
+    *.tar|*.tar.gz|*.tar.bz|*.tar.xz|*.tar.bz2|*.tbz|*.tbz2|*.tgz|*.txz)
+        mkdir -p -- "$nm"
+        tar -xf "$ar" -C "$nm"
+    ;;
+    *.zip|*.dvi)
+        unzip -q "$ar" -d "$nm"
+    ;;
+    *.rar)
+        mkdir -p -- "$nm"
+        rar -idq x "$ar" "$nm"
+    ;;
+    *.jar)
+        mkdir -p -- "$nm"
+        prevpwd="$PWD"
+        cd -- "$nm"
+        jar xf "$ar"
+        cd -- "$PWD"
+    ;;
+    *.7z)
+        7z x "$ar" -o"$nm" >&-
+    ;;
+esac
+

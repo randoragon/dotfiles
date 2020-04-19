@@ -64,7 +64,7 @@ sudo pacman -S --needed \
     traceroute tree \
     python-mutagen \ # mid3v2
     zsh zsh-completions \
-    tar gzip bzip2 xz zip unzip unrar jar 7z
+    tar gzip bzip2 xz zip unzip jar 7z
 
 # Update npm, install node-gyp and configure npm
 npm_installed="$(npm list -g --depth=0 | sed "/^\/.*/d")"
@@ -109,7 +109,8 @@ yay -S --needed \
     screenkey \
     id3ted \
     etcher-bin \
-    zsh-syntax-highlighting
+    zsh-syntax-highlighting \
+    rar
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3

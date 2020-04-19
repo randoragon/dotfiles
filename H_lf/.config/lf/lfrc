@@ -106,7 +106,7 @@ cmd tar ${{
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
     }
-    printf -- "$fx\n" | mktar -vi -- "$FILE"
+    printf -- "$fx\n" | mkar -vi -- "$FILE"
 }}
 
 cmd tar-gz ${{
@@ -121,7 +121,7 @@ cmd tar-gz ${{
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
     }
-    printf -- "$fx\n" | mktar -vzi -- "$FILE"
+    printf -- "$fx\n" | mkar -vzi -- "$FILE"
 }}
 
 cmd tar-bz ${{
@@ -136,7 +136,7 @@ cmd tar-bz ${{
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
     }
-    printf -- "$fx\n" | mktar -vji -- "$FILE"
+    printf -- "$fx\n" | mkar -vji -- "$FILE"
 }}
 
 cmd tar-xz ${{
@@ -151,7 +151,67 @@ cmd tar-xz ${{
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
     }
-    printf -- "$fx\n" | mktar -vJi -- "$FILE"
+    printf -- "$fx\n" | mkar -vJi -- "$FILE"
+}}
+
+cmd zip ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.zip" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.zip" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mkar -vZi -- "$FILE"
+}}
+
+cmd rar ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.rar" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.rar" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mkar -vri -- "$FILE"
+}}
+
+cmd jar ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.jar" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.jar" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mkar -vRi -- "$FILE"
+}}
+
+cmd 7z ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.7z" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.7z" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mkar -v7i -- "$FILE"
 }}
 
 cmd tar-m ${{
@@ -166,7 +226,7 @@ cmd tar-m ${{
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
     }
-    printf -- "$fx\n" | mktar -vimm -- "$FILE"
+    printf -- "$fx\n" | mkar -vimm -- "$FILE"
 }}
 
 cmd tar-gz-m ${{
@@ -181,7 +241,7 @@ cmd tar-gz-m ${{
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
     }
-    printf -- "$fx\n" | mktar -vzimm -- "$FILE"
+    printf -- "$fx\n" | mkar -vzimm -- "$FILE"
 }}
 
 cmd tar-bz-m ${{
@@ -196,7 +256,7 @@ cmd tar-bz-m ${{
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
     }
-    printf -- "$fx\n" | mktar -vjimm -- "$FILE"
+    printf -- "$fx\n" | mkar -vjimm -- "$FILE"
 }}
 
 cmd tar-xz-m ${{
@@ -211,10 +271,71 @@ cmd tar-xz-m ${{
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
     }
-    printf -- "$fx\n" | mktar -vJimm -- "$FILE"
+    printf -- "$fx\n" | mkar -vJimm -- "$FILE"
 }}
 
-cmd tar-extract ${{
+cmd zip-m ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.zip" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.zip" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mkar -vZimm -- "$FILE"
+}}
+
+cmd rar-m ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.rar" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.rar" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mkar -vrimm -- "$FILE"
+}}
+
+cmd jar-m ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.jar" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.jar" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mkar -vRimm -- "$FILE"
+}}
+
+cmd 7z-m ${{
+    clear
+    unset IFS
+    FILE="$*"
+    [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
+    [ -f "$FILE.7z" ] && {
+        lf -remote "send $id echo 'a file with this name already exists'"
+        exit
+    } || [ -d "$FILE.7z" ] && {
+        lf -remote "send $id echo 'a directory with this name already exists'"
+        exit
+    }
+    printf -- "$fx\n" | mkar -v7imm -- "$FILE"
+}}
+
+
+cmd extract ${{
     clear
     unset IFS
     FILE="$*"
@@ -252,6 +373,26 @@ map tcJ &{{
     parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar-xz<space>$parsed"
 }}
+map tcZ &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :zip<space>$parsed"
+}}
+map tcr &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :rar<space>$parsed"
+}}
+map tcR &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :jar<space>$parsed"
+}}
+map tc7 &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :7z<space>$parsed"
+}}
 map tcmt &{{
     selname="$(basename -- "$f")"
     parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
@@ -272,11 +413,31 @@ map tcmJ &{{
     parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar-xz<space>$parsed"
 }}
+map tcmZ &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :zip-m<space>$parsed"
+}}
+map tcmr &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :rar-m<space>$parsed"
+}}
+map tcmR &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :jar-m<space>$parsed"
+}}
+map tcm7 &{{
+    selname="$(basename -- "$f")"
+    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    lf -remote "send $id push :7z-m<space>$parsed"
+}}
 map te &{{
     selname="$(basename -- "$f")"
     parsed="$(printf -- "$selname" | sed 's:\.\(tar\.bz\|tar\.bz2\|tbz\|tbz2\|tar\.gz\|tgz\|tar\.xz\|txz\)$::')"
     parsed="$(printf -- "$parsed" | sed 's/ /<space>/g')"
-    lf -remote "send $id push :tar-extract<space>$parsed"
+    lf -remote "send $id push :extract<space>$parsed"
 }}
 
 # Generate directory shortcuts from jumplist

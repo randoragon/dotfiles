@@ -46,3 +46,4 @@ sxiv | `sxiv` | Image Viewer | extensible with scripts, light, can work like dme
 wmctrl | `wmctrl` | Window Manager Queries | reads and writes window information
 xbindkeys | `xbindkeys` | Hotkey Manager | global keybindings
 xdotool | `xdotool` | Automation | simulates key and mouse presses, moves windows and more
+GNOME Unicode Charmap | `gucharmap` | Font Previewer | not many deps, clean font view, but can't see all glyphs in one place like in FontMatrix

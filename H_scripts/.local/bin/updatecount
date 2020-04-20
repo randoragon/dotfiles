@@ -6,48 +6,27 @@
 # Tints it yellow normally, or sea-green if there's a linux kernel update.
 # Deps: pacman-contrib
 
-# If you pass an optional number parameter:
-# the script will run in "daemon" mode, polling updates every
-# X seconds and saving results in a file.
+#!/bin/sh
+
+# Fetches the number of pacman updates (official repositories)
+# and if non 0, saves the number in FILE.
 
 FILE="$HOME/.cache/updatecount"
 
 # Create directory in case it doesn't exist
-mkdir -p "$(dirname $FILE)"
+mkdir -p -- "$(dirname -- "$FILE")"
 
-# If parameter, verify that it's a number
-if [[ $# == 1 ]]; then
-    if [[ ! "$1" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
-        echo "Error: second parameter must be a number"
-        exit
-    fi
-    LOOP=$1
-fi
+UPDATES="$(checkupdates)"
 
-while [[ ! -z "$LOOP" || $# == 0 ]];
-do
-    UPDATES="$(checkupdates)"
+[ -z "$UPDATES" ] && {
+    echo '' > "$FILE"
+} || {
+    COUNT="$(printf -- "$UPDATES" | wc -l)"
+    FG="ffff00"
+    BG="222200"
+    [ ! -z "$(printf -- "$UPDATES" | grep -Po '^linux ')" ] && { FG="00ffaa" BG="003311"; }
+    OUTPUT="%{B#$BG}%{F#$FG} Updates: $COUNT %{F- B-}"
+    echo "$OUTPUT" > "$FILE"
+    echo "Updates: $COUNT"
+}
 
-    if [[ -z "$UPDATES" ]]; then
-        echo "No updates available."
-        OUTPUT=''
-    else
-        COUNT=$(echo "$UPDATES" | wc -l)
-        if [[ ! -z $(echo "$UPDATES" | grep -Po '^linux ') ]]; then
-            FG="00ffaa"
-            BG="003311"
-        else
-            FG="ffff00"
-            BG="222200"
-        fi
-        OUTPUT="%{B#$BG}%{F#$FG} Updates: $(( $COUNT )) %{F- B-}"
-    fi
-
-    echo "$OUTPUT" | tee "$FILE"
-
-    if [[ $# == 0 ]]; then
-        exit
-    fi
-
-    sleep $LOOP 2>"/dev/null"
-done

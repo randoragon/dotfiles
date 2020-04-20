@@ -3,10 +3,26 @@
 # Extracts any common archive format into a custom directory
 # Simple wrapper for tar, unzip, rar, jar and 7z.
 #
+# Options:
+# -v, --verbose
+# lists all the files getting extracted
+#
 # Two parameters:
 # extract ARCHIVE [DIRECTORY]
 # if ARCHIVE is -, reads stdin
 # if no DIRECTORY, assumes the same name ARCHIVE~
+
+# Parse options
+OPTS="$(getopt -n extract -s sh -o v -l --verbose -- "$@")"
+eval set -- "$OPTS"
+verbose=
+while true; do
+    case "$1" in
+        -v|--verbose) verbose=1 ; shift ;;
+        --) shift ; break ;;
+        *) break ;;
+    esac
+done
 
 # Check argument count
 [ $# -eq 0 ] && echo "extract: Not enough arguments." && exit 1
@@ -19,7 +35,7 @@
 }
 
 # Parse arguments
-ar="$(realpath -- $1)"
+ar="$(realpath -- "$1")"
 [ $# -gt 1 ] && nm="$2" || nm="$(basename -- "$1")"'~'
 [ -f "$nm" -o -d "$nm" ] && echo "extract: '$nm' already exists." && exit 2
 
@@ -27,24 +43,26 @@ ar="$(realpath -- $1)"
 case "$ar" in
     *.tar|*.tar.gz|*.tar.bz|*.tar.xz|*.tar.bz2|*.tbz|*.tbz2|*.tgz|*.txz)
         mkdir -p -- "$nm"
-        tar -xf "$ar" -C "$nm"
+        [ -n "$verbose" ] && opts='-xvf' || opts='-xf'
+        tar "$opts" "$ar" -C "$nm"
     ;;
     *.zip|*.dvi)
-        unzip -q "$ar" -d "$nm"
+        [ -n "$verbose" ] && unzip "$ar" -d "$nm" || unzip -q "$ar" -d "$nm"
     ;;
     *.rar)
         mkdir -p -- "$nm"
-        rar -idq x "$ar" "$nm"
+        [ -n "$verbose" ] && rar x "$ar" "$nm" || rar -idq x "$ar" "$nm"
     ;;
     *.jar)
         mkdir -p -- "$nm"
         prevpwd="$PWD"
         cd -- "$nm"
-        jar xf "$ar"
+        [ -n "$verbose" ] && opts='xvf' || opts='xf'
+        jar "$opts" "$ar"
         cd -- "$PWD"
     ;;
     *.7z)
-        7z x "$ar" -o"$nm" >&-
+        [ -n "$verbose" ] && 7z x "$ar" -o"$nm" || 7z x "$ar" -o"$nm" >&-
     ;;
 esac
 

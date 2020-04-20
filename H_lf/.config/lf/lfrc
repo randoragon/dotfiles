@@ -347,8 +347,8 @@ cmd extract ${{
             lf -remote "send $id echo 'a non-empty directory with this name already exists'"
             exit
         }
-        extract "$f" "$FILE"
-    } || extract "$f"
+        extract -v "$f" "$FILE"
+    } || extract -v "$f"
 }}
 
 # Archive mappings

@@ -67,6 +67,10 @@ sudo pacman -S --needed \
     tar gzip bzip2 xz zip unzip jar 7z \
     cronie
 
+# Replace sh with dash for speed
+[ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh
+[ -L /bin/sh ]     || sudo ln -sfT /usr/bin/dash /bin/sh
+
 # Update npm, install node-gyp and configure npm
 npm_installed="$(npm list -g --depth=0 | sed "/^\/.*/d")"
 sudo npm install -g npm
@@ -172,19 +176,18 @@ sudo stow -t / R_scripts
 sudo systemctl enable ntpd.service
 sudo systemctl start ntpd.service
 
-# Enable cronie
+# Enable cronie and install crontabs
 sudo systemctl enable cronie.service
 sudo systemctl start cronie.service
+cd ~/dotfiles
+[ -f crontab ] && cat crontab | crontab -
+[ -f cronroot ] && sudo sh -c 'cat cronroot | crontab -'
 
 # Set termite as default i3 terminal
 [ -L /usr/local/bin/x-terminal-emulator ] || sudo ln -sfT /usr/bin/termite /usr/local/bin/x-terminal-emulator
 
 # Enable bluetooth
 sudo systemctl enable bluetooth.service
-
-# Replace sh with dash for speed
-[ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh
-[ -L /bin/sh ]     || sudo ln -sfT /usr/bin/dash /bin/sh
 
 # Symlink deprecated mimelist for old applications
 # Source: https://wiki.archlinux.org/index.php/XDG_MIME_Applications#mimeapps.list

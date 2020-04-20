@@ -1,0 +1,10 @@
+#env DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+
+# Backup crontab to dotfiles
+@hourly cp -- "/var/spool/cron/$(whoami)" ~/dotfiles/other/crontab
+
+# Update polybar updatecount
+*/5 * * * * ~/.local/bin/updatecount
+
+# Exercise reminder
+*/30 * * * * DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send "Exercise Reminder" "Get up and give your body\na nice firm stretch!"

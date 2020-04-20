@@ -113,7 +113,7 @@ yay -S --needed \
     rar
 
 # Python modules
-sudo python3 -m pip install aubio numpy eyeD3
+sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib
 
 # Install Spark
 [ -f /usr/local/bin/spark ] \

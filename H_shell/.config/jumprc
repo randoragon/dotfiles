@@ -1,13 +1,14 @@
-#!/bin/sh
-
-# This file is for aliases that take you places
+# File for aliases that take you places
 # The directories section is read by genlfjmp script
 
 # Files
 alias jmp='vim ~/.config/jumprc'
 alias als='vim ~/.config/aliasrc'
 alias mml='vim ~/.config/mimeapps.list'
-alias brc='vim ~/.bashrc'
+alias pro='vim ~/.profile'
+alias xrc='vim ~/.xinitrc'
+alias xpr='vim ~/.xprofile'
+alias zrc='vim ~/.zshrc'
 alias vrc='vim ~/.vimrc'
 alias api='vim ~/dotfiles/H_scripts/.scripts/arch_postinstall.sh'
 alias xbk='vim ~/.xbindkeysrc'
@@ -33,3 +34,4 @@ alias cddsc='cd ~/dotfiles/H_scripts/.scripts && ls'
 alias cddls='cd ~/dotfiles/H_scripts/.local/bin && ls'
 alias cddrs='cd ~/dotfiles/R_scripts/usr/local/bin && ls'
 alias cdtr='cd ~/.local/share/Trash/files && ls'
+alias cdmn='cd /mnt && ls'

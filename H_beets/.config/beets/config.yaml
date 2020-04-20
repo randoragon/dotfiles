@@ -52,9 +52,8 @@ paths:
 # fuzzy          : enables fuzzy searching by prefixing the query with ~
 # info           : enables listing quaried items' tag information
 # spotify        : allows to create spotify playlists from local library
-# web            : allows running a local web server with a provisional HTML library view
 # duplicates     : finds duplicate tracks or albums
-plugins: fetchart lastgenre chroma acousticbrainz edit embedart ftintitle mbsync mpdstats mpdupdate replaygain thumbnails fuzzy info spotify web duplicates fromfilename
+plugins: fetchart lastgenre chroma acousticbrainz edit embedart ftintitle mbsync mpdstats mpdupdate replaygain thumbnails fuzzy info spotify duplicates fromfilename
 
 chroma:
     auto: yes

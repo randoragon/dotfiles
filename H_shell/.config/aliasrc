@@ -1,6 +1,4 @@
-#!/bin/sh
-
-# This file is for storing abbreviations for commands
+# File for storing command abbreviations
 
 # General
 alias ls='ls --color=auto'
@@ -12,6 +10,7 @@ alias nnn='nnn -R'
 alias sxiv='sxiv -qab'
 alias fzf='fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up'
 alias xo='xdg-open'
+alias cron='crontab -e'
 
 # Git 
 alias gs="git status"

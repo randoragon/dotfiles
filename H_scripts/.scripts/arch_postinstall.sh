@@ -64,7 +64,8 @@ sudo pacman -S --needed \
     traceroute tree \
     python-mutagen \ # mid3v2
     zsh zsh-completions \
-    tar gzip bzip2 xz zip unzip jar 7z
+    tar gzip bzip2 xz zip unzip jar 7z \
+    cronie
 
 # Update npm, install node-gyp and configure npm
 npm_installed="$(npm list -g --depth=0 | sed "/^\/.*/d")"
@@ -95,8 +96,8 @@ if [ -z "$(command -v yay)" ]; then
 fi
 
 # Installs from AUR
-yay -Syu
-yay -S --needed \
+yay -Syua
+yay -Sa --needed \
     polybar \
     ttf-unifont \
     termite \
@@ -131,7 +132,7 @@ sudo gpasswd -a "$USER" network
 sudo systemctl start wpa_supplicant.service
 sudo systemctl start NetworkManager.service
 
-# Download dotfiles and apply some of them
+# Download and apply dotfiles
 [ ! -d ~/dotfiles ] \
     && cd ~ \
     && git clone https://github.com/Randoragon/dotfiles
@@ -162,13 +163,18 @@ stow H_xbindkeys
 stow H_mime
 stow H_xorg
 stow H_youtube-dl
+sudo stow -t / R_scripts
 
 # Symlink common auto-openers to xdg-open
-[ -L /usr/bin/exo-open ] || sudo ln -sfT /usr/bin/xdg-open /usr/bin/exo-open
+[ -f /usr/bin/exo-open -a ! -L /usr/bin/exo-open ] && sudo ln -sfT /usr/bin/xdg-open /usr/bin/exo-open
 
-# enable ntp (time synchronization)
+# Enable ntp (time synchronization)
 sudo systemctl enable ntpd.service
 sudo systemctl start ntpd.service
+
+# Enable cronie
+sudo systemctl enable cronie.service
+sudo systemctl start cronie.service
 
 # Set termite as default i3 terminal
 [ -L /usr/local/bin/x-terminal-emulator ] || sudo ln -sfT /usr/bin/termite /usr/local/bin/x-terminal-emulator
@@ -188,11 +194,6 @@ sudo systemctl enable bluetooth.service
 # Finalize snap installation
 sudo systemctl enable snapd.socket
 [ -L /snap ] || sudo ln -s /var/lib/snapd/snap /snap
-
-# Copy custom services to /lib/systemd/system
-cd ~/dotfiles/services
-chmod +x ./move.sh
-./move.sh
 
 cd ~
 

@@ -65,6 +65,7 @@ sudo pacman -S --needed \
     python-mutagen \ # mid3v2
     zsh zsh-completions \
     tar gzip bzip2 xz zip unzip jar 7z \
+    gnupg pinentry \
     cronie
 
 # Replace sh with dash for speed
@@ -197,6 +198,9 @@ sudo systemctl enable bluetooth.service
 # Finalize snap installation
 sudo systemctl enable snapd.socket
 [ -L /snap ] || sudo ln -s /var/lib/snapd/snap /snap
+
+# Configure gpg-agent default authorization program
+sudo ln -sTf /usr/bin/pinentry-tty /usr/bin/pinentry
 
 cd ~
 

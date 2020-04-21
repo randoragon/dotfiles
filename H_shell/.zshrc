@@ -45,7 +45,10 @@ lfcd () {
     fi
 }
 bindkey -s '^o' 'lfcd\n'
- 
+
+# Allow GnuPG to use console for authentication
+export GPG_TTY="$(tty)"
+
 # Load jumplist and aliases
 [ -f "$HOME/.config/jumprc" ] && . "$HOME/.config/jumprc"
 [ -f "$HOME/.config/aliasrc" ] && . "$HOME/.config/aliasrc"

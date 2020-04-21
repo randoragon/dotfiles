@@ -21,7 +21,7 @@ UPDATES="$(checkupdates)"
 [ -z "$UPDATES" ] && {
     echo '' > "$FILE"
 } || {
-    COUNT="$(printf -- "$UPDATES" | wc -l)"
+    COUNT="$(printf -- "$UPDATES\n" | wc -l)"
     FG="ffff00"
     BG="222200"
     [ ! -z "$(printf -- "$UPDATES" | grep -Po '^linux ')" ] && { FG="00ffaa" BG="003311"; }

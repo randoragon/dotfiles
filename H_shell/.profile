@@ -39,6 +39,9 @@ export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.l
 export TRASH="$HOME/.local/share/Trash/files"
 export GOPATH="$HOME/.local/share/go"
 
+# Start ssh-agent if not already running
+ps -e | grep "$SSH_AGENT_PID"  | grep "ssh-agent$" || eval "$(ssh-agent -s)"
+
 # Other configuration
 export MPD_HOST="$HOME/.mpd/socket"
 export MPD_PORT=6601

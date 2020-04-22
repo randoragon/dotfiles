@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Small wrapper for cron jobs to easily display notifications
+# in conjunction with custom SFX.
+#
+# pnotify [OPTIONS] [HEADLINE] [DESCRIPTION] [SFX PATH]
+#
+# Accepts the -u urgency and -i icon options for notify-send
+# SFX can be omitted for the default.
+
+DEFAULT_SFX="$HOME/.sfx/notification.mp3"
+
+# Get options for notify-send
+OPTS="$(getopt -s sh -n notify-play -o u:i: -- "$@")"
+urgency=
+icon=
+eval set -- "$OPTS"
+while true; do
+    case "$1" in
+        -u) urgency="$2"; shift 2 ;;
+        -i) icon="$2"; shift 2 ;;
+        --) shift ; break ;;
+        *) break ;;
+    esac
+done
+
+opts=
+[ -n "$urgency" ] && {
+    [ -n "$icon" ] && notify-send -u "$urgency" -i "$icon" -- "$1" "$2" || notify-send -u "$urgency" -- "$1" "$2"
+} || {
+    [ -n "$icon" ] && notify-send -i "$icon" -- "$1" "$2" || notify-send -- "$1" "$2"
+}
+
+[ $# -lt 3 ] && mpv --no-terminal -- "$DEFAULT_SFX" || mpv --no-terminal -- "$3"

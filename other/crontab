@@ -1,4 +1,5 @@
-#env DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+# FOR XORG:       DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+# FOR PULSEAUDIO: XDG_RUNTIME_DIR=/run/user/1000
 
 # Backup crontab to dotfiles
 @hourly cp -- "/var/spool/cron/$(whoami)" ~/dotfiles/other/crontab
@@ -7,4 +8,4 @@
 */5 * * * * ~/.local/bin/updatecount
 
 # Exercise reminder
-*/30 * * * * DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send "Exercise Reminder" "Get up and give your body\na nice firm stretch!"
+*/45 * * * * DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus XDG_RUNTIME_DIR=/run/user/1000 ~/.local/bin/pnotify -i /usr/share/icons/Adwaita/48x48/legacy/task-due.png 'Exercise Reminder' 'Get up and give your body\na nice firm stretch\!'

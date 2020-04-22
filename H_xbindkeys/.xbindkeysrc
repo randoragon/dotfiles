@@ -76,7 +76,7 @@
     Print
 "flameshot full -c"
     control + Print
-"flameshot full -p $HOME/Pictures/Screenshots/ && gimp $HOME/Pictures/Screenshots/screenshot_$(date +%F_%H-%M-%S).png"
+"flameshot full -p $HOME/Pictures/Screenshots/ ; sleep 0.25 ; aseprite $HOME/Pictures/Screenshots/screenshot_$(date +%F_%H-%M-%S).png"
     control+shift + Print
 "peek"
     control+alt + Print

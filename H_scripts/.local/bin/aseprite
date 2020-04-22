@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Launch aseprite without Steam
+
+"$HOME/.local/share/Steam/steamapps/common/Aseprite/aseprite" "$@" 2>/dev/null

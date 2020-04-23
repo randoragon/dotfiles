@@ -1,8 +1,10 @@
 #env DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
 
 # Backup to dotfiles
-@hourly cp -- /var/spool/cron/root /home/pcache/dotfiles/other/cronroot ; chown pcache /home/pcache/dotfiles/other/cronroot
+0 * * * * cp -- /var/spool/cron/root /home/pcache/dotfiles/other/cronroot ; chown pcache /home/pcache/dotfiles/other/cronroot
 
 # Download system updates without installing
-@hourly pacman -Syuw --noconfirm ; yay -Syuwa --noconfirm
+0 * * * * pacman -Syuw --noconfirm ; yay -Syuwa --noconfirm
 
+# Clear pacman cache
+0 13 * * 0 paccache -r

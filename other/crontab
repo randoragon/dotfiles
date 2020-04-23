@@ -2,7 +2,7 @@
 # FOR PULSEAUDIO: XDG_RUNTIME_DIR=/run/user/1000
 
 # Backup crontab to dotfiles
-@hourly cp -- "/var/spool/cron/$(whoami)" ~/dotfiles/other/crontab
+0 * * * * cp -- "/var/spool/cron/$(whoami)" ~/dotfiles/other/crontab
 
 # Update polybar updatecount
 */5 * * * * ~/.local/bin/updatecount

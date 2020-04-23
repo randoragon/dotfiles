@@ -47,6 +47,7 @@ export MPD_HOST="$HOME/.mpd/socket"
 export MPD_PORT=6601
 export i3_LAYOUTS="$HOME/.config/i3/layouts"
 export LYNX_CFG="$HOME/.config/lynx/config"
+export GNUPGHOME="$HOME/.local/share/gnupg"
 export NNN_OPENER=xdg-open
 export NNN_BMS='h:~;d:~/Documents'
 export NNN_COLORS='6532'

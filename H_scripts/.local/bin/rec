@@ -1,0 +1,69 @@
+#!/bin/sh
+
+# Wrapper for ffmpeg and xrecsel to easily record
+# audio-video screencasts of an arbitrary rectangle.
+# Available formats:
+# - mp4
+# - mkv
+# - gif
+# - possibly more (try manually writing an extension)
+
+help () {
+    echo \
+"
+rec [OPTIONS] FILE
+
+OPTIONS
+    -A, --no-audio: records only video
+    -f, --framerate: customize framerate (default 24, higher not recommended)
+    -p, --pretend: print the command(s) that would be run
+"
+}
+
+OPTS="$(getopt -n rec -s sh -o Af:hp -l no-audio,framerate:,help,pretend -- "$@")"
+eval set -- "$OPTS"
+
+audio='-f pulse -i default'
+acodec='-c:a aac'
+vcodec=libx264
+framerate=24
+pretend=
+while true; do
+    case "$1" in
+        -A|--no-audio) audio= acodec=; shift ;;
+        -f|--framerate) framerate="$2" ; shift 2 ;;
+        -p|--pretend) pretend=1 ; shift ;;
+        -h|--help) help ; exit ; shift ;;
+        --) shift ; break ;;
+        *) break ;;
+    esac
+done
+
+[ $# != 1 ] && echo "rec: exactly one FILE parameter required.\nTry 'rec --help' for more information." >&2 && exit 1
+[ -f "$1" ] && echo "rec: file with this name already exists." >&2 && exit 1
+[ -d "$1" ] && echo "rec: directory with this name already exists." >&2 && exit 1
+
+gif=
+[ "$(expr "$(basename -- "$1")" : '.*\.gif$')" -ne 0 ] && {
+    file="$(dirname -- "$1")/$(basename -- "$1" '.gif').mp4"
+    gif=1
+} || { file="$1"; }
+
+echo "Select a rectangle"
+dims="$(xrectsel)"
+size="$(printf -- "$dims" | sed 's/\+.*$//')"
+xy="$(printf -- "$dims" | sed 's/^[^+]*// ; s/\+/,/g' | cut -c 2-)"
+
+
+[ -n "$pretend" ] && {
+    echo "ffmpeg -f x11grab -video_size '$size' -framerate '$framerate' -i '$DISPLAY+$xy' $audio -c:v '$vcodec' -preset ultrafast $acodec -- '$file'"
+    [ -n "$gif" ] && echo "ffmpeg -i '$file' -filter_complex \"[0:v] split [a][b];[a] palettegen [p];[b][p] paletteuse\" '$1'"
+} || {
+    trap '' 2
+    ffmpeg -f x11grab -video_size "$size" -framerate "$framerate" -i "$DISPLAY+$xy" $audio -c:v "$vcodec" -preset ultrafast $acodec -- "$file"
+    [ -n "$gif" ] && {
+        echo '\nConverting to gif...\n'
+        ffmpeg -i "$file" -filter_complex "[0:v] split [a][b];[a] palettegen [p];[b][p] paletteuse" "$1"
+        rm "$file"
+    }
+}

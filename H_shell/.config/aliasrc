@@ -21,7 +21,7 @@ alias gp="git push"
 alias grs="git restore --staged"
 
 # Update everything
-alias sysupdate='sudo pacman -Syu && yay -Syu && sudo snap refresh && sudo youtube-dl -U && updatecount'
+alias sysupdate='sudo pacman -Syu && yay -Syua && sudo snap refresh && sudo youtube-dl -U && updatecount'
 if [ "$HOSTNAME" = "gallium" ]; then
     export TERM=xterm-termite
     alias sysupdate='sudo apt update && sudo apt upgrade && sudo snap refresh'

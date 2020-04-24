@@ -52,6 +52,8 @@ export NNN_OPENER=xdg-open
 export NNN_BMS='h:~;d:~/Documents'
 export NNN_COLORS='6532'
 export NNN_TRASH=1
+
+# lf icons
 export LF_ICONS="di=📁:\
 fi=📃:\
 tw=🤝:\

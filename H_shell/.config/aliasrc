@@ -19,14 +19,3 @@ alias gds="git diff --staged"
 alias gc="git commit"
 alias gp="git push"
 alias grs="git restore --staged"
-
-# Update everything
-alias sysupdate='sudo pacman -Syu && yay -Syua && sudo snap refresh && sudo youtube-dl -U && updatecount'
-if [ "$HOSTNAME" = "gallium" ]; then
-    export TERM=xterm-termite
-    alias sysupdate='sudo apt update && sudo apt upgrade && sudo snap refresh'
-    # enable apt auto-completion (https://askubuntu.com/questions/133086/bash-tab-auto-complete-not-working-for-apt)
-    if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-        . /etc/bash_completion
-    fi
-fi

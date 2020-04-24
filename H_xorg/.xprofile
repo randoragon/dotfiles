@@ -6,7 +6,7 @@
 setxkbmap -layout pl
 
 # Autostart utilities
-xwallpaper --zoom ~/Pictures/background.png
+xwallpaper --zoom "$HOME/.config/wallpaper"
 nm-applet &
 xfce4-power-manager &
 ~/.config/redshift/launch.sh &

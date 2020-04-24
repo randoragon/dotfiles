@@ -435,6 +435,12 @@ map tcm7 &{{
 }}
 map te :push :extract<space>
 
+# Go to symlink directory
+map gl &{{
+    dir="$(dirname -- "$(realpath -e -- "$f")")"
+    lf -remote "send $id cd '$dir'"
+}}
+
 # Generate directory shortcuts from jumplist
 map c
 map cd<enter> :cd ~

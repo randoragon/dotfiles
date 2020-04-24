@@ -3,7 +3,7 @@
 
 while read file; do
 	case "$1" in
-        'w') xwallpaper --zoom "$file" ;;
+        'w') cp -- "$file" "$HOME/.config/wallpaper"; xwallpaper --zoom "$HOME/.config/wallpaper" ;;
 		'greater') convert -rotate 90 "$file" "$file" ;;
 		'less') convert -rotate -90 "$file" "$file" ;;
 		'question') convert -rotate 180 "$file" "$file" ;;

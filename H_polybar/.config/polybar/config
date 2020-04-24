@@ -212,7 +212,7 @@ format = <label>
 type = custom/script
 interval = 10
 exec = sh -c 'cat "$HOME/.cache/updatecount" 2>&-'
-click-left = updatecount
+click-left = "$HOME/.scripts/terminal_run_sysupdate"
 format = <label>
 
 [settings]

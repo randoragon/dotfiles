@@ -43,18 +43,17 @@ map <c-v> :invert
 # Fuzzy Find
 cmd fuzzy-find ${{
     match="$(find . -maxdepth 1 | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
-    if [ -n $match ]; then
+    [ -n "$match" ] && {
         [ "$(expr "$(basename -- "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
         lf -remote "send $id select '$match'"
-    fi
+    }
 }}
 cmd fuzzy-find-recursive ${{
     match="$(find . | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
-    if [ -n $match ]; then
+    [ -n "$match" ] && {
         [ "$(expr "$(basename -- "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
-        lf -remote "send $id cd '$(dirname -- "$match")'"
-        lf -remote "send $id select '$(basename -- "$match")'"
-    fi
+        lf -remote "send $id select '$match'"
+    }
 }}
 map o :fuzzy-find
 map O :fuzzy-find-recursive
@@ -437,8 +436,8 @@ map te :push :extract<space>
 
 # Go to symlink directory
 map gl &{{
-    dir="$(dirname -- "$(realpath -e -- "$f")")"
-    lf -remote "send $id cd '$dir'"
+    origin="$(realpath -s -- "$(readlink -- "$f")")"
+    lf -remote "send $id select '$origin'"
 }}
 
 # Generate directory shortcuts from jumplist

@@ -42,16 +42,10 @@
     control+alt + t
 "xbindkeys_show" 
     control+shift + q
-"catfish"
-    control+alt + w
-"doublecmd --no-splash"
+"x-terminal-emulator -e dualf"
     control+alt + e
-"gksudo doublecmd"
-    control+shift+alt + e
 "x-terminal-emulator -e lf"
     control+alt + i
-"gksudo thunar"
-    control+shift+alt + i
 "firefox"
     control+alt + b
 "x-terminal-emulator -e ncmpcpp"

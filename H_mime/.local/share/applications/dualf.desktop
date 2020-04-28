@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=dualf
+Exec=/usr/bin/termite -e dualf %u
+Icon=/usr/share/icons/Adwaita/64x64/places/folder-symbolic.symbolic.png
+

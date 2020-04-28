@@ -66,7 +66,8 @@ sudo pacman -S --needed \
     zsh zsh-completions \
     tar gzip bzip2 xz zip unzip jar 7z \
     gnupg pinentry \
-    cronie
+    cronie \
+    cpulimit
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh

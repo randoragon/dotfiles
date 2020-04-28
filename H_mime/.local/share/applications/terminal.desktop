@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=st (suckless terminal)
+Exec=/usr/local/bin/st

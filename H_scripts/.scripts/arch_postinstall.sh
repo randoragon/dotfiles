@@ -204,5 +204,12 @@ sudo systemctl enable snapd.socket
 # Configure gpg-agent default authorization program
 sudo ln -sTf /usr/bin/pinentry-tty /usr/bin/pinentry
 
+# Install my fork of suckless terminal
+cd ~/Software
+git clone https://github.com/randoragon/st
+cd st
+make
+sudo ln -sTf -- "$HOME/Software/st/st" /usr/local/bin/st
+
 cd ~
 

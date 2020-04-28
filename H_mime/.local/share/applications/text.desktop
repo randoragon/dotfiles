@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
 Name=Vim
-Exec=/usr/bin/termite -e vim %f
+Exec=/usr/bin/termite -e vim -- %u

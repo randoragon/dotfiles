@@ -203,8 +203,7 @@ sudo ln -sTf /usr/bin/pinentry-tty /usr/bin/pinentry
 cd ~/Software
 git clone https://github.com/randoragon/st
 cd st
-make
-sudo ln -sTf -- "$HOME/Software/st/st" /usr/local/bin/st
+sudo make install
 sudo ln -sTf /usr/local/bin/st /usr/local/bin/x-terminal-emulator
 
 cd ~

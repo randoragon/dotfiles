@@ -38,7 +38,7 @@
 #keystate_scrolllock= enable
 
 # Generic Launchers
-"x-terminal-emulator --class=floating"
+"x-terminal-emulator -c floating"
     control+alt + t
 "xbindkeys_show" 
     control+shift + q

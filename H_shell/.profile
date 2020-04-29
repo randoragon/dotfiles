@@ -30,7 +30,7 @@ export LC_ALL=en_US.UTF-8
 
 # Default applications
 export EDITOR=vim
-export TERMINAL=termite
+export TERMINAL=st
 export BROWSER=firefox
 export PAGER=less
 

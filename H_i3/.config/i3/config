@@ -305,8 +305,8 @@ for_window [class="(?i)mpv"] floating enable, border normal
 for_window [class="(?i)megasync"] floating enable, border none
 
 # Application Shortcuts
-bindsym $mod+Shift+p exec i3-sensible-terminal --class scratch-term --title "Scratch Term"
-bindsym $mod+Shift+m exec i3-sensible-terminal --class scratch-music -e ncmpcpp
+bindsym $mod+Shift+p exec i3-sensible-terminal -c scratch-term -t "Scratch Term"
+bindsym $mod+Shift+m exec i3-sensible-terminal -c scratch-music -e ncmpcpp
 bindsym $mod+Shift+o exec keepassxc
 bindsym Control+$alt+l exec "physlock"
 
@@ -318,8 +318,8 @@ exec_always --no-startup-id "~/.config/picom/restart.sh"
 exec_always --no-startup-id "~/.config/polybar/launch.sh"
 
 # Startup Applications
-exec --no-startup-id "i3-sensible-terminal --class scratch-term --title 'Scratch Term'"
-exec --no-startup-id "i3-sensible-terminal --class scratch-music -e ncmpcpp"
+exec --no-startup-id "i3-sensible-terminal -c scratch-term -t 'Scratch Term'"
+exec --no-startup-id "i3-sensible-terminal -c scratch-music -e ncmpcpp"
 exec --no-startup-id "~/.xprofile"
 
 # Custom i3 Keybindings

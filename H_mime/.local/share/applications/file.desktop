@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=lf
-Exec=/usr/bin/termite -e lf --  %f
-Terminal=true
+Exec=/usr/local/bin/st -e lf --  %f
+Terminal=false
 Icon=/usr/share/icons/Adwaita/64x64/places/folder-symbolic.symbolic.png

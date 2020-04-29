@@ -106,7 +106,6 @@ yay -Syua
 yay -Sa --needed \
     polybar \
     ttf-unifont \
-    termite \
     megasync megacmd-bin \
     numix-gtk-theme numix-icon-theme-git \
     megacmd-bin \
@@ -163,7 +162,6 @@ stow H_polybar
 stow H_rofi
 stow H_scripts
 stow H_shell
-stow H_termite
 stow H_tmux
 stow H_vim
 stow H_xbindkeys
@@ -186,9 +184,6 @@ cd ~/dotfiles
 [ -f crontab ] && cat crontab | crontab -
 [ -f cronroot ] && sudo sh -c 'cat cronroot | crontab -'
 
-# Set termite as default i3 terminal
-[ -L /usr/local/bin/x-terminal-emulator ] || sudo ln -sfT /usr/bin/termite /usr/local/bin/x-terminal-emulator
-
 # Enable bluetooth
 sudo systemctl enable bluetooth.service
 
@@ -210,6 +205,7 @@ git clone https://github.com/randoragon/st
 cd st
 make
 sudo ln -sTf -- "$HOME/Software/st/st" /usr/local/bin/st
+sudo ln -sTf /usr/local/bin/st /usr/local/bin/x-terminal-emulator
 
 cd ~
 

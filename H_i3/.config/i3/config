@@ -328,5 +328,4 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Shift+plus [floating] move scratchpad
 #bindsym Ctrl+space exec dmenu_run
 bindsym $mod+Return exec i3-sensible-terminal
-bindsym $alt+Tab exec "rofi -show window -modi window -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi"
 

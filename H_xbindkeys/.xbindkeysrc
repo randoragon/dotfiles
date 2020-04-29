@@ -108,6 +108,8 @@
     XF86AudioMicMute
 
 # Rofi
+"rofi -show window -modi window -config ~/.config/rofi/config -theme ~/.config/rofi/gruvbox-dark-hard-colon.rasi"
+    Mod2+Mod4+shift + Tab
 "~/.config/rofi/playlists"
     Mod2+Mod4+shift + Insert
 "rofi -show combi"

@@ -205,6 +205,7 @@ git clone https://github.com/randoragon/st
 cd st
 sudo make install
 sudo ln -sTf /usr/local/bin/st /usr/local/bin/x-terminal-emulator
+find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 
 cd ~
 

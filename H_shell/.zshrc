@@ -53,6 +53,9 @@ export GPG_TTY="$(tty)"
 [ -f "$HOME/.config/jumprc" ] && . "$HOME/.config/jumprc"
 [ -f "$HOME/.config/aliasrc" ] && . "$HOME/.config/aliasrc"
 
+# Load pywal custom theme on tty
+source ~/.cache/wal/colors-tty.sh
+
 
 #################################################################
 #                       AUTOCOMPLETION                          #

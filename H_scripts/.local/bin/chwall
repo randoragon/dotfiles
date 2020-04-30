@@ -1,10 +1,19 @@
 #!/usr/bin/sh
 
-# Change the wallpaper
+# Change the wallpaper and generate new colorscheme
 #
 # DEPS:
 # - sxiv
 # - xwallpaper
+# - python-wal
 
 mkdir -p ~/.local/share/wallpapers
 sxiv -tor ~/.local/share/wallpapers
+
+# Clear cache before generating, because for some reason
+# pywal sometimes doesn't notice background changes
+wal -c
+wal -i ~/.config/wallpaper -neqst
+
+# Apply the new colorscheme
+~/.scripts/pywal_to_xres

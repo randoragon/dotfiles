@@ -12,6 +12,7 @@ alias zrc='vim ~/.zshrc'
 alias vrc='vim ~/.vimrc'
 alias api='vim ~/dotfiles/H_scripts/.scripts/arch_postinstall.sh'
 alias xbk='vim ~/.xbindkeysrc'
+alias xres='vim ~/.Xresources'
 
 # Directories
 alias cdoc='cd ~/Documents && ls'

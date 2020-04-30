@@ -68,7 +68,8 @@ sudo pacman -S --needed \
     gnupg pinentry \
     cronie \
     cpulimit \
-    tokei
+    tokei \
+    neofetch
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh

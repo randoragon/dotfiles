@@ -1,3 +1,7 @@
+# st
+*.alpha: 0.2
+
+# rofi
 rofi.theme: ~/.config/rofi/gruvbox-dark-hard-colon.rasi
 rofi.modi: combi
 rofi.show-icons: true

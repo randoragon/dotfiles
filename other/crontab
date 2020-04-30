@@ -5,7 +5,7 @@
 0 * * * * cp -- "/var/spool/cron/$(whoami)" ~/dotfiles/other/crontab
 
 # Update polybar updatecount
-*/5 * * * * ~/.local/bin/updatecount
+*/15 * * * * ~/.local/bin/updatecount
 
 # Exercise reminder
 0 * * * * DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus XDG_RUNTIME_DIR=/run/user/1000 ~/.local/bin/pnotify -i /usr/share/icons/Adwaita/48x48/legacy/task-due.png 'Exercise Reminder' 'Get up and give your body\na nice firm stretch\!'

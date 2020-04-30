@@ -1,7 +1,7 @@
 ! st
 st.alpha: 0.85
 !! gruvbox
-st.color0: #1c1a1b
+st.color0: #121011
 st.color1: #d0241d
 st.color2: #98a21a
 st.color3: #d7a221

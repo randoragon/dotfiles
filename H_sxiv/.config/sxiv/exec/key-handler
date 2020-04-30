@@ -3,18 +3,19 @@
 
 while read file; do
 	case "$1" in
-        'w') cp -- "$file" "$HOME/.config/wallpaper"; xwallpaper --zoom "$HOME/.config/wallpaper" ;;
+        'w') chwall "$file" ;;
 		'greater') convert -rotate 90 "$file" "$file" ;;
 		'less') convert -rotate -90 "$file" "$file" ;;
 		'question') convert -rotate 180 "$file" "$file" ;;
 		'bar') convert -flop "$file" "$file" ;;
 		'underscore') convert -rotate 180 -flop "$file" "$file" ;;
-		'C-c') copyq write "$(mimeo -m "$file" | sed -n 's/^\s\+//p')" - < "$file" &&
+		'C-c') copyq write "$(xdg-mime query filetype "$file" | sed -n 's/^\s\+//p')" - < "$file" &&
 			   notify-send -i "$(readlink -f "$file")" "$file" "Image copied to clipboard" ;;
 		'y') echo -n "$file" | copyq add - &&
 			 notify-send -i "$(readlink -f "$file")" "$file" "Name copied to clipboard" ;;
 		'Y') readlink -f "$file" | tr -d '\n' | copyq add - &&
 			 notify-send -i "$(readlink -f "$file")" "$(readlink -f "$file")" "Path copied to clipboard" ;;
 		'g') notify-send -i "$(readlink -f "$file")" "$file" "Launching in GIMP..." && gimp "$file" & ;;
+        'd') [ "$(echo "yes\nno" | dmenu -p "Delete image?")" = yes ] && rm -- "$file"
 	esac
 done

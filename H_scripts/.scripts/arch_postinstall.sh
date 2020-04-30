@@ -60,7 +60,7 @@ sudo pacman -S --needed \
     libnotify dunst \
     imagemagick graphicsmagick \
     i3-wm perl-anyevent-i3 \
-    figlet sl cmatrix \
+    figlet sl asciiquarium \
     traceroute tree \
     python-mutagen \ # mid3v2
     zsh zsh-completions \

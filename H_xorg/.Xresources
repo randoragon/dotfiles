@@ -1,7 +1,24 @@
-# st
-*.alpha: 0.2
+! st
+st.alpha: 0.85
+!! gruvbox
+st.color0: #1c1a1b
+st.color1: #d0241d
+st.color2: #98a21a
+st.color3: #d7a221
+st.color4: #458598
+st.color5: #a16296
+st.color6: #68ad7a
+st.color7: #b8a994
+st.color8: #928374
+st.color9: #fd4934
+st.color10: #b8cb26
+st.color11: #fdcd2f
+st.color12: #83a5a8
+st.color13: #e386ab
+st.color14: #8ed08c
+st.color15: #fbcbc2
 
-# rofi
+! rofi
 rofi.theme: ~/.config/rofi/gruvbox-dark-hard-colon.rasi
 rofi.modi: combi
 rofi.show-icons: true

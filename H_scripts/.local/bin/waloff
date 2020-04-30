@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# Disables pywal's custom terminal theme
+# and returns back to the fallback one.
+#
+# The convention is - the comment line in
+# Xresources that begins the pywal section
+# shall begin with 2 exclamation points
+# if automatic theming is enabled, and with
+# 3 exclamation points if it is disabled.
+
+file="$HOME/.Xresources"
+
+# Store the first comment line
+header="$(grep '^!! pywal' "$file")"
+
+# Disable theming (by convention)
+[ -n "$header" ] && \
+    sed  -i "s/^!! pywal.*/!$header/" "$file"
+
+# We will compose the output file of three parts: the lines leading to "! pywal", the modified chunk, and the rest
+# First, we extract all three parts
+leader="$(sed '/^!\+ pywal.*/,$d' "$file")"
+chunk="$(sed -n '/^!\+ pywal.*/,$p' "$file" | sed '/.*color15.*/q')"
+rest="$(sed '1,/^!\+ pywal.*/d' "$file" | sed '1,/.*color15.*/d')"
+
+# Comment all lines of the middle chunk (except the header)
+IFS="
+"
+i=1
+newchunk=
+for l in $chunk; do
+    [ $i -ne 1 ] && {
+        [ -z "$(printf -- "$l" | grep '^!.*')" ] && newline="!$l"
+    } || newline=$l 
+    newchunk="$newchunk
+$newline"
+    i="$(expr $i + 1)"
+done
+IFS=
+newchunk="$(printf -- "$newchunk" | sed '/^$/d')"
+
+# Concatenate all 3 parts
+printf "%s\n%s\n%s\n" "$leader" "$newchunk" "$rest" >"$file"
+
+# Reload Xresources
+xrdb "$file" 2>/dev/null

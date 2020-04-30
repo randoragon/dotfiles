@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# A wrapper for spawning a dual-pane lf file manager session
+# using tmux as multiplexer
+#
+# Optional 1 or two parameters for directories/files that are
+# going to be selected in left and right lf panes
+
+left=
+right=
+[ $# -gt 0 ] && left="$1"
+[ $# -gt 1 ] && right="$2"
+
+unset DUALF DUALF1 DUALF2
+DUALF="$(mktemp -dp '/tmp' dualf_XXX)"
+tmux new-session \; \
+    bind-key -n M-Tab select-pane -L \; \
+    bind-key -n C-q kill-session \; \
+    send-keys "export DUALF=$DUALF" C-m \; \
+    send-keys "export DUALF1=1" C-m \; \
+    send-keys "lf '$left'" C-m \; \
+    split-window -h \; \
+    send-keys "export DUALF=$DUALF" C-m \; \
+    send-keys "export DUALF2=1" C-m \; \
+    send-keys "lf '$right'" C-m \; \
+    select-pane -L \;
+rm -rf -- "$DUALF"

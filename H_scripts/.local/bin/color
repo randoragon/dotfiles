@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Displays a color selection zenity dialogue,
+# copies the result to clipboard
+
+# Parse zenity output from rgba(r,g,b,a) to R\nG\nB
+rgb="$(zenity --title "Select Color" --color-selection 2>/dev/null | tr -d '\n')"
+[ -n "$(printf -- "$rgb" | grep '^rgba')" ] && {
+    rgb="$(printf -- "$rgb" | sed 's/^rgba(// ; s/[0-9.]\+)//')"
+} || rgb="$(printf -- "$rgb" | sed 's/^rgb(//')"
+rgb="$(printf -- "$rgb" | sed 's/[,)]/\n/g')"
+
+# Sanity check
+[ "$(printf -- "$rgb\n" | wc -l )" -ne 3 ] && echo "color: parsing failed" >&2
+
+# Convert to hexadecimal
+hex=
+IFS="
+"
+for dec in $rgb; do
+    hex="$hex$([ "$dec" -lt 16 ] && printf '0')$(printf '%x' "$dec")"
+done
+IFS=
+printf '%s' "#$hex" | copyq add -
+copyq select 0

@@ -1,5 +1,16 @@
 #!/usr/bin/sh
 # Source: https://github.com/LukeSmithxyz/voidrice/blob/master/.config/sxiv/exec/key-handler
+#
+# KeyBindings (all precede with <C-x>):
+# - w   : set as wallpaper
+# - <   : rotate left (edit)
+# - >   : rotate right (edit)
+# - ?   : rotate 180 (edit)
+# - |   : flip horizontally (edit)
+# - _   : flip vertically (edit)
+# - C-c : copy image to clipboard
+# - y   : copy filename to clipboard
+# - Y   : copy full path to clipboard
 
 while read file; do
 	case "$1" in
@@ -9,13 +20,14 @@ while read file; do
 		'question') convert -rotate 180 "$file" "$file" ;;
 		'bar') convert -flop "$file" "$file" ;;
 		'underscore') convert -rotate 180 -flop "$file" "$file" ;;
-		'C-c') copyq write "$(xdg-mime query filetype "$file" | sed -n 's/^\s\+//p')" - < "$file" &&
+		'C-c') copyq write "$(xdg-mime query filetype "$file")" - < "$file" &&
+               copyq select 0 &&
 			   notify-send -i "$(readlink -f "$file")" "$file" "Image copied to clipboard" ;;
-		'y') echo -n "$file" | copyq add - &&
-			 notify-send -i "$(readlink -f "$file")" "$file" "Name copied to clipboard" ;;
-		'Y') readlink -f "$file" | tr -d '\n' | copyq add - &&
+		'y') echo -n "$file" | copyq add - && copyq select 0 &&
+			 notify-send -i "$(readlink -f "$file")" "$(basename -- "$file")" "Name copied to clipboard" ;;
+		'Y') readlink -f "$file" | tr -d '\n' | copyq add - && copyq select 0 &&
 			 notify-send -i "$(readlink -f "$file")" "$(readlink -f "$file")" "Path copied to clipboard" ;;
 		'g') notify-send -i "$(readlink -f "$file")" "$file" "Launching in GIMP..." && gimp "$file" & ;;
-        'd') [ "$(echo "yes\nno" | dmenu -p "Delete image?")" = yes ] && rm -- "$file"
+        'd') [ "$(echo "yes\nno" | dmenu -p "Delete image?")" = yes ] && rm -f -- "$file"
 	esac
 done

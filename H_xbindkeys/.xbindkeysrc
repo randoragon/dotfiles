@@ -108,11 +108,9 @@
     XF86AudioMicMute
 
 # Rofi
-"rofi -show window -modi window"
-    Mod2+Mod4+shift + Tab
 "~/.config/rofi/playlists"
     Mod2+Mod4+shift + Insert
-"rofi -show combi"
+"dmenu_run"
     Mod2+Mod4 + Tab
 "rofi -show calc -modi 'calc:qalc +u8'"
     Mod2+Mod4 + equal

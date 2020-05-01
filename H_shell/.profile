@@ -42,6 +42,9 @@ export GOPATH="$HOME/.local/share/go"
 # Start ssh-agent if not already running
 ps -e | grep "$SSH_AGENT_PID"  | grep "ssh-agent$" || eval "$(ssh-agent -s)"
 
+# Read Xresources file
+[ -f "$HOME/.Xresources" ] && xrdb "$HOME/.Xresources"
+
 # Other configuration
 export MPD_HOST="$HOME/.mpd/socket"
 export MPD_PORT=6601

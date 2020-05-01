@@ -13,8 +13,7 @@
     "percent": 0.5,
     "swallows": [
        {
-       "class": "^X\\-terminal\\-emulator$",
-       "instance": "^x\\-terminal\\-emulator$"
+       "class": "^beetsterm$"
        }
     ],
     "type": "con"
@@ -30,13 +29,11 @@
        "x": 0,
        "y": 24
     },
-    "name": "Double Commander 0.9.8 beta build 9296; 2020/02/01",
+    "name": "dualf",
     "percent": 0.5,
     "swallows": [
        {
-       "class": "^Doublecmd$",
-       "instance": "^doublecmd$",
-       "window_role": "^TfrmMain$"
+       "class": "^dualf$"
        }
     ],
     "type": "con"

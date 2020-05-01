@@ -42,7 +42,7 @@
     control+alt + t
 "xbindkeys_show" 
     control+shift + q
-"x-terminal-emulator -e dualf"
+"x-terminal-emulator -c dualf -t dualf -e dualf"
     control+alt + e
 "x-terminal-emulator -e lf"
     control+alt + i

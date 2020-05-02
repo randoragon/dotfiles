@@ -21,3 +21,8 @@ H_copyq/.config/copyq/copyq-bak.conf
 H_megacmd/**/excluded
 H_megacmd/**/lockMCMD
 H_megacmd/**/mega*
+
+# Programs that alter their configs by themselves often
+# but I don't, so I want to ignore any changes to these
+H_flameshot
+H_speedcrunch

@@ -51,3 +51,5 @@ cpulimit | `cpulimit` | CPU Limiter | makes it possible to run any command with 
 tokei | `tokei` | Code Statistics | counts lines of code per language in a project, really fast and verbose
 xrectsel | `*xrectsel` | easy screen geometry selection with the mouse
 spark | `-` | display simple graphs from stdin numbers, install with `curl https://raw.githubusercontent.com/holman/spark/master/spark -o /usr/local/bin/spark && chmod +x /usr/local/bin/spark`
+qalc | `libqalculate` | intuitive shell calculator with tab autocompletion. Note that qalculate-gtk is trash to use
+speedcrunch | `speedcrunch` | fast graphical calculator with a commandline-like keyboard-driven interface

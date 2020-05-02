@@ -112,6 +112,12 @@
 "dmenu_run"
     Mod2+Mod4 + Tab
 
+# Calculators
+"st -c floatme -t qalc -e qalc"
+    Mod2+Mod4 + equal
+"speedcrunch"
+    Mod2+Mod4+shift + plus
+
 # set directly keycode (here control + f with my keyboard)
 #"xterm"
 #  c:41 + m:0x4

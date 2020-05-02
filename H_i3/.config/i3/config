@@ -325,7 +325,5 @@ exec --no-startup-id "~/.xprofile"
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
-bindsym $mod+Shift+plus [floating] move scratchpad
-#bindsym Ctrl+space exec dmenu_run
 bindsym $mod+Return exec i3-sensible-terminal
 

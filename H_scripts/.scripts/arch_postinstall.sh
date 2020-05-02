@@ -34,7 +34,7 @@ sudo pacman -S --needed \
     zip unzip \
     curl \
     firefox thunderbird \
-    qalculate-gtk \
+    libqalculate speedcrunch \
     htop xfce4-taskmanager \
     mousepad \
     fakeroot \

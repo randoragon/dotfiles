@@ -119,7 +119,8 @@ yay -Sa --needed \
     etcher-bin \
     zsh-syntax-highlighting \
     rar \
-    xrectsel
+    xrectsel \
+    dmenu-git
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib

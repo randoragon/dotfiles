@@ -69,7 +69,8 @@ sudo pacman -S --needed \
     cronie \
     cpulimit \
     tokei \
-    neofetch
+    neofetch \
+    trash-cli
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh
@@ -112,7 +113,6 @@ yay -Sa --needed \
     numix-gtk-theme numix-icon-theme-git \
     megacmd-bin \
     network-manager-applet \
-    trash-cli rmtrash \
     snapd \
     screenkey \
     id3ted \

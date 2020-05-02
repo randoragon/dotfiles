@@ -65,7 +65,7 @@ cmd trash %{{
     read -q ans
     [ $ans = "y" -o $ans = "Y" ] && {
         printf -- "$fx\n" | while read l; do
-            mv -- "$l" "$HOME/.local/share/Trash/files"
+            trash-put -- "$l"
         done
     } || { lf -remote "send $id clear"; }
 }} 

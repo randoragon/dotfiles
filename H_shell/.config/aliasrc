@@ -7,6 +7,8 @@ alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
 alias rm="printf '%s' 'Please use \\rm for permanent deletion and tp for trash-cli'; false"
 alias rmdir="printf '%s' 'Please use \\rmdir for permanent deletion and tp for trash-cli'; false"
 alias tp='trash-put'
+alias trm='trash-rm'
+alias tls='trash-list'
 alias nnn='nnn -R'
 alias sxiv='sxiv -qab'
 alias fzf='fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up'

@@ -14,6 +14,9 @@ fi
 # Swap escape and caps lock
 setxkbmap -option caps:swapescape
 
+# Read Xresources file
+[ -f "$HOME/.Xresources" ] && xrdb "$HOME/.Xresources"
+
 # Setting this allows some applications to easily
 # know if they're in a graphical env or a tty
 export DESKTOP_SESSION=i3

@@ -571,6 +571,9 @@ cmd save-f &{{
     lf -remote "send $id echo save-f failure: path already exists"
 }}
 
+# Quick edit ratios
+map ,r :push :set<space>ratios<space>
+
 # Generate directory shortcuts from jumprc
 map c
 map cd<enter> :cd ~

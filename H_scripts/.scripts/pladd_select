@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Playlists directory
+pldir="$HOME/Music/Playlists"
+
+playlists="$(find "$pldir" -maxdepth 1 -type f -name '*.m3u' -print0 | xargs -0l basename -- | sed 's/\.m3u$//')"
+[ -z "$playlists" ] && notify-send -u low "pladd_select" "No playlists detected" && exit
+playing="$(mpc current -f %file% --port="$MPD_PORT")"
+title="$(mpc current -f %title% --port="$MPD_PORT")"
+[ -n "$(echo "$playing" | grep '^Download/')" ] && notify-send -u low "pladd_select" "The current file is in the <u>Download</u> directory" && exit
+chosen="$(printf '%s\n' "$playlists" | dmenu -i -p "Add to playlist:")"
+[ -z "$chosen" ] && exit
+pladd  "$chosen"

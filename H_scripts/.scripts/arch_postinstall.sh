@@ -15,7 +15,7 @@ sudo pacman -S --needed \
     make cmake gcc gdb \
     lynx \
     git \
-    picom rofi \
+    picom \
     keepassxc \
     stow \
     xorg xorg-xinit xterm xbindkeys xorg-drivers numlockx xwallpaper \
@@ -162,7 +162,6 @@ stow H_mpd
 stow H_ncmpcpp
 stow H_picom
 stow H_polybar
-stow H_rofi
 stow H_scripts
 stow H_shell
 stow H_tmux

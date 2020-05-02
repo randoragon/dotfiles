@@ -107,13 +107,10 @@
 "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
     XF86AudioMicMute
 
-# Rofi
-"~/.config/rofi/playlists"
+"~/.scripts/pladd_select"
     Mod2+Mod4+shift + Insert
 "dmenu_run"
     Mod2+Mod4 + Tab
-"rofi -show calc -modi 'calc:qalc +u8'"
-    Mod2+Mod4 + equal
 
 # set directly keycode (here control + f with my keyboard)
 #"xterm"

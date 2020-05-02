@@ -1,32 +1,19 @@
-#!/bin/bash
+#!/bin/sh
 
 # Intakes an absolute/relative song path, adds it after the current playing mpd song,
-# then skips the current playing song and plays the parameter one.
+# then skips the current playing song and plays the next one.
 
 # Quit if no arguments
-if [[ $# == 0 ]]; then exit; fi
+[ $# -eq 0 ] && exit 1
 
-# WARNING: the below formula assumes mpd config is stored in $HOME/.mpd
-# and that the port is passed after a colon in host:port format
-PORT=$(cat "$HOME/.mpd/mpd.conf" | grep -Po '^bind_to_address[^:]*:\K[0-9]+')
+port="$MPD_PORT"
 
 # Run mpd if not running
-if [[ $(ps ax | grep -Psw "^([\s]+[^\s]+){4}[\s]+mpd[\s]*$") == '' ]]; then
-    mpd
-    wait
-fi
+[ -z "$(pidof mpd)" ] && mpd && wait
 
-# Convert path to absolute, if needed
-SONG="$1"
-if [[ ! $SONG == "/"* ]]; then
-    SONG="$PWD/$SONG"
-fi
 
 # Add to playlist
-if [[ -z $(mpc --port=$PORT insert "file://$SONG" 2>&1) ]]; then
-    # If successful, switch to the next song
-    mpc --port=$PORT next
-else
-    STDOUT=$(mpc --port=$PORT insert "file://$SONG" 2>&1)
-    rofi -markup -e "<span background='red'><b>mpdplay: mpc:</b></span> <span background='blue'>$SONG</span> $STDOUT "
-fi
+song="$(realpath -- "$1")"
+[ -z "$(mpc --port=$port insert "file://$song" 2>&1)" ] && {
+    mpc --port="$port" next
+} || notify-send -u critical "mpdplay" "Failed to add song to queue"

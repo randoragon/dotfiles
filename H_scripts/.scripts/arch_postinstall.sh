@@ -122,7 +122,8 @@ yay -Sa --needed \
     zsh-syntax-highlighting \
     rar \
     xrectsel \
-    dmenu-git
+    dmenu-git \
+    bfg
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib

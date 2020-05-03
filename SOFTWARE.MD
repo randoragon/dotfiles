@@ -54,3 +54,4 @@ spark | `-` | display simple graphs from stdin numbers, install with `curl https
 qalc | `libqalculate` | intuitive shell calculator with tab autocompletion. Note that qalculate-gtk is trash to use
 speedcrunch | `speedcrunch` | fast graphical calculator with a commandline-like keyboard-driven interface
 zathura | `zathura` | blazingly fast PDF viewer with plugins for other filetypes
+bfg | `*bfg` | git repo history removal made easy

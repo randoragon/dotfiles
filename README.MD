@@ -28,10 +28,24 @@ And to copy all root configs:
 
 `sudo stow -t / R_*`
 
-Root-oriented stows should be avoided, usually there's a way to store configs in the home directory.
-
 Some files cannot be stowed, because for them to work they cannot exist in the filesystem as symlinks.
 For that reason, the "other" directory exists, and it contains all of the oddballs that don't belong elsewhere.
 Installing configs from the "other" directory has to be done manually and will not be covered here or anywhere
 else, because the files there usually only matter to me, and it's usually intuitive how one should install them
 (e.g. crontabs).
+
+## Installation (Arch Linux)
+
+To make matters convenient when performing a fresh system installation, I've written a single script that handles it all the way I like it.
+You can find it at `H_scripts/.scripts/arch_postinstall.sh` (or click [here](https://github.com/randoragon/dotfiles/blob/master/H_scripts/.scripts/arch_postinstall.sh)).  
+Note that this script merely installs and configures all the software that I use. It is meant to be run only once an Arch Linux [full installation process](https://wiki.archlinux.org/index.php/Installation_guide) is finished.
+
+## Disclaimer
+
+All the files, tips, scripts, and other data contained in this repository are distributed under no warranty. They're simply resources I've written **for myself** and released to the public for two reasons:
+
+1. Convenience - so that I can share my solutions with anyone if I see fit
+2. Information - so that other Linux users may find my solutions and replicate/improve them for their own use.
+
+You are free to copy, modify and redistribute these configs, but I'm not accountable for what you do with them.
+

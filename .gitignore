@@ -26,3 +26,4 @@ H_megacmd/**/mega*
 # but I don't, so I want to ignore any changes to these
 H_flameshot
 H_speedcrunch
+H_keepassxc

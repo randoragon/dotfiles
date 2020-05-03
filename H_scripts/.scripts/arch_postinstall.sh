@@ -70,7 +70,8 @@ sudo pacman -S --needed \
     cpulimit \
     tokei \
     neofetch \
-    trash-cli
+    trash-cli \
+    atomicparsley
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh

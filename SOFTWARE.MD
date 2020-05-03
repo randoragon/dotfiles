@@ -11,7 +11,7 @@ AUR packages are prefixed with \*.
 ---
 
 Name | Package | Category | Description
-:---: | :---: | :---:
+:--- | :--- | :--- | :---
 FZF | `fzf` | Fuzzy Finder | a DMenu that works inside the terminal
 FontMatrix | `*fontmatrix` | Font Manager | for looking up glyphs in icon fonts
 GIMP | `gimp` | Image Editor | 
@@ -32,7 +32,7 @@ The Silver Searcher | `the_silver_searcher` | Fuzzy Search | blazingly fast file
 TigerVNC | `tigervnc` | VNC Server | 
 Tmux | `tmux` | Terminal Multiplexer | 
 Vim | `gvim` | Text Editor | the original "vim" package lacks some compilation flags
-ZSH | `zsh` | Z Shell, an extensible shell with syntax highlighting, tab completion and more
+ZSH | `zsh` | Shell | an extensible shell with syntax highlighting, tab completion and more
 dmenu | `dmenu` | Dynamic Menu | great for GUI user interaction in shell scripts
 dunst | `dunst` | Notification Daemon | useful with `libnotify`
 espeak | `espeak` | Text-To-Speech | multilanguage, repitching, speed manip
@@ -49,9 +49,9 @@ xdotool | `xdotool` | Automation | simulates key and mouse presses, moves window
 GNOME Unicode Charmap | `gucharmap` | Font Previewer | not many deps, clean font view, but can't see all glyphs in one place like in FontMatrix
 cpulimit | `cpulimit` | CPU Limiter | makes it possible to run any command with a limit on how much CPU it can use
 tokei | `tokei` | Code Statistics | counts lines of code per language in a project, really fast and verbose
-xrectsel | `*xrectsel` | easy screen geometry selection with the mouse
-spark | `-` | display simple graphs from stdin numbers, install with `curl https://raw.githubusercontent.com/holman/spark/master/spark -o /usr/local/bin/spark && chmod +x /usr/local/bin/spark`
-qalc | `libqalculate` | intuitive shell calculator with tab autocompletion. Note that qalculate-gtk is trash to use
-speedcrunch | `speedcrunch` | fast graphical calculator with a commandline-like keyboard-driven interface
-zathura | `zathura` | blazingly fast PDF viewer with plugins for other filetypes
-bfg | `*bfg` | git repo history removal made easy
+xrectsel | `*xrectsel` | X Utilities | easy screen geometry selection with the mouse
+spark | `-` | Shell Charts | display simple graphs from stdin numbers, install with `curl https://raw.githubusercontent.com/holman/spark/master/spark -o /usr/local/bin/spark && chmod +x /usr/local/bin/spark`
+qalc | `libqalculate` | Calculator | intuitive shell calculator with tab autocompletion. Note that qalculate-gtk is trash to use
+speedcrunch | `speedcrunch` | Calculator | fast graphical calculator with a commandline-like keyboard-driven interface
+zathura | `zathura` | PDF Viewer | blazingly fast PDF viewer with plugins for other filetypes
+bfg | `*bfg` | Git Tool | git repo history removal made easy

@@ -71,7 +71,8 @@ sudo pacman -S --needed \
     tokei \
     neofetch \
     trash-cli \
-    atomicparsley
+    atomicparsley \
+    zathura zathura-cb zathura-pdf-poppler
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh

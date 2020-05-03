@@ -2,23 +2,39 @@
 
 # Extracts any common archive format into a custom directory
 # Simple wrapper for tar, unzip, rar, jar and 7z.
+# It autodetects common archive extensions by filename, but you can also
+# pass an option to force a specific program to attempt extraction.
 #
 # Options:
 # -v, --verbose
-# lists all the files getting extracted
+# -z, --gzip   \ 
+# -j, --bzip2  |- these 3 do the same thing (extract with tar)
+# -J, --xz     / 
+# -Z, --zip
+# -r, --rar
+# -R, --jar
+# -7, --7z
 #
-# Two parameters:
-# extract ARCHIVE [DIRECTORY]
+# Usage:
+# extract [OPTIONS] ARCHIVE [DIRECTORY]
 # if ARCHIVE is -, reads stdin
-# if no DIRECTORY, assumes the same name ARCHIVE~
+# if no DIRECTORY, appends a tilda (ARCHIVE~)
 
 # Parse options
-OPTS="$(getopt -n extract -s sh -o v -l --verbose -- "$@")"
+OPTS="$(getopt -n extract -s sh -o vzjJZrR7 -l verbose,gzip,bzip2,xz,zip,rar,jar,7z -- "$@")"
 eval set -- "$OPTS"
 verbose=
+compress=
 while true; do
     case "$1" in
         -v|--verbose) verbose=1 ; shift ;;
+        -z|--gzip) compress=tar ; shift ;;
+        -j|--bzip2) compress=tar ; shift ;;
+        -J|--xz) compress=tar ; shift ;;
+        -Z|--zip) compress=zip ; shift ;;
+        -r|--rar) compress=rar ; shift ;;
+        -R|--jar) compress=jar ; shift ;;
+        -7|--7z) compress=7z ; shift ;;
         --) shift ; break ;;
         *) break ;;
     esac
@@ -38,22 +54,40 @@ done
 ar="$(realpath -- "$1")"
 [ $# -gt 1 ] && nm="$2" || nm="$(basename -- "$1")"'~'
 [ -f "$nm" -o -d "$nm" ] && echo "extract: '$nm' already exists." && exit 2
+[ -z "$compress" ] && \
+    case "$ar" in
+        *.tar|*.tar.gz|*.tar.bz|*.tar.xz|*.tar.bz2|*.tbz|*.tbz2|*.tgz|*.txz)
+            compress=tar
+        ;;
+        *.zip|*.dvi)
+            compress=zip
+        ;;
+        *.rar)
+            compress=rar
+        ;;
+        *.jar)
+            compress=jar
+        ;;
+        *.7z)
+            compress=7z
+        ;;
+    esac
 
 # Extract
-case "$ar" in
-    *.tar|*.tar.gz|*.tar.bz|*.tar.xz|*.tar.bz2|*.tbz|*.tbz2|*.tgz|*.txz)
+case "$compress" in
+    tar)
         mkdir -p -- "$nm"
         [ -n "$verbose" ] && opts='-xvf' || opts='-xf'
         tar "$opts" "$ar" -C "$nm"
     ;;
-    *.zip|*.dvi)
+    zip)
         [ -n "$verbose" ] && unzip "$ar" -d "$nm" || unzip -q "$ar" -d "$nm"
     ;;
-    *.rar)
+    rar)
         mkdir -p -- "$nm"
         [ -n "$verbose" ] && rar x "$ar" "$nm" || rar -idq x "$ar" "$nm"
     ;;
-    *.jar)
+    jar)
         mkdir -p -- "$nm"
         prevpwd="$PWD"
         cd -- "$nm"
@@ -61,7 +95,7 @@ case "$ar" in
         jar "$opts" "$ar"
         cd -- "$PWD"
     ;;
-    *.7z)
+    7z)
         [ -n "$verbose" ] && 7z x "$ar" -o"$nm" || 7z x "$ar" -o"$nm" >&-
     ;;
 esac

@@ -22,6 +22,8 @@ alias gds="git diff --staged"
 alias gc="git commit"
 alias gp="git push"
 alias grs="git restore --staged"
+alias gau="git update-index --assume-unchanged"
+alias ganu="git update-index --no-assume-unchanged"
 
 # Youtube-DL
 alias ytmp3="youtube-dl -x -o '~/Downloads/Music/%(title)s.%(ext)s' --no-playlist --audio-quality 0 --audio-format mp3"

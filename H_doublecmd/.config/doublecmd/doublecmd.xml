@@ -129,56 +129,6 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_compiz/</Path>
-                  <Path Filename="H_hedgewars">/home/pcache/dotfiles/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_hedgewars/</Path>
-                  <Path Filename="hedgewars">/home/pcache/dotfiles/H_hedgewars/.config/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_hedgewars/.config/hedgewars/</Path>
-                  <Path Filename="hedgewars">/home/pcache/dotfiles/H_hedgewars/.config/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_hedgewars/</Path>
-                  <Path Filename="H_hedgewars">/home/pcache/dotfiles/</Path>
-                  <Path Filename=".hedgewars">/home/pcache/dotfiles/H_hedgewars/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_hedgewars/.hedgewars/</Path>
-                  <Path Filename=".hedgewars">/home/pcache/dotfiles/H_hedgewars/</Path>
-                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
-                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
-                  <Path Filename="testUnit.sh">/home/pcache/dotfiles/H_dbu/Dropbox-Uploader/</Path>
-                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
-                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
-                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_dbu/Dropbox-Uploader/</Path>
-                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
-                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
-                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
-                  <Path Filename="CHANGELOG.md">/home/pcache/dotfiles/H_dbu/Dropbox-Uploader/</Path>
-                  <Path Filename=".dropbox_uploader">/home/pcache/dotfiles/H_dbu/</Path>
-                  <Path Filename="R_lynx">/home/pcache/dotfiles/</Path>
-                  <Path Filename="home">/home/pcache/dotfiles/R_lynx/</Path>
-                  <Path Filename="pcache">/home/pcache/dotfiles/R_lynx/home/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/home/pcache/</Path>
-                  <Path Filename="pcache">/home/pcache/dotfiles/R_lynx/home/</Path>
-                  <Path Filename="etc">/home/pcache/dotfiles/R_lynx/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/etc/</Path>
-                  <Path Filename="etc">/home/pcache/dotfiles/R_lynx/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/etc/</Path>
-                  <Path Filename="etc">/home/pcache/dotfiles/R_lynx/</Path>
-                  <Path Filename="R_lynx">/home/pcache/dotfiles/</Path>
-                  <Path Filename="etc">/home/pcache/dotfiles/R_lynx/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/etc/</Path>
-                  <Path Filename="home">/home/pcache/dotfiles/R_lynx/</Path>
-                  <Path Filename="pcache">/home/pcache/dotfiles/R_lynx/home/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/R_lynx/home/pcache/</Path>
-                  <Path Filename="pcache">/home/pcache/dotfiles/R_lynx/home/</Path>
-                  <Path Filename="home">/home/pcache/dotfiles/R_lynx/</Path>
-                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
-                  <Path Filename="Dropbox-Uploader">/home/pcache/dotfiles/H_dbu/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_dbu/Dropbox-Uploader/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_dbu/</Path>
-                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
-                  <Path Filename=".dropbox_uploader">/home/pcache/dotfiles/H_dbu/</Path>
-                  <Path Filename="H_dbu">/home/pcache/dotfiles/</Path>
-                  <Path Filename="timetable.png">/home/pcache/Desktop/</Path>
-                  <Path Filename="">/home/pcache/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -199,54 +149,6 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="Music">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/Music/</Path>
-                  <Path Filename="Music">/home/pcache/</Path>
-                  <Path Filename="Music">/home/pcache/Music/</Path>
-                  <Path Filename="Electronic">/home/pcache/Music/Music/</Path>
-                  <Path Filename="..">/home/pcache/Music/Music/Electronic/</Path>
-                  <Path Filename="..">/home/pcache/Music/Music/</Path>
-                  <Path Filename="Music">/home/pcache/Music/</Path>
-                  <Path Filename="Classics">/home/pcache/Music/Music/</Path>
-                  <Path Filename="AlbumArt_{B5020207-474E-4720-90B2-E22F819C2D00}_Small.jpg">/home/pcache/Music/Music/Classics/</Path>
-                  <Path Filename="Miscellaneous">/home/pcache/Music/Music/</Path>
-                  <Path Filename="Music">/home/pcache/Music/</Path>
-                  <Path Filename="..">/home/pcache/Music/Music/</Path>
-                  <Path Filename="Music">/home/pcache/Music/</Path>
-                  <Path Filename="Music">/home/pcache/</Path>
-                  <Path Filename="Music">/home/pcache/Music/</Path>
-                  <Path Filename="Anime">/home/pcache/Music/Music/</Path>
-                  <Path Filename="..">/home/pcache/Music/Music/Anime/</Path>
-                  <Path Filename="..">/home/pcache/Music/Music/</Path>
-                  <Path Filename="Jean Jacques Burnel - Desire.mp3">/home/pcache/Music/</Path>
-                  <Path Filename=".bashrc">/home/pcache/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="bin">/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/</Path>
-                  <Path Filename=".thunderbird">/home/pcache/Downloads/</Path>
-                  <Path Filename="..">/home/pcache/Downloads/.thunderbird/</Path>
-                  <Path Filename=".thunderbird">/home/pcache/Downloads/</Path>
-                  <Path Filename=".thunderbird">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/.thunderbird/</Path>
-                  <Path Filename=".vim">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -270,56 +172,6 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="Schemes">/home/pcache/.hedgewars/</Path>
-                  <Path Filename=".local">/home/pcache/</Path>
-                  <Path Filename="share">/home/pcache/.local/</Path>
-                  <Path Filename="webkitgtk">/home/pcache/.local/share/</Path>
-                  <Path Filename="share">/home/pcache/.local/</Path>
-                  <Path Filename=".fltk">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/.fltk/</Path>
-                  <Path Filename=".mono">/home/pcache/</Path>
-                  <Path Filename="..">/home/pcache/.mono/</Path>
-                  <Path Filename="lynx_bookmarks.html">/home/pcache/</Path>
-                  <Path Filename="pcache">/home/</Path>
-                  <Path Filename="..">/home/pcache/</Path>
-                  <Path Filename="pcache">/home/</Path>
-                  <Path Filename="dotfiles">/home/pcache/</Path>
-                  <Path Filename="H_qtcreator">/home/pcache/dotfiles/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_qtcreator/</Path>
-                  <Path Filename="QtProject">/home/pcache/dotfiles/H_qtcreator/.config/</Path>
-                  <Path Filename="qtcreator">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/qtcreator/</Path>
-                  <Path Filename="qtcreator">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/qtcreator/</Path>
-                  <Path Filename="QtCreator.ini">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
-                  <Path Filename=".config">/home/pcache/</Path>
-                  <Path Filename="compiz">/home/pcache/.config/</Path>
-                  <Path Filename="..">/home/pcache/.config/compiz/</Path>
-                  <Path Filename="compiz">/home/pcache/.config/</Path>
-                  <Path Filename="fusion-icon">/home/pcache/.config/compiz/</Path>
-                  <Path Filename="compiz-1">/home/pcache/.config/</Path>
-                  <Path Filename="compizconfig">/home/pcache/.config/compiz-1/</Path>
-                  <Path Filename="Default.ini">/home/pcache/.config/compiz-1/compizconfig/</Path>
-                  <Path Filename="compizconfig">/home/pcache/.config/compiz-1/</Path>
-                  <Path Filename="compiz-1">/home/pcache/.config/</Path>
-                  <Path Filename=".config">/home/pcache/</Path>
-                  <Path Filename="doublecmd">/home/pcache/.config/</Path>
-                  <Path Filename="shortcuts.scf">/home/pcache/.config/doublecmd/</Path>
-                  <Path Filename="ulauncher">/home/pcache/.config/</Path>
-                  <Path Filename=".hedgewars">/home/pcache/</Path>
-                  <Path Filename="settings.ini">/home/pcache/.hedgewars/</Path>
-                  <Path Filename=".hedgewars">/home/pcache/</Path>
-                  <Path Filename="pcache">/home/</Path>
-                  <Path Filename=".config">/home/pcache/</Path>
-                  <Path Filename="KeePass">/home/pcache/.config/</Path>
-                  <Path Filename="KeePass.config.xml">/home/pcache/.config/KeePass/</Path>
-                  <Path Filename="QtProject">/home/pcache/.config/</Path>
-                  <Path Filename="QtCreator.ini">/home/pcache/.config/QtProject/</Path>
-                  <Path Filename="QtProject">/home/pcache/.config/</Path>
-                  <Path Filename=".config">/home/pcache/</Path>
-                  <Path Filename="pcache">/home/</Path>
-                  <Path Filename=".xsession-errors">/home/pcache/</Path>
-                  <Path Filename="">/boot/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -340,56 +192,6 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="H_qtcreator">/home/pcache/dotfiles/</Path>
-                  <Path Filename=".config">/home/pcache/dotfiles/H_qtcreator/</Path>
-                  <Path Filename="QtProject">/home/pcache/dotfiles/H_qtcreator/.config/</Path>
-                  <Path Filename="qtcreator">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/qtcreator/</Path>
-                  <Path Filename="qtcreator">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
-                  <Path Filename="..">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/qtcreator/</Path>
-                  <Path Filename="QtCreator.ini">/home/pcache/dotfiles/H_qtcreator/.config/QtProject/</Path>
-                  <Path Filename=".config">/home/pcache/</Path>
-                  <Path Filename="compiz">/home/pcache/.config/</Path>
-                  <Path Filename="..">/home/pcache/.config/compiz/</Path>
-                  <Path Filename="compiz">/home/pcache/.config/</Path>
-                  <Path Filename="fusion-icon">/home/pcache/.config/compiz/</Path>
-                  <Path Filename="compiz-1">/home/pcache/.config/</Path>
-                  <Path Filename="compizconfig">/home/pcache/.config/compiz-1/</Path>
-                  <Path Filename="Default.ini">/home/pcache/.config/compiz-1/compizconfig/</Path>
-                  <Path Filename="compizconfig">/home/pcache/.config/compiz-1/</Path>
-                  <Path Filename="compiz-1">/home/pcache/.config/</Path>
-                  <Path Filename=".config">/home/pcache/</Path>
-                  <Path Filename="doublecmd">/home/pcache/.config/</Path>
-                  <Path Filename="shortcuts.scf">/home/pcache/.config/doublecmd/</Path>
-                  <Path Filename="ulauncher">/home/pcache/.config/</Path>
-                  <Path Filename=".hedgewars">/home/pcache/</Path>
-                  <Path Filename="settings.ini">/home/pcache/.hedgewars/</Path>
-                  <Path Filename=".hedgewars">/home/pcache/</Path>
-                  <Path Filename="pcache">/home/</Path>
-                  <Path Filename=".config">/home/pcache/</Path>
-                  <Path Filename="KeePass">/home/pcache/.config/</Path>
-                  <Path Filename="KeePass.config.xml">/home/pcache/.config/KeePass/</Path>
-                  <Path Filename="gconf">/home/pcache/.config/</Path>
-                  <Path Filename="..">/mnt/deb/home/pcache/Desktop/</Path>
-                  <Path Filename=".config">/mnt/deb/home/pcache/</Path>
-                  <Path Filename="QtProject">/mnt/deb/home/pcache/.config/</Path>
-                  <Path Filename="QtCreator.ini">/mnt/deb/home/pcache/.config/QtProject/</Path>
-                  <Path Filename="..">/mnt/deb/home/pcache/.config/</Path>
-                  <Path Filename=".tmux.conf">/mnt/deb/home/pcache/</Path>
-                  <Path Filename="..">/mnt/deb/</Path>
-                  <Path Filename="deb">/mnt/</Path>
-                  <Path Filename="home">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/</Path>
-                  <Path Filename="pcache">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/home/</Path>
-                  <Path Filename="Coding">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/home/pcache/</Path>
-                  <Path Filename="..">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/home/pcache/Coding/</Path>
-                  <Path Filename="Videos">/run/media/pcache/5846fdd7-3889-4913-995d-874bf73a47fa/home/pcache/</Path>
-                  <Path Filename="..">/run/media/</Path>
-                  <Path Filename="mnt">/</Path>
-                  <Path Filename="ntfs2">/mnt/</Path>
-                  <Path Filename="..">/mnt/ntfs1/</Path>
-                  <Path Filename="..">/mnt/ntfs2/</Path>
-                  <Path Filename="..">/mnt/</Path>
-                  <Path Filename="..">/home/pcache/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -766,19 +568,19 @@
     <IgnoreListFile>%DC_CONFIG_PATH%/ignorelist.txt</IgnoreListFile>
   </IgnoreList>
   <DirectoryHotList>
-    <HotDir Name="&amp;Desktop" Path="/home/pcache/Desktop"/>
+    <HotDir Name="&amp;Desktop" Path="$HOME/Desktop"/>
     <HotDir Name="-&amp;Libraries" Path=""/>
-    <HotDir Name="&amp;Documents" Path="/home/pcache/Documents"/>
-    <HotDir Name="&amp;Pictures" Path="/home/pcache/Pictures"/>
-    <HotDir Name="&amp;Music" Path="/home/pcache/Music"/>
-    <HotDir Name="&amp;Videos" Path="/home/pcache/Videos"/>
-    <HotDir Name="&amp;Software" Path="/home/pcache/Software"/>
-    <HotDir Name="&amp;Coding" Path="/home/pcache/Coding"/>
-    <HotDir Name="&amp;L_Downloads" Path="/home/pcache/Downloads"/>
-    <HotDir Name="&amp;B_Dropbox" Path="/home/pcache/Dropbox"/>
+    <HotDir Name="&amp;Documents" Path="$HOME/Documents"/>
+    <HotDir Name="&amp;Pictures" Path="$HOME/Pictures"/>
+    <HotDir Name="&amp;Music" Path="$HOME/Music"/>
+    <HotDir Name="&amp;Videos" Path="$HOME/Videos"/>
+    <HotDir Name="&amp;Software" Path="$HOME/Software"/>
+    <HotDir Name="&amp;Coding" Path="$HOME/Coding"/>
+    <HotDir Name="&amp;L_Downloads" Path="$HOME/Downloads"/>
+    <HotDir Name="&amp;B_Dropbox" Path="$HOME/Dropbox"/>
     <HotDir Name="--" Path=""/>
-    <HotDir Name="&amp;Steam" Path="/home/pcache/.local/share/Steam/steamapps/common"/>
-    <HotDir Name="&amp;Home" Path="/home/pcache"/>
+    <HotDir Name="&amp;Steam" Path="$HOME/.local/share/Steam/steamapps/common"/>
+    <HotDir Name="&amp;Home" Path="$HOME"/>
     <HotDir Name="&amp;Bin" Path="/usr/local/bin"/>
     <HotDir Name="&amp;Applications" Path="/usr/share/applications"/>
     <HotDir Name="&amp;/" Path="/root/.."/>

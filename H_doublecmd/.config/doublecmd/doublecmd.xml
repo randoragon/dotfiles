@@ -246,8 +246,6 @@
                   <Path Filename=".thunderbird">/home/pcache/</Path>
                   <Path Filename="..">/home/pcache/.thunderbird/</Path>
                   <Path Filename=".vim">/home/pcache/</Path>
-                  <Path Filename="***REMOVED***">/home/pcache/Documents/</Path>
-                  <Path Filename=".thunderbird">/home/pcache/Downloads/</Path>
                   <Path Filename="..">/home/pcache/</Path>
                 </Paths>
               </Entry>

@@ -167,12 +167,11 @@ map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscr
 
 " Markdown Preview config {{{1
 function PreviewMarkdown()
-	:silent !touch /tmp/vim_markdown.html "/tmp/vim_markdown.pdf
-	:silent !pandoc -c ~/Documents/markdown_stylesheet.css -o /tmp/vim_markdown.html  %:p
-    ":silent !wkhtmltopdf /tmp/vim_markdown.html /tmp/vim_markdown.pdf
-    ":silent !evince -w /tmp/vim_markdown.pdf &
-    ":silent !epiphany /tmp/vim_markdown.html 2> /dev/null &
+	:silent !marked --gfm -i %:p -o /tmp/vim_preview.html
+    :silent !wkhtmltopdf /tmp/vim_preview.html /tmp/vim_preview.pdf
+    :silent !rm /tmp/vim_preview.html
     :redraw!
+    :echo "Preview generated at /tmp/vim_preview.pdf"
 endfunction
 nnoremap <Leader>p :call PreviewMarkdown()<CR>
 " }}}

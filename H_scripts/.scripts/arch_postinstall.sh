@@ -72,7 +72,8 @@ sudo pacman -S --needed \
     neofetch \
     trash-cli \
     atomicparsley \
-    zathura zathura-cb zathura-pdf-poppler
+    zathura zathura-cb zathura-pdf-poppler \
+    marked wkhtmltopdf
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh

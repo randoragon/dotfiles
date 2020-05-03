@@ -136,10 +136,6 @@ nnoremap <Bar> <C-w><Bar>
 nnoremap _ <C-w>_
 set splitbelow
 set splitright
-nnoremap <C-w>l :set splitright<CR>:vnew<CR>
-nnoremap <C-w>h :set nosplitright<CR>:vnew<CR>:set splitright<CR>
-nnoremap <C-w>j :set splitbelow<CR>:new<CR>
-nnoremap <C-w>k :set nosplitbelow<CR>:new<CR>:set splitbelow<CR>
 nnoremap L gt
 nnoremap H gT
 

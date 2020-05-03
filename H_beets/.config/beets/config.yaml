@@ -16,8 +16,8 @@ sort_case_insensitive: yes
 # Import options
 import: 
     write: no
-    move: no
-    copy: yes
+    move: yes
+    copy: no
     resume: ask
     incremental: no
     incremental_skip_later: no

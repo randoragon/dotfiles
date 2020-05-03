@@ -152,14 +152,12 @@ git pull
 [ -f ~/.bash_profile ] && rm ~/.bashrc ~/.bash_profile
 stow H_beets
 stow H_copyq
-stow H_dbu
 stow H_doublecmd
 stow H_dunst
 stow H_flameshot
 stow H_i3
 stow H_keepassxc
 stow H_lynx
-stow H_megacmd
 stow H_mpd
 stow H_ncmpcpp
 stow H_picom

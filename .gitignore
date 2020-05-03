@@ -11,19 +11,9 @@ H_mpd/**/mpd.log
 H_mpd/**/mpd.pid
 H_mpd/**/mpdstate
 
-H_copyq/.config/copyq/copyq_geometry.ini
-H_copyq/.config/copyq/copyq_tab_*.dat
-!H_copyq/.config/copyq/copyq_tab_UHJlJnNldHM=.dat
-H_copyq/.config/copyq/*.bak
-H_copyq/.config/copyq/copyq_tabs.ini
-H_copyq/.config/copyq/copyq-bak.conf
-
-H_megacmd/**/excluded
-H_megacmd/**/lockMCMD
-H_megacmd/**/mega*
-
 # Programs that alter their configs by themselves often
 # but I don't, so I want to ignore any changes to these
 H_flameshot
 H_speedcrunch
 H_keepassxc
+H_copyq

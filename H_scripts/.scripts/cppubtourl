@@ -30,8 +30,6 @@
 #
 # DEPENDENCIES:
 # - id3ted 
-# - mid3v2 (python-mutagen)
-# (id3ted currently doesn't support writing WXXX in a stable way, so I need mid3v2 to just do that)
 
 
 # Set to 1 to print information about "Kept" files (unchanged)
@@ -67,13 +65,12 @@ while read f <&3; do
 
 
         # Store the current value of the URL field, in case it contains precious data
-        prev_url="$(id3ted -l "$f" | sed -n "s/^WXXX: \[.*\]: //p")"
+        prev_url="$(id3ted -l "$f" | sed -n "s/^WXXX: \[origin\]: //p")"
 
         if [ -z "$prev_url" ]; then
-            # mp3 files can contain multiple WXXX fields, so to ensure there's only one
-            # we delete all of them prior to adding the one we need
-            id3ted -r WXXX "$f"
-            mid3v2 --WXXX ":$url" "$f"
+            # mp3 files can contain multiple WXXX fields, so to ensure we can distinguish
+            # ours from the rest of them, we're adding an "origin" description.
+            id3ted -d \` --WXXX "$url\`origin" "$f"
             echo "  $(tput setaf 4)File$(tput setaf 7): $f"
             echo " $(tput setaf 5)Added$(tput setaf 7): $url"
             tmpadd 1
@@ -89,14 +86,14 @@ while read f <&3; do
             # If a value exists, but does not match the one we're trying to write,
             # ask the user if the old one should be overwritten or not
             echo "  $(tput setaf 4)File$(tput setaf 7): $f"
-            echo "  $(tput setaf 1)WARN$(tput setaf 7): Preexisting URL found!"
+            echo "  $(tput setaf 1)WARN$(tput setaf 7): Preexisting URL named \"origin\" found!"
             echo "   $(tput setaf 3)Old$(tput setaf 7): $prev_url"
             echo "   $(tput setaf 2)New$(tput setaf 7): $url"
             printf "  Replace? [y/N] "
             read response
             if [ "$response" = "y" ]; then
                 id3ted -r WXXX "$f"
-                mid3v2 --WXXX ":$url" "$f"
+                id3ted -d \` --WXXX "$url\`origin" "$f"
                 echo "  Changed old to new."
                 tmpadd 3
             else

@@ -11,6 +11,11 @@
 #
 # This script assumes a music directory structure where a "~/Music/Download" directory is a symlink to ~/Downloads/Music
 # this should only be relevant if you happen to have a "~/Music/Download" directory in your library.
+#
+# DEPENDENCIES
+# - mpc
+# - id3ted
+# - libnotify
 
 
 # m3u playlists should store one path per line, and each path should be RELATIVE to a music library's root directory.
@@ -24,18 +29,24 @@ mpd_port="$MPD_PORT"
 pldir="$HOME/Music/Playlists"
 
 # Handle errors
-[ $# -ne 1 -a $# -ne 2 ] && echo "pladdcurrent: Exactly one or two arguments required (received $#)" >&2 && exit 1
-[ ! -f "$1" -a ! -f "$pldir/$1.m3u" ] && echo "pladdcurrent: playlist not found" >&2 && exit 1
-[ $# -eq 2 -a ! -f "$2" ] && echo "pladdcurrent: file not found" >&2 && exit 1
+[ $# -ne 1 -a $# -ne 2 ] && echo "pladd: Exactly one or two arguments required (received $#)" >&2 && exit 1
+[ ! -f "$1" -a ! -f "$pldir/$1.m3u" ] && echo "pladd: playlist not found" >&2 && exit 1
+[ $# -eq 2 -a ! -f "$2" ] && echo "pladd: file not found" >&2 && exit 1
 
 plist="$([ -f "$1" ] && printf "%s" "$1" || printf "$pldir/$1.m3u")"
 plname="$(basename -- "$plist" | sed 's/\.m3u//')"
-file="$([ $# -eq 2 ] && printf "%s" "$2" || printf "$mroot/%s" "$(mpc current -f %file% --port="$mpd_port")")"
-title="$(mpc current -f %title% --port="$mpd_port")"
+[ $# -eq 2 ] && {
+    file="$2"
+    title="$(id3ted -l "$file" | sed -n 's/^TIT2: //p')"
+} || {
+    file="$(printf "%s" "$(mpc current -f %file% --port="$mpd_port")")"
+    [ -z "$(printf -- "$file" | grep "^/")" ] && file="$mroot/$file"
+    title="$(mpc current -f %title% --port="$mpd_port")"
+}
 
 # Convert file to be a relative path to mroot
 relfile="$(realpath --relative-to "$mroot" -- "$file" | sed 's/\.\.\/Downloads\/Music/Download/')"
-[ -n "$(grep "^$relfile$" "$plist" )" ] && notify-send -u low "pladdcurrent" "\"$title\" is already on the <b>$plname</b> playlist." && exit
+[ -n "$(grep "^$relfile$" "$plist" )" ] && notify-send -u low "pladd" "\"$title\" is already on the <b>$plname</b> playlist." && exit
 
 # Add the path to the playlist
 printf '\n%s' "$relfile" >>"$plist"

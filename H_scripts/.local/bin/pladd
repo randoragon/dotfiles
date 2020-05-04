@@ -29,29 +29,32 @@ mpd_port="$MPD_PORT"
 pldir="$HOME/Music/Playlists"
 
 # Handle errors
-[ $# -ne 1 -a $# -ne 2 ] && echo "pladd: Exactly one or two arguments required (received $#)" >&2 && exit 1
-[ ! -f "$1" -a ! -f "$pldir/$1.m3u" ] && echo "pladd: playlist not found" >&2 && exit 1
-[ $# -eq 2 -a ! -f "$2" ] && echo "pladd: file not found" >&2 && exit 1
+[ $# -ne 1 ] && [ $# -ne 2 ] && echo "pladd: Exactly one or two arguments required (received $#)" >&2 && exit 1
+[ ! -f "$1" ] && [ ! -f "$pldir/$1.m3u" ] && echo "pladd: playlist not found" >&2 && exit 1
+[ $# -eq 2 ] && [ ! -f "$2" ] && echo "pladd: file not found" >&2 && exit 1
 
-plist="$([ -f "$1" ] && printf "%s" "$1" || printf "$pldir/$1.m3u")"
+plist="$(if [ -f "$1" ]; then printf "%s" "$1"; else printf "%s" "$pldir/$1.m3u"; fi)"
 plname="$(basename -- "$plist" | sed 's/\.m3u//')"
-[ $# -eq 2 ] && {
+if [ $# -eq 2 ]; then
     file="$2"
     title="$(id3ted -l "$file" | sed -n 's/^TIT2: //p')"
-} || {
+else
     file="$(printf "%s" "$(mpc current -f %file% --port="$mpd_port")")"
-    [ -z "$(printf -- "$file" | grep "^/")" ] && file="$mroot/$file"
+    printf "%s" "$file" | grep "^/" || file="$mroot/$file"
     title="$(mpc current -f %title% --port="$mpd_port")"
-}
+fi
 
 # Convert file to be a relative path to mroot
 relfile="$(realpath --relative-to "$mroot" -- "$file" | sed 's/\.\.\/Downloads\/Music/Download/')"
-[ -n "$(grep "^$relfile$" "$plist" )" ] && notify-send -u low "pladd" "\"$title\" is already on the <b>$plname</b> playlist." && exit
+grep -qF -- "$relfile" "$plist" && notify-send -u low "pladd" "\"$title\" is already on the <b>$plname</b> playlist." && exit
 
 # Add the path to the playlist
 printf '\n%s' "$relfile" >>"$plist"
 sed -i '/^$/d' "$plist"
 
 # Verify the item was added correctly
-[ -n "$(grep "^$relfile$" "$plist")" ] && notify-send -u low "pladd" "\"$title\" added to <b>$plname</b>" \
-    || notify-send -u critical "pladd" "Failed to add \"$title\" to <b>$plname</b>"
+if grep -qF -- "$relfile" "$plist"; then
+    notify-send -u low "pladd" "\"$title\" added to <b>$plname</b>"
+else
+    notify-send -u critical "pladd" "Failed to add \"$title\" to <b>$plname</b>"
+fi

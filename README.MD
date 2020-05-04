@@ -44,8 +44,8 @@ Note that this script merely installs and configures all the software that I use
 
 All the files, tips, scripts, and other data contained in this repository are distributed under no warranty. They're simply resources I've written **for myself** and released to the public for two reasons:
 
-1. Convenience - so that I can share my solutions with anyone if I see fit
-2. Information - so that other Linux users may find my solutions and replicate/improve them for their own use.
+1. Convenience - so that I have an easy way to share my scripts with others or use github links as reference
+2. Information - so that other Linux users may find my solutions and replicate/improve them for their own use
 
-You are free to copy, modify and redistribute these configs, but I'm not accountable for what you do with them.
+You are free to copy, modify and redistribute these configs, but I'm not responsible for what you do with them.
 

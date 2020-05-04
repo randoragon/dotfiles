@@ -62,7 +62,6 @@ sudo pacman -S --needed \
     i3-wm perl-anyevent-i3 \
     figlet sl asciiquarium \
     traceroute tree \
-    python-mutagen \ # mid3v2
     zsh zsh-completions \
     tar gzip bzip2 xz zip unzip jar 7z \
     gnupg pinentry \
@@ -73,7 +72,8 @@ sudo pacman -S --needed \
     trash-cli \
     atomicparsley \
     zathura zathura-cb zathura-pdf-poppler \
-    marked wkhtmltopdf
+    marked wkhtmltopdf \
+    shellcheck
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh

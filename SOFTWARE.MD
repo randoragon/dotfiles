@@ -55,3 +55,4 @@ qalc | `libqalculate` | Calculator | intuitive shell calculator with tab autocom
 speedcrunch | `speedcrunch` | Calculator | fast graphical calculator with a commandline-like keyboard-driven interface
 zathura | `zathura` | PDF Viewer | blazingly fast PDF viewer with plugins for other filetypes
 bfg | `*bfg` | Git Tool | git repo history removal made easy
+shellcheck | `shellcheck` | Code Linter | shows best practices for shell code, integrates with vim ALE plugin and works as a standalone command

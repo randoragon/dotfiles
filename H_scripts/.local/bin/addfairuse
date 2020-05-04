@@ -2,8 +2,7 @@
 
 # This script is meant to simplify the process of adding new songs to my live streaming music playlist.
 # Given a list of files, it will scan their metadata and poll the user for missing values or offer
-# to overwrite the old ones.
-# If no arguments are given, it will read newline-delimited paths from stdin.
+# to overwrite the old ones. It will also optionally add them to the Fair Use m3u playlist.
 #
 # DEPENDENCIES
 # - id3ted

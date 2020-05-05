@@ -38,6 +38,7 @@ ERR_EXISTINGFILE=2
 ERR_MERGEDUPE=3
 ERR_BADPATH=4
 ERR_ORPHANPATH=5
+ERR_EXECUTION=6
 HELP_MSG="Try 'mkar --help' for more information."
 
 # stderr wrappers
@@ -212,6 +213,7 @@ RETURN CODES
     3 - duplicate filenames when merging and only one -m passed
     4 - invalid PATH (does not exist)
     5 - PATH is an orphaned symlink
+    6 - execution error
 
 AUTHOR
     Written by Randoragon.
@@ -500,7 +502,7 @@ $(nbasename "$q" $(($(dirrank "$q") - rootdirindex + 1)))"
                 printf "\n%s\n" "cd '$PWD'"
             else
                 prevpwd="$PWD"
-                cd -- "$rootdir" || exit 6
+                cd -- "$rootdir" || exit "$ERR_EXECUTION"
                 case $compress in
                     Z) zip -"$([ -z "$verbose" ] && printf q)"r "$outfile" $@
                         ;;
@@ -511,7 +513,7 @@ $(nbasename "$q" $(($(dirrank "$q") - rootdirindex + 1)))"
                     7) if [ -z $verbose ]; then 7z a -l -y -t7z "$outfile" $@ >&-; else 7z a -l -y -t7z "$outfile" $@; fi
                         ;;
                 esac
-                cd -- "$prevpwd" || exit 6
+                cd -- "$prevpwd" || exit "$ERR_EXECUTION"
             fi
             unset IFS
         }

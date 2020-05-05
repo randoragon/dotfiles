@@ -3,8 +3,10 @@
 # This script assumes you already have the working user in the sudo group.
 # Most software and tools that I use will be installed automatically.
 
+eprint () { fprint "arch_postinstall.sh: %s\n" "$*" >&2; }
+
 # Create home folder structure
-cd ~
+cd ~ || eprint "failed  to cd" && exit 1
 mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
     Projects/Dev Projects/Art Projects/Video Projects/Music Projects/Other \
     .scripts .local/bin .sfx .local/share/wallpapers
@@ -82,7 +84,7 @@ sudo pacman -S --needed \
 # Update npm, install node-gyp and configure npm
 npm_installed="$(npm list -g --depth=0 | sed "/^\/.*/d")"
 sudo npm install -g npm
-[ -z "$(echo "$npm_installed" | grep "node-gyp@")" ] && sudo npm install -g node-gyp
+echo "$npm_installed" | grep -q "node-gyp@" || sudo npm install -g node-gyp
 npm config set python /usr/bin/python2
 unset npm_installed
 
@@ -91,19 +93,19 @@ unset npm_installed
 sudo chmod a+rx /usr/local/bin/youtube-dl
 
 # Install beets plugins
-sudo python3 -m pip install beets[fetchart,lyrics,lastgenre] pyacoustid requests pylast python-mpd2 pyxdg pathlib flask jinja2
+sudo python3 -m pip install beets\[fetchart,lyrics,lastgenre\] pyacoustid requests pylast python-mpd2 pyxdg pathlib flask jinja2
 
 # Disable GIMP splash screen
 sudo sed -i 's/^Exec=[^ ]*/& --no-splash/' /usr/share/applications/gimp.desktop
 
 # Install yay
 if [ -z "$(command -v yay)" ]; then
-    cd ~
+    cd ~ || eprint "failed to cd" && exit 1
     git clone https://aur.archlinux.org/yay.git
-    cd yay
+    cd yay || eprint "failed to cd" && exit 1
     makepkg -si
     wait
-    cd ~
+    cd ~ || eprint "failed to cd" && exit 1
     rm -rf yay
 fi
 
@@ -149,7 +151,7 @@ sudo systemctl start NetworkManager.service
 [ ! -d ~/dotfiles ] \
     && cd ~ \
     && git clone https://github.com/Randoragon/dotfiles
-cd dotfiles
+cd dotfiles || eprint "failed to cd" && exit 1
 git pull
 [ -f ~/.bash_profile ] && rm ~/.bashrc ~/.bash_profile
 stow H_beets
@@ -175,7 +177,7 @@ stow H_youtube-dl
 sudo stow -t / R_scripts
 
 # Symlink common auto-openers to xdg-open
-[ -f /usr/bin/exo-open -a ! -L /usr/bin/exo-open ] && sudo ln -sfT /usr/bin/xdg-open /usr/bin/exo-open
+[ -f /usr/bin/exo-open ] && [ ! -L /usr/bin/exo-open ] && sudo ln -sfT /usr/bin/xdg-open /usr/bin/exo-open
 
 # Enable ntp (time synchronization)
 sudo systemctl enable ntpd.service
@@ -184,8 +186,8 @@ sudo systemctl start ntpd.service
 # Enable cronie and install crontabs
 sudo systemctl enable cronie.service
 sudo systemctl start cronie.service
-cd ~/dotfiles
-[ -f crontab ] && cat crontab | crontab -
+cd ~/dotfiles || eprint "failed to cd" && exit 1
+[ -f crontab ] && cat crontab | crontab - <crontab
 [ -f cronroot ] && sudo sh -c 'cat cronroot | crontab -'
 
 # Enable bluetooth
@@ -204,12 +206,12 @@ sudo systemctl enable snapd.socket
 sudo ln -sTf /usr/bin/pinentry-tty /usr/bin/pinentry
 
 # Install my fork of suckless terminal
-cd ~/Software
+cd ~/Software || eprint "failed to cd" && exit 1
 git clone https://github.com/randoragon/st
-cd st
+cd st || eprint "failed to cd" && exit 1
 sudo make install
 sudo ln -sTf /usr/local/bin/st /usr/local/bin/x-terminal-emulator
 find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 
-cd ~
+cd ~ || eprint "failed to cd" && exit 1
 

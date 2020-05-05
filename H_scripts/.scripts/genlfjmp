@@ -6,9 +6,4 @@
 JUMPRC="$HOME/.config/jumprc"
 OUTFILE="/tmp/$(basename "$0")_maps"
 
-echo "$( \
-    sed -n '/^alias cd\w\+='"'"'cd .*/{
-    s/alias/map/ ; s/='"'"'/ :/ ; s/ &&.*//p
-    }' \
-    "$JUMPRC"
-)" > "$OUTFILE"
+sed -n '/^alias cd\w\+='"'"'cd .*/{ s/alias/map/ ; s/='"'"'/ :/ ; s/ &&.*//p }' "$JUMPRC" > "$OUTFILE"

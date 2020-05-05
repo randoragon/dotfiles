@@ -297,8 +297,8 @@ $line"
 i=1
 tmp="$(mktemp -dp /tmp mkar_validateXXX)"
 for x in "$@"; do
-    [ -z "$(exists "$x")" ] && [ $autoname -eq 1 -o $i -ne $# ] && eecho "mkar: Invalid path: '$x'" && exit $ERR_BADPATH
-    [ -z "$(readlink -e -- "$x")" ] && [ $autoname -eq 1 -o $i -ne $# ] && eecho "mkar: Orphaned symlink: '$x'" && exit $ERR_ORPHANPATH
+    [ -z "$(exists "$x")" ] && { [ $autoname -eq 1 ] || [ $i -ne $# ]; } && eecho "mkar: Invalid path: '$x'" && exit $ERR_BADPATH
+    [ -z "$(readlink -e -- "$x")" ] && { [ $autoname -eq 1 ] || [ $i -ne $# ]; } && eecho "mkar: Orphaned symlink: '$x'" && exit $ERR_ORPHANPATH
     [ -n "$(exists "$tmp/$(realpath -s -- "$x")")" ] 
     [ $i -lt $# ] || [ $autoname -eq 1 ] && paths="$paths
 $x"

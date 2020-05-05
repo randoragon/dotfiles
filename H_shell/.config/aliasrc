@@ -4,8 +4,8 @@
 alias ls='ls --color=auto'
 alias setkblayoutpl='setxkbmap -layout pl'
 alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
-alias rm="printf '%s' 'Please use \\rm for permanent deletion and tp for trash-cli'; false"
-alias rmdir="printf '%s' 'Please use \\rmdir for permanent deletion and tp for trash-cli'; false"
+alias rm="printf '%s\n' 'Please use \\rm for permanent deletion and tp for trash-cli'; false"
+alias rmdir="printf '%s\n' 'Please use \\rmdir for permanent deletion and tp for trash-cli'; false"
 alias tp='trash-put'
 alias trm='trash-rm'
 alias tls='trash-list'

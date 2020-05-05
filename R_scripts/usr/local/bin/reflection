@@ -13,10 +13,11 @@ export MIRRORLIST='/etc/pacman.d/mirrorlist'
 raw="$(reflector)"
 
 # Process reflector output
-export header="$(echo -e "$raw" | sed -n '/^#/p')\\n"
-export pl="$(echo "$raw" | egrep '^Server = https?://.*\.pl/' | sort -r)"
-export rest="$(echo "$raw" | sed -n '/^Server = https\?.*/p' | sed '/\.pl\//d')"
+header="$(printf "%s" "$raw" | sed -n '/^#/p')"
+pl="$(echo "$raw" | grep -E '^Server = https?://.*\.pl/' | sort -r)"
+rest="$(echo "$raw" | sed -n '/^Server = https\?.*/p' | sed '/\.pl\//d')"
+export header pl rest
 
 # Backup old mirrorlist
-cp "$MIRRORLIST" "$MIRRORLIST.bak"
-sh -c 'echo "$header\n$pl\n\n$rest" > "$MIRRORLIST"'
+cp -- "$MIRRORLIST" "$MIRRORLIST.bak"
+sh -c 'printf "%s\n\n%s\n\n%s" "$header" "$pl" "$rest" > "$MIRRORLIST"'

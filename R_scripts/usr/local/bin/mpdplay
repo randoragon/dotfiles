@@ -14,6 +14,8 @@ port="$MPD_PORT"
 
 # Add to playlist
 song="$(realpath -- "$1")"
-[ -z "$(mpc --port=$port insert "file://$song" 2>&1)" ] && {
+if [ -z "$(mpc --port="$port" insert "file://$song" 2>&1)" ]; then
     mpc --port="$port" next
-} || notify-send -u critical "mpdplay" "Failed to add song to queue"
+else
+    notify-send -u critical "mpdplay" "Failed to add song to queue"
+fi

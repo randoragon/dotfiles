@@ -63,6 +63,8 @@ vnoremap ; :Tabular/;/l0r1<CR>
 " ALE {{{2
 nnoremap <Leader>e :ALEDetail<CR>
 nnoremap <Leader>a :ALEToggle<CR>
+nnoremap <Leader>n :ALENextWrap<CR>
+nnoremap <Leader>N :ALEPreviousWrap<CR>
 " }}} 
 
 " Auto Pairs {{{2

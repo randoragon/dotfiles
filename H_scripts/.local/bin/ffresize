@@ -33,38 +33,40 @@ while true; do
     esac
 done
 
-[ $# = 1 ] && {
+if [ $# -eq 1 ]; then
     osize="$(ffmpeg -hide_banner -i "$1" 2>&1 | sed -n '/Stream #.*Video:.*/p' | sed 's/([^)]*)//g' | grep -o "[0-9]\+x[0-9]\+")"
     echo "Dimensions: $osize"
     exit
-} || [ $# -gt 1 ] && {
+elif [ $# -gt 1 ]; then
     input="$1"
     size="$2"
-    [ $# -gt 2 ] && {
+    if [ $# -gt 2 ]; then
         output="$3"
-        [ "$(realpath -- "$input")" = "$(realpath -- "$output")" ] && echo "ffresize: FILE and OUTPUT must be different files!\nTry 'ffresize --help' for more information." >&2 && exit 1
-    } || {
-        ext="$(printf -- "$input" | grep -o '\..*$')"
+        [ "$(realpath -- "$input")" = "$(realpath -- "$output")" ] && printf "%s\n%s\n" "ffresize: FILE and OUTPUT must be different files!" "Try 'ffresize --help' for more information." >&2 && exit 1
+    else
+        ext="$(printf "%s" "$input" | grep -o '\..*$')"
         name="$(basename -- "$input" "$ext")"
-        output="$(dirname -- "$input")/$name"_resized"$ext"
-    }
+        output="$(dirname -- "$input")/$name""_resized""$ext"
+    fi
     [ -f "$output" ] && echo "ffresize: file with the OUTPUT name already exists." >&2 && exit 1
     [ -d "$output" ] && echo "ffresize: directory with the OUTPUT name already exists." >&2 && exit 1
     [ ! -f "$input" ] && echo "ffresize: INPUT file doesn't exist." >&2 && exit 1
 
-    [ "$(expr "$size" : '.*%')" -ne 0 ] && {
+    if [ "$(expr "$size" : '.*%')" -ne 0 ]; then
         osize="$(ffmpeg -hide_banner -i "$1" 2>&1 | sed -n '/Stream #.*Video:.*/p' | sed 's/([^)]*)//g' | grep -o "[0-9]\+x[0-9]\+")"
-        size="$(printf -- "scale=10;$(printf -- "%s" "$size" | rev | cut -c 2- | rev)/100\n" | bc)"
-        w="$(printf -- "$osize" | grep -o '^.*x' | rev | cut -c 2- | rev)"
-        nw="$(printf -- "scale=0;$w*$size/1\n" | bc)"
-    } || { nw="$size"; }
+        size="$(printf "%s\n" "scale=10;$(printf "%s" "$size" | rev | cut -c 2- | rev)/100" | bc)"
+        w="$(printf "%s" "$osize" | grep -o '^.*x' | rev | cut -c 2- | rev)"
+        nw="$(printf "%s\n" "scale=0;$w*$size/1" | bc)"
+    else
+        nw="$size"
+    fi
 
-    [ -n "$pretend" ] && {
+    if [ -n "$pretend" ]; then
         echo "ffmpeg -i '$input' -vf 'fps=10,scale=$nw:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse' -- '$output'"
-    } || {
+    else
         ffmpeg -i "$input" -vf "fps=10,scale=$nw:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -- "$output"
-    }
-} || {
-echo "ffresize: exactly one FILE parameter required.\nTry 'ffresize --help' for more information." >&2 && exit 1
-}
+    fi
+else
+    printf "%s\n%s\n" "ffresize: exactly one FILE parameter required." "Try 'ffresize --help' for more information." >&2 && exit 1
+fi
 

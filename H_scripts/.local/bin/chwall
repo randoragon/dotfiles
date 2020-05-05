@@ -10,10 +10,10 @@
 # - xwallpaper
 # - python-wal
 
-[ $# -eq 0 ] && {
+if [ $# -eq 0 ]; then
     mkdir -p ~/.local/share/wallpapers
     sxiv -tor ~/.local/share/wallpapers
-} || {
+else
     [ -d "$1" ] && {
         sxiv -tor "$1"
         exit
@@ -31,5 +31,5 @@
         # Apply the new colorscheme
         ~/.scripts/pywal_to_xres
     }
-}
+fi
 

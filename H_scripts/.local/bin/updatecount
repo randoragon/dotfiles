@@ -18,15 +18,15 @@ mkdir -p -- "$(dirname -- "$FILE")"
 
 UPDATES="$(checkupdates)"
 
-[ -z "$UPDATES" ] && {
+if [ -z "$UPDATES" ]; then
     echo '' > "$FILE"
-} || {
-    COUNT="$(printf -- "$UPDATES\n" | wc -l)"
+else
+    COUNT="$(printf "%s\n" "$UPDATES" | wc -l)"
     FG="ffff00"
     BG="222200"
-    [ ! -z "$(printf -- "$UPDATES" | grep -Po '^linux ')" ] && { FG="00ffaa" BG="003311"; }
+    printf "%s" "$UPDATES" | grep -q '^linux ' && { FG="00ffaa" BG="003311"; }
     OUTPUT="%{B#$BG}%{F#$FG} Updates: $COUNT %{F- B-}"
     echo "$OUTPUT" > "$FILE"
     echo "Updates: $COUNT"
-}
+fi
 

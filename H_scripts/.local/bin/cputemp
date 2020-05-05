@@ -14,7 +14,6 @@
 
 WARN=80
 CRIT=100
-INTERVAL=1
 FILE="$HOME/.cache/cputemp"
 SFX="$HOME/.sfx/alarm.wav"
 PREFIX=""
@@ -59,7 +58,7 @@ warn_enter () {
 crit_enter () {
     topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
     notify-send -i cpu -u critical "DANGER!" "<b>CPU Temperature Critical!</b>\n<u>Top Process</u>: $topcmd"
-    mpc --port=$MPD_PORT pause
+    mpc --port="$MPD_PORT" pause
     mpv "$SFX" &
 }
 
@@ -88,7 +87,7 @@ if [ "$(echo "$temp >= $WARN" | bc)" -eq 1 ]; then
     else
         crit "$temp"
         # Blink effect
-        case "$(expr "$(date +%S)" % 2)" in
+        case "$(($(date +%S) % 2))" in
             0) col='%{F#FF0000}' ;;
             1) col='%{F#FFFFFF}' ;;
         esac

@@ -24,11 +24,22 @@ while true; do
     esac
 done
 
-opts=
-[ -n "$urgency" ] && {
-    [ -n "$icon" ] && notify-send -u "$urgency" -i "$icon" -- "$1" "$2" || notify-send -u "$urgency" -- "$1" "$2"
-} || {
-    [ -n "$icon" ] && notify-send -i "$icon" -- "$1" "$2" || notify-send -- "$1" "$2"
-}
+if [ -n "$urgency" ]; then
+    if [ -n "$icon" ]; then
+        notify-send -u "$urgency" -i "$icon" -- "$1" "$2" 
+    else
+        notify-send -u "$urgency" -- "$1" "$2"
+    fi
+else
+    if [ -n "$icon" ]; then
+        notify-send -i "$icon" -- "$1" "$2" 
+    else
+        notify-send -- "$1" "$2"
+    fi
+fi
 
-[ $# -lt 3 ] && mpv --no-terminal -- "$DEFAULT_SFX" || mpv --no-terminal -- "$3"
+if [ $# -lt 3 ]; then
+    mpv --no-terminal -- "$DEFAULT_SFX"
+else
+    mpv --no-terminal -- "$3"
+fi

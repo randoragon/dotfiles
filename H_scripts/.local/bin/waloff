@@ -31,14 +31,14 @@ i=1
 newchunk=
 for l in $chunk; do
     [ $i -ne 1 ] && {
-        [ -z "$(printf -- "$l" | grep '^!.*')" ] && newline="!$l"
+        printf "%s" "$l" | grep -q '^!.*' || newline="!$l"
     } || newline=$l 
     newchunk="$newchunk
 $newline"
-    i="$(expr $i + 1)"
+    i="$((i + 1))"
 done
 IFS=
-newchunk="$(printf -- "$newchunk" | sed '/^$/d')"
+newchunk="$(printf "%s" "$newchunk" | sed '/^$/d')"
 
 # Concatenate all 3 parts
 printf "%s\n%s\n%s\n" "$leader" "$newchunk" "$rest" >"$file"

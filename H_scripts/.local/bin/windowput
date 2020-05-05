@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # PARAMETER VALUE:
 # 1. Moves the active window only in one axis, keeping the second coordinate
@@ -35,13 +35,13 @@ BORDER=2
 # get width of screen and height of screen
 SCREEN_W=$(xwininfo -root | awk '$1=="Width:" {print $2}')
 SCREEN_H=$(xwininfo -root | awk '$1=="Height:" {print $2}')
-SCREEN_HS=$(( $SCREEN_H - $TOPMARGIN ))
 
 # get geometry of the active window
-WIN_X=$(( $(xwininfo -id $(xdotool getactivewindow) | awk '$1=="Absolute" && $3=="X:" {print $4}') ))
-WIN_Y=$(( $(xwininfo -id $(xdotool getactivewindow) | awk '$1=="Absolute" && $3=="Y:" {print $4}') ))
-WIN_W=$(( $(xwininfo -id $(xdotool getactivewindow) | awk '$1=="Width:" {print $2}') ))
-WIN_H=$(( $(xwininfo -id $(xdotool getactivewindow) | awk '$1=="Height:" {print $2}') ))
+winfo="$(xwininfo -id "$(xdotool getactivewindow)")"
+WIN_X="$(printf "%s" "$winfo" | awk '$1=="Absolute" && $3=="X:" {print $4}')"
+WIN_Y="$(printf "%s" "$winfo" | awk '$1=="Absolute" && $3=="Y:" {print $4}')"
+WIN_W="$(printf "%s" "$winfo" | awk '$1=="Width:" {print $2}')"
+WIN_H="$(printf "%s" "$winfo" | awk '$1=="Height:" {print $2}')"
 
 # if i3 is installed, enable floating
 if hash i3-msg 2>/dev/null; then
@@ -51,130 +51,130 @@ fi
 # set the window's position based on the passed parameter
 POSITION=$1
 ## 1. (and parts of 3. which fall back to 1.)
-if [ "$POSITION" == "u" ] || [ "$POSITION" == "^u" ]; then
+if [ "$POSITION" = "u" ] || [ "$POSITION" = "^u" ]; then
     X=$BORDER
-    Y=$(( $TOPMARGIN + $DECO_H  ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "i" ] || [ "$POSITION" == "^i" ]; then
+    Y=$(( TOPMARGIN + DECO_H  ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "i" ] || [ "$POSITION" = "^i" ]; then
     X=$BORDER
-    Y=$(( $SCREEN_H - $WIN_H - $BORDER ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "o" ] || [ "$POSITION" == "^o" ]; then
-    X=$(( $SCREEN_W - $WIN_W - $BORDER ))
-    Y=$(( $SCREEN_H - $WIN_H - $BORDER ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "p" ] || [ "$POSITION" == "^p" ]; then
-    X=$(( $SCREEN_W - $WIN_W - $BORDER ))
-    Y=$(( $TOPMARGIN + $DECO_H  ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "m" ] || [ "$POSITION" == "^m" ]; then
-    X=$(( ($SCREEN_W / 2) - ($WIN_W / 2) ))
-    Y=$(( ($SCREEN_H / 2) - ($WIN_H / 2) ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "h" ]; then
+    Y=$(( SCREEN_H - WIN_H - BORDER ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "o" ] || [ "$POSITION" = "^o" ]; then
+    X=$(( SCREEN_W - WIN_W - BORDER ))
+    Y=$(( SCREEN_H - WIN_H - BORDER ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "p" ] || [ "$POSITION" = "^p" ]; then
+    X=$(( SCREEN_W - WIN_W - BORDER ))
+    Y=$(( TOPMARGIN + DECO_H  ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "m" ] || [ "$POSITION" = "^m" ]; then
+    X=$(( (SCREEN_W / 2) - (WIN_W / 2) ))
+    Y=$(( (SCREEN_H / 2) - (WIN_H / 2) ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "h" ]; then
     X=$BORDER
     Y=$WIN_Y
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "j" ]; then
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "j" ]; then
     X=$WIN_X
-    Y=$(( $SCREEN_H - $WIN_H - $BORDER ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "k" ]; then
+    Y=$(( SCREEN_H - WIN_H - BORDER ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "k" ]; then
     X=$WIN_X
-    Y=$(( $TOPMARGIN + $DECO_H ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "l" ]; then
-    X=$(( $SCREEN_W - $WIN_W - $BORDER ))
+    Y=$(( TOPMARGIN + DECO_H ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "l" ]; then
+    X=$(( SCREEN_W - WIN_W - BORDER ))
     Y=$WIN_Y
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
 ## 2.
-elif [ "$POSITION" == "U" ]; then
+elif [ "$POSITION" = "U" ]; then
     X=$BORDER
-    Y=$(( $DECO_H + $TOPMARGIN ))
-    W=$(( $SCREEN_W / 2 ))
-    H=$(( ($SCREEN_H - $TOPMARGIN) / 2 ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "I" ]; then
+    Y=$(( DECO_H + TOPMARGIN ))
+    W=$(( SCREEN_W / 2 ))
+    H=$(( (SCREEN_H - TOPMARGIN) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "I" ]; then
     X=$BORDER
-    Y=$(( $SCREEN_H - $WIN_H - $BORDER ))
-    W=$(( $SCREEN_W / 2 ))
-    H=$(( ($SCREEN_H - $TOPMARGIN) / 2 ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "O" ]; then
-    X=$(( $SCREEN_W - $WIN_W - $BORDER ))
-    Y=$(( $SCREEN_H - $WIN_H - $BORDER ))
-    W=$(( $SCREEN_W / 2 ))
-    H=$(( ($SCREEN_H - $TOPMARGIN) / 2 ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "P" ]; then
-    X=$(( $SCREEN_W - $WIN_W - $BORDER ))
-    Y=$(( $DECO_H + $TOPMARGIN ))
-    W=$(( $SCREEN_W / 2 ))
-    H=$(( ($SCREEN_H - $TOPMARGIN) / 2 ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "M" ]; then
-    X=$(( $SCREEN_W / 6 ))
-    Y=$(( ($SCREEN_H / 8) ))
-    W=$(( $SCREEN_W * 2 / 3 ))
-    H=$(( $SCREEN_H * 3 / 4 ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "H" ]; then
+    Y=$(( SCREEN_H - WIN_H - BORDER ))
+    W=$(( SCREEN_W / 2 ))
+    H=$(( (SCREEN_H - TOPMARGIN) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "O" ]; then
+    X=$(( SCREEN_W - WIN_W - BORDER ))
+    Y=$(( SCREEN_H - WIN_H - BORDER ))
+    W=$(( SCREEN_W / 2 ))
+    H=$(( (SCREEN_H - TOPMARGIN) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "P" ]; then
+    X=$(( SCREEN_W - WIN_W - BORDER ))
+    Y=$(( DECO_H + TOPMARGIN ))
+    W=$(( SCREEN_W / 2 ))
+    H=$(( (SCREEN_H - TOPMARGIN) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "M" ]; then
+    X=$(( SCREEN_W / 6 ))
+    Y=$(( (SCREEN_H / 8) ))
+    W=$(( SCREEN_W * 2 / 3 ))
+    H=$(( SCREEN_H * 3 / 4 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "H" ]; then
     X=$BORDER
-    Y=$(( $DECO_H + $TOPMARGIN ))
-    W=$(( $SCREEN_W / 2 ))
-    H=$(( $SCREEN_H - $DECO_H - $TOPMARGIN - $BORDER ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "J" ]; then
+    Y=$(( DECO_H + TOPMARGIN ))
+    W=$(( SCREEN_W / 2 ))
+    H=$(( SCREEN_H - DECO_H - TOPMARGIN - BORDER ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "J" ]; then
     X=$BORDER
-    Y=$(( $SCREEN_H - $WIN_H - $BORDER ))
-    W=$(( $SCREEN_W - (2 * $BORDER) ))
-    H=$(( ($SCREEN_H - $TOPMARGIN) / 2 ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "K" ]; then
+    Y=$(( SCREEN_H - WIN_H - BORDER ))
+    W=$(( SCREEN_W - (2 * BORDER) ))
+    H=$(( (SCREEN_H - TOPMARGIN) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "K" ]; then
     X=$BORDER
-    Y=$(( $TOPMARGIN + $DECO_H ))
-    W=$(( $SCREEN_W - (2 * $BORDER) ))
-    H=$(( ($SCREEN_H - $TOPMARGIN) / 2 ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "L" ]; then
-    X=$(( $SCREEN_W - $WIN_W - $BORDER ))
-    Y=$(( $DECO_H + $TOPMARGIN ))
-    W=$(( $SCREEN_W / 2 ))
-    H=$(( $SCREEN_H - $DECO_H - $TOPMARGIN - $BORDER ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
+    Y=$(( TOPMARGIN + DECO_H ))
+    W=$(( SCREEN_W - (2 * BORDER) ))
+    H=$(( (SCREEN_H - TOPMARGIN) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "L" ]; then
+    X=$(( SCREEN_W - WIN_W - BORDER ))
+    Y=$(( DECO_H + TOPMARGIN ))
+    W=$(( SCREEN_W / 2 ))
+    H=$(( SCREEN_H - DECO_H - TOPMARGIN - BORDER ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
 # 3.
-elif [ "$POSITION" == "^h" ]; then
+elif [ "$POSITION" = "^h" ]; then
     X=$BORDER
-    Y=$(( ($SCREEN_H / 2) - ($WIN_H / 2) ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "^j" ]; then
-    X=$(( ($SCREEN_W / 2) - ($WIN_W / 2) ))
-    Y=$(( $SCREEN_H - $WIN_H - $BORDER ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "^k" ]; then
-    X=$(( ($SCREEN_W / 2) - ($WIN_W / 2) ))
-    Y=$(( $TOPMARGIN + $DECO_H  ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "^l" ]; then
-    X=$(( $SCREEN_W - $WIN_W - $BORDER ))
-    Y=$(( ($SCREEN_H / 2) - ($WIN_H / 2) ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$WIN_W,$WIN_H
-elif [ "$POSITION" == "s" ]; then
-    W=$(( $SCREEN_W / 3 ))
-    H=$(( $SCREEN_H / 3 ))
-    X=$(( $WIN_X - ($W - $WIN_W) / 2 ))
-    Y=$(( $WIN_Y - ($H - $WIN_H) / 2 ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "S" ]; then
-    W=$(( $SCREEN_W * 2 / 3 ))
-    H=$(( $SCREEN_H * 3 / 4 ))
-    X=$(( $WIN_X - ($W - $WIN_W) / 2 ))
-    Y=$(( $WIN_Y - ($H - $WIN_H) / 2 ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
-elif [ "$POSITION" == "^s" ]; then
-    W=$(( $SCREEN_W - 2 * $BORDER ))
-    H=$(( $SCREEN_H - $TOPMARGIN - $BORDER - $DECO_H ))
+    Y=$(( (SCREEN_H / 2) - (WIN_H / 2) ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "^j" ]; then
+    X=$(( (SCREEN_W / 2) - (WIN_W / 2) ))
+    Y=$(( SCREEN_H - WIN_H - BORDER ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "^k" ]; then
+    X=$(( (SCREEN_W / 2) - (WIN_W / 2) ))
+    Y=$(( TOPMARGIN + DECO_H  ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "^l" ]; then
+    X=$(( SCREEN_W - WIN_W - BORDER ))
+    Y=$(( (SCREEN_H / 2) - (WIN_H / 2) ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$WIN_W,$WIN_H"
+elif [ "$POSITION" = "s" ]; then
+    W=$(( SCREEN_W / 3 ))
+    H=$(( SCREEN_H / 3 ))
+    X=$(( WIN_X - (W - WIN_W) / 2 ))
+    Y=$(( WIN_Y - (H - WIN_H) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "S" ]; then
+    W=$(( SCREEN_W * 2 / 3 ))
+    H=$(( SCREEN_H * 3 / 4 ))
+    X=$(( WIN_X - (W - WIN_W) / 2 ))
+    Y=$(( WIN_Y - (H - WIN_H) / 2 ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
+elif [ "$POSITION" = "^s" ]; then
+    W=$(( SCREEN_W - 2 * BORDER ))
+    H=$(( SCREEN_H - TOPMARGIN - BORDER - DECO_H ))
     X=$BORDER
-    Y=$(( $TOPMARGIN + $DECO_H ))
-    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e 0,$X,$Y,$W,$H
+    Y=$(( TOPMARGIN + DECO_H ))
+    wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz && wmctrl -r :ACTIVE: -e "0,$X,$Y,$W,$H"
 fi

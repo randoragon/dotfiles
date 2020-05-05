@@ -41,44 +41,44 @@ ERR_ORPHANPATH=5
 HELP_MSG="Try 'mkar --help' for more information."
 
 # stderr wrappers
-eecho ()   { [ $noerr -ne 1 ] && printf -- "$@\n$HELP_MSG\n" >&2 ; } # Errors
-wecho ()   { [ $nowarn -ne 1 ] && printf -- "$@\n" >&2 ; }           # Warnings
-debug ()   { [ -n "$DEBUG" ] && printf -- "$@\n" >&2 ; }
+eecho ()   { [ "$noerr" -ne 1 ] && printf "%s\n%s\n" "$@" "$HELP_MSG" >&2 ; } # Errors
+wecho ()   { [ "$nowarn" -ne 1 ] && printf "%s\n" "$@" >&2 ; }           # Warnings
+debug ()   { [ -n "$DEBUG" ] && printf "%s\n" "$@" >&2 ; }
 DEBUG=
 
 # Checks if every argument is a file/directory/symlink
 exists () {
     for y in "$@"; do
-        [ ! -f "$y" -a ! -d "$y" -a ! -L "$y" ] && return
+        [ ! -f "$y" ] && [ ! -d "$y" ] && [ ! -L "$y" ] && return
     done
     printf '1'
 }
 
 # Ranks a path by the number of parent dirs
 dirrank () {
-    printf -- "$(printf -- "$(realpath -s -- "$1")" | tr -cd '/' | wc -m)"
+    printf "%s" "$(printf "%s" "$(realpath -s -- "$1")" | tr -cd '/' | wc -m)"
 }
 
 # Finds the nth parent dir of a path (1st is always root)
 ndirname () {
-    [ $2 -eq 1 ] && printf "/" && return 0
+    [ "$2" -eq 1 ] && printf "/" && return 0
     p="$(realpath -s -- "$1")"
     max="$(dirrank "$p")"
-    for i in $(seq $(expr $max - $2 + 1)); do
+    for i in $(seq "$((max - $2 + 1))"); do
         p="$(dirname -- "$p")"
     done
-    printf -- "$p/"
+    printf "%s" "$p/"
 }
 
 # Does the same thing as ndirname, but 1 is basename, 2 is basename of basename, etc.
 nbasename () {
     p="$(basename -- "$1")"
     b="$(dirname -- "$1")"
-    for i in $(seq "$(expr $2 - 1)"); do
+    for i in $(seq "$(($2 - 1))"); do
         p="$(basename -- "$b")/$p"
         b="$(dirname -- "$b")"
     done
-    printf -- "$p"
+    printf "%s" "$p"
 }
 
 # Help page
@@ -261,7 +261,7 @@ while true; do
         *) break ;;
     esac
 done
-[ $# -eq 1 -a $stdin -ne 1 ] && autoname=1
+[ $# -eq 1 ] && [ $stdin -ne 1 ] && autoname=1
 
 # Set up some variables
 paths=
@@ -279,7 +279,7 @@ paths=
     opts="$opts$([ $noerr -eq 1 ] && printf q)"
     opts="$([ -n "$opts" ] && printf -- '-')$opts"
     outfile="$1"
-    while read line; do
+    while read -r line; do
         paths="$paths
 $line"
     done
@@ -300,7 +300,7 @@ for x in "$@"; do
     [ -z "$(exists "$x")" ] && [ $autoname -eq 1 -o $i -ne $# ] && eecho "mkar: Invalid path: '$x'" && exit $ERR_BADPATH
     [ -z "$(readlink -e -- "$x")" ] && [ $autoname -eq 1 -o $i -ne $# ] && eecho "mkar: Orphaned symlink: '$x'" && exit $ERR_ORPHANPATH
     [ -n "$(exists "$tmp/$(realpath -s -- "$x")")" ] 
-    [ $i -lt $# -o $autoname -eq 1 ] && paths="$paths
+    [ $i -lt $# ] || [ $autoname -eq 1 ] && paths="$paths
 $x"
     [ $i -eq $# ] && {
         ext () {
@@ -313,20 +313,24 @@ $x"
             [ $compress = R ] && printf jar    && return
             [ $compress = 7 ] && printf 7z     && return
         }
-        outfile="$PWD/"$(basename -- "$x")".$(ext)"
+        outfile="$PWD/""$(basename -- "$x")"".$(ext)"
         [ -n "$(exists "$outfile")" ] && {
-            [ "$overwrite" -ne 1 ] && eecho "mkar: '$outfile' already exists. Use -f to force an overwrite." && exit $ERR_EXISTINGFILE \
-            || rm -rf "$outfile"
+            if [ "$overwrite" -ne 1 ]; then
+                eecho "mkar: '$outfile' already exists. Use -f to force an overwrite."
+                exit $ERR_EXISTINGFILE
+            else
+                rm -rf -- "$outfile"
+            fi
         }
     }
-    i=$(expr $i + 1)
+    i=$((i + 1))
 done
 
 # Branch by compression program
 case $compress in
     t|z|j|J)
         # Handle merge option
-        [ $merge -eq 1 ] && {
+        if [ $merge -eq 1 ]; then
             tmp="$(mktemp -dp /tmp mkar_mergeXXX)"
             rootdir="$tmp"
             move () {
@@ -348,13 +352,13 @@ $t"
                 unset IFS
             }
             move "$paths"
-        } || {
+        else
 
             # Find the lowest common parent dir
             check () {
                 IFS="
 "
-                foo () { printf -- "$1"; }
+                foo () { printf "%s" "$1"; }
                 lastval="$(ndirname "$(foo $@)" $i)"
                 for p in $@; do
                     [ "$(ndirname "$p" $i)" != "$lastval" ] && unset IFS && return 1
@@ -365,7 +369,7 @@ $t"
             }
             i="$(dirrank "$1")"
             while [ -z "$(check "$paths")" ]; do
-                i=$(expr $i - 1)
+                i=$((i - 1))
             done
             rootdirindex="$i"
 
@@ -374,17 +378,17 @@ $t"
             trim () {
                 IFS="
 "
-                foo () { printf -- "$1"; }
-                rootdir="$(ndirname "$(foo $@)" $rootdirindex)"
+                foo () { printf "%s" "$1"; }
+                rootdir="$(ndirname "$(foo $@)" "$rootdirindex")"
                 for p in $@; do
                     q="$(realpath -s -- "$p")"
                     trimmedpaths="$trimmedpaths
-$(nbasename "$q" $(expr $(dirrank "$q") - $rootdirindex + 1))"
+$(nbasename "$q" "$(($(dirrank "$q") - rootdirindex + 1))")"
                 done
                 unset IFS
             }
             trim "$paths"
-        }
+        fi
 
         # Create the archive
         createtar () {
@@ -392,14 +396,14 @@ $(nbasename "$q" $(expr $(dirrank "$q") - $rootdirindex + 1))"
 "
             [ $compress = t ] && compress=
             opts="-ch$compress$verbose"f
-            [ $pretend -eq 1 ] && {
-                printf -- "tar $opts '$outfile' -C '$rootdir' "
-                foo () { for line in $@; do printf -- "'$line' "; done; }
+            if [ $pretend -eq 1 ]; then
+                printf "%s" "tar $opts '$outfile' -C '$rootdir' "
+                foo () { for line in $@; do printf "%s" "'$line' "; done; }
                 foo "$trimmedpaths"
                 printf '\n'
-            } || {
+            else
                 tar "$opts" "$outfile" -C "$rootdir" $@
-            }
+            fi
             unset IFS
         }
         createtar "$trimmedpaths"
@@ -409,7 +413,7 @@ $(nbasename "$q" $(expr $(dirrank "$q") - $rootdirindex + 1))"
     ;;
     Z|r|R|7)
         # Handle merge option
-        [ $merge -eq 1 ] && {
+        if [ $merge -eq 1 ]; then
             tmp="$(mktemp -dp /tmp mkar_mergeXXX)"
             rootdir="$tmp"
             move () {
@@ -431,7 +435,7 @@ $t"
                 unset IFS
             }
             move "$paths"
-        } || {
+        else
             # tar supports the -C parameter when creating archives, which basically allows us
             # to set the "root directory" of an archive to anything we want, which is useful.
             # The programs for zipping, raring, jaring and 7zipping do not have that option,
@@ -442,7 +446,7 @@ $t"
             check () {
                 IFS="
 "
-                foo () { printf -- "$1"; }
+                foo () { printf "%s" "$1"; }
                 lastval="$(ndirname "$(foo $@)" $i)"
                 for p in $@; do
                     [ "$(ndirname "$p" $i)" != "$lastval" ] && unset IFS && return 1
@@ -453,7 +457,7 @@ $t"
             }
             i="$(dirrank "$1")"
             while [ -z "$(check "$paths")" ]; do
-                i=$(expr $i - 1)
+                i=$((i - 1))
             done
             rootdirindex="$i"
 
@@ -462,53 +466,53 @@ $t"
             trim () {
                 IFS="
 "
-                foo () { printf -- "$1"; }
+                foo () { printf "%s" "$1"; }
                 rootdir="$(ndirname "$(foo $@)" $rootdirindex)"
                 for p in $@; do
                     q="$(realpath -s -- "$p")"
                     trimmedpaths="$trimmedpaths
-$(nbasename "$q" $(expr $(dirrank "$q") - $rootdirindex + 1))"
+$(nbasename "$q" $(($(dirrank "$q") - rootdirindex + 1)))"
                 done
                 unset IFS
             }
             trim "$paths"
-        }
+        fi
 
         # Create the archive
         create () {
             IFS="
 "
-            [ $pretend -eq 1 ] && {
-                printf -- "cd '$rootdir'\n"
+            if [ $pretend -eq 1 ]; then
+                printf "%s\n" "cd '$rootdir'"
                 case $compress in
-                    Z) printf -- "zip -$([ -z "$verbose" ] && printf q ])r '$outfile' "
+                    Z) printf "%s" "zip -$([ -z "$verbose" ] && printf q)r '$outfile' "
                         ;;
-                    r) printf -- "rar $([ -z "$verbose" ] && printf -- '-idq' ]) a '$outfile' "
+                    r) printf "%s" "rar $([ -z "$verbose" ] && printf "%s" '-idq') a '$outfile' "
                         ;;
-                    R) printf -- "jar Mc$([ -n "$verbose" ] && printf v ])f '$outfile' "
+                    R) printf "%s" "jar Mc$([ -n "$verbose" ] && printf v)f '$outfile' "
                         ;;
-                    7) printf -- "7z a -l -y -t7z '$outfile' "
+                    7) printf "%s" "7z a -l -y -t7z '$outfile' "
                         ;;
                 esac
-                foo () { for line in $@; do printf -- "'$line' "; done; }
+                foo () { for line in $@; do printf "%s" "'$line' "; done; }
                 foo "$trimmedpaths"
-                [ $compress = 7 -a -z "$verbose" ] && printf -- '>&-'
-                printf -- "\ncd '$PWD'\n"
-            } || {
+                [ "$compress" = 7 ] && [ -z "$verbose" ] && printf -- '>&-'
+                printf "\n%s\n" "cd '$PWD'"
+            else
                 prevpwd="$PWD"
-                cd "$rootdir"
+                cd -- "$rootdir" || exit 6
                 case $compress in
-                    Z) zip -$([ -z "$verbose" ] && printf q ])r "$outfile" $@
+                    Z) zip -"$([ -z "$verbose" ] && printf q)"r "$outfile" $@
                         ;;
-                    r) rar $([ -z "$verbose" ] && printf -- '-idq' ]) a "$outfile" $@
+                    r) rar "$([ -z "$verbose" ] && printf "%s" '-idq')" a "$outfile" $@
                         ;;
-                    R) jar Mc$([ -n "$verbose" ] && printf v ])f "$outfile" $@
+                    R) jar Mc"$([ -n "$verbose" ] && printf v)"f "$outfile" $@
                         ;;
-                    7) [ -z $verbose ] && 7z a -l -y -t7z "$outfile" $@ >&- || 7z a -l -y -t7z "$outfile" $@
+                    7) if [ -z $verbose ]; then 7z a -l -y -t7z "$outfile" $@ >&-; else 7z a -l -y -t7z "$outfile" $@; fi
                         ;;
                 esac
-                cd "$prevpwd"
-            }
+                cd -- "$prevpwd" || exit 6
+            fi
             unset IFS
         }
         create "$trimmedpaths"

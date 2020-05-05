@@ -16,7 +16,7 @@ header="$(grep '^!!! pywal' "$file")"
 
 # Enable theming (by convention)
 [ -n "$header" ] && \
-    sed  -i "s/^!!! pywal.*/$(printf -- "$header" | sed 's/^!\{3,\}/!!/')/" "$file"
+    sed  -i "s/^!!! pywal.*/$(printf "%s" "$header" | sed 's/^!\{3,\}/!!/')/" "$file"
 
 # We will compose the output file of three parts: the lines leading to "! pywal", the modified chunk, and the rest
 # First, we extract all three parts
@@ -31,14 +31,14 @@ i=1
 newchunk=
 for l in $chunk; do
     [ $i -ne 1 ] && {
-        [ -n "$(printf -- "$l" | grep '^!.*')" ] && newline="$(printf -- "$l" | sed 's/^!\+//')"
+        printf "%s" "$l" | grep -q '^!.*' && newline="$(printf "%s" "$l" | sed 's/^!\+//')"
     } || newline=$l 
     newchunk="$newchunk
 $newline"
-    i="$(expr $i + 1)"
+    i="$((i + 1))"
 done
 IFS=
-newchunk="$(printf -- "$newchunk" | sed '/^$/d')"
+newchunk="$(printf "%s" "$newchunk" | sed '/^$/d')"
 
 # Concatenate all 3 parts
 printf "%s\n%s\n%s\n" "$leader" "$newchunk" "$rest" >"$file"

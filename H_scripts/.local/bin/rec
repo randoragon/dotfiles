@@ -30,7 +30,7 @@ framerate=24
 pretend=
 while true; do
     case "$1" in
-        -A|--no-audio) audio= acodec=; shift ;;
+        -A|--no-audio) audio='' acodec=; shift ;;
         -f|--framerate) framerate="$2" ; shift 2 ;;
         -p|--pretend) pretend=1 ; shift ;;
         -h|--help) help ; exit ; shift ;;
@@ -39,31 +39,33 @@ while true; do
     esac
 done
 
-[ $# != 1 ] && echo "rec: exactly one FILE parameter required.\nTry 'rec --help' for more information." >&2 && exit 1
-[ -f "$1" ] && echo "rec: file with this name already exists." >&2 && exit 1
-[ -d "$1" ] && echo "rec: directory with this name already exists." >&2 && exit 1
+[ $# != 1 ] && printf "%s\n%s\n" "rec: exactly one FILE parameter required." "Try 'rec --help' for more information." >&2 && exit 1
+[ -f "$1" ] && printf "%s\n" "rec: file with this name already exists." >&2 && exit 1
+[ -d "$1" ] && printf "%s\n" "rec: directory with this name already exists." >&2 && exit 1
 
 gif=
-[ "$(expr "$(basename -- "$1")" : '.*\.gif$')" -ne 0 ] && {
+if [ "$(expr "$(basename -- "$1")" : '.*\.gif$')" -ne 0 ]; then
     file="$(dirname -- "$1")/$(basename -- "$1" '.gif').mp4"
     gif=1
-} || { file="$1"; }
+else
+    file="$1"
+fi
 
 echo "Select a rectangle"
 dims="$(xrectsel)"
-size="$(printf -- "$dims" | sed 's/\+.*$//')"
-xy="$(printf -- "$dims" | sed 's/^[^+]*// ; s/\+/,/g' | cut -c 2-)"
+size="$(printf "%s" "$dims" | sed 's/\+.*$//')"
+xy="$(printf "%s" "$dims" | sed 's/^[^+]*// ; s/\+/,/g' | cut -c 2-)"
 
 
-[ -n "$pretend" ] && {
+if [ -n "$pretend" ]; then
     echo "ffmpeg -f x11grab -video_size '$size' -framerate '$framerate' -i '$DISPLAY+$xy' $audio -c:v '$vcodec' -preset ultrafast $acodec -- '$file'"
     [ -n "$gif" ] && echo "ffmpeg -i '$file' -filter_complex \"[0:v] split [a][b];[a] palettegen [p];[b][p] paletteuse\" '$1'"
-} || {
+else
     trap '' 2
-    ffmpeg -f x11grab -video_size "$size" -framerate "$framerate" -i "$DISPLAY+$xy" $audio -c:v "$vcodec" -preset ultrafast $acodec -- "$file"
+    ffmpeg -f x11grab -video_size "$size" -framerate "$framerate" -i "$DISPLAY+$xy" "$audio" -c:v "$vcodec" -preset ultrafast "$acodec" -- "$file"
     [ -n "$gif" ] && {
-        echo '\nConverting to gif...\n'
+        printf "\n\n%s\n\n\n" "$(tput bold)Converting to gif...$(tput sgr0)"
         ffmpeg -i "$file" -filter_complex "[0:v] split [a][b];[a] palettegen [p];[b][p] paletteuse" "$1"
         rm "$file"
     }
-}
+fi

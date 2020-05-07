@@ -126,7 +126,8 @@ yay -Sa --needed \
     rar \
     xrectsel \
     dmenu-git \
-    bfg
+    bfg \
+    mp3gain
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib

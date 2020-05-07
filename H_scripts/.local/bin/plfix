@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Traverses all playlists from the playlist directory
+# and removes all lines that don't contain real paths
+
+pldir="$HOME/Music/Playlists"
+music="$HOME/Music"
+
+counter="$(mktemp -p /tmp plfix.XXXXX)"
+printf 0 >"$counter"
+find "$pldir" -maxdepth 1 -type f -name '*.m3u' | while read -r f; do
+    i=1
+    cat -- "$f" | while read -r l; do
+        [ ! -f "$music/$l" ] && {
+            sed -i "$i""d" "$f"
+            i=$((i - 1))
+            printf "%s" "$(($(cat -- "$counter") + 1))" >"$counter"
+        }
+        i=$((i + 1))
+    done
+done
+
+count="$(cat -- "$counter")"
+if [ "$count" -gt 0 ]; then
+    notify-send -u low "plfix" "Removed <b>$count</b> invalid path$([ "$count" -eq 1 ] || printf s)"
+else
+    notify-send -u low "plfix" "No invalid paths found"
+fi
+rm -- "$counter"

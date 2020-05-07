@@ -73,9 +73,6 @@ _comp_options+=(globdots)
 #                           KEYBOARD                            #
 #################################################################
 
-# Enable VI mode
-bindkey -v
-
 # Open line in vim for editing
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
@@ -90,6 +87,16 @@ bindkey -v '^?' backward-delete-char
 #################################################################
 #                           PLUGINS                             #
 #################################################################
+
+# zsh-vim-mode
+# https://github.com/softmoth/zsh-vim-mode
+source "$HOME/.config/zsh/zsh-vim-mode.plugin.zsh"
+MODE_CURSOR_VICMD="block"
+MODE_CURSOR_VIINS="bar"
+MODE_CURSOR_REPLACE="underline"
+MODE_CURSOR_SEARCH="underline"
+MODE_CURSOR_VISUAL="$MODE_CURSOR_VICMD"
+MODE_CURSOR_VLINE="$MODE_CURSOR_VICMD"
 
 # zsh-syntax-highlighting (must be loaded last!)
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null

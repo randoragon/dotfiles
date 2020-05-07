@@ -1,7 +1,7 @@
 # RANDORAGON's BEETS CONFIG
 
 # Directory for beets to store raw data in
-library: ~/.config/beets/library.db
+library: ~/Music/beets.db
 
 # Directory to move amended items into
 directory: ~/Music

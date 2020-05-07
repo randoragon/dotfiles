@@ -25,7 +25,7 @@ import:
     detail: yes
     from_scratch: no
     log: ~/.config/beets/import.log
-    languages: en pl de ja jp
+    languages: en pl
     autotag: yes
 
 # Paths

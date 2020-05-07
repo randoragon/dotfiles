@@ -1,6 +1,6 @@
 [Default Applications]
 application/mpeg=mpv.desktop;
-application/pdf=firefox.desktop;
+application/pdf=pdf.desktop;
 audio/mpeg=mpv.desktop;
 image/gif=image.desktop;
 image/png=image.desktop;

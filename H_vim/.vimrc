@@ -118,6 +118,7 @@ augroup fold_switch
     autocmd!
     autocmd BufWinEnter * :normal zR
     autocmd! BufWinEnter .vimrc setlocal foldmethod=marker foldlevel=0
+    autocmd! BufWinEnter init.vim setlocal foldmethod=marker foldlevel=0
     autocmd! BufWinEnter *.py   setlocal foldmethod=indent | :normal zR
     autocmd! BufWinEnter *.md   setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
 augroup END

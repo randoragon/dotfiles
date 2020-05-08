@@ -6,6 +6,7 @@ set number
 set path+=** " Enables recursive :find
 let mapleader=','
 nnoremap \ ,
+nnoremap <Leader>w :set wrap! linebreak!<CR>
 map Y y$
 set hidden
 " }}}
@@ -28,6 +29,7 @@ Plug 'flazz/vim-colorschemes'
 Plug 'ternjs/tern_for_vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
+Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 
 " Airline {{{2
@@ -156,11 +158,8 @@ map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscr
 
 " Markdown Preview config {{{1
 function PreviewMarkdown()
-	:silent !marked --gfm -i %:p -o /tmp/vim_preview.html
-    :silent !wkhtmltopdf /tmp/vim_preview.html /tmp/vim_preview.pdf
-    :silent !rm /tmp/vim_preview.html
-    :redraw!
-    :echo "Preview generated at /tmp/vim_preview.pdf"
+    write
+	AsyncRun mdtopdf "%:p" "/tmp/vim_preview.pdf"
 endfunction
 nnoremap <Leader>p :call PreviewMarkdown()<CR>
 " }}}

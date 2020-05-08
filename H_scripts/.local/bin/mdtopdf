@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# This script converts a utf-8 encoded markdown file to a pdf
+#
+# USAGE
+# mdtopdf INPUT OUTPUT
+#
+# DEPENDENCIES
+# - marked
+# - wkhtmltopdf
+
+in="$1"
+out="$2"
+tmp="$(mktemp -p /tmp md2pdf_XXXXX.html)"
+
+marked --silent -i "$in" -o "$tmp"
+
+# wkhtmltopdf has troubles with specifying encoding, the best way is to have the html file specify it
+head='<!DOCTYPE html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text\/html; charset=UTF-8\">\n<\/head>\n<body>'
+tail='<\/body>'
+sed -i "1s/^/$head\n/; \$s/\$/\n$tail/" "$tmp"
+
+wkhtmltopdf -q "$tmp" "$out"
+rm -- "$tmp"

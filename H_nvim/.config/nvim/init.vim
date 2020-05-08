@@ -86,6 +86,21 @@ nnoremap <C-f><C-b> : Buffers<CR>
 
 " }}}
 
+" CopyQ Clipboard Integration {{{1
+let g:clipboard = {
+ \    'name': 'copyq',
+ \    'copy': {
+ \        '+': 'nvim-script-copy',
+ \        '*': 'nvim-script-copy'
+ \    },
+ \    'paste': {
+ \        '+': 'copyq clipboard',
+ \        '*': 'copyq selection'
+ \    },
+ \    'cache_enabled': 1,
+ \ }
+" }}}
+
 " Indentation settings {{{1
 set expandtab
 set shiftwidth=4

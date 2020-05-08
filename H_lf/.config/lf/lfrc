@@ -22,13 +22,14 @@ map <f-8> :trash
         lf -remote "send $id map <f-5> :dual-copy"
         lf -remote "send $id map <f-6> :dual-move"
         lf -remote "send $id map gs :dual-swap"
+        lf -remote "send $id map gd :dual-dupe"
         [ -n "$DUALF1" ] && {
-            printf -- "$id" > "$DUALF/1"
+            printf "%s" "$id" > "$DUALF/1"
             while [ ! -f "$DUALF/2" ]; do sleep 0.1; done
             exit
         }
         [ -n "$DUALF2" ] && {
-            printf -- "$id" > "$DUALF/2"
+            printf "%s" "$id" > "$DUALF/2"
             while [ ! -f "$DUALF/1" ]; do sleep 0.1; done
         }
     }
@@ -60,14 +61,16 @@ map x :trash
 map X :delete
 cmd trash %{{
     clear
-    printf -- "$fx\n"
+    printf "%s\n" "$fx"
     printf "move to trash? [y/N] "
     read -q ans
-    [ $ans = "y" -o $ans = "Y" ] && {
-        printf -- "$fx\n" | while read l; do
+    if [ $ans = "y" ] || [ $ans = "Y" ]; then
+        printf "%s\n" "$fx" | while read l; do
             trash-put -- "$l"
         done
-    } || { lf -remote "send $id clear"; }
+    else
+        lf -remote "send $id clear"
+    fi
 }} 
 
 # Alternate selection bindings
@@ -108,8 +111,8 @@ cmd bulk-rename ${{
     "$EDITOR" "$new"
     [ "$(cat -- "$new" | wc -l)" -ne "$(cat -- "$old" | wc -l)" ] && exit
     paste "$old" "$new" | while read names; do
-        src="$(printf -- "$names" | cut -f1)"
-        dst="$(printf -- "$names" | cut -f2)"
+        src="$(printf "%s" "$names" | cut -f1)"
+        dst="$(printf "%s" "$names" | cut -f2)"
         [ "$src" = "$dst" ] && continue
         [ -e "$dst" ] && continue
         mv -- "$src" "$dst"
@@ -123,9 +126,9 @@ map R :bulk-rename
 cmd info !{{
     clear
     printf "\n Computing..."
-    CONTENT="$(printf -- "$fx\n" | fls)"
+    CONTENT="$(printf "%s\n" "$fx" | fls)"
     clear
-    printf -- "\n$CONTENT"
+    printf "\n%s" "$CONTENT"
 }}
 map I :info
 
@@ -135,14 +138,14 @@ cmd tar ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.tar" ] && {
+    if [ -f "$FILE.tar" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.tar" ] && {
+    elif [ -d "$FILE.tar" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vi -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vi -- "$FILE"
 }}
 
 cmd tar-gz ${{
@@ -150,14 +153,14 @@ cmd tar-gz ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.tar.gz" ] && {
+    if [ -f "$FILE.tar.gz" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.tar.gz" ] && {
+    elif [ -d "$FILE.tar.gz" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vzi -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vzi -- "$FILE"
 }}
 
 cmd tar-bz ${{
@@ -165,14 +168,14 @@ cmd tar-bz ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.tar.bz" ] && {
+    if [ -f "$FILE.tar.bz" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.tar.bz" ] && {
+    elif [ -d "$FILE.tar.bz" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vji -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vji -- "$FILE"
 }}
 
 cmd tar-xz ${{
@@ -180,14 +183,14 @@ cmd tar-xz ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.tar.xz" ] && {
+    if [ -f "$FILE.tar.xz" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.tar.xz" ] && {
+    elif [ -d "$FILE.tar.xz" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vJi -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vJi -- "$FILE"
 }}
 
 cmd zip ${{
@@ -195,14 +198,14 @@ cmd zip ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.zip" ] && {
+    if [ -f "$FILE.zip" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.zip" ] && {
+    elif [ -d "$FILE.zip" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vZi -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vZi -- "$FILE"
 }}
 
 cmd rar ${{
@@ -210,14 +213,14 @@ cmd rar ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.rar" ] && {
+    if [ -f "$FILE.rar" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.rar" ] && {
+    elif [ -d "$FILE.rar" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vri -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vri -- "$FILE"
 }}
 
 cmd jar ${{
@@ -225,14 +228,14 @@ cmd jar ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.jar" ] && {
+    if [ -f "$FILE.jar" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.jar" ] && {
+    elif [ -d "$FILE.jar" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vRi -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vRi -- "$FILE"
 }}
 
 cmd 7z ${{
@@ -240,14 +243,14 @@ cmd 7z ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.7z" ] && {
+    if [ -f "$FILE.7z" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.7z" ] && {
+    elif [ -d "$FILE.7z" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -v7i -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -v7i -- "$FILE"
 }}
 
 cmd tar-m ${{
@@ -255,14 +258,14 @@ cmd tar-m ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.tar" ] && {
+    if [ -f "$FILE.tar" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.tar" ] && {
+    elif [ -d "$FILE.tar" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vimm -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vimm -- "$FILE"
 }}
 
 cmd tar-gz-m ${{
@@ -270,14 +273,14 @@ cmd tar-gz-m ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.tar.gz" ] && {
+    if [ -f "$FILE.tar.gz" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.tar.gz" ] && {
+    elif [ -d "$FILE.tar.gz" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vzimm -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vzimm -- "$FILE"
 }}
 
 cmd tar-bz-m ${{
@@ -285,14 +288,14 @@ cmd tar-bz-m ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.tar.bz" ] && {
+    if [ -f "$FILE.tar.bz" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.tar.bz" ] && {
+    elif [ -d "$FILE.tar.bz" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vjimm -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vjimm -- "$FILE"
 }}
 
 cmd tar-xz-m ${{
@@ -300,14 +303,14 @@ cmd tar-xz-m ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.tar.xz" ] && {
+    if [ -f "$FILE.tar.xz" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.tar.xz" ] && {
+    elif [ -d "$FILE.tar.xz" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vJimm -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vJimm -- "$FILE"
 }}
 
 cmd zip-m ${{
@@ -315,14 +318,14 @@ cmd zip-m ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.zip" ] && {
+    if [ -f "$FILE.zip" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.zip" ] && {
+    elif [ -d "$FILE.zip" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vZimm -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vZimm -- "$FILE"
 }}
 
 cmd rar-m ${{
@@ -330,14 +333,14 @@ cmd rar-m ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.rar" ] && {
+    if [ -f "$FILE.rar" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.rar" ] && {
+    elif [ -d "$FILE.rar" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vrimm -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vrimm -- "$FILE"
 }}
 
 cmd jar-m ${{
@@ -345,14 +348,14 @@ cmd jar-m ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.jar" ] && {
+    if [ -f "$FILE.jar" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.jar" ] && {
+    elif [ -d "$FILE.jar" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -vRimm -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -vRimm -- "$FILE"
 }}
 
 cmd 7z-m ${{
@@ -360,14 +363,14 @@ cmd 7z-m ${{
     unset IFS
     FILE="$*"
     [ -z "$FILE" ] && lf -remote "send $id echo 'archive name required'" && exit
-    [ -f "$FILE.7z" ] && {
+    if [ -f "$FILE.7z" ]; then
         lf -remote "send $id echo 'a file with this name already exists'"
         exit
-    } || [ -d "$FILE.7z" ] && {
+    elif [ -d "$FILE.7z" ]; then
         lf -remote "send $id echo 'a directory with this name already exists'"
         exit
-    }
-    printf -- "$fx\n" | mkar -v7imm -- "$FILE"
+    fi
+    printf "%s\n" "$fx" | mkar -v7imm -- "$FILE"
 }}
 
 
@@ -375,98 +378,98 @@ cmd extract ${{
     clear
     unset IFS
     FILE="$*"
-    [ -n "$FILE" ] && {
-        [ -f "$FILE" ] && {
+    if [ -n "$FILE" ]; then
+        if [ -f "$FILE" ]; then
             lf -remote "send $id echo 'a file with this name already exists'"
             exit
-        } || [ -d "$FILE" -a -n "$(ls -A "$FILE" 2>&-)" ] && {
+        elif [ -d "$FILE" ] && [ -n "$(ls -A "$FILE" 2>&-)" ]; then
             lf -remote "send $id echo 'a non-empty directory with this name already exists'"
             exit
-        }
+        fi
         extract -v "$f" "$FILE"
-    } || extract -v "$f"
+    else extract -v "$f"; fi
 }}
 
 # Archive mappings
 map t
 map tct &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar<space>$parsed"
 }}
 map tcz &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar-gz<space>$parsed"
 }}
 map tcj &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar-bz<space>$parsed"
 }}
 map tcJ &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar-xz<space>$parsed"
 }}
 map tcZ &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :zip<space>$parsed"
 }}
 map tcr &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :rar<space>$parsed"
 }}
 map tcR &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :jar<space>$parsed"
 }}
 map tc7 &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :7z<space>$parsed"
 }}
 map tcmt &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar-m<space>$parsed"
 }}
 map tcmz &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar-gz-m<space>$parsed"
 }}
 map tcmj &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar-bz-m<space>$parsed"
 }}
 map tcmJ &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :tar-xz<space>$parsed"
 }}
 map tcmZ &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :zip-m<space>$parsed"
 }}
 map tcmr &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :rar-m<space>$parsed"
 }}
 map tcmR &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :jar-m<space>$parsed"
 }}
 map tcm7 &{{
     selname="$(basename -- "$f")"
-    parsed="$(printf -- "$selname" | sed 's/ /<space>/g')"
+    parsed="$(printf "%s" "$selname" | sed 's/ /<space>/g')"
     lf -remote "send $id push :7z-m<space>$parsed"
 }}
 map te :push :extract<space>
@@ -482,27 +485,31 @@ cmd dual-copy %{{
     [ -z "$DUALF" ] && echo "Dual session not detected" && exit
     [ -n "$DUALF1" ] && other="$(cat -- "$DUALF/2")" && oname=right
     [ -n "$DUALF2" ] && other="$(cat -- "$DUALF/1")" && oname=left
-    lf -remote "$(printf -- "save\ncopy\n$fx")"
+    lf -remote "$(printf "%s\n%s\n%s" "save" "copy" "$fx")"
     count="$(echo "$fx" | wc -l)"
     plural="$([ $count -gt 1 ] && printf 's')"
     printf "Copy $count item$plural to the $oname panel? [y/N] "
     read -q ans
-    [ "$ans" = y -o "$ans" = Y ] && {
+    if [ "$ans" = y ] || [ "$ans" = Y ]; then
         lf -remote "send $other paste"
-    } || { lf -remote "send $id clear"; }
+    else
+        lf -remote "send $id clear";
+    fi
 }}
 cmd dual-move %{{
     [ -z "$DUALF" ] && echo "Dual session not detected" && exit
     [ -n "$DUALF1" ] && other="$(cat -- "$DUALF/2")" && oname=right
     [ -n "$DUALF2" ] && other="$(cat -- "$DUALF/1")" && oname=left
-    lf -remote "$(printf -- "save\nmove\n$fx")"
+    lf -remote "$(printf "%s\n%s\n%s" "save" "move" "$fx")"
     count="$(echo "$fx" | wc -l)"
     plural="$([ $count -gt 1 ] && printf 's')"
     printf "Move $count item$plural to the $oname panel? [y/N] "
     read -q ans
-    [ "$ans" = y -o "$ans" = Y ] && {
+    if [ "$ans" = y ] || [ "$ans" = Y ]; then
         lf -remote "send $other paste"
-    } || { lf -remote "send $id clear"; }
+    else
+        lf -remote "send $id clear";
+    fi
 }}
 
 # Echo the other panel's id in a dual session
@@ -542,23 +549,15 @@ cmd dual-swap %{{
         rm -- "$DUALF/1.f" "$DUALF/2.f"
     }
 }}
-cmd dual-match %{{
+cmd dual-dupe %{{
     [ -z "$DUALF" ] && echo "Dual session not detected" && exit
     [ -n "$DUALF1" ] && {
         other="$(cat -- "$DUALF/2")"
-        lf -remote "send $other save-f '$DUALF/2.f'"
-        sleep 0.005
-        while [ ! -f "$DUALF/2.f" ]; do sleep 0.1; done
-        lf -remote "send $id select '$(cat -- "$DUALF/2.f")'"
-        rm -- "$DUALF/2.f"
+        lf -remote "send $other select '$f'"
     }
     [ -n "$DUALF2" ] && {
         other="$(cat -- "$DUALF/1")"
-        lf -remote "send $other save-f '$DUALF/1.f'"
-        sleep 0.005
-        while [ ! -f "$DUALF/1.f" ]; do sleep 0.1; done
-        lf -remote "send $id select '$(cat -- "$DUALF/1.f")'"
-        rm -- "$DUALF/1.f"
+        lf -remote "send $other select '$f'"
     }
 }}
 
@@ -567,7 +566,7 @@ cmd id %echo "$id"
 
 # Dump highlighted item to an external file
 cmd save-f &{{
-    [ ! -f "$1" -a ! -d "$1" ] && printf -- "$f" > "$1" && exit
+    [ ! -f "$1" ] && [ ! -d "$1" ] && printf "%s" "$f" > "$1" && exit
     lf -remote "send $id echo save-f failure: path already exists"
 }}
 

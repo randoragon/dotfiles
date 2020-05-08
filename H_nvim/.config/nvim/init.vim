@@ -161,7 +161,8 @@ function PreviewMarkdown()
     write
 	AsyncRun mdtopdf "%:p" "/tmp/vim_preview.pdf"
 endfunction
-nnoremap <Leader>p :call PreviewMarkdown()<CR>
+nnoremap <Leader>pm :call PreviewMarkdown()<CR>
+nnoremap <Leader>po :AsyncRun setsid xdg-open /tmp/vim_preview.pdf<CR>
 " }}}
 
 " netrw (tree view) settings {{{1

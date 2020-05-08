@@ -57,3 +57,4 @@ zathura | `zathura` | PDF Viewer | blazingly fast PDF viewer with plugins for ot
 bfg | `*bfg` | Git Tool | git repo history removal made easy
 shellcheck | `shellcheck` | Code Linter | shows best practices for shell code, integrates with vim ALE plugin and works as a standalone command
 mp3gain | `*mp3gain` | MP3 Gain Analyzer | reliable for mass normalization of music with respect to albums/tracks
+pulsemixer | `pulsemixer` | PulseAudio Frontend | simple and competent terminal volume mixer, replaces pavucontrol

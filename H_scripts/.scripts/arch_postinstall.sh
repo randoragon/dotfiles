@@ -44,7 +44,7 @@ sudo pacman -S --needed \
     xf86-input-libinput \
     autoconf \
     bluez bluez-utils blueman \
-    pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pavucontrol \
+    pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pulsemixer \
     ntp \
     ntfs-3g dosfstools wget which \
     arch-install-scripts \

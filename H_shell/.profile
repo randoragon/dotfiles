@@ -29,7 +29,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # Default applications
-export EDITOR=vim
+export EDITOR=nvim
 export TERMINAL=st
 export BROWSER=firefox
 export PAGER=less

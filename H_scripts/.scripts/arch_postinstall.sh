@@ -1,12 +1,11 @@
-#!/bin/sh
+#!/usr/bin/sh
 
 # This script assumes you already have the working user in the sudo group.
 # Most software and tools that I use will be installed automatically.
 
 eprint () { fprint "arch_postinstall.sh: %s\n" "$*" >&2; }
-
 # Create home folder structure
-cd ~ || eprint "failed  to cd" && exit 1
+cd ~ || { eprint "failed  to cd" && exit 1; }
 mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
     Projects/Dev Projects/Art Projects/Video Projects/Music Projects/Other \
     .scripts .local/bin .sfx .local/share/wallpapers
@@ -56,7 +55,7 @@ sudo pacman -S --needed \
     the_silver_searcher \
     pkgfile \
     dash \
-    gvim fzf \
+    neovim fzf \
     xdotool \
     pacman-contrib \
     libnotify dunst \
@@ -100,12 +99,12 @@ sudo sed -i 's/^Exec=[^ ]*/& --no-splash/' /usr/share/applications/gimp.desktop
 
 # Install yay
 if [ -z "$(command -v yay)" ]; then
-    cd ~ || eprint "failed to cd" && exit 1
+    cd ~ || { eprint "failed to cd" && exit 1; }
     git clone https://aur.archlinux.org/yay.git
-    cd yay || eprint "failed to cd" && exit 1
+    cd yay || { eprint "failed to cd" && exit 1; }
     makepkg -si
     wait
-    cd ~ || eprint "failed to cd" && exit 1
+    cd ~ || { eprint "failed to cd" && exit 1; }
     rm -rf yay
 fi
 
@@ -149,33 +148,43 @@ sudo systemctl start wpa_supplicant.service
 sudo systemctl start NetworkManager.service
 
 # Download and apply dotfiles
-[ ! -d ~/dotfiles ] \
-    && cd ~ \
-    && git clone https://github.com/Randoragon/dotfiles
-cd dotfiles || eprint "failed to cd" && exit 1
+[ ! -d ~/dotfiles ] && {
+    cd ~ || { eprintf "failed to cd" && exit 1; }
+    git clone 'https://github.com/Randoragon/dotfiles'
+}
+cd ~/dotfiles || { eprint "failed to cd" && exit 1; }
 git pull
-[ -f ~/.bash_profile ] && rm ~/.bashrc ~/.bash_profile
+rm -- ~/.bashrc ~/.bash_profile
 stow H_beets
 stow H_copyq
 stow H_doublecmd
 stow H_dunst
 stow H_flameshot
+stow H_git
 stow H_i3
 stow H_keepassxc
+stow H_lf
 stow H_lynx
+stow H_mime
 stow H_mpd
 stow H_ncmpcpp
+stow H_nvim
 stow H_picom
 stow H_polybar
 stow H_scripts
+stow H_sfx
 stow H_shell
+stow H_speedcrunch
+stow H_sxiv
 stow H_tmux
-stow H_vim
 stow H_xbindkeys
-stow H_mime
 stow H_xorg
-stow H_youtube-dl
+stow H_zathura
 sudo stow -t / R_scripts
+
+# Replace vi with vim and vim with nvim
+sudo ln -sfT /usr/bin/nvim /usr/bin/vim
+sudo ln -sfT /usr/bin/vim /usr/bin/vi
 
 # Symlink common auto-openers to xdg-open
 [ -f /usr/bin/exo-open ] && [ ! -L /usr/bin/exo-open ] && sudo ln -sfT /usr/bin/xdg-open /usr/bin/exo-open
@@ -187,7 +196,7 @@ sudo systemctl start ntpd.service
 # Enable cronie and install crontabs
 sudo systemctl enable cronie.service
 sudo systemctl start cronie.service
-cd ~/dotfiles || eprint "failed to cd" && exit 1
+cd ~/dotfiles || { eprint "failed to cd" && exit 1; }
 [ -f crontab ] && cat crontab | crontab - <crontab
 [ -f cronroot ] && sudo sh -c 'cat cronroot | crontab -'
 
@@ -196,8 +205,7 @@ sudo systemctl enable bluetooth.service
 
 # Symlink deprecated mimelist for old applications
 # Source: https://wiki.archlinux.org/index.php/XDG_MIME_Applications#mimeapps.list
-[ -L ~/.local/share/applications/mimeapps.list ] \
-    || ln -s ~/.config/mimeapps.list ~/.local/share/applications/mimeapps.list
+[ -L ~/.local/share/applications/mimeapps.list ] || ln -s ~/.config/mimeapps.list ~/.local/share/applications/mimeapps.list
 
 # Finalize snap installation
 sudo systemctl enable snapd.socket
@@ -207,12 +215,16 @@ sudo systemctl enable snapd.socket
 sudo ln -sTf /usr/bin/pinentry-tty /usr/bin/pinentry
 
 # Install my fork of suckless terminal
-cd ~/Software || eprint "failed to cd" && exit 1
-git clone https://github.com/randoragon/st
-cd st || eprint "failed to cd" && exit 1
-sudo make install
-sudo ln -sTf /usr/local/bin/st /usr/local/bin/x-terminal-emulator
-find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
+if [ -z "$(command -v st)" ]; then
+    cd ~/Software || { eprint "failed to cd" && exit 1; }
+    git clone https://github.com/randoragon/st
+    cd st || { eprint "failed to cd" && exit 1; }
+    sudo make install
+    sudo ln -sTf /usr/local/bin/st /usr/local/bin/x-terminal-emulator
+    find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
+else
+    echo "Suckless terminal detected, skipping."
+fi
 
-cd ~ || eprint "failed to cd" && exit 1
+cd ~ || { eprint "failed to cd" && exit 1; }
 

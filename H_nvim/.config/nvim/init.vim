@@ -1,25 +1,17 @@
 "LINUX VIMRC
 
 " Basic Settings {{{1
-filetype plugin indent on
-syntax on
-set encoding=utf-8
-set nocompatible
 set nowrap
 set number
 set path+=** " Enables recursive :find
-set showcmd
 let mapleader=','
 nnoremap \ ,
 map Y y$
-set backspace=indent,eol,start
 set hidden
-set wildmenu
-set ruler
 " }}}
 
 " Plugins {{{1
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
@@ -55,9 +47,9 @@ let g:AutoPairsMapCR = 1
 " }}}
 
 " Tabular keyboard shortcuts {{{2
-vnoremap = :Tabular/=<CR>
-vnoremap , :Tabular/,/l0r1<CR>
-vnoremap ; :Tabular/;/l0r1<CR>
+vnoremap <M-=> :Tabular/=<CR>
+vnoremap <M-,> :Tabular/,/l0r1<CR>
+vnoremap <M-;> :Tabular/;/l0r1<CR>
 " }}}
 
 " ALE {{{2
@@ -93,7 +85,6 @@ nnoremap <C-f><C-b> : Buffers<CR>
 " }}}
 
 " Indentation settings {{{1
-set autoindent
 set expandtab
 set shiftwidth=4
 set tabstop=4
@@ -118,14 +109,13 @@ augroup fold_switch
     autocmd!
     autocmd BufWinEnter * :normal zR
     autocmd! BufWinEnter .vimrc setlocal foldmethod=marker foldlevel=0
-    autocmd! BufWinEnter init.vim setlocal foldmethod=marker foldlevel=0
+    autocmd! BufWinEnter init.vim  setlocal foldmethod=marker foldlevel=0
     autocmd! BufWinEnter *.py   setlocal foldmethod=indent | :normal zR
     autocmd! BufWinEnter *.md   setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
 augroup END
 " }}}
 
 " Searching {{{1
-set incsearch
 set ignorecase
 set smartcase
 " }}}
@@ -139,8 +129,6 @@ nnoremap <Bar> <C-w><Bar>
 nnoremap _ <C-w>_
 set splitbelow
 set splitright
-nnoremap L gt
-nnoremap H gT
 
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bNext<CR>
@@ -148,8 +136,6 @@ nnoremap <C-p> :bNext<CR>
 
 " Backup directories {{{1
 set backup
-set backupdir=~/.vim/backup//
-set directory=~/.vim/backup//
 set writebackup
 " }}}
 
@@ -201,15 +187,8 @@ function ApplyNetrwMaps()
 endfunction
 " }}}
 
-" Disable toolbars in gVim {{{1
-if has("gui_running")
-	set guioptions-=T
-	set guioptions-=m
-endif
-" }}}
-
 " Enable 256 color support, set colorscheme {{{1
-set t_Co=256
+set termguicolors
 colorscheme gruvbox
 set background=dark
 if &term =~ '256color'

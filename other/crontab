@@ -11,4 +11,4 @@
 0 * * * * DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus XDG_RUNTIME_DIR=/run/user/1000 ~/.local/bin/pnotify -i /usr/share/icons/Adwaita/48x48/legacy/task-due.png 'Exercise Reminder' 'Get up and give your body\na nice firm stretch\!'
 
 # Sync Music to MEGA
-0 */3 * * * rsync -uctr ~/Music/ ~/MEGA/Music/
+0 18 * * 0 rsync -uctr --delete ~/Music/ ~/MEGA/Music/

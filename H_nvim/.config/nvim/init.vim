@@ -154,6 +154,7 @@ nnoremap <C-p> :bNext<CR>
 " Backup directories {{{1
 set backup
 set writebackup
+set backupdir=~/.local/share/nvim/backup/
 " }}}
 
 " Force redraw shortcut {{{1

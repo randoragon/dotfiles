@@ -31,7 +31,7 @@ sudo pacman -S --needed \
     sxiv mpv \
     python python3 python-pip go \
     tmux \
-    lf doublecmd xarchiver \
+    doublecmd xarchiver \
     zip unzip \
     curl \
     firefox thunderbird \
@@ -122,7 +122,6 @@ yay -Sa --needed \
     snapd \
     screenkey \
     id3ted \
-    etcher-bin \
     zsh-syntax-highlighting \
     rar \
     xrectsel \
@@ -130,7 +129,8 @@ yay -Sa --needed \
     bfg \
     mp3gain \
     gromit-mpx-git \
-    nerd-fonts-complete
+    nerd-fonts-complete \
+    lf
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib

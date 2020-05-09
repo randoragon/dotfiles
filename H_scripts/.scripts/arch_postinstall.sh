@@ -126,7 +126,8 @@ yay -Sa --needed \
     xrectsel \
     dmenu-git \
     bfg \
-    mp3gain
+    mp3gain \
+    gromit-mpx-git
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib
@@ -161,6 +162,7 @@ stow H_doublecmd
 stow H_dunst
 stow H_flameshot
 stow H_git
+stow H_gromit-mpx
 stow H_i3
 stow H_keepassxc
 stow H_lf

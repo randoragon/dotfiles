@@ -25,7 +25,7 @@ sudo pacman -S --needed \
     grub-customizer \
     gparted \
     mpd ncmpcpp mpc beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python2-gobject \
-    networkmanager \
+    networkmanager network-manager-applet \
     wpa_supplicant wireless_tools gnome-keyring \
     patch \
     sxiv mpv \
@@ -63,7 +63,7 @@ sudo pacman -S --needed \
     i3-wm perl-anyevent-i3 \
     figlet sl asciiquarium \
     traceroute tree \
-    zsh zsh-completions \
+    zsh zsh-completions zsh-syntax-highlighting \
     tar gzip bzip2 xz zip unzip p7zip \
     gnupg pinentry \
     cronie \
@@ -118,11 +118,9 @@ yay -Sa --needed \
     ttf-unifont \
     megacmd-bin \
     numix-gtk-theme numix-icon-theme-git \
-    network-manager-applet \
     snapd \
     screenkey \
     id3ted \
-    zsh-syntax-highlighting \
     rar \
     xrectsel \
     dmenu-git \

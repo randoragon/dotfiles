@@ -19,7 +19,7 @@ sudo pacman -S --needed \
     picom \
     keepassxc \
     stow \
-    xorg xorg-xinit xterm xbindkeys xorg-drivers numlockx \
+    xorg xorg-xinit xterm xorg-drivers numlockx \
     xwallpaper python-pywal \
     ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
     iputils \
@@ -33,7 +33,6 @@ sudo pacman -S --needed \
     python python3 python-pip go \
     tmux \
     doublecmd xarchiver \
-    zip unzip \
     curl \
     firefox thunderbird \
     libqalculate speedcrunch \
@@ -51,7 +50,6 @@ sudo pacman -S --needed \
     arch-install-scripts \
     copyq \
     gtk-engines gtk-engine-murrine \
-    base-devel \
     flameshot gimp \
     the_silver_searcher \
     pkgfile \
@@ -115,6 +113,7 @@ fi
 # Installs from AUR
 yay -Syua
 yay -Sa --needed \
+    xbindkeys \
     polybar \
     ttf-unifont \
     megacmd-bin \

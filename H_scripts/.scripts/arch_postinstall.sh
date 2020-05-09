@@ -19,7 +19,8 @@ sudo pacman -S --needed \
     picom \
     keepassxc \
     stow \
-    xorg xorg-xinit xterm xbindkeys xorg-drivers numlockx xwallpaper \
+    xorg xorg-xinit xterm xbindkeys xorg-drivers numlockx \
+    xwallpaper python-pywal \
     ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
     iputils \
     grub-customizer \

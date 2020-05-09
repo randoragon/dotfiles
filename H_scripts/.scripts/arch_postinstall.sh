@@ -80,6 +80,9 @@ sudo pacman -S --needed \
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh
 [ -L /bin/sh ]     || sudo ln -sfT /usr/bin/dash /bin/sh
 
+# Set zsh as the default shell (requires fresh login)
+chsh -l /usr/bin/zsh
+
 # Update npm, install node-gyp and configure npm
 npm_installed="$(npm list -g --depth=0 | sed "/^\/.*/d")"
 sudo npm install -g npm

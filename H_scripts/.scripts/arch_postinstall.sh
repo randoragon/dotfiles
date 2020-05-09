@@ -64,7 +64,7 @@ sudo pacman -S --needed \
     figlet sl asciiquarium \
     traceroute tree \
     zsh zsh-completions \
-    tar gzip bzip2 xz zip unzip jar 7z \
+    tar gzip bzip2 xz zip unzip p7zip \
     gnupg pinentry \
     cronie \
     cpulimit \
@@ -113,9 +113,8 @@ yay -Syua
 yay -Sa --needed \
     polybar \
     ttf-unifont \
-    megasync megacmd-bin \
-    numix-gtk-theme numix-icon-theme-git \
     megacmd-bin \
+    numix-gtk-theme numix-icon-theme-git \
     network-manager-applet \
     snapd \
     screenkey \
@@ -127,7 +126,8 @@ yay -Sa --needed \
     dmenu-git \
     bfg \
     mp3gain \
-    gromit-mpx-git
+    gromit-mpx-git \
+    nerd-fonts-complete
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib

@@ -50,9 +50,10 @@ USERAPP="$HOME/.local/share/applications"
 GLOBAPP="/usr/share/applications"
 
 # Default colors (used for bulk information)
-HFG=0 # Header foreground
-HBG=7 # Header background
-BC=7  # Border foreground
+HFG=0  # Header foreground
+HBG=7  # Header background
+BC=7   # Border foreground
+EFC=11 # Extras foreground
 
 # Derive full path without following symlinks
 f="$(realpath -s "$1")"
@@ -61,6 +62,7 @@ f="$(realpath -s "$1")"
 b () { printf "%s" "$(tput bold)$*$(tput sgr0)"; } # Bold
 h () { printf "%s" "$(tput setaf $HFG && tput setab $HBG)$*$(tput setaf 7 && tput setab 0)"; } # Header
 f () { printf "%s" "$(tput setaf $BC)$*$(tput setaf 7)"; } # Frame
+e () { printf "%s" "$(tput bold)$(tput setaf $EFC)$*$(tput setaf 7)$(tput sgr0)"; } # Extras
 
 # If multiple paths, calculate just the total size
 if [ "$#" -gt 1 ]; then
@@ -131,7 +133,17 @@ if [ -L "$f" ]; then
 elif [ -f "$f" ]; then
     HBG=2
     BC=2
+    extras=
     handle_mime "$f"
+    case "$MIME" in
+        audio/mpeg) data="$(ffmpeg -i "$f" 2>&1)" extras="
+ $(f ┃)      $(e Length:) $(printf "%s" "$data" | sed -n '/^\s\+Duration: /{s/^\s\+Duration: \|,.*//gp}')
+ $(f ┃)      $(e Artist:) $(printf "%s" "$data" | sed -n 's/^\s\+artist\s\+: //p')
+ $(f ┃)       $(e Title:) $(printf "%s" "$data" | sed -n 's/^\s\+title\s\+: //p')
+ $(f ┃)       $(e Album:) $(printf "%s" "$data" | sed -n 's/^\s\+album\s\+: //p')
+ $(f ┃)       $(e Genre:) $(printf "%s" "$data" | sed -n 's/^\s\+genre\s\+: //p')
+ $(f ┃)     $(e Bitrate:) $(printf "%s" "$data" | sed -n '/^\s\+Duration: /{s/^.*bitrate: //p}')" ;;
+    esac
 
  printf "%s" \
  " $(f ┏━)$(h " FILE INFORMATION ")$(f ━╍╍┅┉)
@@ -145,7 +157,7 @@ elif [ -f "$f" ]; then
  $(f ┃)    $(b Modified:) $(stat -c '%y' "$f" | sed 's/\..*//')
  $(f ┃)    $(b Accessed:) $(stat -c '%x' "$f" | sed 's/\..*//')
  $(f ┃)     $(b Changed:) $(stat -c '%z' "$f" | sed 's/\..*//')
- $(f ┃)     $(b Created:) $(stat -c '%w' "$f" | sed 's/\..*//')
+ $(f ┃)     $(b Created:) $(stat -c '%w' "$f" | sed 's/\..*//')$extras
  $(f ┗━━━━━━━━━━━━━━━━━━━╍╍┅┉)
 "  && exit 0
 

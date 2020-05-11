@@ -11,7 +11,10 @@ H_mpd/**/mpd.log
 H_mpd/**/mpd.pid
 H_mpd/**/mpdstate
 
+H_mime/.local/share/applications/mimeapps.list
+
 # Programs that create new files in their config dirs
 # that i don't care about
 H_copyq
 H_nvim
+

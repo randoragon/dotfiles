@@ -116,7 +116,7 @@ yay -Sa --needed \
     xbindkeys \
     polybar \
     ttf-unifont \
-    megacmd-bin \
+    onedrive-abraunegg \
     numix-gtk-theme numix-icon-theme-git \
     snapd \
     screenkey \

@@ -14,3 +14,4 @@ H_mpd/**/mpdstate
 # Programs that create new files in their config dirs
 # that i don't care about
 H_copyq
+H_nvim

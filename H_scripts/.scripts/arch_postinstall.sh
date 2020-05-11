@@ -55,7 +55,7 @@ sudo pacman -S --needed \
     pkgfile \
     dash \
     neovim fzf \
-    xdotool \
+    wmctrl xdotool \
     pacman-contrib \
     libnotify dunst \
     imagemagick graphicsmagick \
@@ -127,7 +127,7 @@ yay -Sa --needed \
     bfg \
     mp3gain \
     gromit-mpx-git \
-    nerd-fonts-complete \
+    nerd-fonts-dejavu-complete \
     lf
 
 # Python modules

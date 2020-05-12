@@ -17,7 +17,7 @@
 
 /* Window hints */
 #request setfloating  false
-#request setdecorated false
+#request setdecorated true
 #request setfocused   false
 #request setmaximized false
 
@@ -127,7 +127,7 @@
    
    This will delay data output by one update frame, so it can
    desync audio with visual effects on low UPS configs. */
-#request setinterpolate false
+#request setinterpolate true
 
 /* Frame limiter, set to the frames per second (FPS) desired or
    simply set to zero (or lower) to disable the frame limiter. */
@@ -186,7 +186,7 @@
 
    This value has a _massive_ effect on FFT performance and
    quality for some modules. */
-#request setbufsize 2048
+#request setbufsize 4096
 
 /* PulseAudio sample rate. Lower values can add 'gravity' to
    FFT output, but can also reduce accuracy. Most hardware

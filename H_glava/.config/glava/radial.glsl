@@ -4,19 +4,19 @@
 /* center line thickness (pixels) */
 #define C_LINE 2
 /* outline color */
-#define OUTLINE #000000
+#define OUTLINE #AAFF11
 /* number of bars (use even values for best results) */
-#define NBARS 180
+#define NBARS 280
 /* width (in pixels) of each bar*/
-#define BAR_WIDTH 7
+#define BAR_WIDTH 5
 /* outline color */
 #define BAR_OUTLINE OUTLINE
 /* outline width (in pixels, set to 0 to disable outline drawing) */
 #define BAR_OUTLINE_WIDTH 0
 /* Amplify magnitude of the results each bar displays */
-#define AMPLIFY 300
+#define AMPLIFY 600
 /* Bar color */ 
-#define COLOR (#50ce00 * ((d / 40) + 1))
+#define COLOR (#aaff11 * ((d / 40) + 1))
 /* Angle (in radians) for how much to rotate the visualizer */
 #define ROTATE (PI / 2)
 /* Whether to switch left/right audio buffers */
@@ -33,7 +33,7 @@
 #define CENTER_OFFSET_X 0
 
 /* Gravity step, override from `smooth_parameters.glsl` */
-#request setgravitystep 25.0
+#request setgravitystep 8.0
 
 /* Smoothing factor, override from `smooth_parameters.glsl` */
-#request setsmoothfactor 0.015
+#request setsmoothfactor 0.02

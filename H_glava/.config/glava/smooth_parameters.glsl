@@ -15,7 +15,7 @@
                     like a sine wave
    - linear       not rounded at all; linear distance
    */
-#define ROUND_FORMULA linear
+#define ROUND_FORMULA sinusoidal
 
 /* The sampling mode for processing raw FFT input:
    
@@ -30,11 +30,11 @@
 #define SAMPLE_MODE hybrid
 /* Weight should be provided in the range (0, 1). Higher values favour
    averaged results. `hybrid` mode only. */
-#define SAMPLE_HYBRID_WEIGHT 0.65
+#define SAMPLE_HYBRID_WEIGHT 0.8
 
 /* Factor used to scale frequencies. Lower values allows lower
    frequencies to occupy more space. */
-#define SAMPLE_SCALE 8
+#define SAMPLE_SCALE 7
 
 /* The frequency range to sample. 1.0 would be the entire FFT output,
    and lower values reduce the displayed frequencies in a log-like
@@ -53,7 +53,7 @@
 /* How many frames to queue and run through the average function.
    Increasing this value will create latency between the audio and the
    animation, but will make for much smoother results. */
-#request setavgframes 3
+#request setavgframes 4
 
 /* Whether to window frames ran through the average function (new & old
    frames are weighted less). This massively helps smoothing out
@@ -64,12 +64,12 @@
    in a rate independant method like so:
    
    val -= (gravitystep) * (seconds per update) */
-#request setgravitystep 4.2
+#request setgravitystep 8.0
 
 /* Smoothing factor. Larger values mean more smoothing in the output,
    however high values can be expensive to compute. Values are in
    normalized width: [0.0, 1.0) */
-#request setsmoothfactor 0.025
+#request setsmoothfactor 0.02
 
 /* Whether to use a separate pass for audio data while smoothing. On
    most hardware, this will improve performance, but involves doing a

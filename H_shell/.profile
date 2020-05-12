@@ -44,7 +44,7 @@ export GOPATH="$HOME/.local/share/go"
 ps -e | grep "$SSH_AGENT_PID"  | grep "ssh-agent$" || eval "$(ssh-agent -s)"
 
 # Other configuration
-export MPD_HOST="$HOME/.mpd/socket"
+export MPD_HOST="$HOME/.local/share/mpd/socket"
 export MPD_PORT=6601
 export i3_LAYOUTS="$HOME/.config/i3/layouts"
 export LYNX_CFG="$HOME/.config/lynx/config"

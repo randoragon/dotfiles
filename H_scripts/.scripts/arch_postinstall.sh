@@ -9,7 +9,7 @@ eprint () { fprint "arch_postinstall.sh: %s\n" "$*" >&2; }
 cd ~ || { eprint "failed to cd" && exit 1; }
 mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
     Projects/Dev Projects/Art Projects/Video Projects/Music Projects/Other \
-    .scripts .local/bin .sfx .local/share/wallpapers .local/share/applications .local/share/nvim/backup
+    .scripts .local/bin .sfx .local/share/wallpapers .local/share/applications .local/share/nvim/backup .local/share/mpd .local/share/ncmpcpp
 
 # Installs from the official arch repository
 sudo pacman -Syu

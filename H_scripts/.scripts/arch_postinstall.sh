@@ -4,11 +4,12 @@
 # Most software and tools that I use will be installed automatically.
 
 eprint () { fprint "arch_postinstall.sh: %s\n" "$*" >&2; }
-# Create home folder structure
-cd ~ || { eprint "failed  to cd" && exit 1; }
+
+# Create basic folder structures
+cd ~ || { eprint "failed to cd" && exit 1; }
 mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
     Projects/Dev Projects/Art Projects/Video Projects/Music Projects/Other \
-    .scripts .local/bin .sfx .local/share/wallpapers
+    .scripts .local/bin .sfx .local/share/wallpapers .local/share/applications .local/share/nvim/backup
 
 # Installs from the official arch repository
 sudo pacman -Syu

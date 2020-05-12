@@ -1,0 +1,86 @@
+#!/bin/sh
+
+# When stowing files and directories with GNU stow, it's sometimes important that
+# devices have their own, slightly altered versions of some configuration files,
+# but those subtle variations are not worthy or creating parallel branches,
+# because it would be too difficult to maintain.
+#
+# To fix this issue, there needs to be a way to "detach" certain config files
+# from the git repository so that their subtle changes are not constantly
+# displayed in the git diff lists and stuff (it's just an annoyance).
+# There are some git ways of doing this (using git update-index and similar),
+# but none of them work flawlessly, and a lot of them end up introducing more
+# complications down the road.
+#
+# This script is an alternate solution which works really well in the context
+# of this config repository. The method for "detaching" a file/directory from
+# the git repo tracking is creating copies instead of symlinks, because
+# that way any changes done locally will not find their way into the repo.
+# Now, obviously this also means that any changes pulled to the repo will not
+# update the local configs, but that's usually fixable in negligible time by
+# editing configs manually, and at least it makes the entire process more 
+# intuitive.
+#
+# NOTE: GNU stow sometimes creates a symlink not to the leaf files of a tree,
+# but to their parent directories, which this script is helpless about,
+# because it only targets the leaf files. When that happens, one option is to
+# run `stow -D DIR` to delete the stowed symlink, or you can just remove it
+# manually as you would any other directory.
+#
+# USAGE
+#     detach [-dp] [-t ROOT] PATH...
+# Where PATH(s) must be directories whose contents are relative to the ROOT dir.
+# All PATHs must be in the same parent directory (same principle as GNU stow).
+# The -d option stands for "delete". It removes the copied files of a directory.
+# The -p option stands for "pretend". It only shows what would be done without doing it.
+
+opts=$(getopt -s sh -n detach -o t:dp -- "$@")
+eval set -- "$opts"
+delete=
+pretend=
+root="$(dirname -- "$PWD")"
+while true; do
+    case "$1" in
+        -d) delete=1 ; shift ;;
+        -t) root="$2" ; shift 2 ;;
+        -p) pretend=1 ; shift ;;
+        --) shift ; break ;;
+        *) break ;;
+    esac
+done
+export root pretend
+
+# Validate arguments
+[ ! -d "$root" ] && echo "detach: Invalid root directory" >&2 && exit 1
+root="$(printf "%s" "$root" | sed 's:/$::')" # remove trailing slash
+[ $# -eq 0 ] && echo "detach: At least one path required" >&2 && exit
+parent="$(dirname -- "$1")"
+for i in "$@"; do
+    [ ! -d "$i" ] && echo "detach: Not a directory - \"$i\"" >&2 && exit 1
+    [ "$(dirname -- "$i")" != "$parent" ] && echo "detach: All paths must be in the same parent directory" >&2 && exit 2
+done
+
+# Distribute copies
+if [ -z "$delete" ]; then
+    for i in "$@"; do
+        find "$i/" -type f -print0 | xargs -0 -l -I _path -- sh -c '
+            trimmed="$(realpath -s --relative-to "$(printf "%s" "_path" | sed "s:/.*::")" -- "_path")"
+            mkdir -p -- "$(dirname -- "$root/$trimmed")"
+            if [ -z "$pretend" ]; then
+                cp --remove-destination -- _path "$root/$trimmed"
+            else
+                printf "cp --remove-destination -- \"%s\" \"%s\"\n" "_path" "$root/$trimmed"
+            fi'
+    done
+else
+    for i in "$@"; do
+        find "$i/" -type f -print0 | xargs -0 -l -I _path -- sh -c '
+            trimmed="$(realpath -s --relative-to "$(printf "%s" "_path" | sed "s:/.*::")" -- "_path")"
+            [ -L "$root/$trimmed" ] && echo "detach: target is a symlink, skipping." && exit
+            if [ -z "$pretend" ]; then
+                rm -- "$root/$trimmed"
+            else
+                printf "rm -- \"%s\"\n" "$root/$trimmed"
+            fi'
+    done
+fi

@@ -1,3 +1,0 @@
-#!/bin/sh
-
-glava --desktop --audio=fifo

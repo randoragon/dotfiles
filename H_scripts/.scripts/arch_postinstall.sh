@@ -33,7 +33,7 @@ sudo pacman -S --needed \
     sxiv mpv \
     python python3 python-pip go \
     tmux \
-    doublecmd xarchiver \
+    xarchiver \
     curl \
     firefox thunderbird \
     libqalculate speedcrunch \
@@ -160,7 +160,6 @@ git pull
 rm -- ~/.bashrc ~/.bash_profile
 stow H_beets
 stow H_copyq
-stow H_doublecmd
 stow H_dunst
 stow H_flameshot
 stow H_git

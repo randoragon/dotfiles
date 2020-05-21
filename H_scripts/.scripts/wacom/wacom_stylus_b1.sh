@@ -6,10 +6,10 @@
 
 if [ -f "$WACOM_RMB_FILE" ]; then
     xsetwacom set "$WACOM_STYLUS_ID" Button 1 1
-    notify-send -u low -t 750 -i "/usr/share/icons/Adwaita/96x96/devices/input-tablet-symbolic.symbolic.png" "Wacom Intuos S" "<b>Normal</b> Mode"
+    notify-send -u low -t 750 -i "/usr/share/icons/Adwaita/96x96/devices/input-tablet-symbolic.symbolic.png" "Wacom Intuos S" "<b>Left-Click</b> Mode"
     rm -- "$WACOM_RMB_FILE"
 else
     xsetwacom set "$WACOM_STYLUS_ID" Button 1 3
-    notify-send -u low -t 750 -i "/usr/share/icons/Adwaita/96x96/devices/input-tablet-symbolic.symbolic.png" "Wacom Intuos S" "<b>RMB</b> Mode"
+    notify-send -u low -t 750 -i "/usr/share/icons/Adwaita/96x96/devices/input-tablet-symbolic.symbolic.png" "Wacom Intuos S" "<b>Right-Click</b> Mode"
     touch -- "$WACOM_RMB_FILE"
 fi

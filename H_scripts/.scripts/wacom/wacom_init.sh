@@ -40,3 +40,8 @@ xsetwacom set "$WACOM_STYLUS_ID" CursorProximity 45
 
 # Rotate upside-down (works better with my setup)
 xsetwacom set "$WACOM_STYLUS_ID" Rotate half
+
+# Set up right-click toggle with stylus button 1
+WACOM_RMB_FILE="/tmp/wacom_rmb"
+[ -f "$WACOM_RMB_FILE" ] && rm -- "$WACOM_RMB_FILE"
+export WACOM_RMB_FILE

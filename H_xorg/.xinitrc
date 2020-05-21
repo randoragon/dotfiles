@@ -20,6 +20,9 @@ setxkbmap -option caps:swapescape
 # Read Xresources file
 [ -f "$HOME/.Xresources" ] && xrdb "$HOME/.Xresources"
 
+# Set up wacom device
+. "$HOME/.scripts/wacom/wacom_init.sh"
+
 # Setting this allows some applications to easily
 # know if they're in a graphical env or a tty
 export DESKTOP_SESSION=i3

@@ -1,6 +1,5 @@
 # This file is sourced whenever an X session is started,
 # it should be executed by the window manager/desktop environment.
-# It's run between the initialization of X and the WM.
 
 # Autostart utilities
 xwallpaper --zoom "$HOME/.config/wallpaper"
@@ -14,7 +13,6 @@ xmodmap "~/.Xmodmap" &
 dunst &
 picom --config "~/.config/picom/picom.conf" &
 xidlehook --not-when-audio --timer 600 'physlock' '' --timer 1200 'systemctl suspend' '' &
-~/.scripts/wacom/wacom_init.sh &
 
 # Autostart other programs
 discord &

@@ -59,7 +59,7 @@ export LF_ICONS="di=📁:\
 fi=📃:\
 tw=🤝:\
 ow=📂:\
-ln=⛓:\
+ln=📎:\
 or=❌:\
 ex=🎯:\
 *.txt=✍:\
@@ -72,7 +72,7 @@ ex=🎯:\
 *.xcf=🖌:\
 *.html=🌎:\
 *.xml=📰:\
-*.gpg=🔒:\
+*.gpg=🔑:\
 *.css=🎨:\
 *.pdf=📚:\
 *.djvu=📚:\
@@ -95,6 +95,8 @@ ex=🎯:\
 *.rar=📦:\
 *.7z=📦:\
 *.tar.gz=📦:\
+*.tar.bz=📦:\
+*.tar.xz=📦:\
 *.1=ℹ:\
 *.nfo=ℹ:\
 *.info=ℹ:\
@@ -103,6 +105,7 @@ ex=🎯:\
 *.img=📀:\
 *.part=💔:\
 *.torrent=🔽:\
+*.o=📑:\
 "
 
 # Start graphical server on tty1 if not already running.

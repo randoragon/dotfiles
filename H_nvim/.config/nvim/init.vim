@@ -144,6 +144,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <Bar> <C-w><Bar>
 nnoremap _ <C-w>_
+nnoremap <C-w>x :Bclose<CR>
 set splitbelow
 set splitright
 

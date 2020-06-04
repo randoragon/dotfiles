@@ -1,4 +1,8 @@
+# Options (https://newsboat.org/releases/2.10.2/docs/newsboat.html#_first_steps)
 auto-reload yes
+cleanup-on-quit yes
+display-article-progress yes
+goto-next-feed yes
 
 # Vim keys
 bind-key j down
@@ -18,7 +22,6 @@ bind-key n next-unread
 bind-key N prev-unread
 bind-key D pb-download
 bind-key U show-urls
-bind-key x pb-delete
 bind-key x close-dialog
 bind-key ^N next-dialog
 bind-key ^P prev-dialog
@@ -26,6 +29,8 @@ bind-key ^S save
 bind-key s sort
 bind-key S rev-sort
 bind-key T clear-tag
+
+unbind-key D # delete-article
 
 # Color (https://newsboat.org/releases/2.10.2/docs/newsboat.html#_configuring_colors)
 color background white black

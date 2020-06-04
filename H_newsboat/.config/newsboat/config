@@ -1,0 +1,50 @@
+auto-reload yes
+
+# Vim keys
+bind-key j down
+bind-key j next articlelist
+bind-key k up
+bind-key k prev articlelist
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+bind-key G end
+bind-key g home
+bind-key d pagedown
+bind-key u pageup
+bind-key l open
+bind-key h quit
+bind-key a toggle-article-read
+bind-key n next-unread
+bind-key N prev-unread
+bind-key D pb-download
+bind-key U show-urls
+bind-key x pb-delete
+bind-key x close-dialog
+bind-key ^N next-dialog
+bind-key ^P prev-dialog
+bind-key ^S save
+bind-key s sort
+bind-key S rev-sort
+bind-key T clear-tag
+
+# Color (https://newsboat.org/releases/2.10.2/docs/newsboat.html#_configuring_colors)
+color background white black
+color article white black
+color listnormal white black
+color listfocus black white
+color listnormal_unread white black bold
+color listfocus_unread black white bold
+color info black blue bold
+
+# Highlight (https://newsboat.org/releases/2.10.2/docs/newsboat.html#_highlighting_text)
+highlight article "^Feed:.*" green default
+highlight article "^Feed:" green default bold
+highlight article "^Title:.*" yellow default
+highlight article "^Title:" yellow default bold
+highlight article "^Author:.*" red default
+highlight article "^Author:" red default bold
+highlight article "^Date:.*" magenta default
+highlight article "^Date:" magenta default bold
+highlight article "^(Link|.*URL):.*" cyan default
+highlight article "^(Link|.*URL):" cyan default bold
+

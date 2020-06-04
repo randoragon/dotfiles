@@ -74,7 +74,8 @@ sudo pacman -S --needed \
     atomicparsley \
     zathura zathura-cb zathura-pdf-poppler \
     marked wkhtmltopdf \
-    shellcheck
+    shellcheck \
+    newsboat
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh
@@ -171,6 +172,7 @@ stow H_lynx
 stow H_mime
 stow H_mpd
 stow H_ncmpcpp
+stow H_newsboat
 stow H_nvim
 stow H_picom
 stow H_polybar

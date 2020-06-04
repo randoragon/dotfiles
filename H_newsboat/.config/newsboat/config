@@ -2,7 +2,13 @@
 auto-reload yes
 cleanup-on-quit yes
 display-article-progress yes
-goto-next-feed yes
+goto-next-feed no
+confirm-exit yes
+
+# Define filters
+define-filter YouTube "tags # \"youtube\""
+define-filter Podcasts "tags # \"podcast\""
+define-filter News "tags # \"news\""
 
 # Vim keys
 bind-key j down
@@ -29,6 +35,9 @@ bind-key ^S save
 bind-key s sort
 bind-key S rev-sort
 bind-key T clear-tag
+bind-key F clear-filter
+bind-key ^F set-filter
+bind-key q hard-quit
 
 unbind-key D # delete-article
 

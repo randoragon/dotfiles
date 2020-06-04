@@ -13,6 +13,7 @@ alias vrc='vim ~/.config/nvim/init.vim'
 alias api='vim ~/dotfiles/H_scripts/.scripts/arch_postinstall.sh'
 alias xbk='vim ~/.xbindkeysrc'
 alias xres='vim ~/.Xresources'
+alias rss='vim ~/.config/newsboat/urls'
 
 # Directories
 alias cdoc='cd ~/Documents && ls'

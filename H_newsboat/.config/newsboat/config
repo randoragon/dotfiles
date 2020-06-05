@@ -8,11 +8,14 @@ download-path "~/Downloads/Podcasts/%n/"
 player "mpv --audio-display=no --no-video"
 show-read-feeds no
 show-read-articles yes
+feed-sort-order lastupdated-desc
+article-sort-order date-asc
 
 # Define filters
 define-filter YouTube "tags # \"youtube\""
 define-filter Podcasts "tags # \"podcast\""
 define-filter News "tags # \"news\""
+define-filter Music "tags # \"music\""
 
 # Keybindings
 bind-key j down

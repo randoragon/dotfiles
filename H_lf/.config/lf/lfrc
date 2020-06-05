@@ -7,7 +7,7 @@ map <f-3> :info
 map <f-4> $$EDITOR -- "$f"
 map <f-5> :echo "Dual session not detected"
 map <f-6> :echo "Dual session not detected"
-map <f-7> &lf -remote "send $id push :mkdir<space>"
+map <f-7> &lf -remote "send $id push \&mkdir<space>"
 map <f-8> :trash
 
 # Initialization of a dual session

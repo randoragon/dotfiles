@@ -1,19 +1,24 @@
 #!/bin/sh
 
 # Traverses all playlists from the playlist directory
-# and removes all lines that don't contain real paths
+# and removes all lines that don't contain real paths.
+# Info about the last run gets saved to a log file.
 
 pldir="$HOME/Music/Playlists"
 music="$HOME/Music"
+log="$HOME/.local/share/plfix-latest.log"
 
 counter="$(mktemp -p /tmp plfix.XXXXX)"
 printf 0 >"$counter"
+printf '' >"$log"
 find "$pldir" -maxdepth 1 -type f -name '*.m3u' | while read -r f; do
     i=1
+    printf "%s\n" "$f" >>"$log"
     cat -- "$f" | while read -r l; do
         [ ! -f "$music/$l" ] && {
             sed -i "$i""d" "$f"
             i=$((i - 1))
+            printf "\t%s\n" "$l" >>"$log"
             printf "%s" "$(($(cat -- "$counter") + 1))" >"$counter"
         }
         i=$((i + 1))

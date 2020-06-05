@@ -51,10 +51,16 @@ map \\ :find-prev
 map ,
 map ,p :set preview!
 
-# Create directory
-cmd mkdir %{{
-    mkdir -- "$1"
+# Custom file opener based on mime types
+cmd open &{{
+    case $(file --mime-type $f -b) in
+        *)
+            for f in $fx; do
+                setsid xdg-open "$f" >/dev/null 2>/dev/null & done
+        ;;
+    esac
 }}
+
 
 # Trash and delete files
 map x :trash

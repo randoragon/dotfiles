@@ -9,7 +9,7 @@ num="${num%% *}"
 bg="002222"
 fg="00ffff"
 
-if [ "$num" = 0 ]; then
+if [ -z "$num" ] || [ "$num" = 0 ]; then
     printf "\n"
 else
     printf "%%{B#%s}%%{F#%s}   %s %%{F- B-}\n" "$bg" "$fg" "$num"

@@ -217,7 +217,7 @@ format = <label>
 
 [module/newsboat]
 type = custom/script
-interval = 600
+interval = 10
 exec = sh -c "$HOME/.scripts/newsboat_polybar"
 click-left = "setsid $HOME/.scripts/terminal_run_newsboat"
 format = <label>

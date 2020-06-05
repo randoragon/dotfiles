@@ -5,7 +5,7 @@ display-article-progress yes
 goto-next-feed no
 confirm-exit yes
 download-path "~/Downloads/Podcasts/%n/"
-player "mpv"
+player "mpv --audio-display=no --no-video"
 show-read-feeds no
 show-read-articles yes
 
@@ -48,6 +48,7 @@ unbind-key D # delete-article
 
 # Macros
 macro o set browser "mpv %u" ; open-in-browser ; set browser "$BROWSER"
+macro O set browser "mpv --audio-display=no --no-video %u" ; open-in-browser ; set browser "$BROWSER"
 macro d set browser "wget -np -P ~/Downloads %u" ; open-in-browser ; set browser "$BROWSER"
 macro u set browser "printf %u | copyq add - ; copyq select 0" ; open-in-browser ; set browser "$BROWSER"
 

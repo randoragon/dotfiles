@@ -1,15 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
 # Small Arch Linux script that prints the number of pending updates,
 # saves the number in a small text file
 # and uses polybar formatting to pass fg and bg colors.
 # Tints it yellow normally, or sea-green if there's a linux kernel update.
 # Deps: pacman-contrib
-
-#!/bin/sh
-
-# Fetches the number of pacman updates (official repositories)
-# and if non 0, saves the number in FILE.
 
 FILE="$HOME/.cache/updatecount"
 

@@ -47,9 +47,9 @@ bind-key ^M toggle-source-view
 unbind-key D # delete-article
 
 # Macros
-macro o open-in-browser ; toggle-article-read "read"
-macro O set browser "mpv %u" ; open-in-browser ; toggle-article-read "read" ; set browser "$BROWSER"
+macro o set browser "mpv %u" ; open-in-browser ; set browser "$BROWSER"
 macro d set browser "wget -np -P ~/Downloads %u" ; open-in-browser ; set browser "$BROWSER"
+macro u set browser "printf %u | copyq add - ; copyq select 0" ; open-in-browser ; set browser "$BROWSER"
 
 # Color (https://newsboat.org/releases/2.10.2/docs/newsboat.html#_configuring_colors)
 color background white black

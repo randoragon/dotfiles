@@ -49,6 +49,8 @@ unbind-key D # delete-article
 # Macros
 macro o set browser "mpv %u" ; open-in-browser ; set browser "$BROWSER"
 macro O set browser "mpv --audio-display=no --no-video %u" ; open-in-browser ; set browser "$BROWSER"
+macro m set browser "youtube-dl -x -o '~/Downloads/Music/%%(title)s.%%(ext)s' --no-playlist --audio-quality 0 --audio-format mp3 %u" ; open-in-browser ; set browser "$BROWSER"
+macro M set browser "youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' -o '~/Downloads/%%(title)s.%%(ext)s' --write-sub --no-playlist --embed-subs %u" ; open-in-browser ; set browser "$BROWSER"
 macro d set browser "wget -np -P ~/Downloads %u" ; open-in-browser ; set browser "$BROWSER"
 macro u set browser "printf %u | copyq add - ; copyq select 0" ; open-in-browser ; set browser "$BROWSER"
 

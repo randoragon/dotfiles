@@ -32,7 +32,7 @@ import:
 paths:
     default: $albumartist/$album%aunique{}/$title
     singleton: $artist/no album/$title
-    comp: Compilations/$album%aunique{}/$title
+    comp: Various Artists/$album%aunique{}/$title
 
 # PLUGINS ----------------------------------------------------
 # https://beets.readthedocs.io/en/stable/plugins/index.html

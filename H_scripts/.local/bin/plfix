@@ -3,10 +3,21 @@
 # Traverses all playlists from the playlist directory
 # and removes all lines that don't contain real paths.
 # Info about the last run gets saved to a log file.
+#
+# USAGE
+# plfix [-p, --pretend]
+#
+# The pretend option will only produce the log file
+# and not touch the actual playlists
 
 pldir="$HOME/Music/Playlists"
 music="$HOME/Music"
 log="$HOME/.local/share/plfix-latest.log"
+
+pretend=
+if [ "$1" = '-p' ] || [ "$1" = '--pretend' ]; then
+    pretend=1
+fi
 
 counter="$(mktemp -p /tmp plfix.XXXXX)"
 printf 0 >"$counter"
@@ -16,7 +27,7 @@ find "$pldir" -maxdepth 1 -type f -name '*.m3u' | while read -r f; do
     printf "%s\n" "$f" >>"$log"
     cat -- "$f" | while read -r l; do
         [ ! -f "$music/$l" ] && {
-            sed -i "$i""d" "$f"
+            [ -z "$pretend" ] && sed -i "$i""d" "$f"
             i=$((i - 1))
             printf "\t%s\n" "$l" >>"$log"
             printf "%s" "$(($(cat -- "$counter") + 1))" >"$counter"
@@ -27,8 +38,8 @@ done
 
 count="$(cat -- "$counter")"
 if [ "$count" -gt 0 ]; then
-    notify-send -u low "plfix" "Removed <b>$count</b> invalid path$([ "$count" -eq 1 ] || printf s)"
+    printf "%s %s invalid path%s\n" "$(if [ -z "$pretend" ]; then printf "Removed"; else printf "Detected"; fi)" "$count" "$([ "$count" -eq 1 ] || printf s)"
 else
-    notify-send -u low "plfix" "No invalid paths found"
+    printf "No invalid paths found\n"
 fi
 rm -- "$counter"

@@ -12,7 +12,7 @@
 # - y   : copy filename to clipboard
 # - Y   : copy full path to clipboard
 
-while read file; do
+while read -r file; do
 	case "$1" in
         'w') chwall "$file" ;;
 		'greater') convert -rotate 90 "$file" "$file" ;;
@@ -20,14 +20,14 @@ while read file; do
 		'question') convert -rotate 180 "$file" "$file" ;;
 		'bar') convert -flop "$file" "$file" ;;
 		'underscore') convert -rotate 180 -flop "$file" "$file" ;;
-		'C-c') copyq write "$(xdg-mime query filetype "$file")" - < "$file" &&
+		'C-c') copyq write "$(xdg-mime query filetype "$file")" - <"$file" &&
                copyq select 0 &&
 			   notify-send -i "$(readlink -f "$file")" "$file" "Image copied to clipboard" ;;
-		'y') echo -n "$file" | copyq add - && copyq select 0 &&
+		'y') printf "%s" "$file" | copyq add - && copyq select 0 &&
 			 notify-send -i "$(readlink -f "$file")" "$(basename -- "$file")" "Name copied to clipboard" ;;
 		'Y') readlink -f "$file" | tr -d '\n' | copyq add - && copyq select 0 &&
 			 notify-send -i "$(readlink -f "$file")" "$(readlink -f "$file")" "Path copied to clipboard" ;;
 		'g') notify-send -i "$(readlink -f "$file")" "$file" "Launching in GIMP..." && gimp "$file" & ;;
-        'd') [ "$(echo "yes\nno" | dmenu -p "Delete image?")" = yes ] && rm -f -- "$file"
+        'd') [ "$(printf "yes\nno\n" | dmenu -p "Delete image?")" = yes ] && rm -f -- "$file"
 	esac
 done

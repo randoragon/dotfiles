@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Wrapper for newsboat to "send" notifications.
+# In reality I'm just parsing and dropping the info
+# about unread stuff into a file, and that file
+# is read and visualized by polybar.
+
+file="$HOME/.cache/newsboat_notify"
+
+feeds="$(printf "%s" "$1" | grep -Po '[0-9]+(?= unread feeds)')"
+articles="$(printf "%s" "$1" | grep -Po '[0-9]+(?= unread articles)')"
+
+if [ -z "$feeds" ] || [ -z "$articles" ] || [ "$feeds" = 0 ] || [ "$articles" = 0 ]; then
+    echo '' >"$file"
+else
+    fg="22EEFF"
+    bg="113344"
+    output="%{B#$bg}%{F#$fg}  $feeds/$articles %{F- B-}"
+    printf "%s\n" "$output" >"$file"
+fi

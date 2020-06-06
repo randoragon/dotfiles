@@ -12,6 +12,3 @@
 
 # Push data to OneDrive
 0 12 * * 0 ~/.local/bin/odpush
-
-# Reload Newsboat RSS feeds
-*/10 * * * * newsboat -x reload

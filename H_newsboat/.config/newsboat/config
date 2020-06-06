@@ -1,5 +1,6 @@
 # Options (https://newsboat.org/releases/2.10.2/docs/newsboat.html#_first_steps)
 auto-reload yes
+reload-time 5
 cleanup-on-quit yes
 display-article-progress yes
 goto-next-feed no
@@ -10,6 +11,8 @@ show-read-feeds no
 show-read-articles yes
 feed-sort-order lastupdated-desc
 article-sort-order date-asc
+notify-always yes
+notify-program "~/.scripts/newsboat_notify"
 
 # Define filters
 define-filter YouTube "tags # \"youtube\""
@@ -47,9 +50,8 @@ bind-key ^F set-filter
 bind-key q hard-quit
 bind-key ^L toggle-show-read-feeds
 bind-key ^M toggle-source-view
-bind-key r pb-purge
+bind-key r reload
 unbind-key D # delete-article
-unbind-key P # pb-purge
 
 # Macros
 macro o set browser "mpv %u" ; open-in-browser ; set browser "$BROWSER"

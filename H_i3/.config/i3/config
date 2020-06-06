@@ -305,8 +305,6 @@ for_window [class="(?i)sxiv"] floating enable, border normal
 for_window [class="(?i)flameshot"] floating enable, border none
 ## mpv
 for_window [class="(?i)mpv"] floating enable, border normal
-## megasync
-for_window [class="(?i)megasync"] floating enable, border none
 ## glava
 for_window [class="(?i)glava"] border none
 

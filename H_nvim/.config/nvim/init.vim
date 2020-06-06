@@ -4,6 +4,7 @@
 set nowrap
 set number
 set path+=** " Enables recursive :find
+set mouse=a
 let mapleader=','
 nnoremap \ ,
 nnoremap <Leader>w :set wrap! linebreak!<CR>

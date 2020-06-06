@@ -15,6 +15,6 @@ if [ -z "$feeds" ] || [ -z "$articles" ] || [ "$feeds" = 0 ] || [ "$articles" = 
 else
     fg="22EEFF"
     bg="113344"
-    output="%{B#$bg}%{F#$fg}  $feeds/$articles %{F- B-}"
+    output="%{B#$bg}%{F#$fg}  $articles/$feeds %{F- B-}"
     printf "%s\n" "$output" >"$file"
 fi

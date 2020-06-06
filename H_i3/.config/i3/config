@@ -272,6 +272,10 @@ bindsym $mod+p [class="scratch-term"] scratchpad show
 for_window [class="scratch-music"] floating enable, border normal, move to scratchpad
 no_focus [class="scratch-music"]
 bindsym $mod+m [class="scratch-music"] scratchpad show
+## newsboat
+for_window [class="scratch-newsboat"] floating enable, border normal, move to scratchpad
+no_focus [class="scratch-newsboat"]
+bindsym $mod+n [class="scratch-newsboat"] scratchpad show
 ## thunderbird
 assign [class="(?i)thunderbird"] ""
 no_focus [class="(?i)thunderbird"]
@@ -310,6 +314,7 @@ for_window [class="(?i)glava"] border none
 bindsym $mod+Shift+p exec i3-sensible-terminal -c scratch-term -t "Scratch Term"
 bindsym $mod+Shift+m exec i3-sensible-terminal -c scratch-music -e ncmpcpp
 bindsym $mod+Shift+o exec keepassxc
+bindsym $mod+Shift+n exec i3-sensible-terminal -c scratch-newsboat -e dualboat
 bindsym Control+$alt+l exec "physlock"
 
 # Set default workspace to 1 (must be set before startup calls!)

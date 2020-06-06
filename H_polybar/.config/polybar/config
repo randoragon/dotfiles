@@ -48,7 +48,7 @@ font-2 = dejavu sans:fontformat=truetype:size=8:antialias=true;3
 font-3 = dejavu sans:fontformat=truetype:size=8:weight=bold:antialias=true;3
 modules-left = i3 pulseaudio mpd
 modules-center = date
-modules-right = updates newsboat filesystem memory cpu cputemp wlan eth battery
+modules-right = updates filesystem memory cpu cputemp wlan eth battery
 tray-position = right
 tray-padding = 1
 tray-background = ${colors.background}
@@ -213,13 +213,6 @@ type = custom/script
 interval = 10
 exec = sh -c 'cat "$HOME/.cache/updatecount" 2>&-'
 click-left = "setsid $HOME/.scripts/terminal_run_sysupdate"
-format = <label>
-
-[module/newsboat]
-type = custom/script
-interval = 10
-exec = sh -c "$HOME/.scripts/newsboat_polybar"
-click-left = "setsid $HOME/.scripts/terminal_run_newsboat"
 format = <label>
 
 [settings]

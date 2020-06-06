@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# This script is a simple wrapper for running mp3gain recursively
+# on a library full of mp3 music files.
+# Last run gets stored in a log file as a sanity check.
+
+musicdir=~/Music
+log=~/.cache/normalize-latest.log
+
+# Filter out the lines that state no changes
+find "$musicdir" -type f -name '*.mp3' -print0 | xargs -0 mp3gain -s i -r -e -c \
+    | sed -n '/^\(No changes to \|\/\)/!{H;g;p} ; h' >"$log"
+
+# View the log if any changes were made
+[ -n "$(cat "$log")" ] && "$PAGER" "$log"

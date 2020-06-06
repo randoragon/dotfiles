@@ -11,8 +11,7 @@
 odroot="$HOME/OneDrive"
 
 # This holds the output of the last onedrive command
-log="$HOME/.cache/onedrive/latest.log"
-[ ! -d "$HOME/.cache/onedrive" ] && mkdir -p "$HOME/.cache/onedrive"
+log="$HOME/.cache/odpush-latest.log"
 
 # Argument 1: source path (follows rsync's trailing slash convention)
 # The data will be saved inside the Sync directory on OneDrive

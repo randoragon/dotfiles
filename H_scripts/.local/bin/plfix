@@ -39,6 +39,7 @@ done
 count="$(cat -- "$counter")"
 if [ "$count" -gt 0 ]; then
     printf "%s %s invalid path%s\n" "$(if [ -z "$pretend" ]; then printf "Removed"; else printf "Detected"; fi)" "$count" "$([ "$count" -eq 1 ] || printf s)"
+    less "$log"
 else
     printf "No invalid paths found\n"
 fi

@@ -34,8 +34,8 @@ bind-key a toggle-article-read
 bind-key n next-unread
 bind-key N prev-unread
 bind-key U show-urls
-bind-key X close-dialog
-bind-key X pb-delete
+bind-key x close-dialog
+bind-key x pb-delete
 bind-key ^N next-dialog
 bind-key ^P prev-dialog
 bind-key ^S save
@@ -47,7 +47,9 @@ bind-key ^F set-filter
 bind-key q hard-quit
 bind-key ^L toggle-show-read-feeds
 bind-key ^M toggle-source-view
+bind-key r pb-purge
 unbind-key D # delete-article
+unbind-key P # pb-purge
 
 # Macros
 macro o set browser "mpv %u" ; open-in-browser ; set browser "$BROWSER"

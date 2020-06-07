@@ -273,9 +273,9 @@ for_window [class="scratch-music"] floating enable, border normal, move to scrat
 no_focus [class="scratch-music"]
 bindsym $mod+m [class="scratch-music"] scratchpad show
 ## newsboat
-for_window [class="scratch-newsboat"] floating enable, border normal, move to scratchpad
-no_focus [class="scratch-newsboat"]
-bindsym $mod+n [class="scratch-newsboat"] scratchpad show
+for_window [class="scratch-dualboat"] floating enable, border normal, move to scratchpad
+no_focus [class="scratch-dualboat"]
+bindsym $mod+n [class="scratch-dualboat"] scratchpad show
 ## thunderbird
 assign [class="(?i)thunderbird"] ""
 no_focus [class="(?i)thunderbird"]
@@ -312,7 +312,7 @@ for_window [class="(?i)glava"] border none
 bindsym $mod+Shift+p exec i3-sensible-terminal -c scratch-term -t "Scratch Term"
 bindsym $mod+Shift+m exec i3-sensible-terminal -c scratch-music -e ncmpcpp
 bindsym $mod+Shift+o exec keepassxc
-bindsym $mod+Shift+n exec i3-sensible-terminal -c scratch-newsboat -e dualboat
+bindsym $mod+Shift+n exec i3-sensible-terminal -c scratch-dualboat -e dualboat
 bindsym Control+$alt+l exec "physlock"
 
 # Set default workspace to 1 (must be set before startup calls!)
@@ -326,6 +326,7 @@ exec_always --no-startup-id "~/.config/polybar/launch.sh"
 exec --no-startup-id "~/.xprofile"
 exec --no-startup-id "i3-sensible-terminal -c scratch-term -t 'Scratch Term'"
 exec --no-startup-id "i3-sensible-terminal -c scratch-music -e ncmpcpp"
+exec --no-startup-id "i3-sensible-terminal -c scratch-dualboat -e dualboat"
 
 # Custom i3 Keybindings
 bindsym $mod+Shift+minus move scratchpad

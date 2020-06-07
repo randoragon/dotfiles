@@ -3,6 +3,15 @@
 # This script is a simple wrapper for running mp3gain recursively
 # on a library full of mp3 music files.
 # Last run gets stored in a log file as a sanity check.
+#
+# mp3gain acts on the replaygain values stored in id3v2 tags,
+# so before you run this command be sure those are up to date.
+# Here's a list of steps for normalizing music, in order:
+# 
+# 1. Run `beet replaygain -f ...` (run by default during import)
+# 2. Run `beet write ...` to save replaygain in the physical files
+# 3. Run `normalize` to adjust music and after that recalculate replaygain tags
+# 4. Run `beet update ...` to update the recalculated replaygain tags
 
 musicdir=~/Music
 log=~/.cache/normalize-latest.log

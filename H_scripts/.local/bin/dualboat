@@ -6,7 +6,7 @@
 
 tmux new-session \; \
     bind-key -n M-Tab select-window -t:+1 \; \
-    bind-key -n q kill-session \; \
+    bind-key -n C-q kill-session \; \
     send-keys 'exec newsboat' C-m \; \
     new-window \; \
     send-keys 'exec podboat' C-m \; \

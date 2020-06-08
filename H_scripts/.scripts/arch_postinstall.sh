@@ -4,9 +4,10 @@
 # Most software and tools that I use will be installed automatically.
 
 eprint () { fprint "arch_postinstall.sh: %s\n" "$*" >&2; }
+ecd () { cd "$1" || { eprint "failed to cd" && exit 1; } }
 
 # Create basic folder structures
-cd ~ || { eprint "failed to cd" && exit 1; }
+ecd ~
 mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
     Projects/Dev Projects/Art Projects/Video Projects/Music Projects/Other \
     .scripts .local/bin .sfx .local/share/wallpapers .local/share/applications .local/share/nvim/backup .local/share/mpd .local/share/ncmpcpp
@@ -103,12 +104,12 @@ sudo sed -i 's/^Exec=[^ ]*/& --no-splash/' /usr/share/applications/gimp.desktop
 
 # Install yay
 if [ -z "$(command -v yay)" ]; then
-    cd ~ || { eprint "failed to cd" && exit 1; }
+    ecd ~
     git clone https://aur.archlinux.org/yay.git
-    cd yay || { eprint "failed to cd" && exit 1; }
+    ecd yay
     makepkg -si
     wait
-    cd ~ || { eprint "failed to cd" && exit 1; }
+    ecd ~
     rm -rf yay
 fi
 
@@ -153,10 +154,10 @@ sudo systemctl start NetworkManager.service
 
 # Download and apply dotfiles
 [ ! -d ~/dotfiles ] && {
-    cd ~ || { eprintf "failed to cd" && exit 1; }
+    ecd ~
     git clone 'https://github.com/Randoragon/dotfiles'
 }
-cd ~/dotfiles || { eprint "failed to cd" && exit 1; }
+ecd ~/dotfiles
 git pull
 rm -- ~/.bashrc ~/.bash_profile
 stow H_beets
@@ -201,7 +202,7 @@ sudo systemctl start ntpd.service
 # Enable cronie and install crontabs
 sudo systemctl enable cronie.service
 sudo systemctl start cronie.service
-cd ~/dotfiles || { eprint "failed to cd" && exit 1; }
+ecd ~/dotfiles
 [ -f crontab ] && cat crontab | crontab - <crontab
 [ -f cronroot ] && sudo sh -c 'cat cronroot | crontab -'
 
@@ -221,9 +222,9 @@ sudo ln -sTf /usr/bin/pinentry-tty /usr/bin/pinentry
 
 # Install my fork of suckless terminal
 if [ -z "$(command -v st)" ]; then
-    cd ~/Software || { eprint "failed to cd" && exit 1; }
+    ecd ~/Software
     git clone https://github.com/randoragon/st
-    cd st || { eprint "failed to cd" && exit 1; }
+    ecd st
     sudo make install
     sudo ln -sTf /usr/local/bin/st /usr/local/bin/x-terminal-emulator
     find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
@@ -231,5 +232,15 @@ else
     echo "Suckless terminal detected, skipping."
 fi
 
-cd ~ || { eprint "failed to cd" && exit 1; }
+# Install brbtimer
+if [ -z "$(command -v brbtimer)" ]; then
+    ecd ~/Software
+    git clone https://github.com/randoragon/brbtimer
+    ecd brbtimer
+    sudo make install
+else
+    echo "brbtimer detected, skipping."
+fi
+
+ecd ~
 

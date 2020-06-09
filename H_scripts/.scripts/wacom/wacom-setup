@@ -1,0 +1,8 @@
+# This file is sourced in xinitrc and it exports some variables
+# related to managing Wacom devices.
+# This file has nothing to do with plugging in a Wacom device
+# or configuring a device, for that refer to the wacom-init file.
+
+WACOM_INIT_FILE="/tmp/wacom-init"
+WACOM_RMB_FILE="/tmp/wacom-rmb"
+export WACOM_INIT_FILE WACOM_RMB_FILE

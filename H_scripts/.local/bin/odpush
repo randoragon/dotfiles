@@ -7,6 +7,9 @@
 # DEPENDENCIES
 # - OneDrive Client for Linux (https://github.com/abraunegg/onedrive)
 
+# List of absolute paths to send to OneDrive
+sourcelist="$HOME/.config/odpush.list"
+
 # This represents the remote OneDrive root directory
 odroot="$HOME/OneDrive"
 
@@ -27,4 +30,22 @@ push () {
     grep -q 'ERROR' "$log" && notify-send -u critical "odpush" "An error occurred while uploading to OneDrive.\nSee <b>$(printf "%s" "$log" | sed "s/\/home\/[^/]*/\~/")</b>\nfor more information."
 }
 
-push ~/Music
+[ ! -f "$sourcelist" ] && echo "odpush: sources list file not found" >&2 && exit 1
+
+while read -r line; do
+    # Strip comments
+    line="$(printf "%s\n" "$line" | sed 's/#.*//')"
+
+    # Convert tilde to $HOME
+    line="$(printf "%s\n" "$line" | sed "s/^\~/$(printf "%s\n" "$HOME" | sed 's|/|\\/|g')/g")"
+
+    # If there's a path left, push it
+    if [ -n "$line" ]; then
+        if [ -d "$line" ]; then
+            push "$line"
+        else
+            printf "odpush: directory '%s' does not exist (skipping)\n" "$line" >&2
+        fi
+    fi
+done <"$sourcelist"
+

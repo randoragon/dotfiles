@@ -60,3 +60,4 @@ mp3gain | `*mp3gain` | MP3 Gain Analyzer | reliable for mass normalization of mu
 pulsemixer | `pulsemixer` | PulseAudio Frontend | simple and competent terminal volume mixer, replaces pavucontrol
 gromit-mpx | `*gromit-mpx-git` | Screen Annotator | basic over the screen drawing, multi-pointer devices support
 Newsboat | `newsboat` | RSS Feed Reader |
+Calibre | `calibre-python3` | E-Book Library Manager

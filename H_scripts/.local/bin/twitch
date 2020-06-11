@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# This script intakes a twitch username and spawns two windows,
+# mpv displaying the transmission and firefox with popup chat.
+#
+# Dependencies:
+#   - mpv
+#   - browser with a "--new-window" option (for example firefox)
+#   - youtube-dl (for streaming through mpv)
+
+help () {
+printf 'SYNOPSIS
+    twitch [-h, --help] [-c, --chat] [-v, --video] USERNAME
+
+    Intakes a twitch username and spawns two windows, one
+    containing the live video stream, the other containing
+    popout live chat.
+
+OPTIONS
+  -h, --help
+      Prints this help message
+
+  -c, --chat
+      Only opens the chat window
+
+  -v, --video
+      Only opens the mpv window
+'
+}
+
+video=1
+chat=1
+
+case "$1" in
+    -h|--help) help; exit ;;
+    -c|--chat) video= ; shift ;;
+    -v|--video) chat= ; shift ;;
+esac
+
+username="$1"
+
+[ -n "$video" ] && setsid mpv "https://www.twitch.tv/$username"
+[ -n "$chat" ] && setsid "$BROWSER" --new-window "https://www.twitch.tv/popout/$username/chat?popout="

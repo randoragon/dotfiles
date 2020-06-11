@@ -49,7 +49,7 @@ relfile="$(realpath --relative-to "$mroot" -- "$file" | sed 's/\.\.\/Downloads\/
 grep -qF -- "$relfile" "$plist" && notify-send -u low "pladd" "\"$title\" is already on the <b>$plname</b> playlist." && exit
 
 # Add the path to the playlist
-printf '\n%s' "$relfile" >>"$plist"
+printf '%s\n' "$relfile" >>"$plist"
 sed -i '/^$/d' "$plist"
 
 # Verify the item was added correctly

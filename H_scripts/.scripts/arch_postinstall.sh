@@ -121,7 +121,6 @@ yay -Sa --needed \
     ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
     numix-gtk-theme numix-icon-theme-git \
-    snapd \
     screenkey \
     id3ted \
     rar \
@@ -212,10 +211,6 @@ sudo systemctl enable bluetooth.service
 # Symlink deprecated mimelist for old applications
 # Source: https://wiki.archlinux.org/index.php/XDG_MIME_Applications#mimeapps.list
 [ -L ~/.local/share/applications/mimeapps.list ] || ln -s ~/.config/mimeapps.list ~/.local/share/applications/mimeapps.list
-
-# Finalize snap installation
-sudo systemctl enable snapd.socket
-[ -L /snap ] || sudo ln -s /var/lib/snapd/snap /snap
 
 # Configure gpg-agent default authorization program
 sudo ln -sTf /usr/bin/pinentry-tty /usr/bin/pinentry

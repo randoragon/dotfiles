@@ -118,7 +118,7 @@ yay -Syua
 yay -Sa --needed \
     xbindkeys \
     polybar \
-    ttf-unifont \
+    ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
     numix-gtk-theme numix-icon-theme-git \
     snapd \
@@ -131,7 +131,8 @@ yay -Sa --needed \
     mp3gain \
     gromit-mpx-git \
     nerd-fonts-dejavu-complete \
-    lf
+    lf \
+    libxft-bgra
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib

@@ -35,6 +35,7 @@ export BROWSER=firefox
 export PAGER=less
 
 # Default directories
+export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
 export XDG_DATA_HOME="$HOME/.local/share"
 export TRASH="$HOME/.local/share/Trash/files"
@@ -108,5 +109,9 @@ ex=🎯:\
 *.o=📑:\
 "
 
-# Start graphical server on tty1 if not already running.
-[ "$(tty)" = "/dev/tty1" ] && ! pgrep -x Xorg >/dev/null && exec startx
+# Start graphical server on tty1 if not already running, otherwise start tmux
+if [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x Xorg >/dev/null; then
+    exec startx
+elif command -v tmux; then
+    tmux
+fi

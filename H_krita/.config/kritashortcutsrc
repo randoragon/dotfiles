@@ -1,0 +1,18 @@
+[Shortcuts]
+KisToolPath=Shift+B
+KisToolSelectContiguous=W
+KisToolSelectElliptical=Shift+M
+KisToolSelectPolygonal=Ctrl+M
+KisToolSelectRectangular=M
+KisToolSelectSimilar=Shift+W
+ToolReferenceImages=Ctrl+R
+ZoomTool=Z
+deselect=Ctrl+Shift+A; Ctrl+D
+krita_filter_perchannel=none
+level_of_detail_mode=none
+merge_layer=none
+show_color_history=Shift+H
+show_common_colors=Shift+U
+show_minimal_shade_selector=none
+show_mypaint_shade_selector=Shift+L
+view_toggle_reference_images=Shift+R

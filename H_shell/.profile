@@ -11,17 +11,16 @@
 # profile files to this one (e.g. 'ln -s ~/.profile ~/.zprofile').
 
 # Add custom PATH entries
-# (function copied from /etc/profile)
-appendpath () {
-    case ":$PATH:" in
-        *:"$1":*)
-            ;;
-        *)
-            PATH="${PATH:+$PATH:}$1"
-    esac
+# user-specific paths take precedence over defaults, that's why
+# the function prepends PATH with arguments instead of appending.
+addpath () {
+    if ! printf "%s" "$PATH" | grep -Pq "\(^\|:\)$1\(\$\|:\)"; then
+        PATH="$1:$PATH"
+    fi
 }
-appendpath "$HOME/.local/bin"
-unset appendpath
+addpath "$HOME/.local/bin"
+unset addpath
+export PATH
 
 # Locale settings
 setxkbmap -layout pl

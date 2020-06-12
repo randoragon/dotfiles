@@ -39,5 +39,5 @@ esac
 
 username="$1"
 
-[ -n "$video" ] && setsid mpv "https://www.twitch.tv/$username"
-[ -n "$chat" ] && setsid "$BROWSER" --new-window "https://www.twitch.tv/popout/$username/chat?popout="
+[ -n "$video" ] && setsid mpv "https://www.twitch.tv/$username" >/dev/null &
+[ -n "$chat" ] && setsid "$BROWSER" --new-window "https://www.twitch.tv/popout/$username/chat?popout=" >/dev/null &

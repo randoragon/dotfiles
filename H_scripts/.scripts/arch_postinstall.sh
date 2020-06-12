@@ -186,7 +186,6 @@ stow H_tmux
 stow H_xbindkeys
 stow H_xorg
 stow H_zathura
-sudo stow -t / R_scripts
 
 # Replace vi with vim and vim with nvim
 sudo ln -sfT /usr/bin/nvim /usr/bin/vim

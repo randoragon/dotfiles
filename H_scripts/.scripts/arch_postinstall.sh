@@ -41,7 +41,6 @@ sudo pacman -S --needed \
     htop xfce4-taskmanager \
     mousepad \
     fakeroot \
-    npm \
     lxappearance \
     xf86-input-libinput \
     autoconf \
@@ -84,13 +83,6 @@ sudo pacman -S --needed \
 
 # Set zsh as the default shell (requires fresh login)
 chsh -s /usr/bin/zsh
-
-# Update npm, install node-gyp and configure npm
-npm_installed="$(npm list -g --depth=0 | sed "/^\/.*/d")"
-sudo npm install -g npm
-echo "$npm_installed" | grep -q "node-gyp@" || sudo npm install -g node-gyp
-npm config set python /usr/bin/python2
-unset npm_installed
 
 # Install youtube-dl
 [ -f "/usr/local/bin/youtube-dl" ] || sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl

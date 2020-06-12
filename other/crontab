@@ -12,3 +12,7 @@
 
 # Push data to OneDrive
 0 12 * * 0 ~/.local/bin/odpush
+
+# Update filesystem database
+0 12 * * * ~/.local/bin/updatedb
+

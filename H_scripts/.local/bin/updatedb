@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# This script is an imitation of updatedb from the mlocate package.
+# It runs a find command and stores the resulting paths in a text file.
+# That file can later be grepped with the "locate" script.
+
+db=~/.cache/updatedb
+tmp="$(mktemp -p /tmp updatedb.XXXXX)"
+
+if [ -e "$db" ] && [ ! -f "$db" ]; then
+    echo "updatedb: A non-regular file already exists at the target path" >&2
+    exit 1
+fi
+
+nice -n15 find / -xdev 2>/dev/null >"$tmp"
+mv -f -- "$tmp" "$db"
+
+[ -f "$tmp" ] && rm -f -- "$tmp"

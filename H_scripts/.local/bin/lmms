@@ -1,5 +1,4 @@
 #!/bin/sh
 
-notify-send running script
 /usr/bin/lmms -c "${XDG_CONFIG_HOME:-$HOME/.config}/lmms/lmmsrc.xml"
 

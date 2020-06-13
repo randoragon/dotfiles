@@ -1,0 +1,18 @@
+#!/usr/bin/sh
+
+mcdir="${XDG_DATA_HOME:-$HOME/.local/share}/minecraft"
+/usr/bin/minecraft-launcher -l "$mcdir" -w "$mcdir"
+
+# The minecraft launcher is actually so incompetent that
+# despite changing its working directory, the launcher_log.txt
+# file still gets created at ~/.minecraft, and it's annoying.
+# Thus, if the log file is the only thing inside ~/.minecraft,
+# I move the file to the proper location and delete the directory.
+if [ -d ~/.minecraft ]; then
+    [ -f ~/.minecraft/launcher_log.txt ] && mv -f -- ~/.minecraft/launcher_log.txt "$mcdir"
+    if [ "$(find ~/.minecraft -maxdepth 1 | wc -l)" = 1 ]; then
+        rm -r -- ~/.minecraft
+    else
+        echo "minecraft-launcher wrapper warning: Unexpected content detected in ~/.minecraft" >&2
+    fi
+fi

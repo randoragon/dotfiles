@@ -35,8 +35,9 @@ export PAGER=less
 
 # Default directories
 export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
 export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
 export TRASH="$HOME/.local/share/Trash/files"
 export GOPATH="$HOME/.local/share/go"
 export WINEPREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/wine"

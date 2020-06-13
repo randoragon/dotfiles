@@ -175,6 +175,7 @@ stow H_shell
 stow H_speedcrunch
 stow H_sxiv
 stow H_tmux
+stow H_wget
 stow H_xbindkeys
 stow H_xorg
 stow H_zathura

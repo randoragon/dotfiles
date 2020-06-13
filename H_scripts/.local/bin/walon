@@ -9,7 +9,7 @@
 # if automatic theming is enabled, and with
 # 3 exclamation points if it is disabled.
 
-file="$HOME/.Xresources"
+file="${XDG_CONFIG_HOME:-$HOME/.config}/X11/Xresources"
 
 # Store the first comment line
 header="$(grep '^!!! pywal' "$file")"

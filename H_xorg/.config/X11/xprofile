@@ -1,4 +1,6 @@
-# This file is sourced whenever an X session is started,
+#!/usr/bin/sh
+
+# This file is executed whenever an X session is started,
 # it should be executed by the window manager/desktop environment.
 
 # Autostart utilities

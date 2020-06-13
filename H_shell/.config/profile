@@ -38,10 +38,22 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
-export TRASH="$HOME/.local/share/Trash/files"
-export GOPATH="$HOME/.local/share/go"
+export TRASH="${XDG_DATA_HOME:-$HOME/.local/share}/Trash/files"
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 export WINEPREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/wine"
 export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wgetrc"
+export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/pass"
+export NODE_REPL_HISTORY="${XDG_DATA_HOME:-$HOME/.local/share}/node_repl_history"
+export ICEAUTHORITY="${XDG_CACHE_HOME:-$HOME/.cache}/ICEauthority"
+export GTK_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-1.0/gtkrc-1.0"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
+export NOTMUCH_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/notmuch/notmuchrc"
+export NMBGIT="${XDG_CONFIG_HOME:-$HOME/.config}/notmuch/nmbug"
+export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
+export LESSHISTFILE=-
+export PYTHONSTARTUP="${XDG_CONFIG_HOME:-$HOME/.config}/python/pythonrc"
 
 # Start ssh-agent if not already running
 ps -e | grep "$SSH_AGENT_PID"  | grep "ssh-agent$" || eval "$(ssh-agent -s)"
@@ -113,7 +125,7 @@ ex=🎯:\
 
 # Start graphical server on tty1 if not already running, otherwise start tmux
 if [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x Xorg >/dev/null; then
-    exec startx
+    exec /usr/bin/startx "${XDG_CONFIG_HOME:-$HOME/.config}/X11/xinitrc"
 elif command -v tmux; then
     tmux
 fi

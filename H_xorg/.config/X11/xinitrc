@@ -18,10 +18,13 @@ setxkbmap -layout pl
 setxkbmap -option caps:swapescape
 
 # Read Xresources file
-[ -f "$HOME/.Xresources" ] && xrdb "$HOME/.Xresources"
+xres="${XDG_CONFIG_HOME:-$HOME/.config}/X11/Xresources"
+[ -f "$xres" ] && xrdb "$xres"
+unset xres
 
 # Export wacom related variables
 . "$HOME/.scripts/wacom/wacom-setup"
+
 
 # Setting this allows some applications to easily
 # know if they're in a graphical env or a tty

@@ -323,7 +323,7 @@ exec_always --no-startup-id "~/.config/picom/restart.sh"
 exec_always --no-startup-id "~/.config/polybar/launch.sh"
 
 # Startup Applications
-exec --no-startup-id "~/.xprofile"
+exec --no-startup-id "${XDG_CONFIG_HOME:-$HOME/.config}/X11/xprofile"
 exec --no-startup-id "i3-sensible-terminal -c scratch-term -t 'Scratch Term'"
 exec --no-startup-id "i3-sensible-terminal -c scratch-music -e ncmpcpp"
 exec --no-startup-id "i3-sensible-terminal -c scratch-dualboat -e dualboat"

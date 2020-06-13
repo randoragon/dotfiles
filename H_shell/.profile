@@ -39,6 +39,7 @@ export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.l
 export XDG_DATA_HOME="$HOME/.local/share"
 export TRASH="$HOME/.local/share/Trash/files"
 export GOPATH="$HOME/.local/share/go"
+export WINEPREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/wine"
 
 # Start ssh-agent if not already running
 ps -e | grep "$SSH_AGENT_PID"  | grep "ssh-agent$" || eval "$(ssh-agent -s)"

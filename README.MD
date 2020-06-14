@@ -24,7 +24,7 @@ Installing configs from the ".other" directory has to be done manually (or see [
 ## Installation (Arch Linux)
 
 To make matters convenient when performing a fresh system installation, I've written a single script that handles it all the way I like it.
-You can find it at ``scripts/.scripts/arch_postinstall.sh`` (or click [here](https://github.com/randoragon/dotfiles/blob/master/H_scripts/.scripts/arch_postinstall.sh)).  
+You can find it at ``scripts/.scripts/arch_postinstall.sh`` (or click [here](https://github.com/randoragon/dotfiles/blob/master/scripts/.scripts/arch_postinstall.sh)).  
 Note that this script merely installs and configures all the software that I use. It is meant to be run only once an Arch Linux [installation process](https://wiki.archlinux.org/index.php/Installation_guide) is finished.
 
 ## Disclaimer

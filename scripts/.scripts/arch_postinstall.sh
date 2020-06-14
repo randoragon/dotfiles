@@ -91,9 +91,6 @@ sudo chmod a+rx /usr/local/bin/youtube-dl
 # Install beets plugins
 sudo python3 -m pip install beets\[fetchart,lyrics,lastgenre\] pyacoustid requests pylast python-mpd2 pyxdg pathlib flask jinja2
 
-# Disable GIMP splash screen
-sudo sed -i 's/^Exec=[^ ]*/& --no-splash/' /usr/share/applications/gimp.desktop
-
 # Install yay
 if [ -z "$(command -v yay)" ]; then
     ecd ~

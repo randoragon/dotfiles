@@ -112,7 +112,7 @@ yay -Sa --needed \
     polybar \
     ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
-    numix-gtk-theme numix-icon-theme-git \
+    adapta-gtk-theme numix-icon-theme-git \
     screenkey \
     id3ted \
     rar \

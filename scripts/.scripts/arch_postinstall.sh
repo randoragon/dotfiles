@@ -150,35 +150,41 @@ sudo systemctl start NetworkManager.service
     git clone 'https://github.com/Randoragon/dotfiles'
 }
 ecd ~/dotfiles
-git pull
 rm -- ~/.bashrc ~/.bash_profile
-stow H_beets
-stow H_copyq
-stow H_dunst
-stow H_flameshot
-stow H_git
-stow H_gromit-mpx
-stow H_i3
-stow H_keepassxc
-stow H_lf
-stow H_lynx
-stow H_mime
-stow H_mpd
-stow H_ncmpcpp
-stow H_newsboat
-stow H_nvim
-stow H_picom
-stow H_polybar
-stow H_scripts
-stow H_sfx
-stow H_shell
-stow H_speedcrunch
-stow H_sxiv
-stow H_tmux
-stow H_wget
-stow H_xbindkeys
-stow H_xorg
-stow H_zathura
+
+stow beets
+./detach copyq
+stow dunst
+./detach flameshot
+stow git
+#stow glava
+stow gromit-mpx
+stow gtk
+stow i3
+./detach keepassxc
+#stow krita
+stow lf
+#stow lmms
+stow lynx
+./detach mime
+stow mpd
+stow ncmpcpp
+stow newsboat
+stow nvim
+stow picom
+stow polybar
+stow python
+#stow redshift
+stow scripts
+stow sfx
+stow shell
+./detach speedcrunch
+stow sxiv
+stow tmux
+stow wget
+stow xbindkeys
+stow xorg
+stow zathura
 
 # Replace vi with vim and vim with nvim
 sudo ln -sfT /usr/bin/nvim /usr/bin/vim
@@ -194,7 +200,7 @@ sudo systemctl start ntpd.service
 # Enable cronie and install crontabs
 sudo systemctl enable cronie.service
 sudo systemctl start cronie.service
-ecd ~/dotfiles
+ecd ~/dotfiles/.other
 [ -f crontab ] && cat crontab | crontab - <crontab
 [ -f cronroot ] && sudo sh -c 'cat cronroot | crontab -'
 

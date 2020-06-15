@@ -4,6 +4,18 @@
 # Given a list of files, it will scan their metadata and poll the user for missing values or offer
 # to overwrite the old ones. It will also optionally add them to the Fair Use m3u playlist.
 #
+# FRAMES CHEATSHEET
+# - TPE1:              artist name
+# - TIT2:              song title
+# - TCOP:              name of the license (Creative Commons, Royalty Free, etc.)
+# - COMM [license]:    written non-public justification for claimed TCOP license
+# - WXXX [license]:    URL to license terms
+# - WXXX [origin]:     URL to a playable media
+# - WXXX [website1]:   URL to the artist's website [1]
+# - COMM [website1]:   short name for website [1]
+# - WXXX [website2]:   URL to the artist's website [2]
+# - COMM [website2]:   short name for website [2]
+#
 # DEPENDENCIES
 # - id3ted
 
@@ -18,7 +30,7 @@
 }
 
 f="$1"
-[ ! -f "$f" ] && echo "addfairuse: the input must be a file" && exit 1
+[ ! -f "$f" ] || [ "$(expr "$f" : '.*\.mp3$')" = 0 ] && echo "addfairuse: the input must be a path to an mp3 file" && exit 1
 
 playlist="$HOME/Music/Playlists/Fair Use.m3u"
 
@@ -43,11 +55,14 @@ error () { printf "%s\n" "  $(tput setaf "$EFG" && tput setab "$EBG")$*$(tput se
 frames="$(id3ted -l -- "$f")"
 
 # Set up some global variables
-skip_artist=1
-skip_title=1
 skip_license=1
-skip_url=1
+skip_license_url=1
 skip_comment=1
+skip_media_url=1
+skip_website1_url=1
+skip_website1_name=1
+skip_website2_url=1
+skip_website2_name=1
 
 header "TPE1 FRAME - artist"
 # In case of remixes, the arranger counts as artist
@@ -55,51 +70,21 @@ header "TPE1 FRAME - artist"
 # The performer can be included in the title like so:
 # "title (performed by XYZ)"
 if ! printf "%s" "$frames" | grep -q "^TPE1: "; then
-    info "No artist found."
-    question "Input artist name: "
-    read -r artist
-    if [ -n "$artist" ]; then
-        skip_artist=0
-        info "Input registered successfully."
-    else info "No input. Skipping."; fi
+    info "No artist found. Please ensure basic metadata exists (artist, title)."
+    exit 1
 else
     info "Found artist: '$(printf "%s" "$frames" | sed -n 's/^TPE1: //p')'"
-    question "Is this correct? [Y/n] "
-    read -r ans
-    [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
-        question "Input new artist name: "
-        read -r artist
-        if [ -n "$artist" ]; then
-            skip_artist=0
-            info "Input registered successfully."
-        else info "No input. Skipping."; fi
-    }
 fi
 
 header "TIT2 FRAME - title"
 if ! printf "%s" "$frames" | grep -q "^TIT2: "; then
-    info "No title found."
-    question "Input title: "
-    read -r title
-    if [ -n "$title" ]; then
-        skip_title=0
-        info "Input registered successfully."
-    else info "No input. Skipping."; fi
+    info "No title found. Please ensure basic metadata exists (artist, title)."
+    exit 1
 else
     info "Found title: '$(printf "%s" "$frames" | sed -n 's/^TIT2: //p')'"
-    question "Is this correct? [Y/n] "
-    read -r ans
-    [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
-        question "Input new title: "
-        read -r title
-        if [ -n "$title" ]; then
-            skip_title=0
-            info "Input registered successfully."
-        else info "No input. Skipping."; fi
-    }
 fi
 
-header "TCOP FRAME - copyright message"
+header "TCOP FRAME - copyright license"
 if ! printf "%s" "$frames" | grep -q "^TCOP: "; then
     info "No license found."
     question "Input license: "
@@ -122,47 +107,42 @@ else
     }
 fi
 
-header "WXXX FRAME - user defined URL"
+header "WXXX FRAME - license terms URL"
 # Each file can contain an arbitrary number of URLs,
 # a URL frame consists of the URL and a description (the last one is optional).
-# To distinguish between my URLs and "other" ones that might be saved,
-# I go by a personal convention of describing URLs with "origin".
-if ! printf "%s" "$frames" | grep -q "^WXXX: \[origin\]"; then
-    info "No URL with \"origin\" in description found."
+desc="license"
+if ! printf "%s" "$frames" | grep -q "^WXXX: \[$desc\]"; then
+    info "No URL with \"$desc\" in description found."
     links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
     [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
     question "Input URL: "
-    read -r url
-    if [ -n "$url" ]; then
-        skip_url=0
+    read -r license_url
+    if [ -n "$license_url" ]; then
+        skip_license_url=0
         info "Input registered successfully."
     else info "No input. Skipping."; fi
 else
-    info "Found URL: '$(printf "%s" "$frames" | sed -n 's/^WXXX: \[origin\]: //p')'"
+    info "Found URL: '$(printf "%s" "$frames" | sed -n "s/^WXXX: \[$desc\]: //p")'"
     question "Is this correct? [Y/n] "
     read -r ans
     [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
         links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
         [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
         question "Input new URL: "
-        read -r url
-        if [ -n "$url" ]; then
-            skip_url=0
+        read -r license_url
+        if [ -n "$license_url" ]; then
+            skip_license_url=0
             info "Input registered successfully."
         else info "No input. Skipping."; fi
     }
 fi
 
-header "COMM FRAME - comment(s)"
+header "COMM FRAME - license justification"
 # Each file can contain an arbitrary number of comments,
 # a comment frame consists of the comment, description and language (last two are optional).
-# Since I want my comments to contain the source from which I'd obtained the license,
-# that comment shall by personal convention be described as "license source".
-# The script's job is to check if a comment described as "license source" exists,
-# and if not, it will open a temporary file akin to a git commit, where I can
-# input whatever I like and simultaneously see the file's full metadata.
-if ! printf "%s" "$frames" | grep -q "^COMM: \[license source\]"; then
-    info "No comment with \"license source\" in description found."
+desc="license"
+if ! printf "%s" "$frames" | grep -q "^COMM: \[$desc\]"; then
+    info "No comment with \"$desc\" in description found."
     possible="$(printf "%s" "$frames" | sed -n '/^COMM: \[\](eng): /,$p;' | sed '1s/^COMM: \[\](eng): //;/^[A-Z]\{4\}: /q' | sed '${/^[A-Z]\{4\}: /d}')"
     if [ -n "$possible" ]; then
         printf "%s\n" "  $(tput setaf 9)$(printf "%s" "$possible" | sed '1s/^/  /;2,$s/^/    /')$(tput setaf "$FG")"
@@ -176,8 +156,9 @@ if ! printf "%s" "$frames" | grep -q "^COMM: \[license source\]"; then
     else
         tmp="$(mktemp -p /tmp addfairuse.XXXXXX)"
         info "Opening a temporary file '$tmp'..."
+        sleep 1
         {
-            printf "\n%s\n" "# No comment with \"license source\" in description found."
+            printf "\n%s\n" "# No comment with \"$desc\" in description found."
             printf "%s\n" "# Enter the desired comment value. Leave empty to skip."
             printf "%s\n" "# (the \` character is reserved as a delimiter for id3ted)"
             printf "%s\n" "# "
@@ -192,11 +173,11 @@ if ! printf "%s" "$frames" | grep -q "^COMM: \[license source\]"; then
         rm -- "$tmp"
     fi
 else
-    info "Comment with description \"license source\" already exists."
+    info "Comment with description \"$desc\" already exists."
     question "Edit anyway? [y/N] "
     read -r ans
     [ "$ans" = y ] || [ "$ans" = Y ] && {
-        oldcomment="$(printf "%s" "$frames" | sed -n '/^COMM: \[license source\]/,$p;' | sed '1s/^COMM: \[license source\]([^)]*): //;/^[A-Z]\{4\}: /q' | sed '${/^[A-Z]\{4\}: /d}')"
+        oldcomment="$(printf "%s" "$frames" | sed -n '/^COMM: \[$desc\]/,$p;' | sed "1s/^COMM: \[$desc\]([^)]*): //;/^[A-Z]\{4\}: /q" | sed '${/^[A-Z]\{4\}: /d}')"
         tmp="$(mktemp -p /tmp addfairuse.XXXXXX)"
         info "Opening a temporary file '$tmp'..."
         {
@@ -216,24 +197,164 @@ else
     }
 fi
 
+header "WXXX FRAME - playable media URL"
+desc="origin"
+if ! printf "%s" "$frames" | grep -q "^WXXX: \[$desc\]"; then
+    info "No URL with \"$desc\" in description found."
+    links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
+    [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
+    question "Input URL: "
+    read -r media_url
+    if [ -n "$media_url" ]; then
+        skip_media_url=0
+        info "Input registered successfully."
+    else info "No input. Skipping."; fi
+else
+    info "Found URL: '$(printf "%s" "$frames" | sed -n "s/^WXXX: \[$desc\]: //p")'"
+    question "Is this correct? [Y/n] "
+    read -r ans
+    [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
+        links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
+        [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
+        question "Input new URL: "
+        read -r media_url
+        if [ -n "$media_url" ]; then
+            skip_media_url=0
+            info "Input registered successfully."
+        else info "No input. Skipping."; fi
+    }
+fi
+
+header "WXXX FRAME - artist website #1 URL"
+desc="website1"
+if ! printf "%s" "$frames" | grep -q "^WXXX: \[$desc\]"; then
+    info "No URL with \"$desc\" in description found."
+    links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
+    [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
+    question "Input URL: "
+    read -r website1_url
+    if [ -n "$website1_url" ]; then
+        skip_website1_url=0
+        info "Input registered successfully."
+    else info "No input. Skipping."; fi
+else
+    info "Found URL: '$(printf "%s" "$frames" | sed -n "s/^WXXX: \[$desc\]: //p")'"
+    question "Is this correct? [Y/n] "
+    read -r ans
+    [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
+        links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
+        [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
+        question "Input new URL: "
+        read -r website1_url
+        if [ -n "$website1_url" ]; then
+            skip_website1_url=0
+            info "Input registered successfully."
+        else info "No input. Skipping."; fi
+    }
+fi
+
+header "COMM FRAME - artist website #1 name"
+desc="website1"
+info "website #1 URL: $website1_url"
+if ! printf "%s" "$frames" | grep -q "^COMM: \[$desc\]"; then
+    info "No comment with \"$desc\" in description found."
+    question "Input website #1 name: "
+    read -r website1_name
+    if [ -n "$website1_name" ]; then
+        skip_website1_name=0
+        info "Input registered successfully."
+    else info "No input. Skipping."; fi
+else
+    info "Found comment: '$(printf "%s" "$frames" | sed -n "s/^COMM: \[$desc\](\([^)]*\))\?: //p")'"
+    question "Is this correct? [Y/n] "
+    read -r ans
+    [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
+        question "Input website #1 name: "
+        read -r website1_name
+        if [ -n "$website1_name" ]; then
+            skip_website1_name=0
+            info "Input registered successfully."
+        else info "No input. Skipping."; fi
+    }
+fi
+
+header "WXXX FRAME - artist website #2 URL"
+desc="website2"
+if ! printf "%s" "$frames" | grep -q "^WXXX: \[$desc\]"; then
+    info "No URL with \"$desc\" in description found."
+    links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
+    [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
+    question "Input URL: "
+    read -r website2_url
+    if [ -n "$website2_url" ]; then
+        skip_website2_url=0
+        info "Input registered successfully."
+    else info "No input. Skipping."; fi
+else
+    info "Found URL: '$(printf "%s" "$frames" | sed -n "s/^WXXX: \[$desc\]: //p")'"
+    question "Is this correct? [Y/n] "
+    read -r ans
+    [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
+        links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
+        [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
+        question "Input new URL: "
+        read -r website2_url
+        if [ -n "$website2_url" ]; then
+            skip_website2_url=0
+            info "Input registered successfully."
+        else info "No input. Skipping."; fi
+    }
+fi
+
+header "COMM FRAME - artist website #2 name"
+desc="website2"
+info "website #2 URL: $website2_url"
+if ! printf "%s" "$frames" | grep -q "^COMM: \[$desc\]"; then
+    info "No comment with \"$desc\" in description found."
+    question "Input website #1 name: "
+    read -r website2_name
+    if [ -n "$website2_name" ]; then
+        skip_website2_name=0
+        info "Input registered successfully."
+    else info "No input. Skipping."; fi
+else
+    info "Found comment: '$(printf "%s" "$frames" | sed -n "s/^COMM: \[$desc\](\([^)]*\))\?: //p")'"
+    question "Is this correct? [Y/n] "
+    read -r ans
+    [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
+        question "Input website #1 name: "
+        read -r website2_name
+        if [ -n "$website2_name" ]; then
+            skip_website2_name=0
+            info "Input registered successfully."
+        else info "No input. Skipping."; fi
+    }
+fi
+
 header "WRITE CHANGES TO FILE"
-total="$((5 - skip_artist - skip_title - skip_license - skip_url - skip_comment))"
+total="$((8 - skip_license - skip_license_url - skip_comment - skip_media_url - skip_website1_url - skip_website1_name - skip_website2_url - skip_website2_name))"
 if [ "$total" -gt 0 ]; then
     info "The following edits will be applied:"
-    [ "$skip_artist" -eq 0 ]  && info "- $(tput setaf "$CFG")artist$(tput setaf "$AFG")  => $(tput setaf "$NFG")'$artist'"
-    [ "$skip_title" -eq 0 ]   && info "- $(tput setaf "$CFG")title$(tput setaf "$AFG")   => $(tput setaf "$NFG")'$title'"
-    [ "$skip_license" -eq 0 ] && info "- $(tput setaf "$CFG")license$(tput setaf "$AFG") => $(tput setaf "$NFG")'$license'"
-    [ "$skip_url" -eq 0 ]     && info "- $(tput setaf "$CFG")url$(tput setaf "$AFG")     => $(tput setaf "$NFG")'$url'"
-    [ "$skip_comment" -eq 0 ] && info "- $(tput setaf "$CFG")comment$(tput setaf "$FG")"
+    [ "$skip_license" = 0 ]      && info "- $(tput setaf "$CFG")license$(tput setaf "$AFG")         => $(tput setaf "$NFG")'$license'"
+    [ "$skip_license_url" = 0 ]  && info "- $(tput setaf "$CFG")license url$(tput setaf "$AFG")     => $(tput setaf "$NFG")'$license_url'"
+    [ "$skip_comment" = 0 ]      && info "- $(tput setaf "$CFG")comment$(tput setaf "$FG")"
+    [ "$skip_media_url" = 0 ]    && info "- $(tput setaf "$CFG")media url$(tput setaf "$AFG")       => $(tput setaf "$NFG")'$media_url'"
+    [ "$skip_website1_url" = 0 ] && info "- $(tput setaf "$CFG")website #1 url$(tput setaf "$AFG")  => $(tput setaf "$NFG")'$website1_url'"
+    [ "$skip_website1_url" = 0 ] && info "- $(tput setaf "$CFG")website #1 name$(tput setaf "$AFG") => $(tput setaf "$NFG")'$website1_name'"
+    [ "$skip_website1_url" = 0 ] && info "- $(tput setaf "$CFG")website #2 url$(tput setaf "$AFG")  => $(tput setaf "$NFG")'$website2_url'"
+    [ "$skip_website1_url" = 0 ] && info "- $(tput setaf "$CFG")website #2 name$(tput setaf "$AFG") => $(tput setaf "$NFG")'$website2_name'"
     echo ""
     question "Proceed with these changes? [Y/n] "
     read -r ans
     [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
-        [ "$skip_artist" -eq 0 ]  && info "Writing artist..."  && id3ted --TPE1 "$artist" -- "$f"
-        [ "$skip_title" -eq 0 ]   && info "Writing title..."   && id3ted --TIT2 "$title" -- "$f"
-        [ "$skip_license" -eq 0 ] && info "Writing license..." && id3ted --TCOP "$license" -- "$f"
-        [ "$skip_url" -eq 0 ]     && info "Writing URL..."     && id3ted -d \` --WXXX "$url\`origin" -- "$f"
-        [ "$skip_comment" -eq 0 ] && info "Writing comment..." && id3ted -d \` --COMM "$comment\`license source" -- "$f"
+        [ "$skip_license"       = 0 ] && info "Writing license..."         && id3ted --TCOP "$license" -- "$f"
+        [ "$skip_license_url"   = 0 ] && info "Writing license URL..."     && id3ted -d \` --WXXX "$license_url\`license" -- "$f"
+        [ "$skip_comment"       = 0 ] && info "Writing comment..."         && id3ted -d \` --COMM "$comment\`license" -- "$f"
+        [ "$skip_media_url"     = 0 ] && info "Writing media URL..."       && id3ted -d \` --WXXX "$media_url\`origin" -- "$f"
+        [ "$skip_website1_url"  = 0 ] && info "Writing website #1 URL..."  && id3ted -d \` --WXXX "$website1_url\`website1" -- "$f"
+        [ "$skip_website1_name" = 0 ] && info "Writing website #1 name..." && id3ted -d \` --COMM "$website1_name\`website1" -- "$f"
+        [ "$skip_website2_url"  = 0 ] && info "Writing website #2 URL..."  && id3ted -d \` --WXXX "$website2_url\`website2" -- "$f"
+        [ "$skip_website2_name" = 0 ] && info "Writing website #2 name..." && id3ted -d \` --COMM "$website2_name\`website2" -- "$f"
         info "Finished writing to '$f'"
     }
 else info "No changes made."; fi

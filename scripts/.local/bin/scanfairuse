@@ -1,0 +1,29 @@
+#!/usr/bin/sh
+
+# This script reads all paths from Fair Use playlist and looks for mistakes in their metadata.
+# If an error is encountered, the script will run "addfairuse" to prompt the user for correction.
+#
+# DEPENDENCIES
+# - id3ted
+
+pl="$HOME/Music/Playlists/Fair Use.m3u"
+base="$HOME/Music"
+
+counter=0
+while read -r relative <&3; do
+    f="$base/$relative"
+    [ ! -f "$f" ] && echo "Invalid path \"$f\" detected, run plfix." >&2 && exit 1
+    frames="$(id3ted -l -- "$f")"
+    if  ! printf "%s" "$frames" | grep -q "^TPE1: " || \
+        ! printf "%s" "$frames" | grep -q "^TIT2: " || \
+        ! printf "%s" "$frames" | grep -q "^TCOP: " || \
+        ! printf "%s" "$frames" | grep -q "^COMM: \[license\]" || \
+        ! printf "%s" "$frames" | grep -q "^WXXX: \[license\]" || \
+        ! printf "%s" "$frames" | grep -q "^WXXX: \[origin\]" || \
+        ! printf "%s" "$frames" | grep -q "^WXXX: \[website1\]" || \
+        ! printf "%s" "$frames" | grep -q "^COMM: \[website1\]"; # only one website url is required
+    then
+        addfairuse "$f"
+    fi
+    counter="$((counter + 1))"
+done 3<"$pl"

@@ -102,7 +102,7 @@ lastgenre:
     prefer_specific: no
     source: track
     separator: ' '
-    whitelist: yes
+    whitelist: no
 
 mpd:
     port: 6601

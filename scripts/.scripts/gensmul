@@ -2,47 +2,46 @@
 
 # GENerate Stream MUsic List
 
-# This script intakes a music directory, and does the following:
-# 1. Scan the music library for mp3 files which have their comment
-#    metadata beginning with "Creative Commons" or "Royalty Free"
-#    AND have a URL stored in the URL and/or Publisher fields.
-# 2. Add all matches of the above search to the "Fair Use" playlist.
-# 3. Generate a markdown-formatted list of all matched files,
-#    containing their artists, titles, and linking the URL.
-#
-# For a track to be detected, it needs to have the "License" metadata
-# field set to begin with either "Creative Commons" or "Royalty Free".
-# The URL field will be used for markdown links.
+# This script generates a markdown file of all music stored inside
+# the Fair Use playlist.
 #
 # This script was created so that listing music for various streaming
 # platforms is made easier.
 #
 # DEPENDENCIES:
 # - id3ted
-# - pladd (my own script)
+
+pl="$HOME/Music/Playlists/Fair Use.m3u"
+base="$HOME/Music"
 
 export OUTFILE="fairuse.md"
 
 # Wipe the outfile
-printf '' > "$OUTFILE"
+printf '' >"$OUTFILE"
 
-find -L "$HOME/Music" -type f -name '*.mp3' | while read -r f; do
-    # Cache tags for multiple extractions
+while read -r relative; do
+    f="$base/$relative"
+    [ ! -f "$f" ] && {
+        echo "gensmul: Invalid path detected, run plfix" >&2
+        exit 1
+    }
+
+    # Extract relevant information
     tags="$(id3ted -l "$f")"
-    
-    # Extract license string
-    license="$(echo "$tags" | sed -n "s/^TCOP: //p")"
+    artist="$(echo "$tags" | sed -n "s/^TPE1: //p")"
+    title="$(echo "$tags" | sed -n "s/^TIT2: //p")"
+    url="$(echo "$tags" | sed -n "s/^WXXX: \[origin\]: //p")"
 
-    # The list should only include files that have a matching license
-    if [ -n "$(expr "$license" : "^\(Creative Commons\|Royalty Free\)")" ]; then
-        artist="$(echo "$tags" | sed -n "s/^TPE1: //p")"
-        title="$(echo "$tags" | sed -n "s/^TIT2: //p")"
-        url="$(echo "$tags" | sed -n "s/^WXXX: \[origin\]: //p")"
-        # Keep the outfile sorted while adding more lines
-        # (method source: https://stackoverflow.com/a/10658677/10792539)
-        echo "[$artist - $title]($url)" | sort -o "$OUTFILE" -m - "$OUTFILE"
+    # Exit if any information is missing
+    if [ -z "$artist" ] || [ -z "$title" ] || [ -z "$url" ]; then
+        echo "gensmul: tags missing from file '$f'. Aborting."
+        exit 1
     fi
-done
+
+    # Keep the outfile sorted while adding more lines
+    # (method source: https://stackoverflow.com/a/10658677/10792539)
+    echo "[$artist - $title]($url)" | sort -o "$OUTFILE" -m - "$OUTFILE"
+done <"$pl"
 
 # Add markdown list numbering
 tmpfile="/tmp/$(basename "$0")_awk"

@@ -1,29 +1,39 @@
 #!/usr/bin/sh
 
-# This script reads all paths from Fair Use playlist and looks for mistakes in their metadata.
-# If an error is encountered, the script will run "addfairuse" to prompt the user for correction.
+# This script validates whether there's ANY problems with the Fair Use playlist. If this script
+# does not yield any errors, all the music on the Fair Use playlist should be safe to play live.
+#
+# ACTIONS:
+# 1. Read all paths from the Fair Use playlist and examine the files' metadata.
+# 2. If some tag is missing, the script will run "addfairuse" to prompt the user for correction.
+# 3. If the artist name does not exist on the artists.yaml file, print that artists' name.
 #
 # DEPENDENCIES
 # - id3ted
 
 pl="$HOME/Music/Playlists/Fair Use.m3u"
 base="$HOME/Music"
+artists="$HOME/Music/Playlists/artists.yaml"
 
-counter=0
 while read -r relative <&3; do
     f="$base/$relative"
     [ ! -f "$f" ] && echo "Invalid path \"$f\" detected, run plfix." >&2 && exit 1
+
     frames="$(id3ted -l -- "$f")"
-    if  ! printf "%s" "$frames" | grep -q "^TPE1: " || \
+    artist="$(printf "%s" "$frames" | sed -n "s/^TPE1: //p")"
+
+    if  [ -z "$artist" ] || \
         ! printf "%s" "$frames" | grep -q "^TIT2: " || \
         ! printf "%s" "$frames" | grep -q "^TCOP: " || \
         ! printf "%s" "$frames" | grep -q "^COMM: \[license\]" || \
         ! printf "%s" "$frames" | grep -q "^WXXX: \[license\]" || \
-        ! printf "%s" "$frames" | grep -q "^WXXX: \[origin\]" || \
-        ! printf "%s" "$frames" | grep -q "^WXXX: \[website1\]" || \
-        ! printf "%s" "$frames" | grep -q "^COMM: \[website1\]"; # only one website url is required
+        ! printf "%s" "$frames" | grep -q "^WXXX: \[origin\]";
     then
+        printf "Tags missing from '%s', running addfairuse...\n" "$relative"
+        sleep 1
         addfairuse "$f"
+    elif ! grep -qF "artist: $artist" "$artists"; then
+        printf "'%s' not found in artists.yaml\n" "$artist"
     fi
-    counter="$((counter + 1))"
 done 3<"$pl"
+

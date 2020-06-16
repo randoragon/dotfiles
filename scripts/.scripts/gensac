@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+
+# GENerate Stream Artist Credits
+#
+# This script generates a markdown list of artists and their credit URLs.
+# All the data should be stored in a yaml text file.
+
+import re
+from os.path import expanduser
+
+ARTISTS = '{}/Music/Playlists/artists.yaml'.format(expanduser('~'))
+OUTPUT = 'credits.md'
+
+# Strip comments and empty lines
+data = re.sub(r'^#.*$', '', open(ARTISTS, 'r').read(), flags=re.MULTILINE).split('\n')
+data = list(filter(lambda x: x != '', data))
+
+out = open(OUTPUT, 'w')
+
+artist = None
+wname = []
+wurl = []
+firstartist = True
+for line in data:
+    match = re.match(r'^artist: (.*)$', line)
+    if match is not None:
+        # If previous matches exist, write their entirety to the file
+        if not firstartist:
+            out.write(f'- **{artist}** - ')
+            for i in range(len(wname) - 1):
+                out.write(f'[{wname[i]}]({wurl[i]}), ')
+            out.write(f'[{wname[-1]}]({wurl[-1]})\n')
+            wname.clear()
+            wurl.clear()
+        else:
+            firstartist = False
+        artist = match.group(1)
+    else:
+        # Extract website names and URLs
+        match = re.match(r'^(?!artist)(.*)?: (.*)$', line)
+        if match is not None:
+            wname.append(match.group(1))
+            wurl.append(match.group(2))
+
+# Write the remaining last artist
+out.write(f'- **{artist}** - ')
+for i in range(len(wname) - 1):
+    out.write(f'[{wname[i]}]({wurl[i]}), ')
+out.write(f'[{wname[-1]}]({wurl[-1]})\n')
+
+out.close()
+
+# Sort in alphabetical order
+lines = sorted(open(OUTPUT, 'r').readlines())
+open(OUTPUT, 'w').write('\n'.join(lines))
+

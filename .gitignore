@@ -1,14 +1,11 @@
-# Files created automatically by programs
-
+# Programs that create new files in their config dirs
+# that i don't care about
 mpd/**/mpd.db
 mpd/**/mpd.log
 mpd/**/mpd.pid
 mpd/**/mpdstate
-
-mime/.local/share/applications/mimeapps.list
-
-# Programs that create new files in their config dirs
-# that i don't care about
 nvim/.config/nvim/plugin
 nvim/.config/nvim/autostart
+shell/.config/zsh/.zcompdump
 
+mime/.local/share/applications/mimeapps.list

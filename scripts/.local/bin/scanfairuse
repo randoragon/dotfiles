@@ -26,7 +26,7 @@ while read -r relative <&3; do
         ! printf "%s" "$frames" | grep -q "^TIT2: " || \
         ! printf "%s" "$frames" | grep -q "^TCOP: " || \
         ! printf "%s" "$frames" | grep -q "^COMM: \[license\]" || \
-        ! printf "%s" "$frames" | grep -q "^WXXX: \[license\]" || \
+        ! printf "%s" "$frames" | grep -q "^WCOP: " || \
         ! printf "%s" "$frames" | grep -q "^WXXX: \[origin\]";
     then
         printf "Tags missing from '%s', running addfairuse...\n" "$relative"

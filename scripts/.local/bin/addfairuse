@@ -9,7 +9,7 @@
 # - TIT2:              song title
 # - TCOP:              name of the license (Creative Commons, Royalty Free, etc.)
 # - COMM [license]:    written non-public justification for claimed TCOP license
-# - WXXX [license]:    URL to license terms
+# - WCOP:              URL to license terms
 # - WXXX [origin]:     URL to a playable media
 #
 # DEPENDENCIES
@@ -100,12 +100,9 @@ else
     }
 fi
 
-header "WXXX FRAME - license terms URL"
-# Each file can contain an arbitrary number of URLs,
-# a URL frame consists of the URL and a description (the last one is optional).
-desc="license"
-if ! printf "%s" "$frames" | grep -q "^WXXX: \[$desc\]"; then
-    info "No URL with \"$desc\" in description found."
+header "WCOP FRAME - license terms URL"
+if ! printf "%s" "$frames" | grep -q "^WCOP: "; then
+    info "No license terms URL found."
     links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
     [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
     question "Input URL: "
@@ -115,7 +112,7 @@ if ! printf "%s" "$frames" | grep -q "^WXXX: \[$desc\]"; then
         info "Input registered successfully."
     else info "No input. Skipping."; fi
 else
-    info "Found URL: '$(printf "%s" "$frames" | sed -n "s/^WXXX: \[$desc\]: //p")'"
+    info "Found URL: '$(printf "%s" "$frames" | sed -n "s/^WCOP: //p")'"
     question "Is this correct? [Y/n] "
     read -r ans
     [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
@@ -231,7 +228,7 @@ if [ "$total" -gt 0 ]; then
     read -r ans
     [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
         [ "$skip_license"       = 0 ] && info "Writing license..."         && id3ted --TCOP "$license" -- "$f"
-        [ "$skip_license_url"   = 0 ] && info "Writing license URL..."     && id3ted -d \` --WXXX "$license_url\`license" -- "$f"
+        [ "$skip_license_url"   = 0 ] && info "Writing license URL..."     && id3ted --WCOP "$license_url" -- "$f"
         [ "$skip_comment"       = 0 ] && info "Writing comment..."         && id3ted -d \` --COMM "$comment\`license" -- "$f"
         [ "$skip_media_url"     = 0 ] && info "Writing media URL..."       && id3ted -d \` --WXXX "$media_url\`origin" -- "$f"
         info "Finished writing to '$f'"

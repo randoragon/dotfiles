@@ -51,6 +51,6 @@ out.write(f'[{wname[-1]}]({wurl[-1]})\n')
 out.close()
 
 # Sort in alphabetical order
-lines = sorted(open(OUTPUT, 'r').readlines())
+lines = sorted(open(OUTPUT, 'r').readlines(), key=lambda x: x.upper())
 open(OUTPUT, 'w').write(''.join(lines))
 

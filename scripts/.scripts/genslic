@@ -22,10 +22,10 @@ artists = {}
 for f in sorted(open(PLAYLIST, 'r').readlines()):
     f = f.strip()
     tags = ID3(f'{ROOTDIR}/{f}')
-    if 'TPE1' in tags and 'TCOP' in tags and 'WCOP' in tags and 'TIT2' and 'WXXX:origin' in tags:
+    if 'TPE1' in tags and 'TCOP' in tags and 'TIT2' and 'WXXX:origin' in tags:
         artist = tags['TPE1'].text[0]
         license = tags['TCOP'].text[0]
-        lurl = tags['WCOP'].url
+        lurl = tags['WCOP'].url if 'WCOP' in tags else None
         title = tags['TIT2'].text[0]
         murl = tags['WXXX:origin'].url
     else:
@@ -42,7 +42,10 @@ for f in sorted(open(PLAYLIST, 'r').readlines()):
 for i in sorted(artists.items(), key=lambda x: x[0].upper()):
     out.write(f'<details><summary><b>{i[0]}</b></summary>\n')
     for j in i[1].items():
-        out.write(f'- [{j[0]}]({j[1][0]})\n')
+        if j[1][0] is not None:
+            out.write(f'- [{j[0]}]({j[1][0]})\n')
+        else:
+            out.write(f'- {j[0]}\n')
         for k in j[1][1:]:
             out.write(f'    - [{k[0]}]({k[1]})\n')
     out.write('</details>\n\n')

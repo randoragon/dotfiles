@@ -52,5 +52,5 @@ out.close()
 
 # Sort in alphabetical order
 lines = sorted(open(OUTPUT, 'r').readlines())
-open(OUTPUT, 'w').write('\n'.join(lines))
+open(OUTPUT, 'w').write(''.join(lines))
 

@@ -14,7 +14,7 @@
 pl="$HOME/Music/Playlists/Fair Use.m3u"
 base="$HOME/Music"
 
-export OUTFILE="fairuse.md"
+export OUTFILE="playlist.md"
 
 # Wipe the outfile
 printf '' >"$OUTFILE"
@@ -47,5 +47,3 @@ done <"$pl"
 tmpfile="/tmp/$(basename "$0")_awk"
 awk 'BEGIN{i=1} /.*/{printf "%d. % s\n",i,$0; i++}' "$OUTFILE" > "$tmpfile"
 mv -- "$tmpfile" "$OUTFILE"
-
-echo "Successfully exported to $(dirname -- "$(realpath -- "$0")")/fairuse.md"

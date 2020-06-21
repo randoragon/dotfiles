@@ -2,7 +2,6 @@
 
 sudo pacman -Syu
 yay -Syua
-sudo snap refresh
 sudo youtube-dl -U
 updatecount
 

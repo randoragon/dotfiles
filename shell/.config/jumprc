@@ -14,6 +14,7 @@ alias api='vim ~/dotfiles/scripts/.scripts/arch_postinstall.sh'
 alias xbk='vim "${XDG_CONFIG_HOME:-$HOME/.config}/xbindkeys/xbindkeysrc"'
 alias xres='vim "${XDG_CONFIG_HOME:-$HOME/.config}/X11/Xresources"'
 alias rss='vim ~/.config/newsboat/urls'
+alias art='vim ~/Music/Playlists/artists.yaml'
 
 # Directories
 alias cdap='cd ~/.local/share/applications && ls'

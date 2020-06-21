@@ -9,4 +9,10 @@ playing="$(mpc current -f %file% --port="$MPD_PORT")"
 echo "$playing" | grep -q '^Download/\|^/' && notify-send -u low "pladd_select" "The current file is in the <u>Download</u> directory" && exit
 chosen="$(printf '%s\n' "$playlists" | dmenu -i -p "Add to playlist:")"
 [ -z "$chosen" ] && exit
-pladd  "$chosen"
+if [ "$chosen" = "Fair Use" ]; then
+    path="$HOME/Music/$playing"
+    printf "%s\n" "$path"
+    st -c "floatme" -e addfairuse "$path"
+else
+    pladd "$chosen"
+fi

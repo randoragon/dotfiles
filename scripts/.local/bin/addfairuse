@@ -167,7 +167,7 @@ else
     question "Edit anyway? [y/N] "
     read -r ans
     [ "$ans" = y ] || [ "$ans" = Y ] && {
-        oldcomment="$(printf "%s" "$frames" | sed -n '/^COMM: \[$desc\]/,$p;' | sed "1s/^COMM: \[$desc\]([^)]*): //;/^[A-Z]\{4\}: /q" | sed '${/^[A-Z]\{4\}: /d}')"
+        oldcomment="$(printf "%s" "$frames" | sed -n "/^COMM: \[$desc\]/,\$p;" | sed "1s/^COMM: \[$desc\]([^)]*): //;/^[A-Z]\{4\}: /q" | sed '${/^[A-Z]\{4\}: /d}')"
         tmp="$(mktemp -p /tmp addfairuse.XXXXXX)"
         info "Opening a temporary file '$tmp'..."
         {

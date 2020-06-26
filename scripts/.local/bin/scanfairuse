@@ -15,6 +15,15 @@ pl="$HOME/Music/Playlists/Fair Use.m3u"
 base="$HOME/Music"
 artists="$HOME/Music/Playlists/artists.yaml"
 
+# Normally if a WCOP frame (license URL) is missing, this script
+# will warn about that. However, if  the TCOP (license name) frame
+# matches this whitelisted phrase, WCOP will be ignored.
+whitephrase="Approved Via Direct Message"
+
+# To avoid repeating the same warnings,
+# they will be dumped into this variable
+warnings=
+
 while read -r relative <&3; do
     f="$base/$relative"
     [ ! -f "$f" ] && echo "invalid path \"$f\" detected, run plfix." >&2 && exit 1
@@ -26,16 +35,23 @@ while read -r relative <&3; do
     if  [ -z "$artist" ] || \
         [ -z "$license" ] || \
         ! printf "%s" "$frames" | grep -q "^TIT2: " || \
-        ! printf "%s" "$frames" | grep -q "^COMM: \[license\]" || \
         ! printf "%s" "$frames" | grep -q "^WXXX: \[origin\]";
     then
         printf "tags missing from '%s', running addfairuse...\n" "$relative"
         sleep 1
         addfairuse "$f"
-    elif ! printf "%s" "$frames" | grep -q "^WCOP: "; then
-        printf "warning: license '%s' has no URL (%s)\n" "$license" "$relative"
+    elif ! printf "%s" "$frames" | grep -q "^WCOP: " && [ "$license" != "$whitephrase" ]; then
+        warning="$(printf "warning: license '%s' has no URL (%s)" "$license" "$relative")"
+        printf "%s" "$warnings" | grep -q "$warning" || {
+            printf "%s\n" "$warning"
+            warnings="$warnings\n$warning"
+        }
     elif ! grep -qF "artist: $artist" "$artists"; then
-        printf "'%s' not found in artists.yaml\n" "$artist"
+        warning="$(printf "'%s' not found in artists.yaml" "$artist")" 
+        printf "%s" "$warnings" | grep -q "$warning" || {
+            printf "%s\n" "$warning"
+            warnings="$warnings\n$warning"
+        }
     fi
 done 3<"$pl"
 

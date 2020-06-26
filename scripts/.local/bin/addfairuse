@@ -4,6 +4,8 @@
 # Given a list of files, it will scan their metadata and poll the user for missing values or offer
 # to overwrite the old ones. It will also optionally add them to the Fair Use m3u playlist.
 #
+# NOTE: Pass multiple paths only if the specified files share the same TCOP, WCOP and COMM frames!
+#
 # FRAMES CHEATSHEET
 # - TPE1:              artist name
 # - TIT2:              song title
@@ -17,16 +19,10 @@
 
 [ $# -eq 0 ] && echo "addfairuse: At least one argument required." >&2 && exit 1
 
-# Handle multiple arguments
-[ $# -gt 1 ] && {
-    for f in "$@"; do
-        "$0" "$f"
-    done
-    exit
-}
-
-f="$1"
-[ ! -f "$f" ] || [ "$(expr "$f" : '.*\.mp3$')" = 0 ] && echo "addfairuse: the input must be a path to an mp3 file" && exit 1
+# Validate input
+for f in "$@"; do
+    [ ! -f "$f" ] || [ "$(expr "$f" : '.*\.mp3$')" = 0 ] && echo "addfairuse: the input must be a path to an mp3 file" && exit 1
+done
 
 playlist="$HOME/Music/Playlists/Fair Use.m3u"
 artists="$HOME/Music/Playlists/artists.txt"
@@ -48,34 +44,12 @@ info () { printf "%s\n" "  $*"; }
 question () { printf "%s" "  $(tput bold && tput setaf "$QFG" && tput setab "$QBG")$*$(tput setaf "$FG" && tput setab "$BG" && tput sgr0)"; }
 error () { printf "%s\n" "  $(tput setaf "$EFG" && tput setab "$EBG")$*$(tput setaf "$FG" && tput setab "$BG")" >&2; }
 
-# Extract relevant tag information
+# Extract first file's information
 frames="$(id3ted -l -- "$f")"
 
-# Set up some global variables
-skip_license=1
-skip_license_url=1
-skip_comment=1
-skip_media_url=1
-
-header "TPE1 FRAME - artist"
-# In case of remixes, the arranger counts as artist
-# In case of classical music, the composer counts as artist
-# The performer can be included in the title like so:
-# "title (performed by XYZ)"
-if ! printf "%s" "$frames" | grep -q "^TPE1: "; then
-    info "No artist found. Please ensure basic metadata exists (artist, title)."
-    exit 1
-else
-    info "Found artist: '$(printf "%s" "$frames" | sed -n 's/^TPE1: //p')'"
-fi
-
-header "TIT2 FRAME - title"
-if ! printf "%s" "$frames" | grep -q "^TIT2: "; then
-    info "No title found. Please ensure basic metadata exists (artist, title)."
-    exit 1
-else
-    info "Found title: '$(printf "%s" "$frames" | sed -n 's/^TIT2: //p')'"
-fi
+# TCOP, WCOP and COMM are frames that store repetitive information.
+# If this script is passed multiple files, these frames will be set
+# to the same value, and thus their values are fetched only once.
 
 header "TCOP FRAME - copyright license"
 if ! printf "%s" "$frames" | grep -q "^TCOP: "; then
@@ -83,20 +57,23 @@ if ! printf "%s" "$frames" | grep -q "^TCOP: "; then
     question "Input license: "
     read -r license
     if [ -n "$license" ]; then
-        skip_license=0
         info "Input registered successfully."
-    else info "No input. Skipping."; fi
+    else
+        info "No input. Skipping."
+    fi
 else
-    info "Found license: '$(printf "%s" "$frames" | sed -n 's/^TCOP: //p')'"
+    license="$(printf "%s" "$frames" | sed -n 's/^TCOP: //p')"
+    info "Found license: '$license'"
     question "Is this correct? [Y/n] "
     read -r ans
     [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
         question "Input new license: "
         read -r license
         if [ -n "$license" ]; then
-            skip_license=0
             info "Input registered successfully."
-        else info "No input. Skipping."; fi
+        else
+            info "No input. Continuing with the existing value."
+        fi
     }
 fi
 
@@ -108,11 +85,11 @@ if ! printf "%s" "$frames" | grep -q "^WCOP: "; then
     question "Input URL: "
     read -r license_url
     if [ -n "$license_url" ]; then
-        skip_license_url=0
         info "Input registered successfully."
     else info "No input. Skipping."; fi
 else
-    info "Found URL: '$(printf "%s" "$frames" | sed -n "s/^WCOP: //p")'"
+    license_url="$(printf "%s" "$frames" | sed -n "s/^WCOP: //p")"
+    info "Found URL: '$license_url'"
     question "Is this correct? [Y/n] "
     read -r ans
     [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
@@ -121,7 +98,6 @@ else
         question "Input new URL: "
         read -r license_url
         if [ -n "$license_url" ]; then
-            skip_license_url=0
             info "Input registered successfully."
         else info "No input. Skipping."; fi
     }
@@ -132,18 +108,23 @@ header "COMM FRAME - license justification"
 # a comment frame consists of the comment, description and language (last two are optional).
 desc="license"
 if ! printf "%s" "$frames" | grep -q "^COMM: \[$desc\]"; then
+    writecomment=0
     info "No comment with \"$desc\" in description found."
     possible="$(printf "%s" "$frames" | sed -n '/^COMM: \[\](eng): /,$p;' | sed '1s/^COMM: \[\](eng): //;/^[A-Z]\{4\}: /q' | sed '${/^[A-Z]\{4\}: /d}')"
     if [ -n "$possible" ]; then
         printf "%s\n" "  $(tput setaf 9)$(printf "%s" "$possible" | sed '1s/^/  /;2,$s/^/    /')$(tput setaf "$FG")"
         question "Does this look like the correct value? [Y/n] "
         read -r ans
-        [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
+        if [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ]; then
             comment="$possible"
-            skip_comment=0
             info "Value registered successfully."
-        }
+        else
+            writecomment=1
+        fi
     else
+        writecomment=1
+    fi
+    if [ "$writecomment" = 1 ]; then
         tmp="$(mktemp -p /tmp addfairuse.XXXXXX)"
         info "Opening a temporary file '$tmp'..."
         sleep 1
@@ -157,17 +138,16 @@ if ! printf "%s" "$frames" | grep -q "^COMM: \[$desc\]"; then
         "$EDITOR" -- "$tmp"
         comment="$(sed '/^#/d ; s/`/'"'"'/g' "$tmp")"
         if [ -n "$comment" ]; then
-            skip_comment=0
             info "Input registered successfully."
         else info "Comment file empty. Skipping."; fi
         rm -- "$tmp"
     fi
 else
+    oldcomment="$(printf "%s" "$frames" | sed -n "/^COMM: \[$desc\]/,\$p;" | sed "1s/^COMM: \[$desc\]([^)]*): //;/^[A-Z]\{4\}: /q" | sed '${/^[A-Z]\{4\}: /d}')"
     info "Comment with description \"$desc\" already exists."
     question "Edit anyway? [y/N] "
     read -r ans
-    [ "$ans" = y ] || [ "$ans" = Y ] && {
-        oldcomment="$(printf "%s" "$frames" | sed -n "/^COMM: \[$desc\]/,\$p;" | sed "1s/^COMM: \[$desc\]([^)]*): //;/^[A-Z]\{4\}: /q" | sed '${/^[A-Z]\{4\}: /d}')"
+    if [ "$ans" = y ] || [ "$ans" = Y ]; then
         tmp="$(mktemp -p /tmp addfairuse.XXXXXX)"
         info "Opening a temporary file '$tmp'..."
         {
@@ -180,71 +160,109 @@ else
         "$EDITOR" -- "$tmp"
         comment="$(sed '/^#/d ; s/`/'"'"'/g' "$tmp")"
         if [ "$oldcomment" != "$comment" ]; then
-            skip_comment=0
             info "Input registered successfully."
         else info "No changes made. Skipping."; fi
         rm -- "$tmp"
-    }
+    else
+        info "Continuing with the existing value."
+        comment="$oldcomment"
+    fi
 fi
 
-header "WXXX FRAME - playable media URL"
-desc="origin"
-if ! printf "%s" "$frames" | grep -q "^WXXX: \[$desc\]"; then
-    info "No URL with \"$desc\" in description found."
-    links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
-    [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
-    question "Input URL: "
-    read -r media_url
-    if [ -n "$media_url" ]; then
-        skip_media_url=0
-        info "Input registered successfully."
-    else info "No input. Skipping."; fi
-else
-    info "Found URL: '$(printf "%s" "$frames" | sed -n "s/^WXXX: \[$desc\]: //p")'"
-    question "Is this correct? [Y/n] "
-    read -r ans
-    [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
+# Write information that's common for all files
+header "WRITE CHANGES TO FILES"
+info "The following edits will be applied:"
+[ -n "$license" ]     && info "- $(tput setaf "$CFG")license$(tput setaf "$AFG")     => $(tput setaf "$NFG")'$license'"
+[ -n "$license_url" ] && info "- $(tput setaf "$CFG")license url$(tput setaf "$AFG") => $(tput setaf "$NFG")'$license_url'"
+[ -n "$comment" ]     && info "- $(tput setaf "$CFG")comment$(tput setaf "$FG")"
+echo ""
+question "Proceed with these changes? [Y/n] "
+read -r ans
+[ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
+    for f in "$@"; do
+        [ -n "$license" ]     && id3ted --TCOP "$license" -- "$f"
+        [ -n "$license_url" ] && id3ted --WCOP "$license_url" -- "$f"
+        [ -n "$comment" ]     && id3ted -d \` --COMM "$comment\`license" -- "$f"
+        info "Finished writing to '$f'"
+    done
+}
+
+# Fetch individual per-file information
+for f in "$@"; do
+    skip_media_url=1
+
+    frames="$(id3ted -l -- "$f")"
+    header "CURRENT FILE: $(basename -- "$f")"
+
+    # In case of remixes, the arranger counts as artist
+    # In case of classical music, the composer counts as artist
+    # The performer can be included in the title like so:
+    # "title (performed by XYZ)"
+    if ! printf "%s" "$frames" | grep -q "^TPE1: "; then
+        info "No artist found. Please ensure basic metadata exists (artist, title)."
+        exit 1
+    else
+        info "Found artist: '$(printf "%s" "$frames" | sed -n 's/^TPE1: //p')'"
+    fi
+
+    if ! printf "%s" "$frames" | grep -q "^TIT2: "; then
+        info "No title found. Please ensure basic metadata exists (artist, title)."
+        exit 1
+    else
+        info "Found title:  '$(printf "%s" "$frames" | sed -n 's/^TIT2: //p')'"
+    fi
+
+    desc="origin"
+    if ! printf "%s" "$frames" | grep -q "^WXXX: \[$desc\]"; then
+        info "No URL with \"$desc\" in description found."
         links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
         [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
-        question "Input new URL: "
+        question "Input URL: "
         read -r media_url
         if [ -n "$media_url" ]; then
             skip_media_url=0
             info "Input registered successfully."
         else info "No input. Skipping."; fi
-    }
-fi
+    else
+        info "Found URL: '$(printf "%s" "$frames" | sed -n "s/^WXXX: \[$desc\]: //p")'"
+        question "Is this correct? [Y/n] "
+        read -r ans
+        [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] || {
+            links="$(printf "%s" "$frames" | sed -n 's/^WXXX: //p')"
+            [ -n "$links" ] && info "Existing URLs:" && info "$(printf "%s" "$links" | sed '1s/^/  /;2,$s/^/    /')"
+            question "Input new URL: "
+            read -r media_url
+            if [ -n "$media_url" ]; then
+                skip_media_url=0
+                info "Input registered successfully."
+            else info "No input. Skipping."; fi
+        }
+    fi
 
-header "WRITE CHANGES TO FILE"
-total="$((4 - skip_license - skip_license_url - skip_comment - skip_media_url))"
-if [ "$total" -gt 0 ]; then
-    info "The following edits will be applied:"
-    [ "$skip_license" = 0 ]      && info "- $(tput setaf "$CFG")license$(tput setaf "$AFG")         => $(tput setaf "$NFG")'$license'"
-    [ "$skip_license_url" = 0 ]  && info "- $(tput setaf "$CFG")license url$(tput setaf "$AFG")     => $(tput setaf "$NFG")'$license_url'"
-    [ "$skip_comment" = 0 ]      && info "- $(tput setaf "$CFG")comment$(tput setaf "$FG")"
-    [ "$skip_media_url" = 0 ]    && info "- $(tput setaf "$CFG")media url$(tput setaf "$AFG")       => $(tput setaf "$NFG")'$media_url'"
-    echo ""
-    question "Proceed with these changes? [Y/n] "
+    header "WRITE CHANGES TO FILE"
+    total="$((1 - skip_media_url))"
+    if [ "$total" -gt 0 ]; then
+        info "The following edits will be applied:"
+        [ "$skip_media_url" = 0 ]    && info "- $(tput setaf "$CFG")media url$(tput setaf "$AFG")   => $(tput setaf "$NFG")'$media_url'"
+        echo ""
+        question "Proceed with these changes? [Y/n] "
+        read -r ans
+        [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
+            [ "$skip_media_url"     = 0 ] && info "Writing media URL..."       && id3ted -d \` --WXXX "$media_url\`origin" -- "$f"
+            info "Finished writing to '$f'"
+        }
+    else info "No changes made."; fi
+
+    header "ADD TO PLAYLIST"
+    question "Add to \"$(basename -- "$playlist")\"? [Y/n] "
     read -r ans
     [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
-        [ "$skip_license"       = 0 ] && info "Writing license..."         && id3ted --TCOP "$license" -- "$f"
-        [ "$skip_license_url"   = 0 ] && info "Writing license URL..."     && id3ted --WCOP "$license_url" -- "$f"
-        [ "$skip_comment"       = 0 ] && info "Writing comment..."         && id3ted -d \` --COMM "$comment\`license" -- "$f"
-        [ "$skip_media_url"     = 0 ] && info "Writing media URL..."       && id3ted -d \` --WXXX "$media_url\`origin" -- "$f"
-        info "Finished writing to '$f'"
+        if pladd "$playlist" "$(realpath -- "$f")"; then
+            info "Successfully added."
+        else
+            error "Failed to add to playlist."
+        fi
     }
-else info "No changes made."; fi
-
-header "ADD TO PLAYLIST"
-question "Add to \"$(basename -- "$playlist")\"? [Y/n] "
-read -r ans
-[ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
-    if pladd "$playlist" "$(realpath -- "$f")"; then
-        info "Successfully added."
-    else
-        error "Failed to add to playlist."
-    fi
-}
+done
 
 header "ALL FINISHED"
-

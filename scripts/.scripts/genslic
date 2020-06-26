@@ -40,7 +40,7 @@ for f in sorted(open(PLAYLIST, 'r').readlines()):
     artists[artist][license].append((title, murl))
 
 for i in sorted(artists.items(), key=lambda x: x[0].upper()):
-    out.write(f'<details><summary><b>{i[0]}</b></summary>\n')
+    out.write(f'<details><summary><b>{i[0]}</b></summary>\n\n')
     for j in i[1].items():
         if j[1][0] is not None:
             out.write(f'- [{j[0]}]({j[1][0]})\n')
@@ -48,6 +48,6 @@ for i in sorted(artists.items(), key=lambda x: x[0].upper()):
             out.write(f'- {j[0]}\n')
         for k in j[1][1:]:
             out.write(f'    - [{k[0]}]({k[1]})\n')
-    out.write('</details>\n\n')
+    out.write('\n</details>\n\n')
 
 out.close()

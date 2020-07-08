@@ -1,0 +1,17 @@
+#!/usr/bin/sh
+
+# GENerate Stream stuff
+#
+# This script runs all other scripts that are used to generate
+# stuff for live streaming since it's faster to run one script
+# than 3 or more one after another.
+
+run () {
+    printf "Running %s... " "$*"
+    eval "./$*"
+    printf "done.\n"
+}
+
+run gensmul
+run gensac
+run genslic

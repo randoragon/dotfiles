@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Print the number of pending pacman updates to stdout.
+# Formatting is used for dwmblocks and status2d dwm patch.
+# Background color is sea-green in case of kernel updates
+# and yellow otherwise.
+#
+# Dependencies: pacman-contrib
+
+UPDATES="$(checkupdates)"
+
+if [ -n "$UPDATES" ]; then
+    COUNT="$(printf "%s\n" "$UPDATES" | wc -l)"
+    FG="FFFF00"
+    BG="222200"
+    printf "%s" "$UPDATES" | grep -q '^linux ' && { FG="00FFAA" BG="003311"; }
+    OUTPUT="^b#$BG^^c#$FG^  $COUNT "
+    echo "$OUTPUT"
+fi

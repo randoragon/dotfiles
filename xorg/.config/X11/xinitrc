@@ -14,6 +14,9 @@ fi
 # Set keyboard layout
 setxkbmap -layout pl
 
+# Set keyboard typematic delay and rate
+xset r rate 250 30
+
 # Swap escape and caps lock
 setxkbmap -option caps:swapescape
 
@@ -28,7 +31,7 @@ unset xres
 
 # Setting this allows some applications to easily
 # know if they're in a graphical env or a tty
-export DESKTOP_SESSION=i3
+export DESKTOP_SESSION=dwm
 
 # Start the window/display manager
-exec i3
+exec dwm

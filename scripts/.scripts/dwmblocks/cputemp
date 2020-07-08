@@ -13,10 +13,9 @@
 # - mpc (optional, requires an MPD_PORT variable)
 
 WARN=80
-CRIT=100
+CRIT=95
 FILE="$HOME/.cache/cputemp"
 SFX="$HOME/.sfx/alarm.wav"
-PREFIX=""
 
 # Runs when temp is in range <-∞;WARN)
 norm () {
@@ -30,7 +29,7 @@ warn () {
     prev="$(cat "$FILE")"
 
     # If crossed, trigger warn_enter
-    [ "$(echo "$prev < $WARN" | bc)" -eq 1 ] && warn_enter "$1"
+    [ "$prev" -lt "$WARN" ] && warn_enter "$1"
 
     # Log temperature
     echo "$1" > "$FILE"
@@ -42,7 +41,7 @@ crit () {
     prev="$(cat "$FILE")"
 
     # If crossed, trigger warn_enter
-    [ "$(echo "$prev < $CRIT" | bc)" -eq 1 ] && crit_enter "$1"
+    [ "$prev" -lt "$CRIT" ] && crit_enter "$1"
 
     # Log temperature
     echo "$1" > "$FILE"
@@ -51,15 +50,15 @@ crit () {
 # Runs when temperature crosses from <-∞;WARN) to <WARN;CRIT)
 warn_enter () {
     topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
-    notify-send -i cpu -u critical "WARNING!" "<b>CPU Temperature High!</b>\n<u>Top Process</u>: $topcmd"
+    notify-send -i cpu -u critical "WARNING!" "<b>CPU Temperature High!</b>\n<u>Top Process</u>: $topcmd" >/dev/null 2>&1
 }
 
 # Runs when temperature crosses from <WARN;CRIT) to <CRIT;+∞)
 crit_enter () {
     topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
-    notify-send -i cpu -u critical "DANGER!" "<b>CPU Temperature Critical!</b>\n<u>Top Process</u>: $topcmd"
-    mpc --port="$MPD_PORT" pause
-    mpv "$SFX" &
+    notify-send -i cpu -u critical "DANGER!" "<b>CPU Temperature Critical!</b>\n<u>Top Process</u>: $topcmd" >/dev/null 2>&1
+    mpc --port="$MPD_PORT" pause >/dev/null 2>&1
+    mpv "$SFX" & >/dev/null 2>&1
 }
 
 # Extract the highest temperature from sensors output
@@ -74,22 +73,27 @@ text="$(sensors \
 
 # Get the raw number, without the Celcius suffix
 temp="$(echo "$text" | sed 's/[^0-9.]//g')"
+temp="${temp%.*}"
+
+# Trim superfluous decimal zero
+text="$temp°C"
 
 # Default temp color
-col='%{F#F99}'
+col='^c#FF9999^'
 
 # Compare the number to find the right range
-if [ "$(echo "$temp >= $WARN" | bc)" -eq 1 ]; then
-    if [ "$(echo "$temp < $CRIT" | bc)" -eq 1 ]; then
+if [ "$temp" -ge "$WARN" ]; then
+    if [ "$temp" -lt "$CRIT" ]; then
         warn "$temp"
-        col='%{F#FF1111}'
+        col='^c#FF1111^'
         text="$text HOT!"
     else
         crit "$temp"
         # Blink effect
-        case "$(($(date +%S) % 2))" in
-            0) col='%{F#FF0000}' ;;
-            1) col='%{F#FFFFFF}' ;;
+        seconds="$(date +%S)"
+        case "$((${seconds##0} % 2))" in # trim leading 0s from seconds so they don't get interpreted like octal
+            0) col='^c#FF0000^' ;;
+            *) col='^c#FFFFFF^' ;;
         esac
         text="$text DANGER!"
     fi
@@ -97,4 +101,17 @@ else
     norm "$temp"
 fi
 
-echo "%{F#944}$PREFIX" "$col$text"
+# Apply the right icon
+if [ "$temp" -lt 30 ]; then
+    icon=
+elif [ "$temp" -lt 50 ]; then
+    icon=
+elif [ "$temp" -lt 70 ]; then
+    icon=
+elif [ "$temp" -lt 90 ]; then
+    icon=
+else
+    icon=
+fi
+
+echo "^c#994444^$icon^f3^$col$text"

@@ -60,7 +60,6 @@ sudo pacman -S --needed \
     pacman-contrib \
     libnotify dunst \
     imagemagick graphicsmagick \
-    i3-wm perl-anyevent-i3 \
     figlet sl asciiquarium \
     traceroute tree \
     zsh zsh-completions zsh-syntax-highlighting \
@@ -106,7 +105,6 @@ fi
 yay -Syua
 yay -Sa --needed \
     xbindkeys \
-    polybar \
     ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
     adapta-gtk-theme numix-icon-theme-git \
@@ -121,6 +119,15 @@ yay -Sa --needed \
     nerd-fonts-dejavu-complete \
     lf \
     libxft-bgra
+
+# Install dwm and dwmblocks
+ecd ~/Software
+git clone 'https://github.com/Randoragon/dwm'
+git clone 'https://github.com/Randoragon/dwmblocks'
+ecd ~/Software/dwm
+sudo make install
+ecd ~/Software/dwmblocks
+sudo make install
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib
@@ -157,7 +164,7 @@ stow git
 #stow glava
 stow gromit-mpx
 stow gtk
-stow i3
+stow dwm
 ./detach keepassxc
 #stow krita
 stow lf
@@ -169,7 +176,6 @@ stow ncmpcpp
 stow newsboat
 stow nvim
 stow picom
-stow polybar
 stow python
 #stow redshift
 stow scripts

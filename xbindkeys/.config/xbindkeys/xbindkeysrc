@@ -38,8 +38,8 @@
 #keystate_scrolllock= enable
 
 # Generic Launchers
-"x-terminal-emulator -c floating"
-    control+alt + t
+"x-terminal-emulator"
+    mod2+mod4 + Return
 "xbindkeys_show" 
     control+shift + q
 "x-terminal-emulator -c dualf -t dualf -e dualf"
@@ -76,41 +76,39 @@
     control+alt + Print
 
 # Music & Volume Control
-"mpc --port=6601 toggle"
+"mpc --port=6601 toggle && pkill -RTMIN+6 -x dwmblocks"
     XF86AudioPlay
-"mpc --port=6601 stop"
+"mpc --port=6601 stop && pkill -RTMIN+6 -x dwmblocks"
     XF86AudioStop
-"mpc --port=6601 next"
+"mpc --port=6601 next && pkill -RTMIN+6 -x dwmblocks"
     XF86AudioNext
-"mpc --port=6601 prev"
+"mpc --port=6601 prev && pkill -RTMIN+6 -x dwmblocks"
     XF86AudioPrev
-"mpc --port=6601 toggle"
+"mpc --port=6601 toggle && pkill -RTMIN+6 -x dwmblocks"
     Mod2+Mod4 + Insert
-"mpc --port=6601 stop"
+"mpc --port=6601 stop && pkill -RTMIN+6 -x dwmblocks"
     Mod2+Mod4 + Home
-"mpc --port=6601 next"
+"mpc --port=6601 next && pkill -RTMIN+6 -x dwmblocks"
     Mod2+Mod4 + End
-"mpc --port=6601 prev"
+"mpc --port=6601 prev && pkill -RTMIN+6 -x dwmblocks"
     Mod2+Mod4 + Delete
-"pactl set-sink-mute @DEFAULT_SINK@ toggle"
+"pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks"
     XF86AudioMute
-"pactl set-sink-volume @DEFAULT_SINK@ +2%"
+"pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks"
     XF86AudioRaiseVolume
-"pactl set-sink-volume @DEFAULT_SINK@ -2%"
+"pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks"
     XF86AudioLowerVolume
-"pactl set-sink-mute @DEFAULT_SINK@ toggle"
+"pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks"
     Mod2+Mod4 + BackSpace
-"pactl set-sink-volume @DEFAULT_SINK@ +2%"
+"pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks"
     Mod2+Mod4 + Prior
-"pactl set-sink-volume @DEFAULT_SINK@ -2%"
+"pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks"
     Mod2+Mod4 + Next
-"pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+"pactl set-source-mute @DEFAULT_SOURCE@ toggle && pkill -RTMIN+7 -x dwmblocks"
     XF86AudioMicMute
 
 "~/.scripts/pladd_select"
     Mod2+Mod4+shift + Insert
-"dmenu_run"
-    Mod2+Mod4 + Tab
 
 # Calculators
 "st -c floatme -t qalc -e qalc"

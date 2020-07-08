@@ -1,0 +1,15 @@
+#!/usr/bin/sh
+
+# This script can be run by window managers to
+# easily perform common operations such as shutting
+# down, restarting, logging out etc.
+
+case "$(printf "%s\n" "poweroff" "reboot" "suspend" "logout" | dmenu)" in
+    "poweroff") systemctl poweroff ;;
+    "reboot") systemctl reboot ;;
+    "suspend") systemctl suspend && physlock ;;
+    "logout")
+        xsetroot -name "fsignal:15"
+        killall newsboat podboat
+        ;;
+esac

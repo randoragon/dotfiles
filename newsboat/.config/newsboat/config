@@ -13,7 +13,7 @@ show-read-articles yes
 feed-sort-order lastupdated-desc
 article-sort-order date-asc
 notify-always yes
-notify-program "~/.scripts/newsboat_notify"
+notify-program "~/.scripts/dwmblocks/newsboat"
 
 # Define filters
 define-filter YouTube "tags # \"youtube\""

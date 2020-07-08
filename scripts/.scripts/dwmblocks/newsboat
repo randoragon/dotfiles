@@ -3,18 +3,20 @@
 # Wrapper for newsboat to "send" notifications.
 # In reality I'm just parsing and dropping the info
 # about unread stuff into a file, and that file
-# is read and visualized by polybar.
+# is read and visualized by dwmblocks and dwm.
 
 file="$HOME/.cache/newsboat_notify"
 
-feeds="$(printf "%s" "$1" | grep -Po '[0-9]+(?= unread feeds)')"
+#feeds="$(printf "%s" "$1" | grep -Po '[0-9]+(?= unread feeds)')"
 articles="$(printf "%s" "$1" | grep -Po '[0-9]+(?= unread articles)')"
 
-if [ -z "$feeds" ] || [ -z "$articles" ] || [ "$feeds" = 0 ] || [ "$articles" = 0 ]; then
+if [ -z "$articles" ] || [ "$articles" = 0 ]; then
     echo '' >"$file"
 else
     fg="22EEFF"
     bg="092535"
-    output="%{B#$bg}%{F#$fg}  $articles/$feeds %{F- B-}"
-    printf "%s\n" "$output" >"$file"
+    output="^b#$bg^^c#$fg^  $articles "
+    echo "$output" >"$file"
 fi
+
+pkill -RTMIN+5 -x dwmblocks

@@ -1,0 +1,32 @@
+#!/usr/bin/sh
+
+icon=
+col1="#BB4444"
+col2="#FF9999"
+barheight=19
+loadpadding=3
+
+load_max_h="$(( barheight - (2 * loadpadding) ))"
+
+sum=0
+maxsum=0
+output="^c$col1^$icon^f1^^c$col2^"
+tmp=
+for dir in /sys/devices/system/cpu/cpufreq/policy*; do
+    maxfreq="$(cat -- "$dir/scaling_max_freq")"
+    curfreq="$(cat -- "$dir/scaling_cur_freq")"
+
+    sum="$(( sum + curfreq ))"
+    maxsum="$(( maxsum + maxfreq ))"
+
+    percent="$(( curfreq * 100 / maxfreq ))"
+    height="$(( percent * load_max_h / 100 ))"
+    load_y="$(( barheight - loadpadding - height ))"
+    red="$(printf "%02x" "$(( 180 + (percent * 75 / 100) ))")"
+    green="$(printf "%02x" "$(( 255 - (percent * 255 / 100) ))")"
+    tmp="$tmp^c#${red}${green}00^^r0,${load_y},2,${height}^^f3^"
+done
+
+loadpct="$(( sum * 100 / maxsum ))"
+
+echo "${output}${loadpct}%^f3^${tmp}"

@@ -1,0 +1,15 @@
+#!/usr/bin/sh
+
+info="$(pactl list sinks)"
+mute="$(printf "%s\n" "$info" | sed -n '/\tMute: /{p;q}' | cut -d' ' -f2)"
+
+if [ "$mute" = "yes" ]; then
+    echo "^c#666666^ muted"
+else
+    vol="$(printf "%s\n" "$info" | sed -n '/\tVolume: /{p;q}' | grep -o "[0-9]\+%" | head -n1)"
+    if [ "${vol%%%}" -ge 30 ]; then
+        echo "^c#AAAAAA^ $vol"
+    else
+        echo "^c#AAAAAA^ $vol"
+    fi
+fi

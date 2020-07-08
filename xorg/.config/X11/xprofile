@@ -13,7 +13,7 @@ flameshot &
 xbindkeys &
 xmodmap "~/.Xmodmap" &
 dunst &
-picom --config "~/.config/picom/picom.conf" &
+picom --config "$HOME/.config/picom/picom.conf" &
 xidlehook --not-when-audio --timer 600 'physlock' '' --timer 1200 'systemctl suspend' '' &
 
 # Autostart other programs

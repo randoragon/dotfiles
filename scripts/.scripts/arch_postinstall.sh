@@ -17,33 +17,30 @@ sudo pacman -Syu
 sudo pacman -S --needed \
     make cmake gcc gdb \
     lynx \
-    git \
+    git patch \
     picom \
     keepassxc \
     stow \
     xorg xorg-xinit xterm xorg-drivers numlockx \
     xwallpaper python-pywal \
     ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
-    iputils \
     grub-customizer \
     gparted \
     mpd ncmpcpp mpc beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python2-gobject \
-    networkmanager network-manager-applet \
-    wpa_supplicant wireless_tools gnome-keyring \
-    patch \
+    networkmanager \
+    iputils wpa_supplicant wireless_tools gnome-keyring \
     sxiv mpv \
     python python3 python-pip go \
     tmux \
     xarchiver \
     curl \
     firefox thunderbird \
-    libqalculate speedcrunch \
+    bc libqalculate speedcrunch \
     htop xfce4-taskmanager \
-    mousepad \
     fakeroot \
     lxappearance \
     xf86-input-libinput \
-    autoconf \
+    autoconf pkgconf \
     bluez bluez-utils blueman \
     pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pulsemixer \
     ntp \
@@ -68,13 +65,14 @@ sudo pacman -S --needed \
     cronie \
     cpulimit \
     tokei \
-    neofetch \
+    neofetch screenkey \
     trash-cli \
     atomicparsley \
     zathura zathura-cb zathura-pdf-poppler \
     marked wkhtmltopdf \
     shellcheck \
-    newsboat
+    newsboat \
+    allegro
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh
@@ -108,7 +106,6 @@ yay -Sa --needed \
     ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
     adapta-gtk-theme numix-icon-theme-git \
-    screenkey \
     id3ted \
     rar \
     xrectsel \

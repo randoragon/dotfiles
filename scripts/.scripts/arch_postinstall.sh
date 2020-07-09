@@ -118,12 +118,14 @@ yay -Sa --needed \
     gromit-mpx-git \
     nerd-fonts-dejavu-complete \
     lf \
-    libxft-bgra
+    libxft-bgra \
+    sparklines-git
 
 # Install dwm and dwmblocks
 ecd ~/Software
 git clone 'https://github.com/Randoragon/dwm'
 git clone 'https://github.com/Randoragon/dwmblocks'
+git clone 'https://github.com/Randoragon/randoutils'
 ecd ~/Software/dwm
 sudo make install
 ecd ~/Software/dwmblocks
@@ -131,10 +133,6 @@ sudo make install
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib
-
-# Install Spark
-[ -f /usr/local/bin/spark ] \
-    || sudo sh -c "curl https://raw.githubusercontent.com/holman/spark/master/spark -o /usr/local/bin/spark && chmod +x /usr/local/bin/spark"
 
 # Set up network manager
 # Source: https://unix.stackexchange.com/a/292196

@@ -16,7 +16,7 @@ db=~/.cache/updatedb
 if [ ! -f "$db" ]; then
     printf "Database doesn't exist. Generate now? [Y/n] " >&2
     read -r ans
-    [ "$ans" = Y ] || [ "$ans" = y ] && { updatedb || exit 1; }
+    [ -z "$ans" ] || [ "$ans" = Y ] || [ "$ans" = y ] && { updatedb || exit 1; }
 fi
 
 home=

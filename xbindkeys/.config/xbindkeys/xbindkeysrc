@@ -38,21 +38,21 @@
 #keystate_scrolllock= enable
 
 # Generic Launchers
-"x-terminal-emulator"
+"st"
     mod2+mod4 + Return
 "xbindkeys_show" 
     control+shift + q
-"x-terminal-emulator -c dualf -t dualf -e dualf"
+"st -c dualf -t dualf -e dualf"
     control+alt + e
-"x-terminal-emulator -e lf"
+"st -e lf"
     control+alt + i
 "firefox"
     control+alt + b
-"x-terminal-emulator -e ncmpcpp"
+"st -e ncmpcpp"
     control+alt + m
 "mpd --kill && mpd"
     control+shift+alt + m
-"x-terminal-emulator -e vim"
+"st -e vim"
     control+alt + v
 "discord"
     control+alt + d

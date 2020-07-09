@@ -4,8 +4,10 @@ mpd/**/mpd.db
 mpd/**/mpd.log
 mpd/**/mpd.pid
 mpd/**/mpdstate
+ncmpcpp/**/error.log
 nvim/.config/nvim/plugin
 nvim/.config/nvim/autostart
+nvim/.config/nvim/plugged
 shell/.config/zsh/.zcompdump
 
 mime/.local/share/applications/mimeapps.list

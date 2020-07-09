@@ -8,7 +8,6 @@
 # DEPS:
 # - sxiv
 # - xwallpaper
-# - python-wal
 
 if [ $# -eq 0 ]; then
     mkdir -p ~/.local/share/wallpapers
@@ -22,14 +21,6 @@ else
         # Set the wallpaper
         cp -- "$1" ~/.config/wallpaper
         xwallpaper --zoom ~/.config/wallpaper
-
-        # Clear cache before generating, because for some reason
-        # pywal sometimes doesn't notice background changes
-        wal -c
-        wal -i ~/.config/wallpaper -neqst
-
-        # Apply the new colorscheme
-        ~/.scripts/pywal_to_xres
     }
 fi
 

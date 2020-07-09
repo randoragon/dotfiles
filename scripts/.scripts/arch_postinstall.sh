@@ -22,7 +22,7 @@ sudo pacman -S --needed \
     keepassxc \
     stow \
     xorg xorg-xinit xterm xorg-drivers numlockx \
-    xwallpaper python-pywal \
+    xwallpaper \
     ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
     grub-customizer \
     gparted \

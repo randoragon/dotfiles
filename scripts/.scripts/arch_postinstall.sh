@@ -33,18 +33,18 @@ sudo pacman -S --needed \
     python python3 python-pip go \
     tmux \
     xarchiver \
-    curl \
+    curl wget reflector \
     firefox thunderbird \
     bc libqalculate speedcrunch \
     htop xfce4-taskmanager \
     fakeroot \
-    lxappearance \
+    adapta-gtk-theme \
     xf86-input-libinput \
     autoconf pkgconf \
     bluez bluez-utils blueman \
     pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pulsemixer \
     ntp \
-    ntfs-3g dosfstools wget which \
+    ntfs-3g dosfstools which \
     arch-install-scripts \
     copyq \
     gtk-engines gtk-engine-murrine \
@@ -71,8 +71,7 @@ sudo pacman -S --needed \
     zathura zathura-cb zathura-pdf-poppler \
     marked wkhtmltopdf \
     shellcheck \
-    newsboat \
-    allegro
+    newsboat
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh
@@ -105,7 +104,7 @@ yay -Sa --needed \
     xbindkeys \
     ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
-    adapta-gtk-theme numix-icon-theme-git \
+    numix-icon-theme-git \
     id3ted \
     rar \
     xrectsel \
@@ -222,16 +221,6 @@ if [ -z "$(command -v st)" ]; then
     find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 else
     echo "Suckless terminal detected, skipping."
-fi
-
-# Install brbtimer
-if [ -z "$(command -v brbtimer)" ]; then
-    ecd ~/Software
-    git clone https://github.com/randoragon/brbtimer
-    ecd brbtimer
-    sudo make install
-else
-    echo "brbtimer detected, skipping."
 fi
 
 ecd ~

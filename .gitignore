@@ -8,6 +8,8 @@ ncmpcpp/**/error.log
 nvim/.config/nvim/plugin
 nvim/.config/nvim/autostart
 nvim/.config/nvim/plugged
+nvim/**/.netrwhist
 shell/.config/zsh/.zcompdump
+newsboat/**/urls
 
 mime/.local/share/applications/mimeapps.list

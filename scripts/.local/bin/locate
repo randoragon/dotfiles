@@ -26,9 +26,9 @@ case "$1" in
 esac
 
 if [ -z "$home" ]; then
-    grep --color=always -a "$@" "$db"
+    grep --color=auto -a "$@" "$db"
 elif [ "$home" = 1 ]; then
-    grep --color=always -a "$@" "$db" | grep -a "^$HOME"
+    grep --color=auto -a "$@" "$db" | grep -a "^$HOME"
 elif [ "$home" = 0 ]; then
-    grep --color=always -a "$@" "$db" | grep -av "^$HOME"
+    grep --color=auto -a "$@" "$db" | grep -av "^$HOME"
 fi

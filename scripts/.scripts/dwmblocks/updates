@@ -18,5 +18,8 @@ if [ -n "$UPDATES" ]; then
     OUTPUT="^b#$BG^^c#$FG^  $COUNT "
     echo "$OUTPUT" >"$FILE"
     echo "  $COUNT"
-    pkill -RTMIN+4 -x dwmblocks
+else
+    :>"$FILE"
 fi
+
+pkill -RTMIN+4 -x dwmblocks

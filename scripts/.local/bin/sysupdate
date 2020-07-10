@@ -3,4 +3,5 @@
 sudo pacman -Syu
 yay -Syua
 sudo youtube-dl -U
+~/.scripts/dwmblocks/updates
 pkill -RTMIN+4 -x dwmblocks

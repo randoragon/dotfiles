@@ -2,9 +2,9 @@
 
 ## Description
 
-This file holds the current Linux programs that I use and their purpose in my workflow.
+This file holds some Linux programs that I've used and their brief capabilities.
 It is not a complete list of all the software that I use, just a reminder of what programs
-I find worthy and don't want to forget about in case I need some very specific tool.
+I find "worthy" and don't want to forget about in case I need some very specific tool.
 
 AUR packages are prefixed with \*.
 
@@ -50,7 +50,7 @@ GNOME Unicode Charmap | `gucharmap` | Font Previewer | not many deps, clean font
 cpulimit | `cpulimit` | CPU Limiter | makes it possible to run any command with a limit on how much CPU it can use
 tokei | `tokei` | Code Statistics | counts lines of code per language in a project, really fast and verbose
 xrectsel | `*xrectsel` | X Utilities | easy screen geometry selection with the mouse
-spark | `-` | Shell Charts | display simple graphs from stdin numbers, install with `curl https://raw.githubusercontent.com/holman/spark/master/spark -o /usr/local/bin/spark && chmod +x /usr/local/bin/spark`
+spark | `*sparklines` | Shell Charts | display simple graphs from stdin numbers, install with `curl https://raw.githubusercontent.com/holman/spark/master/spark -o /usr/local/bin/spark && chmod +x /usr/local/bin/spark`
 qalc | `libqalculate` | Calculator | intuitive shell calculator with tab autocompletion. Note that qalculate-gtk is trash to use
 speedcrunch | `speedcrunch` | Calculator | fast graphical calculator with a commandline-like keyboard-driven interface
 zathura | `zathura` | PDF Viewer | blazingly fast PDF viewer with plugins for other filetypes
@@ -61,3 +61,5 @@ pulsemixer | `pulsemixer` | PulseAudio Frontend | simple and competent terminal 
 gromit-mpx | `*gromit-mpx-git` | Screen Annotator | basic over the screen drawing, multi-pointer devices support
 Newsboat | `newsboat` | RSS Feed Reader |
 Calibre | `calibre-python3` | E-Book Library Manager
+id3ted | `*id3ted` | ID3 tagger | blazingly fast and capable, follows the ID3 standards extremely well
+beets | `beets` | Music Manager | versatile music library manager, though at times slow cause python

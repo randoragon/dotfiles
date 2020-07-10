@@ -16,6 +16,7 @@ FZF | `fzf` | Fuzzy Finder | a DMenu that works inside the terminal
 FontMatrix | `*fontmatrix` | Font Manager | for looking up glyphs in icon fonts
 GIMP | `gimp` | Image Editor | 
 GLava | `glava` | Music Visualizer | music magically becomes 2x more epic
+C.A.V.A. | `*cava` | Music Visualizer | lightweight, CLI, configurable
 GNU Stow | `stow` | Symlink Farm Manager | easy dotfiles management
 GParted | `gparted` | Partition Manager | 
 HTop | `htop` | Task Manager | keyboard-driven and terminal based

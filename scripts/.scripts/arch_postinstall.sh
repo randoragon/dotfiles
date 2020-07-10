@@ -71,7 +71,8 @@ sudo pacman -S --needed \
     zathura zathura-cb zathura-pdf-poppler \
     marked wkhtmltopdf \
     shellcheck \
-    newsboat
+    newsboat \
+    physlock
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh

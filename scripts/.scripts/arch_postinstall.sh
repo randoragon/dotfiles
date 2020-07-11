@@ -21,7 +21,7 @@ sudo pacman -S --needed \
     picom \
     keepassxc \
     stow \
-    xorg xorg-xinit xterm xorg-drivers numlockx \
+    xorg xorg-xinit xorg-xkbcomp xterm xorg-drivers numlockx \
     xwallpaper \
     ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
     grub-customizer \
@@ -182,6 +182,7 @@ stow sxiv
 stow tmux
 stow wget
 stow xbindkeys
+./detach xkb
 stow xorg
 stow zathura
 

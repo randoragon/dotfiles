@@ -1,0 +1,5 @@
+partial modifier_keys
+xkb_symbols "swap" {
+    key <CAPS> { [ Escape ] };
+    key <ESC>  { [ Caps_Lock ] };
+};

@@ -4,4 +4,3 @@
 # dwm will not open properly until this script's execution
 # is finished, so be careful what you put here.
 
-dwmblocks &

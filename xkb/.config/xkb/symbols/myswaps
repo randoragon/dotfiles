@@ -1,3 +1,12 @@
+# Reference guides:
+#
+# https://unix.stackexchange.com/questions/65507/use-setxkbmap-to-swap-the-left-shift-and-left-control
+# https://web.archive.org/web/20170825051821/http://madduck.net/docs/extending-xkb/
+#
+# To view keysyms in caps:
+#   xkbprint -label name $DISPLAY - | gv -orientation=seascape -
+# (requires xkbprint from AUR and gv from Official Repositories)
+
 partial modifier_keys
 xkb_symbols "swap" {
     key <CAPS> { [ Escape ] };

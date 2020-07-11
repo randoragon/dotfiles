@@ -116,7 +116,8 @@ yay -Sa --needed \
     nerd-fonts-dejavu-complete \
     lf \
     libxft-bgra \
-    sparklines-git
+    sparklines-git \
+    xidlehook
 
 # Install dwm and dwmblocks
 ecd ~/Software

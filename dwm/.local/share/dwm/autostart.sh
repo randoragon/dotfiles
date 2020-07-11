@@ -8,4 +8,3 @@ xprofile="$HOME/.config/X11/xprofile"
 
 # Start some scratch applications that should be ready to use
 st -g 120x36 -n s_term &
-st -g 120x36 -n s_news -e dualboat &

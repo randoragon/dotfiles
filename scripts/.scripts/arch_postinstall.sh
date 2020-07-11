@@ -181,7 +181,7 @@ stow shell
 stow sxiv
 stow tmux
 stow wget
-stow xbindkeys
+./detach xbindkeys
 ./detach xkb
 stow xorg
 stow zathura

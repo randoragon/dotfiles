@@ -1,38 +1,9 @@
-# For the benefit of emacs users: -*- shell-script -*-
-###########################
-# xbindkeys configuration #
-###########################
-#
-# Version: 1.8.6
-#
-# If you edit this file, do not forget to uncomment any lines
-# that you change.
-# The pound(#) symbol may be used anywhere for comments.
-#
-# To specify a key, you can use 'xbindkeys --key' or
-# 'xbindkeys --multikey' and put one of the two lines in this file.
-#
-# The format of a command line is:
-#    "command to start"
-#       associated key
-#
-#
-# A list of keys is in /usr/include/X11/keysym.h and in
-# /usr/include/X11/keysymdef.h
-# The XK_ is not needed.
-#
 # List of modifier:
 #   Release, Control, Shift, Mod1 (Alt), Mod2 (NumLock),
 #   Mod3 (CapsLock), Mod4, Mod5 (Scroll).
-#
-
-# The release modifier is not a standard X modifier, but you can
-# use it if you want to catch release events instead of press events
 
 # By defaults, xbindkeys does not pay attention with the modifiers
 # NumLock, CapsLock and ScrollLock.
-# Uncomment the lines above if you want to pay attention to them.
-
 #keystate_numlock = enable
 #keystate_capslock = enable
 #keystate_scrolllock= enable
@@ -40,24 +11,18 @@
 # Generic Launchers
 "st"
     mod2+mod4 + Return
-"xbindkeys_show" 
-    control+shift + q
 "st -c dualf -t dualf -e dualf"
     control+alt + e
 "st -e lf"
     control+alt + i
 "firefox"
-    control+alt + b
-"st -e ncmpcpp"
-    control+alt + m
+    control+alt + w
 "mpd --kill && mpd"
-    control+shift+alt + m
+    control+alt + m
 "st -e vim"
     control+alt + v
 "discord"
     control+alt + d
-"keepassxc"
-    control+alt + o
 
 # CopyQ
 "copyq menu"
@@ -70,42 +35,36 @@
     Print
 "flameshot full -c"
     control + Print
-"flameshot full -p $HOME/Pictures/Screenshots/ ; sleep 0.25 ; aseprite $HOME/Pictures/Screenshots/screenshot_$(date +%F_%H-%M-%S).png"
-    control+shift + Print
-"peek"
-    control+alt + Print
 
 # Music & Volume Control
-"mpc --port=6601 toggle && pkill -RTMIN+6 -x dwmblocks"
+"mpc --port=$MPD_PORT toggle && pkill -RTMIN+6 -x dwmblocks"
     XF86AudioPlay
-"mpc --port=6601 stop && pkill -RTMIN+6 -x dwmblocks"
-    XF86AudioStop
-"mpc --port=6601 next && pkill -RTMIN+6 -x dwmblocks"
-    XF86AudioNext
-"mpc --port=6601 prev && pkill -RTMIN+6 -x dwmblocks"
-    XF86AudioPrev
-"mpc --port=6601 toggle && pkill -RTMIN+6 -x dwmblocks"
+"mpc --port=$MPD_PORT toggle && pkill -RTMIN+6 -x dwmblocks"
     Mod2+Mod4 + Insert
-"mpc --port=6601 stop && pkill -RTMIN+6 -x dwmblocks"
+"mpc --port=$MPD_PORT stop && pkill -RTMIN+6 -x dwmblocks"
+    XF86AudioStop
+"mpc --port=$MPD_PORT stop && pkill -RTMIN+6 -x dwmblocks"
     Mod2+Mod4 + Home
-"mpc --port=6601 next && pkill -RTMIN+6 -x dwmblocks"
+"mpc --port=$MPD_PORT next && pkill -RTMIN+6 -x dwmblocks"
+    XF86AudioNext
+"mpc --port=$MPD_PORT next && pkill -RTMIN+6 -x dwmblocks"
     Mod2+Mod4 + End
-"mpc --port=6601 prev && pkill -RTMIN+6 -x dwmblocks"
+"mpc --port=$MPD_PORT prev && pkill -RTMIN+6 -x dwmblocks"
+    XF86AudioPrev
+"mpc --port=$MPD_PORT prev && pkill -RTMIN+6 -x dwmblocks"
     Mod2+Mod4 + Delete
 "pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks"
     XF86AudioMute
-"pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks"
-    XF86AudioRaiseVolume
-"pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks"
-    XF86AudioLowerVolume
 "pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks"
     Mod2+Mod4 + BackSpace
 "pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks"
+    XF86AudioRaiseVolume
+"pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks"
     Mod2+Mod4 + Prior
 "pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks"
+    XF86AudioLowerVolume
+"pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks"
     Mod2+Mod4 + Next
-"pactl set-source-mute @DEFAULT_SOURCE@ toggle && pkill -RTMIN+7 -x dwmblocks"
-    XF86AudioMicMute
 
 "~/.scripts/pladd_select"
     Mod2+Mod4+shift + Insert
@@ -113,8 +72,6 @@
 # Calculators
 "st -c floatme -t qalc -e qalc"
     Mod2+Mod4 + equal
-"speedcrunch"
-    Mod2+Mod4+shift + plus
 
 # Drawing Tablet
 "~/.scripts/wacom/wacom_pad_b1.sh"
@@ -143,22 +100,3 @@
 # specify a mouse button
 #"xterm"
 #  control + b:2
-
-#"xterm -geom 50x20+20+20"
-#   Shift+Mod2+alt + s
-#
-## set directly keycode (here control+alt+mod2 + f with my keyboard)
-#"xterm"
-#  alt + c:0x29 + m:4 + mod2
-#
-## Control+Shift+a  release event starts rxvt
-#"rxvt"
-#  release+control+shift + a
-#
-## Control + mouse button 2 release event starts rxvt
-#"rxvt"
-#  Control + b:2 + Release
-
-##################################
-# End of xbindkeys configuration #
-##################################

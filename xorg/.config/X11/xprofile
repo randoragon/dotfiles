@@ -6,7 +6,6 @@
 # Autostart utilities
 xwallpaper --zoom "$HOME/.config/wallpaper"
 ~/.config/redshift/launch.sh &
-copyq &
 flameshot &
 xbindkeys &
 dunst &

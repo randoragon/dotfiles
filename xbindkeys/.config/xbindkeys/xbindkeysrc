@@ -24,12 +24,6 @@
 "discord"
     control+alt + d
 
-# CopyQ
-"copyq menu"
-    mod2+mod4 + v
-"copyq toggle"
-    mod2+mod4 + c
-
 # Screenshots
 "flameshot gui"
     Print

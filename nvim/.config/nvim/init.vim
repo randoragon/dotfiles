@@ -91,12 +91,12 @@ nnoremap <C-f><C-b> : Buffers<CR>
 let g:clipboard = {
  \    'name': 'copyq',
  \    'copy': {
- \        '+': 'nvim-script-copy',
- \        '*': 'nvim-script-copy'
+ \        '+': 'xclip -selection clipboard',
+ \        '*': 'xclip -selection clipboard'
  \    },
  \    'paste': {
- \        '+': 'copyq clipboard',
- \        '*': 'copyq selection'
+ \        '+': 'xclip -o',
+ \        '*': 'xclip -o'
  \    },
  \    'cache_enabled': 1,
  \ }

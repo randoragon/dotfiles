@@ -46,7 +46,7 @@ sudo pacman -S --needed \
     ntp \
     ntfs-3g dosfstools which \
     arch-install-scripts \
-    copyq \
+    xclip \
     gtk-engines gtk-engine-murrine \
     flameshot gimp \
     the_silver_searcher \

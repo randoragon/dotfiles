@@ -22,7 +22,7 @@ sudo pacman -S --needed \
     pass \
     stow \
     xorg xorg-xinit xorg-xkbcomp xterm xorg-drivers numlockx \
-    xwallpaper \
+    xbindkeys xwallpaper \
     ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
     grub-customizer \
     gparted \
@@ -102,7 +102,7 @@ fi
 # Installs from AUR
 yay -Syua
 yay -Sa --needed \
-    xbindkeys \
+    pass-update \
     ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
     numix-icon-theme-git \
@@ -139,7 +139,7 @@ fi
 if [ -z "$(command -v st)" ]; then
     ecd ~/Software
     git clone https://github.com/randoragon/st
-    ecd st
+    ecd ~/Software/st
     sudo make install
     find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 else
@@ -148,6 +148,16 @@ fi
 if [ ! -d ~/Software/randoutils ]; then
     ecd ~/Software
     git clone 'https://github.com/Randoragon/randoutils'
+fi
+
+# Install pass-extension-tail
+if [ ! -d ~/Software/pass-extension-tail ]; then
+    ecd ~/Software
+    git clone 'https://github.com/palortoff/pass-extension-tail'
+    ecd  ~/Software/pass-extension-tail
+    sudo make install
+else
+    echo "pass-extension-tail detected, skipping."
 fi
 
 # Python modules

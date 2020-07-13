@@ -19,7 +19,7 @@ sudo pacman -S --needed \
     lynx \
     git patch \
     picom \
-    keepassxc \
+    pass \
     stow \
     xorg xorg-xinit xorg-xkbcomp xterm xorg-drivers numlockx \
     xwallpaper \

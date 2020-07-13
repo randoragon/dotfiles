@@ -1,0 +1,23 @@
+#!/usr/bin/sh
+
+# This script lets you select any entry from pass via dmenu,
+# then will prompt you for key password if necessary, and
+# finally it will copy the first line of the decrypted file.
+#
+# Dependencies:
+# - dmenu
+# - pinentry-gtk-2 (doesn't need to be symlinked to /usr/bin/pinentry)
+
+passdir="${PASSWORD_STORE_DIR:-HOME/.password-store}"
+
+password="$( \
+    find "$passdir" -type f -name "*.gpg" -exec realpath --relative-to "$passdir" "{}" \; \
+    | dmenu "$@" \
+)"
+
+[ -z "$password" ] && exit
+
+export password
+gpgconf --kill gpg-agent >/dev/null 2>&1
+gpg-agent --pinentry-program=/usr/bin/pinentry-gtk-2 --daemon pass -c "${password%%.gpg}" >/dev/null 2>&1
+gpgconf --kill gpg-agent >/dev/null 2>&1

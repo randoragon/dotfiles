@@ -23,6 +23,8 @@
     control+alt + v
 "discord"
     control+alt + d
+"passcpy"
+    mod2+mod4+shift + o
 
 # Screenshots
 "flameshot gui"

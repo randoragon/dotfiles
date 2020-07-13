@@ -56,19 +56,20 @@ export PYTHONSTARTUP="${XDG_CONFIG_HOME:-$HOME/.config}/python/pythonrc"
 export SQLITE_HISTORY="${XDG_DATA_HOME:-$HOME/.local/share}/sqlite/history"
 export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
 
-# Start ssh-agent if not already running
-ps -e | grep "$SSH_AGENT_PID"  | grep "ssh-agent$" || eval "$(ssh-agent -s)"
-
 # Other configuration
 export MPD_HOST="$HOME/.local/share/mpd/socket"
 export MPD_PORT=6601
 export i3_LAYOUTS="$HOME/.config/i3/layouts"
 export LYNX_CFG="$HOME/.config/lynx/config"
 export GNUPGHOME="$HOME/.local/share/gnupg"
+export GPG_TTY="$(tty)"
 export NNN_OPENER=xdg-open
 export NNN_BMS='h:~;d:~/Documents'
 export NNN_COLORS='6532'
 export NNN_TRASH=1
+
+# Start ssh-agent if not already running
+ps -e | grep "$SSH_AGENT_PID"  | grep "ssh-agent$" || eval "$(ssh-agent -s)"
 
 # lf icons
 export LF_ICONS="di=📁:\

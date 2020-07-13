@@ -4,14 +4,20 @@
 # then will prompt you for key password if necessary, and
 # finally it will copy the first line of the decrypted file.
 #
+# Mild Warning: this script will restart gpg-agent every time
+# it runs due to the necessity of swapping the pinentry program.
+#
 # Dependencies:
 # - dmenu
 # - pinentry-gtk-2 (doesn't need to be symlinked to /usr/bin/pinentry)
+# - libnotify
 
 passdir="${PASSWORD_STORE_DIR:-HOME/.password-store}"
+icon="/usr/share/icons/Adwaita/96x96/status/task-due-symbolic.symbolic.png"
 
 password="$( \
     find "$passdir" -type f -name "*.gpg" -exec realpath --relative-to "$passdir" "{}" \; \
+    | sed 's/\.gpg$//' \
     | dmenu "$@" \
 )"
 
@@ -19,5 +25,6 @@ password="$( \
 
 export password
 gpgconf --kill gpg-agent >/dev/null 2>&1
-gpg-agent --pinentry-program=/usr/bin/pinentry-gtk-2 --daemon pass -c "${password%%.gpg}" >/dev/null 2>&1
+gpg-agent --pinentry-program=/usr/bin/pinentry-gtk-2 --daemon pass -c "$password" >/dev/null 2>&1 && \
+    notify-send -i "$icon" "Password Copied" "45 seconds until cleared"
 gpgconf --kill gpg-agent >/dev/null 2>&1

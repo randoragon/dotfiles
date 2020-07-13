@@ -119,15 +119,36 @@ yay -Sa --needed \
     sparklines-git \
     xidlehook
 
-# Install dwm and dwmblocks
-ecd ~/Software
-git clone 'https://github.com/Randoragon/dwm'
-git clone 'https://github.com/Randoragon/dwmblocks'
-git clone 'https://github.com/Randoragon/randoutils'
-ecd ~/Software/dwm
-sudo make install
-ecd ~/Software/dwmblocks
-sudo make install
+# Install dwm, dwmblocks, st and randoutils
+if [ -z "$(command -v dwm)" ]; then
+    ecd ~/Software
+    git clone 'https://github.com/Randoragon/dwm'
+    ecd ~/Software/dwm
+    sudo make install
+else
+    echo "dwm detected, skipping."
+fi
+if [ -z "$(command -v dwmblocks)" ]; then
+    ecd ~/Software
+    git clone 'https://github.com/Randoragon/dwmblocks'
+    ecd ~/Software/dwmblocks
+    sudo make install
+else
+    echo "dwmblocks detected, skipping."
+fi
+if [ -z "$(command -v st)" ]; then
+    ecd ~/Software
+    git clone https://github.com/randoragon/st
+    ecd st
+    sudo make install
+    find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
+else
+    echo "st detected, skipping."
+fi
+if [ ! -d ~/Software/randoutils ]; then
+    ecd ~/Software
+    git clone 'https://github.com/Randoragon/randoutils'
+fi
 
 # Python modules
 sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib
@@ -213,18 +234,6 @@ sudo systemctl enable bluetooth.service
 
 # Configure gpg-agent default authorization program
 sudo ln -sTf /usr/bin/pinentry-tty /usr/bin/pinentry
-
-# Install my fork of suckless terminal
-if [ -z "$(command -v st)" ]; then
-    ecd ~/Software
-    git clone https://github.com/randoragon/st
-    ecd st
-    sudo make install
-    sudo ln -sTf /usr/local/bin/st /usr/local/bin/x-terminal-emulator
-    find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
-else
-    echo "Suckless terminal detected, skipping."
-fi
 
 ecd ~
 

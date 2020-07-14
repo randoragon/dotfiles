@@ -23,6 +23,8 @@
     control+alt + v
 "discord"
     control+alt + d
+"dmenu_run"
+    mod2+mod4 + o
 "passcpy"
     mod2+mod4+shift + o
 

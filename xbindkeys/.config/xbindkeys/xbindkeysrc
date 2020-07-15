@@ -38,19 +38,19 @@
 "mpc --port=$MPD_PORT toggle && pkill -RTMIN+6 -x dwmblocks"
     XF86AudioPlay
 "mpc --port=$MPD_PORT toggle && pkill -RTMIN+6 -x dwmblocks"
-    Mod2+Mod4 + Insert
+    Mod2+Mod4 + p
 "mpc --port=$MPD_PORT stop && pkill -RTMIN+6 -x dwmblocks"
     XF86AudioStop
 "mpc --port=$MPD_PORT stop && pkill -RTMIN+6 -x dwmblocks"
-    Mod2+Mod4 + Home
+    Mod2+Mod4+shift + p
 "mpc --port=$MPD_PORT next && pkill -RTMIN+6 -x dwmblocks"
     XF86AudioNext
 "mpc --port=$MPD_PORT next && pkill -RTMIN+6 -x dwmblocks"
-    Mod2+Mod4 + End
+    Mod2+Mod4 + apostrophe
 "mpc --port=$MPD_PORT prev && pkill -RTMIN+6 -x dwmblocks"
     XF86AudioPrev
 "mpc --port=$MPD_PORT prev && pkill -RTMIN+6 -x dwmblocks"
-    Mod2+Mod4 + Delete
+    Mod2+Mod4 + semicolon
 "pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks"
     XF86AudioMute
 "pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks"
@@ -58,18 +58,18 @@
 "pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks"
     XF86AudioRaiseVolume
 "pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks"
-    Mod2+Mod4 + Prior
+    Mod2+Mod4 + equal
 "pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks"
     XF86AudioLowerVolume
 "pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks"
-    Mod2+Mod4 + Next
+    Mod2+Mod4 + minus
 
 "~/.scripts/pladd_select"
     Mod2+Mod4+shift + Insert
 
 # Calculators
 "st -c floatme -t qalc -e qalc"
-    Mod2+Mod4 + equal
+    Mod2+Mod4 + slash
 
 # Drawing Tablet
 "~/.scripts/wacom/wacom_pad_b1.sh"

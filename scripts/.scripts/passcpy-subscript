@@ -1,0 +1,25 @@
+#!/usr/bin/sh
+
+# This script is invoked by gpg-agent running with the --daemon option.
+# For more details refer to the ~/.local/bin/passcpy script.
+
+usericon="/usr/share/icons/Adwaita/96x96/status/contact-new-symbolic.symbolic.png"
+passicon="/usr/share/icons/Adwaita/96x96/status/dialog-password-symbolic.symbolic.png"
+clipicon="/usr/share/icons/Adwaita/96x96/status/task-due-symbolic.symbolic.png"
+
+data="$(pass "$password")"
+pass="$(printf "%s" "$data" | head -n1 -)"
+user="$(printf "%s" "$data" | sed -n "s/^[Uu]ser\(name\)\?: \?//p")"
+
+if [ -n "$user" ]; then
+    notify-send -i "$usericon" "Username copied" "1 paste remaining"
+    printf "%s" "$user" | xclip -r -selection clipboard -loops 1 -verbose
+fi
+
+if [ -n "$pass" ]; then
+    notify-send -i "$passicon" "Password copied" "1 paste remaining"
+    printf "%s" "$pass" | xclip -r -selection clipboard -loops 1 -verbose
+fi
+
+echo | xclip -r -selection clipboard
+notify-send -i "$clipicon" "Clipboard cleared"

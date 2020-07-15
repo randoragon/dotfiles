@@ -2,7 +2,11 @@
 
 # This script lets you select any entry from pass via dmenu,
 # then will prompt you for key password if necessary, and
-# finally it will copy the first line of the decrypted file.
+# finally it will copy decrypted content in such a way that
+# if there's a user field available, the first paste will
+# paste the user, and the second will paste the first line
+# of the file. If there's no user available, just the first
+# line will be copied.
 #
 # Mild Warning: this script will restart gpg-agent every time
 # it runs due to the necessity of swapping the pinentry program.
@@ -14,6 +18,9 @@
 
 passdir="${PASSWORD_STORE_DIR:-HOME/.password-store}"
 icon="/usr/share/icons/Adwaita/96x96/status/task-due-symbolic.symbolic.png"
+script=~/.scripts/passcpy-subscript
+
+[ ! -x "$script" ] && notify-send "passcpy" "Failed to locate\nscript executable" && exit 1
 
 password="$( \
     find "$passdir" -type f -name "*.gpg" -exec realpath --relative-to "$passdir" "{}" \; \
@@ -24,7 +31,6 @@ password="$( \
 [ -z "$password" ] && exit
 
 export password
-gpgconf --kill gpg-agent >/dev/null 2>&1
-gpg-agent --pinentry-program=/usr/bin/pinentry-gtk-2 --daemon pass -c "$password" >/dev/null 2>&1 && \
-    notify-send -i "$icon" "Password Copied" "30 seconds until cleared"
-gpgconf --kill gpg-agent >/dev/null 2>&1
+gpgconf --kill gpg-agent
+gpg-agent --pinentry-program=/usr/bin/pinentry-gtk-2 --daemon "$script"
+gpgconf --kill gpg-agent

@@ -34,7 +34,7 @@ sudo pacman -S --needed \
     tmux \
     xarchiver \
     curl wget reflector \
-    firefox thunderbird \
+    thunderbird \
     bc libqalculate speedcrunch \
     htop xfce4-taskmanager \
     fakeroot \
@@ -102,6 +102,7 @@ fi
 # Installs from AUR
 yay -Syua
 yay -Sa --needed \
+    brave-bin \
     pass-update \
     ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
@@ -148,6 +149,8 @@ fi
 if [ ! -d ~/Software/randoutils ]; then
     ecd ~/Software
     git clone 'https://github.com/Randoragon/randoutils'
+else
+    echo "rando utils detected, skipping."
 fi
 
 # Install pass-extension-tail

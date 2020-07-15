@@ -15,7 +15,7 @@
     control+alt + e
 "st -e lf"
     control+alt + i
-"firefox"
+"$BROWSER"
     control+alt + w
 "mpd --kill && mpd"
     control+alt + m

@@ -1,7 +1,36 @@
 #!/bin/sh
 
+col1=2
+col2=11
+scount=4
+
+section () {
+    printf "$(tput setaf $col1)$(tput bold)(%s/%s) %s $(tput setaf $col2)%s$(tput setaf $col1)...$(tput sgr0)\n" "$snow" "$scount" "$1" "$2"
+}
+
+sectionend() {
+    snow=$(( snow + 1 ))
+    printf "\n"
+}
+
+# Refresh superuser privilages
+sudo true
+
+snow=1
+
+section "RUNNING" "pacman -Syu"
 sudo pacman -Syu
+sectionend
+
+section "RUNNING" "yay -Syua"
 yay -Syua
+sectionend
+
+section "RUNNING" "youtube-dl -U"
 sudo youtube-dl -U
+sectionend
+
+section "SENDING" "RTMIN+4 $(tput setaf $col1)TO $(tput setaf $col2)DWMBLOCKS"
 ~/.scripts/dwmblocks/updates
 pkill -RTMIN+4 -x dwmblocks
+echo "done"

@@ -187,7 +187,6 @@ ecd ~/dotfiles
 rm -- ~/.bashrc ~/.bash_profile
 
 stow beets
-./detach copyq
 stow dunst
 ./detach flameshot
 stow git

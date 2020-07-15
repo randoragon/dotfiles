@@ -87,7 +87,7 @@ nnoremap <C-f><C-b> : Buffers<CR>
 
 " }}}
 
-" CopyQ Clipboard Integration {{{1
+" Clipboard Integration {{{1
 let g:clipboard = {
  \    'name': 'xclip',
  \    'copy': {

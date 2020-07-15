@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# Because i couldn't figure out how else to integrate
-# copyq with nvim g:clipboard dictionary.
-
-copyq add -
-copyq select 0

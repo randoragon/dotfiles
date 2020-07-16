@@ -39,21 +39,18 @@ paths:
 # fetchart       : download album art
 # lastgenre      : download genre
 # chroma         : enables matching by acoustic fingerprint instead of just tags
-# fromfilename   : guesses metadata from filename
 # acousticbrainz : fetch tags from AcousticBrainz
 # edit           : edit tags with any text editor
 # embedart       : embed album art directly into the music files
 # ftintitle      : converts tags like "artist feat. guest - title" to "artist - title feat. guest"
 # mbsync         : update MusicBrainz tags with "beet mbsync QUERY". Affects only items with MusicBrainzID
-# mpdstats       : collects play count, skip count, last played and rating from MPD
-# mpdupdate      : updates MPD library everytime beets library changes
 # replaygain     : calculates replaygain
 # thumbnails     : adds metadata for displaying file thumbnails in thunar etc.
 # fuzzy          : enables fuzzy searching by prefixing the query with ~
 # info           : enables listing quaried items' tag information
-# spotify        : allows to create spotify playlists from local library
 # duplicates     : finds duplicate tracks or albums
-plugins: fetchart lastgenre chroma acousticbrainz edit embedart ftintitle mbsync mpdstats mpdupdate replaygain thumbnails fuzzy info spotify duplicates fromfilename
+# fromfilename   : guesses missing artist/title from filename
+plugins: fetchart lastgenre chroma acousticbrainz edit embedart ftintitle mbsync replaygain thumbnails fuzzy info duplicates fromfilename
 
 chroma:
     auto: yes
@@ -76,8 +73,7 @@ fetchart:
     minwidth: 0
     maxwidth: 500
     enforce_ratio: no
-    sources: filesystem covertart itunes amazon albumart wikipedia google
-    google_key: GOOGLE_KEY_GOES_HERE
+    sources: filesystem covertart itunes amazon albumart wikipedia
     store_source: no
 
 embedart:
@@ -104,11 +100,6 @@ lastgenre:
     separator: ' '
     whitelist: no
 
-mpd:
-    port: 6601
-    rating: yes
-    rating_mix: 0.75
-
 replaygain:
     backend: gstreamer
     auto: yes
@@ -123,12 +114,6 @@ thumbnails:
 fuzzy:
     threshold: 0.7
     prefix: "~"
-
-web:
-    host: 127.0.0.1
-    port: 8337
-    reverse_proxy: false
-    include_paths: false
 
 duplicates:
     keys: [mb_trackid, mb_albumid]

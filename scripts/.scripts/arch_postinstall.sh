@@ -26,11 +26,11 @@ sudo pacman -S --needed \
     ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
     grub-customizer \
     gparted \
-    mpd ncmpcpp mpc beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python2-gobject \
+    mpd ncmpcpp mpc beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     networkmanager \
     iputils wpa_supplicant wireless_tools gnome-keyring \
     sxiv mpv \
-    python python3 python-pip go \
+    python3 python-pip python-mutagen go \
     tmux \
     xarchiver \
     curl wget reflector \
@@ -86,7 +86,7 @@ chsh -s /usr/bin/zsh
 sudo chmod a+rx /usr/local/bin/youtube-dl
 
 # Install beets plugins
-sudo python3 -m pip install beets\[fetchart,lyrics,lastgenre\] pyacoustid requests pylast python-mpd2 pyxdg pathlib flask jinja2
+sudo python3 -m pip install beets\[fetchart,lyrics,lastgenre\] pyacoustid requests pylast pyxdg pathlib
 
 # Install yay
 if [ -z "$(command -v yay)" ]; then
@@ -162,9 +162,6 @@ if [ ! -d ~/Software/pass-extension-tail ]; then
 else
     echo "pass-extension-tail detected, skipping."
 fi
-
-# Python modules
-sudo python3 -m pip install aubio numpy eyeD3 pyxdg pathlib
 
 # Set up network manager
 # Source: https://unix.stackexchange.com/a/292196

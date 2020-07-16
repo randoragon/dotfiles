@@ -242,7 +242,7 @@ sudo systemctl enable bluetooth.service
 [ -L ~/.local/share/applications/mimeapps.list ] || ln -s ~/.config/mimeapps.list ~/.local/share/applications/mimeapps.list
 
 # Configure gpg-agent default authorization program
-sudo ln -sTf /usr/bin/pinentry-tty /usr/bin/pinentry
+sudo ln -sTf /usr/bin/pinentry-gtk-2 /usr/bin/pinentry
 
 ecd ~
 

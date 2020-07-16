@@ -2,7 +2,7 @@
 
 # This script lets you select any entry from pass via dmenu,
 # then will prompt you for key password if necessary, and
-# finally copy the first line of the decrypted file into
+# finally copy the user substring of the decrypted file into
 # XA_CLIPBOARD, which is wiped after PASSWORD_STORE_CLIP_TIME.
 #
 # Dependencies:
@@ -12,7 +12,7 @@
 # - libnotify
 
 passdir="${PASSWORD_STORE_DIR:-HOME/.password-store}"
-icon="/usr/share/icons/Adwaita/96x96/status/dialog-password-symbolic.symbolic.png"
+icon="/usr/share/icons/Adwaita/96x96/status/contact-new-symbolic.symbolic.png"
 clipicon="/usr/share/icons/Adwaita/96x96/status/task-due-symbolic.symbolic.png"
 time="${PASSWORD_STORE_CLIP_TIME:-45}"
 
@@ -22,15 +22,15 @@ time="${PASSWORD_STORE_CLIP_TIME:-45}"
 entry="$( \
     find "$passdir" -type f -name "*.gpg" -exec realpath --relative-to "$passdir" "{}" \; \
     | sed 's/\.gpg$//' \
-    | dmenu -p "Pass Query:" "$@" \
+    | dmenu -p "User Query:" "$@" \
 )"
 
 [ -z "$entry" ] && exit
 
-password="$(pass "$entry" | head -n1 -)"
+username="$(pass "$entry" | sed -n "s/^[Uu]ser\(name\)\?: \?//p")"
 
-printf "%s" "$password" | xclip -r -selection clipboard &&
-    notify-send -u low -i "$icon" "Password copied" "$time seconds remaining"
+printf "%s" "$username" | xclip -selection clipboard &&
+    notify-send -u low -i "$icon" "Username copied" "$time seconds remaining"
 
 sleep "$time"
 echo | xclip -r -selection clipboard &&

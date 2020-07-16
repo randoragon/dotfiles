@@ -13,7 +13,6 @@
 
 passdir="${PASSWORD_STORE_DIR:-HOME/.password-store}"
 icon="/usr/share/icons/Adwaita/96x96/status/dialog-password-symbolic.symbolic.png"
-clipicon="/usr/share/icons/Adwaita/96x96/status/task-due-symbolic.symbolic.png"
 time="${PASSWORD_STORE_CLIP_TIME:-45}"
 
 [ -z "$(command -v xclip)" ] && notify-send "passcpy" "xclip is not available" && exit 1
@@ -33,5 +32,7 @@ printf "%s" "$password" | xclip -r -selection clipboard &&
     notify-send -u low -i "$icon" "Password copied" "$time seconds remaining"
 
 sleep "$time"
-echo | xclip -r -selection clipboard &&
-notify-send -u low -i "$clipicon" "Clipboard cleared"
+if [ "$(xclip -selection clipboard -o)" = "$password" ]; then
+    echo | xclip -r -selection clipboard &&
+    notify-send -u low -i "$icon" "Clipboard cleared"
+fi

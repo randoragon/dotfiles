@@ -25,9 +25,9 @@
     control+alt + d
 "dmenu_run"
     mod2+mod4 + o
-"passcpy"
+"$HOME/.scripts/passcpy"
     mod2+mod4+shift + o
-"usercpy"
+"$HOME/.scripts/usercpy"
     mod2+mod4+control + o
 
 # Screenshots

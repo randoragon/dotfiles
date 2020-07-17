@@ -15,13 +15,6 @@ article-sort-order date-asc
 notify-always yes
 notify-program "~/.scripts/dwmblocks/newsboat"
 
-# Define filters
-define-filter YouTube "tags # \"youtube\""
-define-filter Podcasts "tags # \"podcast\""
-define-filter News "tags # \"news\""
-define-filter Music "tags # \"music\""
-define-filter Twitch "tags # \"twitch\""
-
 # Keybindings
 bind-key j down
 bind-key j next articlelist

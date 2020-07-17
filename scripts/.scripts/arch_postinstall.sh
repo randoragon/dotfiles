@@ -42,7 +42,7 @@ sudo pacman -S --needed \
     xf86-input-libinput \
     autoconf pkgconf \
     bluez bluez-utils blueman \
-    pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pulsemixer \
+    pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pulsemixer pavucontrol \
     ntp \
     ntfs-3g dosfstools which \
     arch-install-scripts \
@@ -71,7 +71,7 @@ sudo pacman -S --needed \
     zathura zathura-cb zathura-pdf-poppler \
     marked wkhtmltopdf \
     shellcheck \
-    newsboat \
+    newsboat weechat \
     physlock
 
 # Replace sh with dash for speed

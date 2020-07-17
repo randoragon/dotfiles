@@ -11,5 +11,10 @@ nvim/.config/nvim/plugged
 nvim/**/.netrwhist
 shell/.config/zsh/.zcompdump
 newsboat/**/urls
+weechat/**/irc.conf
+weechat/**/sec.conf
+weechat/**/weechat.log
+weechat/**/weechat_fifo
+weechat/**/*.weechatlog
 
 mime/.local/share/applications/mimeapps.list

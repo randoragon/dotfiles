@@ -36,7 +36,8 @@ sudo pacman -S --needed \
     curl wget reflector \
     thunderbird \
     bc libqalculate speedcrunch \
-    htop xfce4-taskmanager \
+    qrencode zbar \
+    htop \
     fakeroot \
     adapta-gtk-theme \
     xf86-input-libinput \

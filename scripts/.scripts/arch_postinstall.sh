@@ -103,6 +103,7 @@ fi
 # Installs from AUR
 yay -Syua
 yay -Sa --needed \
+    xxd-standalone \
     brave-bin \
     pass-update \
     ttf-unifont ttf-twemoji-color \

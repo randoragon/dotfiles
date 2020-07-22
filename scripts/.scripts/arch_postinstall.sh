@@ -122,12 +122,12 @@ yay -Sa --needed \
     sparklines-git \
     xidlehook
 
-# Install dwm, dwmblocks, st and randoutils
+# Install dwm, dwmblocks, st, randoutils and surf
 if [ -z "$(command -v dwm)" ]; then
     ecd ~/Software
     git clone 'https://github.com/Randoragon/dwm'
     ecd ~/Software/dwm
-    sudo make install
+    sudo make clean install
 else
     echo "dwm detected, skipping."
 fi
@@ -135,7 +135,7 @@ if [ -z "$(command -v dwmblocks)" ]; then
     ecd ~/Software
     git clone 'https://github.com/Randoragon/dwmblocks'
     ecd ~/Software/dwmblocks
-    sudo make install
+    sudo make clean install
 else
     echo "dwmblocks detected, skipping."
 fi
@@ -143,7 +143,7 @@ if [ -z "$(command -v st)" ]; then
     ecd ~/Software
     git clone https://github.com/randoragon/st
     ecd ~/Software/st
-    sudo make install
+    sudo make clean install
     find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 else
     echo "st detected, skipping."
@@ -154,6 +154,14 @@ if [ ! -d ~/Software/randoutils ]; then
 else
     echo "rando utils detected, skipping."
 fi
+if [ -z "$(command -v surf)" ]; then
+    ecd ~/Software
+    git clone https://github.com/randoragon/surf
+    ecd ~/Software/surf
+    sudo make clean install
+else
+    echo "surf detected, skipping."
+fi
 
 # Install pass-extension-tail
 if [ ! -d ~/Software/pass-extension-tail ]; then
@@ -161,6 +169,7 @@ if [ ! -d ~/Software/pass-extension-tail ]; then
     git clone 'https://github.com/palortoff/pass-extension-tail'
     ecd  ~/Software/pass-extension-tail
     sudo make install
+    find . -maxdepth 1 -name "surf-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 else
     echo "pass-extension-tail detected, skipping."
 fi

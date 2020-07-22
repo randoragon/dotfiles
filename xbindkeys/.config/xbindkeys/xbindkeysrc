@@ -17,6 +17,8 @@
     control+alt + i
 "$BROWSER"
     control+alt + w
+"~/.scripts/surfbm"
+    mod2+mod4+shift + m
 "mpd --kill && mpd"
     control+alt + m
 "st -e vim"

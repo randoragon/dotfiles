@@ -28,6 +28,8 @@ entry="$( \
 
 password="$(pass "$entry" | head -n1 -)"
 
+[ -z "$password" ] && exit
+
 printf "%s" "$password" | xclip -r -selection clipboard &&
     notify-send -u low -i "$icon" "Password copied" "$time seconds remaining"
 

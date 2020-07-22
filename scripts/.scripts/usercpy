@@ -28,6 +28,8 @@ entry="$( \
 
 username="$(pass "$entry" | sed -n "s/^[Uu]ser\(name\)\?: \?//p")"
 
+[ -z "$username" ] && exit
+
 printf "%s" "$username" | xclip -selection clipboard &&
     notify-send -u low -i "$icon" "Username copied" "$time seconds remaining"
 

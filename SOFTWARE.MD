@@ -64,3 +64,4 @@ Newsboat | `newsboat` | RSS Feed Reader |
 Calibre | `calibre-python3` | E-Book Library Manager
 id3ted | `*id3ted` | ID3 tagger | blazingly fast and capable, follows the ID3 standards extremely well
 beets | `beets` | Music Manager | versatile music library manager, though at times slow cause python
+onedrive | `*onedrive-abraunegg` | OneDrive console client | limited functionality, but does the job

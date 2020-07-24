@@ -1,0 +1,45 @@
+#!/usr/bin/sh
+
+# This script intakes multiple playlist names and returns a list of
+# files that are present on all the supplied playlists.
+# It then saves the filtered results in the "Filtered.m3u" playlist.
+
+playlistsdir=~/Music/Playlists
+
+# If no args, print available playlists
+if [ "$#" = 0 ]; then
+    echo "Available playlists:"
+    find "$playlistsdir" -maxdepth 1 -type f -name "*.m3u" | while read -r line; do
+        printf -- "- %s\n" "$(basename -- "$line" ".m3u")"
+    done
+    exit
+fi
+
+# Validate input
+for arg in "$@"; do
+    [ ! -f "$playlistsdir/$arg.m3u" ] && printf "plfilter: playlist \"%s\" not found\n" "$arg" >&2 && exit 1
+done
+
+# Filter
+tmp="$(mktemp -p /tmp plfilter.XXXXX)"
+cp -- "$playlistsdir/$1.m3u" "$tmp"
+skipfirst=
+for arg in "$@"; do
+    [ -z "$skipfirst" ] && skipfirst=1 && continue
+
+    pl="$playlistsdir/$arg.m3u"
+    while read -r line; do
+        query="$(printf "%s" "$line" | sed -e 's/\//\\\//g' -e 's/\[/\\\[/g' -e 's/\]/\\\]/g' -e 's/\./\\\./g')"
+        # prepend every matching line with '#'
+        sed -i "/^#*$query\$/s/^/#/" "$tmp"
+    done <"$pl"
+done
+
+# Delete all lines without "$#" leading #'s, because they were not matched by all
+sed -ni "s/^#\{$(( $# - 1 ))\}//p" "$tmp"
+
+# Add filter bio comment on top
+sed -i "1i # filter: $*" "$tmp"
+
+mv -- "$tmp" "$playlistsdir/Filtered.m3u"
+printf "%s filtered lines\n" "$(wc -l -- "$playlistsdir/Filtered.m3u" | awk '{ print $1 }')"

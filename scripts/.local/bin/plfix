@@ -20,9 +20,17 @@ if [ "$1" = '-p' ] || [ "$1" = '--pretend' ]; then
 fi
 
 counter="$(mktemp -p /tmp plfix.XXXXX)"
-printf 0 >"$counter"
+dupes="$(mktemp -p /tmp plfix.XXXXX)"
+printf "0\n0" >"$counter"
 printf '' >"$log"
 find "$pldir" -maxdepth 1 -type f -name '*.m3u' | while read -r f; do
+    lines="$(wc -l <"$f")"
+    awk '!visited[$0]++' "$f" >"$dupes"
+    lines2="$(wc -l <"$dupes")"
+    [ "$lines2" -lt "$lines" ] && {
+        printf "%s\n%s" "$(head -n1 -- "$counter")" "$(( $(sed -n 2p "$counter") + lines - lines2 ))" >"$counter"
+        [ -z "$pretend" ] && mv -- "$dupes" "$f"
+    }
     i=1
     printf "%s\n" "$f" >>"$log"
     cat -- "$f" | while read -r l; do
@@ -30,17 +38,24 @@ find "$pldir" -maxdepth 1 -type f -name '*.m3u' | while read -r f; do
             [ -z "$pretend" ] && sed -i "$i""d" "$f"
             i=$((i - 1))
             printf "\t%s\n" "$l" >>"$log"
-            printf "%s" "$(($(cat -- "$counter") + 1))" >"$counter"
+            printf "%s\n%s" "$(($(head -n1 -- "$counter") + 1))" "$(sed -n 2p "$counter")" >"$counter"
         }
         i=$((i + 1))
     done
 done
 
-count="$(cat -- "$counter")"
-if [ "$count" -gt 0 ]; then
-    printf "%s %s invalid path%s\n" "$(if [ -z "$pretend" ]; then printf "Removed"; else printf "Detected"; fi)" "$count" "$([ "$count" -eq 1 ] || printf s)"
-     "$PAGER" "$log"
+count1="$(head -n1 -- "$counter")"
+count2="$(sed -n 2p "$counter")"
+rm -- "$counter"
+if [ "$count1" -gt 0 ]; then
+    printf "%s %s invalid path%s\n" "$(if [ -z "$pretend" ]; then printf "Removed"; else printf "Detected"; fi)" "$count1" "$([ "$count1" -eq 1 ] || printf s)"
+    "$PAGER" "$log"
 else
     printf "No invalid paths found\n"
 fi
-rm -- "$counter"
+if [ "$count2" -gt 0 ]; then
+    printf "%s %s duplicate path%s\n" "$(if [ -z "$pretend" ]; then printf "Removed"; else printf "Detected"; fi)" "$count2" "$([ "$count2" -eq 1 ] || printf s)"
+else
+    printf "No duplicate paths found\n"
+fi
+

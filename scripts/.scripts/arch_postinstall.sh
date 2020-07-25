@@ -9,7 +9,6 @@ ecd () { cd "$1" || { eprint "failed to cd" && exit 1; } }
 # Create basic folder structures
 ecd ~
 mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
-    Projects/Dev Projects/Art Projects/Video Projects/Music Projects/Other \
     .scripts .local/bin .sfx .local/share/wallpapers .local/share/applications .local/share/nvim/backup .local/share/mpd .local/share/ncmpcpp
 
 # Installs from the official arch repository

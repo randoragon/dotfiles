@@ -8,6 +8,12 @@
 # - OneDrive Client for Linux (https://github.com/abraunegg/onedrive)
 
 # List of absolute paths to send to OneDrive
+# You can optionally specify target path, e.g.
+#   ~/Documents
+# will drop all contents to "$odroot/Documents",
+# however
+#   ~/Documents Papers
+# will drop all contents to "$odroot/Papers"
 sourcelist="$HOME/.config/odpush.list"
 
 # This represents the remote OneDrive root directory
@@ -17,10 +23,11 @@ odroot="$HOME/OneDrive"
 log="$HOME/.cache/odpush-latest.log"
 
 # Argument 1: source path (follows rsync's trailing slash convention)
+# Argument 2: target path (relative to $odroot/Sync)
 # The data will be saved inside the Sync directory on OneDrive
 push () {
-    [ $# -ne 1 ] && echo "odpush: push: invalid number of arguments" && return 1
-    src="$1" dest="Sync"
+    [ $# -ne 2 ] && echo "odpush: push: invalid number of arguments" && return 1
+    src="$1" dest="Sync/$2"
     [ ! -d "$src" ] && [ ! -f "$src" ] && echo "odpush: push: invalid path $(tput setaf 1)$src$(tput setaf 7)" >&2 && return 1
     [ -n "$dest" ] && [ ! -d "$odroot/$dest" ] && mkdir -p -- "$odroot/$dest"
     printf "\b%s\n" "$(tput bold)Synchronizing $(tput setaf 2)$src$(tput setaf 7) to $(tput setaf 3)$odroot/$dest$(tput setaf 7)...$(tput sgr0)"
@@ -41,8 +48,13 @@ while read -r line; do
 
     # If there's a path left, push it
     if [ -n "$line" ]; then
-        if [ -d "$line" ]; then
-            push "$line"
+        # Extract source and target paths (target path is optional)
+        spath="$(printf "%s" "$line" | awk '{ print $1 }')"
+        tpath="$(printf "%s" "$line" | awk '{ print $2 }')"
+        printf "SRC: %s DEST: %s" "$spath" "$tpath"
+        [ -z "$tpath" ] && tpath="$(basename -- "$spath")"
+        if [ -d "$spath" ]; then
+            push "$spath" "$tpath"
         else
             printf "odpush: directory '%s' does not exist (skipping)\n" "$line" >&2
         fi

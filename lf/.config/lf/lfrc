@@ -80,10 +80,7 @@ cmd trash %{{
 }} 
 
 # Alternate selection bindings
-map v :{{
-    toggle
-    up
-}}
+map v :toggle
 map <c-v> :invert
 
 # Fuzzy Find

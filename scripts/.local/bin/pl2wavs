@@ -1,0 +1,53 @@
+#!/usr/bin/sh
+
+# This script instakes a m3u playlist and creates
+# a directory containing all files in the same order
+# converted to WAV, ready to be burned to an audio CD.
+#
+# To burn the resulting directory onto a CD:
+# https://www.axllent.org/docs/cd-writing-using-cdrecord
+#
+# Dependencies:
+# - ffmpeg
+
+# m3u paths are relative to this directory
+rootdir=~/Music
+
+help () {
+    printf "Usage:
+
+    pl2wavs PLAYLIST [DIR]
+
+    PLAYLIST
+    an m3u playlist file with paths
+    relative to '%s'
+
+    DIR
+    The directory to be created, containing
+    all files listed in PLAYLIST converted to
+    the right format. If no dir is passed,
+    extensionless name of PLAYLIST is used.
+" "$rootdir"
+}
+
+case "$1" in
+    -h|--help) help ; exit ;;
+esac
+
+[ $# -lt 1 ] && echo "pl2wavs: at least 1 argument required" >&2 && exit 1
+[ ! -f "$1" ] && echo "pl2wavs: no file found" >&2 && exit 1
+dir="${2:-${1%%.m3u}}"
+[ -z "$dir" ] && echo "pl2wavs: playlist has no filename" >&2 && exit 1
+[ -d "$dir" ] && echo "pl2wavs: directory \"$dir\" already exists" >&2 && exit 1
+mkdir -p "$dir"
+
+no=1
+while read -r f; do
+    fpath="$rootdir/$f"
+    [ ! -f "$fpath" ] && echo "pl2wavs: invalid path found in line $no" >&2 && exit 1
+    fname="$(basename -- "$f")"
+    npath="$dir/$(printf "%02d" "$no"). ${fname%.*}.wav"
+    # Convert to stereo, 44100Hz, 16bit, wav (PCM)
+    ffmpeg -nostdin -loglevel error -i "$fpath" -ar 44100 -ac 2 -sample_fmt s16 "$npath"
+    no=$(( no + 1 ))
+done <"$1"

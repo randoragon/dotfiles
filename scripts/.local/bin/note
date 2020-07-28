@@ -1,0 +1,115 @@
+#!/usr/bin/sh
+
+# Wrapper script for storing markdown notes in pass.
+# Images can be encrypted as separate binary files.
+#
+# Dependencies:
+# - pass
+# - dmenu and fzf
+# - md2html
+# - surf (html viewing)
+
+passdir="${PASSWORD_STORE_DIR:-~/.password-store}"
+
+help () {
+    printf "NAME
+    note - wrapper script for storing and retrieving notes in pass.
+
+SYNOPSIS
+    note [OPTIONS] [NAME]
+
+DESCRIPTION
+    note is a wrapper script that lets you manage notes using pass.
+    note can distinguish between plain text files and markdown files.
+    By default every file is treated as plain text. To create a new
+    note, pass the NAME argument.
+
+OPTIONS
+    -e, --edit
+        Open note for editing instead of viewing. This implies that
+        the note already exists (NAME cannot be passed).
+
+    -m, --markdown
+        Create a markdown note instead of plain text. This option
+        is only allowed when creating a new note by passing NAME.
+
+    -t, --textonly
+        View a markdown note as plain text.
+
+    -h, --help
+        Display this help text.
+
+"
+}
+
+edit=
+markdown=
+textonly=
+opts="$(getopt -n note -s sh -o hemt -l help,edit,markdown,textonly -- "$@")"
+eval set -- "$opts"
+while true; do
+    case "$1" in
+        -h|--help) help ; exit ; shift ;;
+        -e|--edit) edit=1 ; shift ;;
+        -m|--markdown) markdown=1 ; shift ;;
+        -t|--textonly) textonly=1 ; shift ;;
+        --) shift ; break ;;
+        *) break ;;
+    esac
+done
+
+# View/edit existing note
+if [ $# -eq 0 ]; then
+    [ -n "$markdown" ] && echo "note: illegal use of --markdown option" >&2 && exit 2
+
+    # Check if shell is interactive. For interactive
+    # shells use fzf, otherwise use dmenu.
+    interactive=
+    if [ -t 0 ]; then
+        note="$(find "$passdir/notes" -maxdepth 1 -type f -name "*.gpg" -not -path "$passdir/notes" -print0 | xargs -0l -I % basename "%" .gpg | fzf --no-sort --no-multi --prompt "note: ")"
+        interactive=1
+    else
+        note="$(find "$passdir/notes" -maxdepth 1 -type f -name "*.gpg" -not -path "$passdir/notes" -print0 | xargs -0l -I % basename "%" .gpg | dmenu -l 5 -p "note:")"
+    fi
+    note="${note%.md}"
+
+    [ -z "$note" ] && exit
+    [ ! -f "$passdir/notes/$note.gpg" ] && [ ! -f "$passdir/notes/$note.md.gpg" ] && echo "note: file not found" >&2 && exit 1
+
+    if [ -z "$edit" ]; then
+        # Plain text notes
+        if [ -f "$passdir/notes/$note.gpg" ]; then
+            tmp="$(mktemp -p /tmp note.XXXXX.txt)"
+            pass "notes/$note" >"$tmp"
+            [ -s "$tmp" ] && if [ -n "$interactive" ]; then vim -R "$tmp"; else st -e vim "$tmp"; fi
+            rm -- "$tmp"
+
+        # Markdown notes
+        elif [ -f "$passdir/notes/$note.md.gpg" ]; then
+            if [ -z "$textonly" ]; then
+                tmp="$(mktemp -p /tmp note.XXXX.html)"
+                pass "notes/$note.md" | md2html >"$tmp"
+                [ -s "$tmp" ] && surf "file://$tmp"
+            else
+                tmp="$(mktemp -p /tmp note.XXXX.md)"
+                pass "notes/$note.md" >"$tmp"
+                [ -s "$tmp" ] && if [ -n "$interactive" ]; then vim -R "$tmp"; else st -e vim "$tmp"; fi
+            fi
+            rm -- "$tmp"
+        fi
+    else
+        [ -f "$passdir/notes/$note.gpg" ] && pass edit "notes/$note" && exit
+        [ -f "$passdir/notes/$note.md.gpg" ] && pass edit "notes/$note.md" && exit
+    fi
+
+# Create new note
+else
+    [ -n "$textonly" ] && echo "note: illegal use of --textonly option" >&2 && exit 2
+    [ -n "$edit" ] && echo "note: illegal use of --edit option" >&2 && exit 2
+    note="$*"
+    [ -n "$markdown" ] && note="$note.md"
+    echo "$note"
+    [ -f "$passdir/notes/$note.gpg" ] && echo "note: note with the same name already exists" >&2 && exit
+    pass edit "notes/$note"
+fi
+

@@ -29,6 +29,8 @@
     mod2+mod4+shift + o
 "$HOME/.scripts/usercpy"
     mod2+mod4+control + o
+"note"
+    mod2+mod4+shift + n
 
 # Screenshots
 "flameshot gui"

@@ -88,7 +88,7 @@ if [ $# -eq 0 ]; then
         elif [ -f "$passdir/notes/$note.md.gpg" ]; then
             if [ -z "$textonly" ]; then
                 tmp="$(mktemp -p /tmp note.XXXX.html)"
-                pass "notes/$note.md" | md2html >"$tmp"
+                pass "notes/$note.md" | md2html --ftables --ftasklists >"$tmp"
                 [ -s "$tmp" ] && surf "file://$tmp"
             else
                 tmp="$(mktemp -p /tmp note.XXXX.md)"

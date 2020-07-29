@@ -31,6 +31,8 @@
     mod2+mod4+control + o
 "note"
     mod2+mod4+shift + n
+"note -e"
+    mod2+mod4+control + n
 
 # Screenshots
 "flameshot gui"

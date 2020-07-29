@@ -64,7 +64,7 @@ sudo pacman -S --needed \
     gnupg pinentry \
     cronie \
     cpulimit \
-    tokei ctags \
+    tokei ctags bat \
     neofetch screenkey \
     trash-cli \
     atomicparsley \

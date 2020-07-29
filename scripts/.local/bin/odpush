@@ -51,7 +51,6 @@ while read -r line; do
         # Extract source and target paths (target path is optional)
         spath="$(printf "%s" "$line" | awk '{ print $1 }')"
         tpath="$(printf "%s" "$line" | awk '{ print $2 }')"
-        printf "SRC: %s DEST: %s" "$spath" "$tpath"
         [ -z "$tpath" ] && tpath="$(basename -- "$spath")"
         if [ -d "$spath" ]; then
             push "$spath" "$tpath"

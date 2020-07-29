@@ -9,7 +9,7 @@
 # - md2html
 # - surf (html viewing)
 
-passdir="${PASSWORD_STORE_DIR:-~/.password-store}"
+notedir="${PASSWORD_STORE_DIR:-~/.password-store}/notes"
 
 help () {
     printf "NAME
@@ -66,26 +66,25 @@ if [ $# -eq 0 ]; then
     # shells use fzf, otherwise use dmenu.
     interactive=
     if [ -t 0 ]; then
-        note="$(find "$passdir/notes" -maxdepth 1 -type f -name "*.gpg" -not -path "$passdir/notes" -print0 | xargs -0l -I % basename "%" .gpg | fzf --no-sort --no-multi --prompt "note: ")"
+        note="$(find "$notedir" -type f -name "*.gpg" -not -path "$notedir" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "view note: ")"
         interactive=1
     else
-        note="$(find "$passdir/notes" -maxdepth 1 -type f -name "*.gpg" -not -path "$passdir/notes" -print0 | xargs -0l -I % basename "%" .gpg | dmenu -l 5 -p "note:")"
+        note="$(find "$notedir" -type f -name "*.gpg" -not -path "$notedir" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | dmenu -l 5 -p "view note:")"
     fi
-    note="${note%.md}"
 
     [ -z "$note" ] && exit
-    [ ! -f "$passdir/notes/$note.gpg" ] && [ ! -f "$passdir/notes/$note.md.gpg" ] && echo "note: file not found" >&2 && exit 1
+    [ ! -f "$notedir/$note.gpg" ] && [ ! -f "$notedir/$note.md.gpg" ] && echo "note: file not found" >&2 && exit 1
 
     if [ -z "$edit" ]; then
         # Plain text notes
-        if [ -f "$passdir/notes/$note.gpg" ]; then
+        if [ -f "$notedir/$note.gpg" ]; then
             tmp="$(mktemp -p /tmp note.XXXXX.txt)"
             pass "notes/$note" >"$tmp"
             [ -s "$tmp" ] && if [ -n "$interactive" ]; then vim -R "$tmp"; else st -e vim "$tmp"; fi
             rm -- "$tmp"
 
         # Markdown notes
-        elif [ -f "$passdir/notes/$note.md.gpg" ]; then
+        elif [ -f "$notedir/$note.md.gpg" ]; then
             if [ -z "$textonly" ]; then
                 tmp="$(mktemp -p /tmp note.XXXX.html)"
                 pass "notes/$note.md" | md2html --ftables --ftasklists >"$tmp"
@@ -98,8 +97,8 @@ if [ $# -eq 0 ]; then
             rm -- "$tmp"
         fi
     else
-        [ -f "$passdir/notes/$note.gpg" ] && pass edit "notes/$note" && exit
-        [ -f "$passdir/notes/$note.md.gpg" ] && pass edit "notes/$note.md" && exit
+        [ -f "$notedir/$note.gpg" ] && pass edit "notes/$note" && exit
+        [ -f "$notedir/$note.md.gpg" ] && pass edit "notes/$note.md" && exit
     fi
 
 # Create new note
@@ -107,9 +106,9 @@ else
     [ -n "$textonly" ] && echo "note: illegal use of --textonly option" >&2 && exit 2
     [ -n "$edit" ] && echo "note: illegal use of --edit option" >&2 && exit 2
     note="$*"
+    [ -z "$(basename -- "$note")" ] && echo "note: cannot create a note with empty filename" >&2 && exit 2
     [ -n "$markdown" ] && note="$note.md"
-    echo "$note"
-    [ -f "$passdir/notes/$note.gpg" ] && echo "note: note with the same name already exists" >&2 && exit
+    [ -f "$notedir/$note.gpg" ] && echo "note: note with the same name already exists" >&2 && exit
     pass edit "notes/$note"
 fi
 

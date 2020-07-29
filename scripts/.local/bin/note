@@ -10,6 +10,7 @@
 # - surf (html viewing)
 
 notedir="${PASSWORD_STORE_DIR:-~/.password-store}/notes"
+[ ! -d "$notedir" ] && echo "note: notes dir not found" >&2 && exit 1
 
 help () {
     printf "NAME
@@ -66,10 +67,10 @@ if [ $# -eq 0 ]; then
     # shells use fzf, otherwise use dmenu.
     interactive=
     if [ -t 0 ]; then
-        note="$(find "$notedir" -type f -name "*.gpg" -not -path "$notedir" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "view note: ")"
+        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "view note: ")"
         interactive=1
     else
-        note="$(find "$notedir" -type f -name "*.gpg" -not -path "$notedir" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | dmenu -l 5 -p "view note:")"
+        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | dmenu -l 5 -p "view note:")"
     fi
 
     [ -z "$note" ] && exit

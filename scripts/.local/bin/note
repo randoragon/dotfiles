@@ -66,11 +66,12 @@ if [ $# -eq 0 ]; then
     # Check if shell is interactive. For interactive
     # shells use fzf, otherwise use dmenu.
     interactive=
+    if [ -z "$edit" ]; then prompt="view note:"; else prompt="edit note:"; fi
     if [ -t 0 ]; then
-        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "view note: ")"
+        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "$prompt ")"
         interactive=1
     else
-        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | dmenu -l 5 -p "view note:")"
+        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | dmenu -l 5 -p "$prompt")"
     fi
 
     [ -z "$note" ] && exit
@@ -98,8 +99,13 @@ if [ $# -eq 0 ]; then
             rm -- "$tmp"
         fi
     else
-        [ -f "$notedir/$note.gpg" ] && pass edit "notes/$note" && exit
-        [ -f "$notedir/$note.md.gpg" ] && pass edit "notes/$note.md" && exit
+        if [ -n "$interactive" ]; then
+            [ -f "$notedir/$note.gpg" ] && pass edit "notes/$note" && exit
+            [ -f "$notedir/$note.md.gpg" ] && pass edit "notes/$note.md" && exit
+        else
+            [ -f "$notedir/$note.gpg" ] && st -e pass edit "notes/$note" && exit
+            [ -f "$notedir/$note.md.gpg" ] && st -e pass edit "notes/$note.md" && exit
+        fi
     fi
 
 # Create new note

@@ -4,6 +4,9 @@
 # using tmux as multiplexer. Then you can switch between the two
 # using alt+tab, or quit both with ctrl+q.
 
+killall newsboat
+killall podboat
+
 tmux new-session \; \
     bind-key -n M-Tab select-window -t:+1 \; \
     bind-key -n C-q kill-session \; \

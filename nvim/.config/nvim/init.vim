@@ -140,7 +140,7 @@ augroup file_switch
     autocmd! BufEnter *.c   let b:fswitchdst = 'h'     | let b:fswitchlocs = '.'
 augroup END
 nnoremap <Leader>s :FSHere<CR>
-" 1}}}
+" }}}
 
 " Searching {{{1
 set ignorecase
@@ -180,6 +180,11 @@ set splitright
 
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bNext<CR>
+
+nnoremap <S-z> :tabprevious<CR>
+nnoremap <S-x> :tabnext<CR>
+nnoremap g<S-z> :-tabmove<CR>
+nnoremap g<S-x> :+tabmove<CR>
 " }}}
 
 " Backup directories {{{1

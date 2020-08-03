@@ -31,6 +31,7 @@ Plug 'ternjs/tern_for_vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'derekwyatt/vim-fswitch'
 call plug#end()
 
 " Airline {{{2
@@ -132,6 +133,14 @@ augroup fold_switch
     autocmd! BufWinEnter *.md   setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
 augroup END
 " }}}
+
+" FSwitch settings {{{1
+augroup file_switch
+    autocmd! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '.'
+    autocmd! BufEnter *.c   let b:fswitchdst = 'h'     | let b:fswitchlocs = '.'
+augroup END
+nnoremap <Leader>s :FSHere<CR>
+" 1}}}
 
 " Searching {{{1
 set ignorecase

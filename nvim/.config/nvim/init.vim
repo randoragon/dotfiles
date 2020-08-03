@@ -68,6 +68,8 @@ let g:AutoPairsShortcutToggle='<Leader>0'
 " }}}
 
 " FZF {{{2
+nnoremap <C-f> <Nop>
+nnoremap <C-b> <Nop>
 nnoremap <C-f>f     : Files<CR>
 nnoremap <C-f><C-f> : Files<CR>
 nnoremap <C-f>l     : Lines<CR>
@@ -139,7 +141,7 @@ augroup file_switch
     autocmd! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '.'
     autocmd! BufEnter *.c   let b:fswitchdst = 'h'     | let b:fswitchlocs = '.'
 augroup END
-nnoremap <Leader>s :FSHere<CR>
+nnoremap <C-s> :FSHere<CR>
 " }}}
 
 " Searching {{{1

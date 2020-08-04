@@ -183,10 +183,13 @@ set splitright
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bNext<CR>
 
-nnoremap <S-z> :tabprevious<CR>
-nnoremap <S-x> :tabnext<CR>
-nnoremap g<S-z> :-tabmove<CR>
-nnoremap g<S-x> :+tabmove<CR>
+nnoremap <S-h> :tabprevious<CR>
+nnoremap <S-l> :tabnext<CR>
+nnoremap g<S-h> :-tabmove<CR>
+nnoremap g<S-l> :+tabmove<CR>
+
+nnoremap gt <S-h>
+nnoremap gT <S-l>
 " }}}
 
 " Backup directories {{{1

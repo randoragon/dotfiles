@@ -34,7 +34,7 @@ find "$pldir" -maxdepth 1 -type f -name '*.m3u' | while read -r f; do
     i=1
     printf "%s\n" "$f" >>"$log"
     cat -- "$f" | while read -r l; do
-        [ ! -f "$music/$l" ] && {
+        [ ! -f "$music/$l" ] && [ "${l#\#}" = "$l" ] && {
             [ -z "$pretend" ] && sed -i "$i""d" "$f"
             i=$((i - 1))
             printf "\t%s\n" "$l" >>"$log"

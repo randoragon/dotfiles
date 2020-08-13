@@ -112,6 +112,12 @@ ex=🎯:\
 *.webm=🎥:\
 *.mpeg=🎥:\
 *.avi=🎥:\
+*.mov=🎥:\
+*.wmv=🎥:\
+*.asf=🎥:\
+*.flv=🎥:\
+*.m4v=🎥:\
+*.qt=🎥:\
 *.zip=📦:\
 *.rar=📦:\
 *.7z=📦:\
@@ -127,6 +133,8 @@ ex=🎯:\
 *.part=💔:\
 *.torrent=🔽:\
 *.o=📑:\
+*.srt=🗚:\
+*.vtt=🗚:\
 "
 
 # Start graphical server on tty1 if not already running, otherwise start tmux

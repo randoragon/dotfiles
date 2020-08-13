@@ -1,5 +1,5 @@
 #!/usr/bin/sh
 
 for path in /sys/class/power_supply/BAT?; do
-    echo "$(printf "%s" "$path" | grep -o "BAT[0-9]\?"): $(cat -- "$path/capacity")%"
+    [ -r "$path/capacity" ] && echo "$(printf "%s" "$path" | grep -o "BAT[0-9]\?"): $(cat -- "$path/capacity")%"
 done

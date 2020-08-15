@@ -1,0 +1,40 @@
+#!/usr/bin/sh
+
+# This script deletes mp3 files with paths stored
+# inside a "Delete" playlist. This is just a convention.
+#
+# Dependencies:
+# - trash-cli
+
+mroot=~/Music
+pldel=~/Music/Playlists/Delete.m3u
+log="${XDG_DATA_HOME:-$HOME/.local/share}/pldel-latest.log"
+
+[ ! -f "$pldel" ] && echo "pldel: Delete playlist not found" >&2 && exit 1
+
+tmp="$(mktemp -p /tmp pldel.XXXXX)"
+printf "Last run: %s\nTrashed paths:\n\n" "$(date)" >"$log"
+cp -- "$pldel" "$tmp"
+lcount=1
+dcount=0
+while read -r line; do
+    if [ -f "$mroot/$line" ]; then
+        if trash-put "$mroot/$line"; then
+            dcount="$(( dcount + 1 ))"
+            echo "$line" >>"$log"
+            sed -i "${lcount}d" "$tmp"
+        else
+            echo "pldel: failed to trash file \"$mroot/$line\"" >&2
+        fi
+    else
+        echo "pldel: invalid path \"$mroot/$line\"" >&2
+    fi
+    lcount="$(( lcount + 1 ))"
+done <"$pldel"
+cp -- "$tmp" "$pldel"
+
+if [ "$dcount" -gt 0 ]; then
+    printf "Successfully trashed %s file%s. Remember to run 'beet update'\n" "$dcount" "$([ "$dcount" -gt 1 ] && printf "s")"
+else
+    echo "No files trashed"
+fi

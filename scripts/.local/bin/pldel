@@ -15,21 +15,20 @@ log="${XDG_DATA_HOME:-$HOME/.local/share}/pldel-latest.log"
 tmp="$(mktemp -p /tmp pldel.XXXXX)"
 printf "Last run: %s\nTrashed paths:\n\n" "$(date)" >"$log"
 cp -- "$pldel" "$tmp"
-lcount=1
 dcount=0
 while read -r line; do
     if [ -f "$mroot/$line" ]; then
         if trash-put "$mroot/$line"; then
             dcount="$(( dcount + 1 ))"
             echo "$line" >>"$log"
-            sed -i "${lcount}d" "$tmp"
         else
             echo "pldel: failed to trash file \"$mroot/$line\"" >&2
         fi
     else
-        echo "pldel: invalid path \"$mroot/$line\"" >&2
+        echo "pldel: file not found \"$mroot/$line\"" >&2
     fi
-    lcount="$(( lcount + 1 ))"
+    linenum="$(grep -n "$line" "$tmp" | cut -d ":" -f1 | head -n1)"
+    [ -n "$linenum" ] && sed -i "$linenum{d;q}" "$tmp"
 done <"$pldel"
 cp -- "$tmp" "$pldel"
 

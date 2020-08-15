@@ -3,3 +3,6 @@
 
 # Update dwmblocks updates module
 */30 * * * * ~/.scripts/dwmblocks/updates
+
+# Weekly Delete playlist removal
+0 12 * * 0 ~/.local/bin/pldel

@@ -576,6 +576,10 @@ cmd save-f &{{
 # Quick edit ratios
 map ,r :push :set<space>ratios<space>
 
+# Sxiv image previews
+map ,i &sxiv -qta .
+map ,I &sxiv -qtar .
+
 # Generate directory shortcuts from jumprc
 map c
 map cd<enter> :cd ~

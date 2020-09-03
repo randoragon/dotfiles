@@ -82,7 +82,7 @@ if [ $# -eq 0 ]; then
         if [ -f "$notedir/$note.gpg" ]; then
             tmp="$(mktemp -p /tmp note.XXXXX.txt)"
             pass "notes/$note" >"$tmp"
-            [ -s "$tmp" ] && if [ -n "$interactive" ]; then vim -R "$tmp"; else st -e vim "$tmp"; fi
+            [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
             rm -- "$tmp"
 
         # Markdown notes
@@ -94,7 +94,7 @@ if [ $# -eq 0 ]; then
             else
                 tmp="$(mktemp -p /tmp note.XXXX.md)"
                 pass "notes/$note.md" >"$tmp"
-                [ -s "$tmp" ] && if [ -n "$interactive" ]; then vim -R "$tmp"; else st -e vim "$tmp"; fi
+                [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
             fi
             rm -- "$tmp"
         fi

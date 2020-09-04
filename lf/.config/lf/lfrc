@@ -580,6 +580,9 @@ map ,r :push :set<space>ratios<space>
 map ,i &sxiv -qta .
 map ,I &sxiv -qtar .
 
+# Previewer script
+set previewer ~/.scripts/lf-previewer
+
 # Generate directory shortcuts from jumprc
 map c
 map cd<enter> :cd ~

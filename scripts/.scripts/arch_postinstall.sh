@@ -64,7 +64,7 @@ sudo pacman -S --needed \
     gnupg pinentry \
     cronie \
     cpulimit \
-    tokei ctags bat \
+    tokei ctags highlight \
     neofetch screenkey \
     trash-cli \
     atomicparsley \
@@ -119,7 +119,8 @@ yay -Sa --needed \
     lf \
     libxft-bgra \
     sparklines-git \
-    xidlehook
+    xidlehook \
+    moar
 
 # Install dwm, dwmblocks, st, randoutils and surf
 if [ -z "$(command -v dwm)" ]; then

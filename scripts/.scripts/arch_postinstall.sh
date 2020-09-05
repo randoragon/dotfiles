@@ -126,7 +126,7 @@ yay -Sa --needed \
 # Install dwm, dwmblocks, st, randoutils and surf
 if [ -z "$(command -v dwm)" ]; then
     ecd ~/Software
-    git clone 'https://github.com/Randoragon/dwm'
+    git clone https://github.com/Randoragon/dwm
     ecd ~/Software/dwm
     sudo make clean install
 else
@@ -134,7 +134,7 @@ else
 fi
 if [ -z "$(command -v dwmblocks)" ]; then
     ecd ~/Software
-    git clone 'https://github.com/Randoragon/dwmblocks'
+    git clone https://github.com/Randoragon/dwmblocks
     ecd ~/Software/dwmblocks
     sudo make clean install
 else
@@ -151,7 +151,7 @@ else
 fi
 if [ ! -d ~/Software/randoutils ]; then
     ecd ~/Software
-    git clone 'https://github.com/Randoragon/randoutils'
+    git clone https://github.com/Randoragon/randoutils
 else
     echo "rando utils detected, skipping."
 fi
@@ -160,6 +160,7 @@ if [ -z "$(command -v surf)" ]; then
     git clone https://github.com/randoragon/surf
     ecd ~/Software/surf
     sudo make clean install
+    find . -maxdepth 1 -name "surf-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 else
     echo "surf detected, skipping."
 fi
@@ -170,7 +171,6 @@ if [ ! -d ~/Software/pass-extension-tail ]; then
     git clone 'https://github.com/palortoff/pass-extension-tail'
     ecd  ~/Software/pass-extension-tail
     sudo make install
-    find . -maxdepth 1 -name "surf-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 else
     echo "pass-extension-tail detected, skipping."
 fi

@@ -72,7 +72,8 @@ sudo pacman -S --needed \
     marked wkhtmltopdf \
     shellcheck \
     newsboat weechat \
-    physlock
+    physlock \
+    syncthing
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh

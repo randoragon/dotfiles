@@ -11,6 +11,7 @@ xbindkeys &
 dunst &
 picom --config "$HOME/.config/picom/picom.conf" &
 xidlehook --not-when-audio --timer 600 'physlock' '' --timer 1200 'systemctl suspend' '' &
+syncthing &
 
 # Autostart other programs
 [ -f ~/.config/autostart ] && . ~/.config/autostart

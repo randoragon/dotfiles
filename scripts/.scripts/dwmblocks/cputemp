@@ -58,7 +58,7 @@ crit_enter () {
     topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
     notify-send -i cpu -u critical "DANGER!" "<b>CPU Temperature Critical!</b>\n<u>Top Process</u>: $topcmd" >/dev/null 2>&1
     mpc --port="$MPD_PORT" pause >/dev/null 2>&1
-    mpv "$SFX" & >/dev/null 2>&1
+    mpv --no-terminal -- "$SFX" & >/dev/null 2>&1
 }
 
 # Extract the highest temperature from sensors output

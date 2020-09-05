@@ -73,7 +73,7 @@ sudo pacman -S --needed \
     shellcheck \
     newsboat weechat \
     physlock \
-    syncthing
+    rsync syncthing
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh
@@ -121,7 +121,7 @@ yay -Sa --needed \
     libxft-bgra \
     sparklines-git \
     xidlehook \
-    moar
+    xxd-standalone
 
 # Install dwm, dwmblocks, st, randoutils and surf
 if [ -z "$(command -v dwm)" ]; then

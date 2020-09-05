@@ -1,0 +1,62 @@
+#!/usr/bin/sh
+
+# This script does the opposite of spull.
+# It mirrors the contents of Syncthing's
+# Sync directory to the filesystem.
+# BE SURE SYNCTHING IS UP-TO-DATE BEFORE
+# DOING THIS!
+
+# The file holding src/dest pairs
+sourcelist="$HOME/.config/spull.list"
+
+# The directory used by Syncthing
+syncroot="$HOME/Sync"
+
+# Log file
+log="$HOME/.cache/spull-latest.log"
+
+# Pass -e to edit source list
+[ "$1" = "-e" ] && "$EDITOR" "$sourcelist" && exit
+
+# Argument 1: source path (relative to $syncroot)
+# Argument 2: target path (follows rsync's trailing slash convention)
+pull () {
+    [ $# -ne 2 ] && echo "spull: pull: invalid number of arguments" >&2 && return 1
+    src="$1" dest="$2"
+    printf "%s\nSRC=\"%s\", DEST=\"%s\"\n" "---------------[$(date)]---------------" "$syncroot/$src" "$dest" >>"$log"
+    [ ! -d "$syncroot/$src" ] && [ ! -f "$syncroot/$src" ] && echo "spull: pull: invalid path $(tput setaf 1)$src$(tput setaf 7)" >&2 && return 1
+    printf "\b%s\n" "$(tput bold)Mirroring $(tput setaf 3)$syncroot/$src$(tput setaf 15) to $(tput setaf 2)$dest$(tput setaf 7)...$(tput sgr0)"
+    rsync -vcr --delete -- "$syncroot/$src" "$dest" | tee -a "$log"
+    printf "\n" | tee -a "$log"
+}
+
+printf "Are you absolutely sure $(tput bold)%s$(tput sgr0) is up to date? [y/N] " "$syncroot"
+read -r ans
+[ "$ans" != y ] && [ "$ans" != Y ] && exit
+
+[ ! -f "$sourcelist" ] && echo "spull: sources list file not found" >&2 && exit 1
+printf '' >"$log"
+
+while read -r line; do
+    # Strip comments
+    line="$(printf "%s\n" "$line" | sed 's/#.*//')"
+
+    # Convert tilde to $HOME
+    printf "prev line: %s\n" "$line"
+    line="$(printf "%s\n" "$line" | sed "s/\~/$(printf "%s\n" "$HOME" | sed 's|/|\\/|g')/g")"
+    printf "special line: %s\n" "$line"
+
+    # If there's a path left, push it
+    if [ -n "$line" ]; then
+        # Extract source and target paths (target path is optional)
+        spath="$(printf "%s" "$line" | awk '{ print $1 }')"
+        tpath="$(printf "%s" "$line" | awk '{ print $2 }')"
+        [ -z "$tpath" ] || [ -z "$spath" ] && echo "spull: malformed source file line: \"$line\" (skipping)" >&2 && continue
+        if [ -d "$syncroot/$spath" ]; then
+            pull "$spath" "$tpath"
+        else
+            printf "spull: directory '%s' does not exist (skipping)\n" "$syncroot/$line" >&2
+        fi
+    fi
+
+done <"$sourcelist"

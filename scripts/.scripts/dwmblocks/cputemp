@@ -14,6 +14,7 @@
 
 WARN=80
 CRIT=95
+DUNSTID=71098265
 FILE="$HOME/.cache/cputemp"
 SFX="$HOME/.sfx/alarm.wav"
 
@@ -50,15 +51,15 @@ crit () {
 # Runs when temperature crosses from <-∞;WARN) to <WARN;CRIT)
 warn_enter () {
     topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
-    notify-send -i cpu -u critical "WARNING!" "<b>CPU Temperature High!</b>\n<u>Top Process</u>: $topcmd" >/dev/null 2>&1
+    dunstify -r "$DUNSTID" -i cpu -u critical "WARNING!" "<b>CPU Temperature High!</b>\n<u>Top Process</u>: $topcmd" >/dev/null 2>&1
 }
 
 # Runs when temperature crosses from <WARN;CRIT) to <CRIT;+∞)
 crit_enter () {
     topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
-    notify-send -i cpu -u critical "DANGER!" "<b>CPU Temperature Critical!</b>\n<u>Top Process</u>: $topcmd" >/dev/null 2>&1
+    dunstify -r "$DUNSTID" -i cpu -u critical "DANGER!" "<b>CPU Temperature Critical!</b>\n<u>Top Process</u>: $topcmd" >/dev/null 2>&1
     mpc --port="$MPD_PORT" pause >/dev/null 2>&1
-    mpv --no-terminal -- "$SFX" & >/dev/null 2>&1
+    mpv --no-terminal -- "$SFX" >/dev/null 2>&1 & 
 }
 
 # Extract the highest temperature from sensors output

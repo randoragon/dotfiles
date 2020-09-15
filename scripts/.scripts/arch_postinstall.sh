@@ -73,7 +73,8 @@ sudo pacman -S --needed \
     shellcheck \
     newsboat weechat \
     physlock \
-    rsync syncthing
+    rsync syncthing \
+    webkit2gtk
 
 # Replace sh with dash for speed
 [ -L /usr/bin/sh ] || sudo ln -sfT /usr/bin/dash /usr/bin/sh

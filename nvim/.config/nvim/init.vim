@@ -32,6 +32,9 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'derekwyatt/vim-fswitch'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete-clangx'
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 call plug#end()
 
 " Airline {{{2
@@ -86,6 +89,10 @@ nnoremap <C-f>a     : Ag<CR>
 nnoremap <C-f><C-a> : Ag<CR>
 nnoremap <C-f>b     : Buffers<CR>
 nnoremap <C-f><C-b> : Buffers<CR>
+" }}}
+
+" {{{2 Deoplete
+let g:deoplete#enable_at_startup = 1
 " }}}
 
 " }}}
@@ -245,13 +252,18 @@ endfunction
 " }}}
 
 " Enable 256 color support, set colorscheme {{{1
-set termguicolors
-colorscheme gruvbox
-set background=dark
-if &term =~ '256color'
-    " Disable background color erase (BCE) so that color schemes
-    " work properly when Vim is used inside tmux and GNU screen
-    set t_ut=
+if $DISPLAY != ""
+    set termguicolors
+    colorscheme jellybeans
+    set background=dark
+    if &term =~ '256color'
+        " Disable background color erase (BCE) so that color schemes
+        " work properly when Vim is used inside tmux and GNU screen
+        set t_ut=
+    endif
+else
+    " fallback colorscheme for TTY
+    colorscheme ron
 endif
 " }}}
 

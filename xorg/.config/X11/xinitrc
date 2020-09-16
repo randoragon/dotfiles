@@ -15,7 +15,7 @@ fi
 xset r rate 250 30
 
 # Apply custom keyboard layout
-xkbcomp -I$HOME/.config/xkb ~/.config/xkb/keymap/mykbd $DISPLAY
+xkbcomp -I$HOME/.config/xkb ~/.config/xkb/keymap/mykbd "$DISPLAY"
 
 # Read Xresources file
 xres="${XDG_CONFIG_HOME:-$HOME/.config}/X11/Xresources"
@@ -25,10 +25,6 @@ unset xres
 # Export wacom related variables
 . "$HOME/.scripts/wacom/wacom-setup"
 
-
-# Setting this allows some applications to easily
-# know if they're in a graphical env or a tty
-export DESKTOP_SESSION=dwm
 
 # Start the window/display manager
 exec dwm

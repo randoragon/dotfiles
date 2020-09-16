@@ -2,7 +2,7 @@
 
 col1=2
 col2=11
-scount=3
+scount=4
 
 section () {
     printf "$(tput setaf $col1)$(tput bold)(%s/%s) %s $(tput setaf $col2)%s$(tput setaf $col1)...$(tput sgr0)\n" "$snow" "$scount" "$1" "$2"
@@ -28,6 +28,10 @@ sectionend
 
 section "RUNNING" "youtube-dl -U"
 sudo youtube-dl -U
+sectionend
+
+section "RUNNING" "nvim -es 'PlugUpdate'"
+nvim -es 'PlugUpdate'
 
 ~/.scripts/dwmblocks/updates
 pkill -RTMIN+4 -x dwmblocks

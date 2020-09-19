@@ -2,7 +2,7 @@
 
 # Runs mousemode
 
-[ -n "$(pgrep -x mousemode-run)" ] && exit
+[ "$(pgrep -x mousemode-run | wc -l)" -gt 2 ] && exit
 
 dunstid=$(dunstify -p -i mouse -u critical MOUSEMODE)
 mousemode

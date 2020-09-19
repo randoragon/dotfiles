@@ -1,0 +1,9 @@
+#!/usr/bin/sh
+
+# Runs mousemode
+
+[ -n "$(pgrep -x mousemode-run)" ] && exit
+
+dunstid=$(dunstify -p -i mouse -u critical MOUSEMODE)
+mousemode
+dunstify -C "$dunstid"

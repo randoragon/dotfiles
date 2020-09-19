@@ -33,6 +33,8 @@
     mod2+mod4+shift + n
 "note -e"
     mod2+mod4+control + n
+"~/.scripts/mousemode-run"
+    mod2+mod4+shift + m
 
 # Screenshots
 "flameshot gui"

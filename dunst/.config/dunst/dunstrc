@@ -311,11 +311,10 @@
 # where urgency can be "LOW", "NORMAL" or "CRITICAL".
 
 [dwm_mousemode]
-    summary = "DWM_MOUSEMODE"
+    summary = "MOUSEMODE"
     body = ""
     icon = "mouse"
     msg_urgency = "CRITICAL"
-    format = "<b>MOUSEMODE</b>"
     background = "#E1FFF9"
     foreground = "#055A65"
 

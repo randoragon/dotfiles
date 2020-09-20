@@ -122,7 +122,8 @@ yay -Sa --needed \
     libxft-bgra \
     sparklines-git \
     xidlehook \
-    xxd-standalone
+    xxd-standalone \
+    mousemode-git
 
 # Install dwm, dwmblocks, st, randoutils and surf
 if [ -z "$(command -v dwm)" ]; then
@@ -154,7 +155,7 @@ if [ ! -d ~/Software/randoutils ]; then
     ecd ~/Software
     git clone https://github.com/Randoragon/randoutils
 else
-    echo "rando utils detected, skipping."
+    echo "randoutils detected, skipping."
 fi
 if [ -z "$(command -v surf)" ]; then
     ecd ~/Software

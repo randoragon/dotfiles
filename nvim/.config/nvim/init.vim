@@ -123,7 +123,6 @@ set softtabstop=4
 augroup filetype_detect
     autocmd! BufEnter *.MD :set filetype=markdown
 augroup END
-nnoremap <C-s> :FSHere<CR>
 " }}}
 
 " Fold settings {{{1
@@ -143,10 +142,10 @@ endfunction
 augroup fold_switch
     autocmd!
     autocmd BufWinEnter * :normal zR
-    autocmd! BufWinEnter .vimrc,init.vim    setlocal foldmethod=marker foldlevel=0
+    autocmd! BufWinEnter .vimrc,init.vim     setlocal foldmethod=marker foldlevel=0
     autocmd! BufWinEnter *.c,*.h,*.cpp,*.hpp setlocal foldmethod=syntax | :normal zR
     autocmd! BufWinEnter *.py      setlocal foldmethod=indent | :normal zR
-    autocmd! BufWinEnter *.md      setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
+    autocmd! BufWinEnter *.md,*.MD setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
 augroup END
 " }}}
 

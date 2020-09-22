@@ -119,6 +119,13 @@ set tabstop=4
 set softtabstop=4
 " }}}
 
+" File type detection settings {{{1
+augroup filetype_detect
+    autocmd! BufEnter *.MD :set filetype=markdown
+augroup END
+nnoremap <C-s> :FSHere<CR>
+" }}}
+
 " Fold settings {{{1
 set foldmethod=manual
 

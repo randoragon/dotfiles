@@ -27,6 +27,7 @@ Plug 'glts/vim-magnum'
 Plug 'dense-analysis/ale'
 Plug 'easymotion/vim-easymotion'
 Plug 'morhetz/gruvbox'
+Plug 'sjl/badwolf'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'ternjs/tern_for_vim'
@@ -263,6 +264,7 @@ endfunction
 syntax enable
 let g:palenight_terminal_italics = 1
 let g:jellybeans_use_term_italics = 1
+let g:badwolf_darkgutter = 1
 if $DISPLAY != ""
     set termguicolors
     set background=dark

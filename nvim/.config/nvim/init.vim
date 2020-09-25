@@ -26,7 +26,9 @@ Plug 'glts/vim-radical'
 Plug 'glts/vim-magnum'
 Plug 'dense-analysis/ale'
 Plug 'easymotion/vim-easymotion'
-Plug 'flazz/vim-colorschemes'
+Plug 'morhetz/gruvbox'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'nanotech/jellybeans.vim'
 Plug 'ternjs/tern_for_vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
@@ -258,10 +260,13 @@ endfunction
 " }}}
 
 " Enable 256 color support, set colorscheme {{{1
+syntax enable
+let g:palenight_terminal_italics = 1
+let g:jellybeans_use_term_italics = 1
 if $DISPLAY != ""
     set termguicolors
-    colorscheme jellybeans
     set background=dark
+    colorscheme jellybeans
     if &term =~ '256color'
         " Disable background color erase (BCE) so that color schemes
         " work properly when Vim is used inside tmux and GNU screen
@@ -272,4 +277,3 @@ else
     colorscheme ron
 endif
 " }}}
-

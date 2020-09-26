@@ -150,7 +150,6 @@ if [ -z "$(command -v st)" ]; then
     git clone https://github.com/randoragon/st
     ecd ~/Software/st
     sudo make clean install
-    find . -maxdepth 1 -name "st-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 else
     echo "st detected, skipping."
 fi
@@ -165,7 +164,6 @@ if [ -z "$(command -v surf)" ]; then
     git clone https://github.com/randoragon/surf
     ecd ~/Software/surf
     sudo make clean install
-    find . -maxdepth 1 -name "surf-script-*" -print0 | xargs -0 -I % sudo ln -sTf -- "$(realpath -- "%")" "/usr/local/bin/$(basename -- "%")"
 else
     echo "surf detected, skipping."
 fi

@@ -6,3 +6,6 @@
 
 # Weekly Delete playlist removal
 0 12 * * 0 ~/.local/bin/pldel
+
+# Update locate database
+0 12 * * * ~/.local/bin/updatedb

@@ -108,7 +108,7 @@ let g:clipboard = {
  \        '*': 'xclip -selection clipboard'
  \    },
  \    'paste': {
- \        '+': 'xclip -o',
+ \        '+': 'xclip -selection clipboard -o',
  \        '*': 'xclip -o'
  \    },
  \    'cache_enabled': 1,

@@ -15,7 +15,7 @@ mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
 sudo pacman -Syu
 sudo pacman -S --needed \
     make cmake gcc gdb \
-    lynx \
+    firefox lynx \
     git patch \
     picom \
     pass \
@@ -108,7 +108,6 @@ fi
 yay -Syua
 yay -Sa --needed \
     xxd-standalone \
-    brave-bin \
     pass-update \
     ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \

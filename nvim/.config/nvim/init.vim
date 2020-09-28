@@ -15,7 +15,6 @@ set hidden
 " Plugins {{{1
 call plug#begin('~/.config/nvim/plugged')
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
@@ -30,7 +29,6 @@ Plug 'morhetz/gruvbox'
 Plug 'sjl/badwolf'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'nanotech/jellybeans.vim'
-Plug 'ternjs/tern_for_vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
 Plug 'skywind3000/asyncrun.vim'

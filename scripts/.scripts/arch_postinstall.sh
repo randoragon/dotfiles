@@ -115,7 +115,6 @@ yay -Sa --needed \
     id3ted \
     rar \
     xrectsel \
-    dmenu-git \
     bfg \
     mp3gain \
     gromit-mpx-git \
@@ -165,6 +164,14 @@ if [ -z "$(command -v surf)" ]; then
     sudo make clean install
 else
     echo "surf detected, skipping."
+fi
+if [ -z "$(command -v dmenu)" ]; then
+    ecd ~/Software
+    git clone https://github.com/randoragon/dmenu
+    ecd ~/Software/dmenu
+    sudo make clean install
+else
+    echo "dmenu detected, skipping."
 fi
 
 # Install pass-extension-tail

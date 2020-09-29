@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # This script intakes a twitch username and spawns two windows,
-# mpv displaying the transmission and firefox with popup chat.
+# mpv displaying the transmission and browser with popup chat.
 #
 # Dependencies:
 #   - mpv

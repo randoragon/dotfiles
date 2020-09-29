@@ -15,7 +15,7 @@ mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
 sudo pacman -Syu
 sudo pacman -S --needed \
     make cmake gcc gdb \
-    firefox lynx \
+    chromium lynx \
     git patch \
     picom \
     pass \

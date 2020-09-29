@@ -123,7 +123,6 @@ yay -Sa --needed \
     libxft-bgra \
     sparklines-git \
     xidlehook \
-    xxd-standalone \
     mousemode-git
 
 # Install dwm, dwmblocks, st, randoutils and surf
@@ -205,17 +204,17 @@ ecd ~/dotfiles
 rm -- ~/.bashrc ~/.bash_profile
 
 stow beets
+#stow copyq
 stow dunst
+stow dwm
 ./detach flameshot
 stow git
-#stow glava
 stow gromit-mpx
 stow gtk
-stow dwm
-./detach keepassxc
+#stow i3
+#./detach keepassxc
 #stow krita
 stow lf
-#stow lmms
 stow lynx
 ./detach mime
 stow mpd
@@ -223,6 +222,7 @@ stow ncmpcpp
 stow newsboat
 stow nvim
 stow picom
+#stow polybar
 stow python
 #stow redshift
 stow scripts
@@ -231,6 +231,7 @@ stow shell
 ./detach speedcrunch
 stow sxiv
 stow tmux
+#stow weechat
 stow wget
 ./detach xbindkeys
 ./detach xkb

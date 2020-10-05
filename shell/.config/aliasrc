@@ -17,6 +17,8 @@ alias pm='pulsemixer'
 alias tmux='tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf'
 alias startx='/usr/bin/startx "${XDG_CONFIG_HOME:-$HOME/.config}/X11/xinitrc"'
 alias bash='bash --rcfile "${XDG_CONFIG_HOME:-$HOME/.config}/bash/bashrc"'
+alias mt='udisksctl mount -b'
+alias umt='udisksctl unmount -b'
 
 # Git 
 alias gs="git status"

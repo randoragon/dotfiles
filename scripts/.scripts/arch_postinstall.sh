@@ -26,7 +26,7 @@ sudo pacman -S --needed \
     grub-customizer \
     gparted \
     mpd ncmpcpp mpc beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
-    networkmanager \
+    networkmanager udisks2 \
     iputils wpa_supplicant wireless_tools gnome-keyring \
     sxiv mpv \
     python3 python-pip python-mutagen go \

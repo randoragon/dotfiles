@@ -103,6 +103,10 @@
 "xbacklight -dec 5"
     XF86MonBrightnessDown
 
+# Shortcuts Help
+"groff -ms -t -T pdf -dpaper=a3l -P-pa3 -P-l ~/dotfiles/.other/shortcuts.roff | zathura --mode=fullscreen -"
+    Mod2+Mod4+shift + slash
+
 # set directly keycode (here control + f with my keyboard)
 #"xterm"
 #  c:41 + m:0x4

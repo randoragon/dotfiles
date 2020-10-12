@@ -34,5 +34,5 @@ alias gnau="git update-index --no-assume-unchanged"
 # Youtube-DL
 alias ytmp3="youtube-dl -x -o '~/Downloads/Music/%(title)s.%(ext)s' --no-playlist --audio-quality 0 --audio-format mp3"
 alias ytmp4="youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' -o '~/Downloads/%(title)s.%(ext)s' --write-sub --no-playlist --embed-subs"
-alias ytmp3pl="youtube-dl -i -x -o '~/Downloads/Music/%(playlist_index)s. %(title)s.%(ext)s' --audio-quality 0 --audio-format mp3 --yes-playlist"
-alias ytmp4pl="youtube-dl -i -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' -o '~/Downloads/%(playlist_index)s. %(title)s.%(ext)s' --write-sub --embed-subs --yes-playlist"
+alias ytmp3pl="youtube-dl -i -x -o '~/Downloads/Music/%(playlist_title)s/%(playlist_index)s. %(title)s.%(ext)s' --audio-quality 0 --audio-format mp3 --yes-playlist"
+alias ytmp4pl="youtube-dl -i -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' -o '~/Downloads/%(playlist_title)s/%(playlist_index)s. %(title)s.%(ext)s' --write-sub --embed-subs --yes-playlist"

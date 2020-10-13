@@ -34,7 +34,9 @@
 "note -e"
     mod2+mod4+control + n
 "~/.scripts/mousemode-run"
-    mod2+mod4+ space
+    mod2+mod4 + space
+"snippet"
+    mod2+mod4 + c
 
 # Screenshots
 "flameshot gui"

@@ -16,6 +16,7 @@ alias xres='vim "${XDG_CONFIG_HOME:-$HOME/.config}/X11/Xresources"'
 alias rss='vim ~/.config/newsboat/urls'
 alias art='vim ~/Music/Playlists/artists.yaml'
 alias bms='vim ~/.config/surf/bookmarks'
+alias snip='vim ~/.config/snippetrc'
 
 # Directories
 alias cdap='cd ~/.local/share/applications && ls'

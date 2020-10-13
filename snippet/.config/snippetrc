@@ -14,6 +14,32 @@
 .DEF greek_omega1  Ω
 .DEF greek_omega2  ω
 
+# Mathematics
+.DEF math_subset_of            ⊆
+.DEF math_not_subset_of        ⊄
+.DEF math_strict_subset_of     ⊂
+.DEF math_belongs_to           ∈
+.DEF math_doesnt_belong_to     ∉
+.DEF math_empty_set            Ø
+.DEF math_logic_and            ∧
+.DEF math_logic_or             ∨
+.DEF math_for_all              ∀
+.DEF math_there_exists         ∃
+.DEF math_set_natural          ℕ
+.DEF math_set_integer          ℤ
+.DEF math_set_rational         ℚ
+.DEF math_set_real             ℝ
+.DEF math_set_primes           ℙ
+.DEF math_union                ⋃
+.DEF math_intersection         ⋂
+.DEF math_symmetric_difference ⊕
+.DEF math_negation             ¬
+.DEF math_infinity             ∞
+.DEF math_not_equal            ≠
+.DEF math_approximately        ≈
+.DEF math_less_or_equal        ≤
+.DEF math_greater_or_equal     ≥
+
 .DEF shrug ¯\_(ツ)_/¯
 .DEF tableflip (╯°□°）╯︵ ┻━┻
 .DEF emoji_smirk 😏
@@ -26,7 +52,6 @@ of a fully functioning GNU system made useful by the GNU corelibs, shell
 utilities and vital system components comprising a full OS as defined by POSIX.
 .END
 
-# Licenses
 .BEGIN MIT_license
 MIT License
 

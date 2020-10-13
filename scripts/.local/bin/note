@@ -66,7 +66,7 @@ if [ $# -eq 0 ]; then
     # Check if shell is interactive. For interactive
     # shells use fzf, otherwise use dmenu.
     interactive=
-    if [ -z "$edit" ]; then prompt="view note:"; else prompt="edit note:"; fi
+    if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
     if [ -t 0 ]; then
         note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "$prompt ")"
         interactive=1

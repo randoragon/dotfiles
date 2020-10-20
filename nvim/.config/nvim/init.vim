@@ -206,6 +206,22 @@ nnoremap gt <S-h>
 nnoremap gT <S-l>
 " }}}
 
+" Copy shortcuts {{{1
+nnoremap <M-a> :%y+<CR>
+vnoremap <M-a> "+y
+inoremap <M-a> <ESC>:%y+<CR>a
+" }}}
+
+" Shell Insert Mode Shortcuts {{{1
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-k> <Esc>lC
+inoremap <C-u> <Esc>d0xi
+inoremap <C-y> <Esc>Pa
+" }}}
+
 " Backup directories {{{1
 set backup
 set writebackup

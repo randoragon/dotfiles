@@ -29,11 +29,11 @@ DEPENDENCIES
         xclip - copying to clipboard
 
 SNIPPETRC FILE SYNTAX
-        The syntax is inspired by troff and groff markup languages:
+        The syntax is inspired by troff and groff markup languages.
 
         1. Blank lines or lines starting with '#' will be ignored.
         2. Define short snippets with ".DEF name stuff to be copied".
-        3. define multiline snippets with ".BEGIN snippet name", followed by
+        3. Define multiline snippets with ".BEGIN snippet name", followed by
            any number of lines, and ".END" at the end.
 
         Notice how short snippets must have a simple-word name, while
@@ -78,9 +78,10 @@ if __name__ == '__main__':
             exit(1)
 
     # Open snippet file
-    f = open(fpath, 'r')
-    if f is None:
-        print('snippet: failed to open file "{}"'.format(fpath))
+    try:
+        f = open(fpath, 'r')
+    except Exception as e:
+        print('snippet: failed to open file "{}" ({})'.format(fpath, type(e).__name__))
         exit(1)
 
     # Parse snippet file contents

@@ -17,6 +17,7 @@ alias rss='vim ~/.config/newsboat/urls'
 alias art='vim ~/Music/Playlists/artists.yaml'
 alias bms='vim ~/.config/surf/bookmarks'
 alias snip='vim ~/.config/snippetrc'
+alias todo='vim ~/Documents/todo'
 
 # Directories
 alias cdap='cd ~/.local/share/applications && ls'

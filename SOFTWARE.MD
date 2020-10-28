@@ -19,9 +19,6 @@ GLava | `glava` | Music Visualizer | music magically becomes 2x more epic
 C.A.V.A. | `*cava` | Music Visualizer | lightweight, CLI, configurable
 GNU Stow | `stow` | Symlink Farm Manager | easy dotfiles management
 GParted | `gparted` | Partition Manager | 
-HTop | `htop` | Task Manager | keyboard-driven and terminal based
-KDenLive | `kdenlive` | Video Editor | with "breeze" dark theme from KDE
-KeePassXC | `keepassxc` | Password Manager | imo better than official `keepass`
 LMMS | `lmms` | DAW | 
 LibreOffice | `libreoffice` | Office Tools | replacement for MS Office Suite
 LxAppearance | `lxappearance` | GTK Themer | makes switching GTK and icon themes super easy
@@ -32,14 +29,13 @@ Termdown | `termdown` | Console Timer | intuitive input format
 The Silver Searcher | `the_silver_searcher` | Fuzzy Search | blazingly fast file contents scanner
 TigerVNC | `tigervnc` | VNC Server | 
 Tmux | `tmux` | Terminal Multiplexer | 
-Vim | `gvim` | Text Editor | the original "vim" package lacks some compilation flags
+NVim | `neovim` | Text Editor |
 ZSH | `zsh` | Shell | an extensible shell with syntax highlighting, tab completion and more
 dmenu | `dmenu` | Dynamic Menu | great for GUI user interaction in shell scripts
 dunst | `dunst` | Notification Daemon | useful with `libnotify`
 espeak | `espeak` | Text-To-Speech | multilanguage, repitching, speed manip
 inxi | `*inxi` | System Information | neatly displays hardware and software specs
 lf | `lf` | File Explorer | blazingly fast, makes navigating and previewing dirs/files a breeze
-mimeo | `*mimeo` | File Opener | for more context read [this note](http://simp.ly/p/sFLs1P)
 ncmpcpp | `ncmpcpp` | MPD Client | 
 nnn | `nnn` | File Explorer | blazingly fast, extensible, can intake lists of files from anywhere in the filesystem and view them under one common tmp directory
 qTox | `qtox` | Tox Client | P2P encrypted communication
@@ -58,6 +54,7 @@ zathura | `zathura` | PDF Viewer | blazingly fast PDF viewer with plugins for ot
 bfg | `*bfg` | Git Tool | git repo history removal made easy
 shellcheck | `shellcheck` | Code Linter | shows best practices for shell code, integrates with vim ALE plugin and works as a standalone command
 mp3gain | `*mp3gain` | MP3 Gain Analyzer | reliable for mass normalization of music with respect to albums/tracks
+mp3splt | `mp3splt` | MP3 Splitting Tool | makes cutting long albums into individual tracks very easy
 pulsemixer | `pulsemixer` | PulseAudio Frontend | simple and competent terminal volume mixer, replaces pavucontrol
 gromit-mpx | `*gromit-mpx-git` | Screen Annotator | basic over the screen drawing, multi-pointer devices support
 Newsboat | `newsboat` | RSS Feed Reader |

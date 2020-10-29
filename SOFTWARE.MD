@@ -64,3 +64,4 @@ beets | `beets` | Music Manager | versatile music library manager, though at tim
 onedrive | `*onedrive-abraunegg` | OneDrive console client | limited functionality, but does the job
 valgrind | `valgrind` | Memory Analyzer | detects memory leaks, good for debugging
 ddd | `*ddd` | GDB graphical frontend | antique interface, but great for tracking memory changes (plotting)
+Olive | `*olive` | Video Editor | Much faster and smoother experience than KDenLive and others

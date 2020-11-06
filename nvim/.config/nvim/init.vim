@@ -238,6 +238,10 @@ nnoremap <Leader>l :redraw!<CR>
 " }}}
 
 " Make motions more wrap-friendly {{{1
+nnoremap 0 g0
+nnoremap g0 0
+nnoremap $ g$
+nnoremap g$ $
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj

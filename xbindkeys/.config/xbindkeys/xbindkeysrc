@@ -17,8 +17,6 @@
     control+alt + i
 "~/.scripts/surfbm"
     control+alt + w
-"mpd --kill && mpd"
-    control+alt + m
 "st -e vim"
     control+alt + v
 "discord"

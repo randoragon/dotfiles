@@ -35,7 +35,6 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-clangx'
-Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 call plug#end()
 
 " Airline {{{2

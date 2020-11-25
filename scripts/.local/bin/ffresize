@@ -62,9 +62,9 @@ elif [ $# -gt 1 ]; then
     fi
 
     if [ -n "$pretend" ]; then
-        echo "ffmpeg -i '$input' -vf 'fps=10,scale=$nw:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse' -- '$output'"
+        echo "ffmpeg -i '$input' -vf 'scale=$nw:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse' -- '$output'"
     else
-        ffmpeg -i "$input" -vf "fps=10,scale=$nw:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -- "$output"
+        ffmpeg -i "$input" -vf "scale=$nw:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -- "$output"
     fi
 else
     printf "%s\n%s\n" "ffresize: exactly one FILE parameter required." "Try 'ffresize --help' for more information." >&2 && exit 1

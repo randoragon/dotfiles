@@ -1,0 +1,17 @@
+#!/usr/bin/sh
+
+# This script is used by newsboat to play videos with mpv.
+# The advantage that it offers over simply running mpv is that
+# if can detect certain error messages that mpv gives and notify
+# the user about it via notifications (e.g. video premieres).
+
+out="$(mpv "$@")"
+[ "$?" -ne 0 ] && {
+    icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
+    echo "$out" >&2
+    if printf "%s" "$out" | grep -qsF 'Premieres in'; then
+        notify-send -i "$icon" 'youtube-dl' "$(printf "%s" "$out" | grep -o 'Premieres in .*$')"
+    elif printf "%s" "$out" | grep -qsF 'ERROR'; then
+        notify-send -i "$icon" 'youtube-dl' "$(printf "%s" "$out" | grep -o 'ERROR:.*$')"
+    fi
+}

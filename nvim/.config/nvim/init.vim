@@ -35,17 +35,18 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-clangx'
+Plug 'psliwka/vim-smoothie'
 call plug#end()
 
 " Airline {{{2
-let g:airline_detect_spell=0
-let g:airline_detect_spellang=0
+let g:airline_detect_spell = 0
+let g:airline_detect_spellang = 0
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-let g:airline#extensions#ale#enabled=1
+let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#whitespace#enabled = 1
-let g:airline#extensions#ycm#enabled = 1
+let g:airline#extensions#ycm#enabled = 0
 " }}} 
 
 " AutoPairs {{{2
@@ -237,10 +238,6 @@ nnoremap <Leader>l :redraw!<CR>
 " }}}
 
 " Make motions more wrap-friendly {{{1
-nnoremap 0 g0
-nnoremap g0 0
-nnoremap $ g$
-nnoremap g$ $
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj

@@ -24,10 +24,6 @@ Plug 'tpope/vim-repeat'
 Plug 'glts/vim-radical'
 Plug 'glts/vim-magnum'
 Plug 'dense-analysis/ale'
-Plug 'easymotion/vim-easymotion'
-Plug 'morhetz/gruvbox'
-Plug 'sjl/badwolf'
-Plug 'drewtempelmeyer/palenight.vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
@@ -36,6 +32,8 @@ Plug 'derekwyatt/vim-fswitch'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-clangx'
 Plug 'psliwka/vim-smoothie'
+Plug 'ap/vim-css-color'
+Plug 'junegunn/goyo.vim'
 call plug#end()
 
 " Airline {{{2
@@ -46,18 +44,21 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#whitespace#enabled = 1
-let g:airline#extensions#ycm#enabled = 0
 " }}} 
 
 " AutoPairs {{{2
 let g:AutoPairsFlyMode = 1
-let g:AutoPairsMapCR = 1
+" }}}
+
+" GitGutter {{{2
+nnoremap <Leader>; :GitGutterNextHunk<CR>
+nnoremap <Leader>\ :GitGutterPrevHunk<CR>
 " }}}
 
 " Tabular keyboard shortcuts {{{2
-vnoremap <M-=> :Tabular/=<CR>
-vnoremap <M-,> :Tabular/,/l0r1<CR>
-vnoremap <M-;> :Tabular/;/l0r1<CR>
+vnoremap <Leader>t= :Tabular/=<CR>
+vnoremap <Leader>t, :Tabular/,/l0r1<CR>
+vnoremap <Leader>t; :Tabular/;/l0r1<CR>
 " }}}
 
 " ALE {{{2
@@ -72,28 +73,22 @@ let g:AutoPairsShortcutToggle='<Leader>0'
 " }}}
 
 " FZF {{{2
-nnoremap <C-f> <Nop>
-nnoremap <C-b> <Nop>
-nnoremap <C-f>f     : Files<CR>
-nnoremap <C-f><C-f> : Files<CR>
-nnoremap <C-f>l     : Lines<CR>
-nnoremap <C-f><C-l> : Lines<CR>
-nnoremap <C-f>c     : Commands<CR>
-nnoremap <C-f><C-c> : Commands<CR>
-nnoremap <C-f>t     : Tags<CR>
-nnoremap <C-f><C-t> : Tags<CR>
-nnoremap <C-f>m     : Marks<CR>
-nnoremap <C-f><C-m> : Marks<CR>
-nnoremap <C-f>h     : Helptags<CR>
-nnoremap <C-f><C-h> : Helptags<CR>
-nnoremap <C-f>a     : Ag<CR>
-nnoremap <C-f><C-a> : Ag<CR>
-nnoremap <C-f>b     : Buffers<CR>
-nnoremap <C-f><C-b> : Buffers<CR>
+nnoremap <Leader>ff :Files<CR>
+nnoremap <Leader>fl :Lines<CR>
+nnoremap <Leader>fc :Commands<CR>
+nnoremap <Leader>ft :Tags<CR>
+nnoremap <Leader>fm :Marks<CR>
+nnoremap <Leader>fh :Helptags<CR>
+nnoremap <Leader>fa :Ag<CR>
+nnoremap <Leader>fb :Buffers<CR>
 " }}}
 
 " {{{2 Deoplete
 let g:deoplete#enable_at_startup = 1
+" }}}
+
+" {{{2 Goyo
+nnoremap <Leader>g :Goyo<CR>
 " }}}
 
 " }}}
@@ -242,10 +237,6 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-" }}}
-
-" Fullscreen shortcut {{{1
-map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
 " }}}
 
 " Markdown Preview config {{{1

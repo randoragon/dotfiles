@@ -18,9 +18,9 @@ else
 fi
 
 # History and its location
-HISTSIZE=0
+HISTSIZE=100
 SAVEHIST=0
-HISTFILE=
+HISTFILE="$HOME/.cache/zsh/history"
 
 autoload -Uz compinit promptinit
 compinit

@@ -11,6 +11,7 @@ nnoremap <Leader>w :set wrap! linebreak!<CR>
 map Y y$
 set hidden
 nnoremap c "_c
+vnoremap . :normal .<CR>
 " }}}
 
 " Plugins {{{1
@@ -52,8 +53,8 @@ let g:AutoPairsFlyMode = 1
 " }}}
 
 " GitGutter {{{2
-nnoremap <Leader>; :GitGutterNextHunk<CR>
-nnoremap <Leader>\ :GitGutterPrevHunk<CR>
+nnoremap ]h :GitGutterNextHunk<CR>
+nnoremap [h :GitGutterPrevHunk<CR>
 " }}}
 
 " Tabular keyboard shortcuts {{{2
@@ -65,8 +66,8 @@ vnoremap <Leader>t; :Tabular/;/l0r1<CR>
 " ALE {{{2
 nnoremap <Leader>e :ALEDetail<CR>
 nnoremap <Leader>a :ALEToggle<CR>
-nnoremap <Leader>n :ALENextWrap<CR>
-nnoremap <Leader>N :ALEPreviousWrap<CR>
+nnoremap ]a :ALENextWrap<CR>
+nnoremap [a :ALEPreviousWrap<CR>
 " }}} 
 
 " Auto Pairs {{{2
@@ -107,6 +108,10 @@ let g:clipboard = {
  \    },
  \    'cache_enabled': 1,
  \ }
+" }}}
+
+" Spell-check settings {{{1
+nnoremap <Leader>s :set spell! spellang=en_us,pl<CR>
 " }}}
 
 " Indentation settings {{{1

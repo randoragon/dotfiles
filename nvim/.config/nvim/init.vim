@@ -10,6 +10,7 @@ nnoremap \ ,
 nnoremap <Leader>w :set wrap! linebreak!<CR>
 map Y y$
 set hidden
+nnoremap c "_c
 " }}}
 
 " Plugins {{{1

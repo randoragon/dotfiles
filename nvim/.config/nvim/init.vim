@@ -40,7 +40,7 @@ call plug#end()
 
 " Airline {{{2
 let g:airline_detect_spell = 0
-let g:airline_detect_spellang = 0
+let g:airline_detect_spelllang = 0
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
@@ -111,7 +111,8 @@ let g:clipboard = {
 " }}}
 
 " Spell-check settings {{{1
-nnoremap <Leader>s :set spell! spellang=en_us,pl<CR>
+set spelllang=en_us
+nnoremap <Leader>s :set spell!<CR>
 " }}}
 
 " Indentation settings {{{1

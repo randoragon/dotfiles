@@ -51,13 +51,13 @@ crit () {
 # Runs when temperature crosses from <-∞;WARN) to <WARN;CRIT)
 warn_enter () {
     topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
-    dunstify -r "$DUNSTID" -i cpu -u critical "WARNING!" "<b>CPU Temperature High!</b>\n<u>Top Process</u>: $topcmd" >/dev/null 2>&1
+    dunstify -r "$DUNSTID" -i cpu -u critical "CPU Temp High! [$1°C]" "<u>Top Process</u>: $topcmd" >/dev/null 2>&1
 }
 
 # Runs when temperature crosses from <WARN;CRIT) to <CRIT;+∞)
 crit_enter () {
     topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
-    dunstify -r "$DUNSTID" -i cpu -u critical "DANGER!" "<b>CPU Temperature Critical!</b>\n<u>Top Process</u>: $topcmd" >/dev/null 2>&1
+    dunstify -r "$DUNSTID" -i cpu -u critical "CPU Temp Critical! [$1°C]" "<u>Top Process</u>: $topcmd" >/dev/null 2>&1
     mpc --port="$MPD_PORT" pause >/dev/null 2>&1
     mpv --no-terminal -- "$SFX" >/dev/null 2>&1 & 
 }

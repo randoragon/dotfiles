@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 
 # This script extracts current CPU temperature from the 'sensors' command output.
-# Then it formats it for polybar to display.
+# Then it formats it for dwmblocks to display.
 # There's more functionality, like setting thresholds for warnings and custom
 # commands hooked to specific events.
 #
@@ -75,8 +75,6 @@ text="$(sensors \
 # Get the raw number, without the Celcius suffix
 temp="$(echo "$text" | sed 's/[^0-9.]//g')"
 temp="${temp%.*}"
-
-# Trim superfluous decimal zero
 text="$temp°C"
 
 # Default temp color

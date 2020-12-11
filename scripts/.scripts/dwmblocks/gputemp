@@ -12,6 +12,8 @@
 # - mpv (optional, for playing the SFX)
 # - mpc (optional, requires an MPD_PORT variable)
 
+command -v "nvidia-smi" >/dev/null 2>&1 || exit
+
 WARN=80
 CRIT=94
 DUNSTID=71098266

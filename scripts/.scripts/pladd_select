@@ -1,7 +1,8 @@
 #!/bin/sh
 
-# Playlists directory
-pldir="$HOME/Music/Playlists"
+# Directories
+mroot="$HOME/Music"
+pldir="$mroot/Playlists"
 
 playlists="$(find "$pldir" -maxdepth 1 -type f -name '*.m3u' -not -path "$pldir/Filtered.m3u" -print0 | xargs -0l basename -- | sed 's/\.m3u$//')"
 [ -z "$playlists" ] && notify-send -u low "pladd_select" "No playlists detected" && exit
@@ -10,9 +11,9 @@ echo "$playing" | grep -q '^Download/\|^/' && notify-send -u low "pladd_select" 
 chosen="$(printf '%s\n' "$playlists" | dmenu -i -p "Add to playlist:")"
 [ -z "$chosen" ] && exit
 if [ "$chosen" = "Fair Use" ]; then
-    path="$HOME/Music/$playing"
+    path="$mroot/$playing"
     printf "%s\n" "$path"
     st -c "floatme" -e addfairuse "$path"
 else
-    pladd "$chosen"
+    pladd "$chosen" "$mroot/$playing"
 fi

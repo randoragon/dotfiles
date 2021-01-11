@@ -38,6 +38,11 @@ export PATH
 # http://zsh.sourceforge.net/FAQ/zshfaq03.html
 setopt shwordsplit
 
+# Tweak directory stack
+# http://zsh.sourceforge.net/Intro/intro_6.html
+DIRSTACKSIZE=8
+setopt autopushd pushdminus pushdsilent pushdtohome
+
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
     tmp="$(mktemp)"

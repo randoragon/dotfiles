@@ -57,6 +57,7 @@ macro M set browser "youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[e
 macro d set browser "wget -np -P ~/Downloads %u" ; open-in-browser ; set browser "$BROWSER"
 macro u set browser "printf %u | xclip -selection clipboard" ; open-in-browser ; set browser "$BROWSER"
 macro l set browser "surf %u" ; open-in-browser ; set browser "$BROWSER"
+macro L set browser "~/.scripts/newsboat-stream-browser %u" ; open-in-browser ; set browser "$BROWSER"
 
 # Color (https://newsboat.org/releases/2.10.2/docs/newsboat.html#_configuring_colors)
 color background white black

@@ -1,0 +1,20 @@
+#!/usr/bin/sh
+
+# This script is used by newsboat to open live streams.
+# Based on the URL it can distinguish between YouTube and Twitch
+# livestreams and run an appropriate script to open it with live chat.
+
+if printf "%s" "$@" | grep -qi 'youtube\.com'; then
+    channel_id="$(printf "%s" "$@" | grep -o 'watch?v=.*')"
+    channel_id="${channel_id##*=}"
+    printf "channel id: %s\n" "$channel_id"
+    ytlive "$channel_id"
+elif printf "%s" "$@" | grep -qi 'twitch\.tv'; then
+    username="$(printf "%s" "$@" | grep -o 'tv\/.*')"
+    username="${username##*/}"
+    printf "username: %s\n" "$username"
+    twitch "$username"
+else
+    printf "streaming service not recognized\n"
+    exit 1
+fi

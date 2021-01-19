@@ -71,7 +71,7 @@ if [ $# -eq 0 ]; then
         note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "$prompt ")"
         interactive=1
     else
-        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | dmenu -l 5 -p "$prompt")"
+        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | dmenu -F -l 5 -p "$prompt")"
     fi
 
     [ -z "$note" ] && exit

@@ -123,9 +123,10 @@ yay -Sa --needed \
     libxft-bgra \
     sparklines-git \
     xidlehook \
-    mousemode-git
+    mousemode-git \
+    farbfeld-git
 
-# Install dwm, dwmblocks, st, randoutils and surf
+# Install dwm, dwmblocks, st, randoutils, surf, dmenu and sent
 if [ -z "$(command -v dwm)" ]; then
     ecd ~/Software
     git clone https://github.com/Randoragon/dwm
@@ -153,6 +154,8 @@ fi
 if [ ! -d ~/Software/randoutils ]; then
     ecd ~/Software
     git clone https://github.com/Randoragon/randoutils
+    ecd ~/Software/randoutils/c-libs
+    sudo make install
 else
     echo "randoutils detected, skipping."
 fi
@@ -171,6 +174,14 @@ if [ -z "$(command -v dmenu)" ]; then
     sudo make clean install
 else
     echo "dmenu detected, skipping."
+fi
+if [ -z "$(command -v sent)" ]; then
+    ecd ~/Software
+    git clone https://github.com/randoragon/sent
+    ecd ~/Software/sent
+    sudo make clean install
+else
+    echo "sent detected, skipping."
 fi
 
 # Install pass-extension-tail

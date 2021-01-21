@@ -1,0 +1,5 @@
+#!/usr/bin/sh
+
+# Change the terminal's title string.
+
+printf "\033]2;%s\007" "$*"

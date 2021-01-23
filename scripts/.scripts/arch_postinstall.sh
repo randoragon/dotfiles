@@ -154,8 +154,6 @@ fi
 if [ ! -d ~/Software/randoutils ]; then
     ecd ~/Software
     git clone https://github.com/Randoragon/randoutils
-    ecd ~/Software/randoutils/c-libs
-    sudo make install
 else
     echo "randoutils detected, skipping."
 fi
@@ -182,6 +180,14 @@ if [ -z "$(command -v sent)" ]; then
     sudo make clean install
 else
     echo "sent detected, skipping."
+fi
+if [ ! -d ~/Software/rnd-libs ]; then
+    ecd ~/Software
+    git clone https://github.com/Randoragon/rnd-libs
+    ecd ~/Software/rnd-libs
+    sudo make clean install
+else
+    echo "rnd-libs detected, skipping."
 fi
 
 # Install pass-extension-tail

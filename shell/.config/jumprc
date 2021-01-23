@@ -51,4 +51,5 @@ alias cdulb='cd /usr/local/bin && ls'
 alias cdvi='cd ~/Videos && ls'
 alias cdwall='cd ~/.local/share/wallpapers && ls'
 alias cdru='cd ~/Software/randoutils && ls'
+alias cdrnd='cd ~/Software/rnd-libs && ls'
 

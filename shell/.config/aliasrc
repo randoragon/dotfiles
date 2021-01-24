@@ -20,6 +20,7 @@ alias bash='bash --rcfile "${XDG_CONFIG_HOME:-$HOME/.config}/bash/bashrc"'
 alias mt='udisksctl mount -b'
 alias umt='udisksctl unmount -b'
 alias dh='dirs -v'
+alias updatepkg='makepkg -scf && makepkg --printsrcinfo >.SRCINFO'
 
 # Git 
 alias gs="git status"

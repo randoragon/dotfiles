@@ -123,82 +123,16 @@ yay -Sa --needed \
     libxft-bgra \
     sparklines-git \
     xidlehook \
+    pass-extension-tail
+    farbfeld-git \
+    dwm-randoragon-git \
+    dwmblocks-randoragon-git \
+    librnd-git \
     mousemode-git \
-    farbfeld-git
-
-# Install dwm, dwmblocks, st, randoutils, surf, dmenu and sent
-if [ -z "$(command -v dwm)" ]; then
-    ecd ~/Software
-    git clone https://github.com/Randoragon/dwm
-    ecd ~/Software/dwm
-    sudo make clean install
-else
-    echo "dwm detected, skipping."
-fi
-if [ -z "$(command -v dwmblocks)" ]; then
-    ecd ~/Software
-    git clone https://github.com/Randoragon/dwmblocks
-    ecd ~/Software/dwmblocks
-    sudo make clean install
-else
-    echo "dwmblocks detected, skipping."
-fi
-if [ -z "$(command -v st)" ]; then
-    ecd ~/Software
-    git clone https://github.com/randoragon/st
-    ecd ~/Software/st
-    sudo make clean install
-else
-    echo "st detected, skipping."
-fi
-if [ ! -d ~/Software/randoutils ]; then
-    ecd ~/Software
-    git clone https://github.com/Randoragon/randoutils
-else
-    echo "randoutils detected, skipping."
-fi
-if [ -z "$(command -v surf)" ]; then
-    ecd ~/Software
-    git clone https://github.com/randoragon/surf
-    ecd ~/Software/surf
-    sudo make clean install
-else
-    echo "surf detected, skipping."
-fi
-if [ -z "$(command -v dmenu)" ]; then
-    ecd ~/Software
-    git clone https://github.com/randoragon/dmenu
-    ecd ~/Software/dmenu
-    sudo make clean install
-else
-    echo "dmenu detected, skipping."
-fi
-if [ -z "$(command -v sent)" ]; then
-    ecd ~/Software
-    git clone https://github.com/randoragon/sent
-    ecd ~/Software/sent
-    sudo make clean install
-else
-    echo "sent detected, skipping."
-fi
-if [ ! -d ~/Software/rnd-libs ]; then
-    ecd ~/Software
-    git clone https://github.com/Randoragon/rnd-libs
-    ecd ~/Software/rnd-libs
-    sudo make clean install
-else
-    echo "rnd-libs detected, skipping."
-fi
-
-# Install pass-extension-tail
-if [ ! -d ~/Software/pass-extension-tail ]; then
-    ecd ~/Software
-    git clone 'https://github.com/palortoff/pass-extension-tail'
-    ecd  ~/Software/pass-extension-tail
-    sudo make install
-else
-    echo "pass-extension-tail detected, skipping."
-fi
+    sent-randoragon-git \
+    surf-randoragon-git \
+    st-randoragon-git \
+    dmenu-randoragon-git
 
 # Set up network manager
 # Source: https://unix.stackexchange.com/a/292196
@@ -270,11 +204,8 @@ sudo systemctl start ntpd.service
 sudo systemctl enable cronie.service
 sudo systemctl start cronie.service
 ecd ~/dotfiles/.other
-[ -f crontab ] && cat crontab | crontab - <crontab
-[ -f cronroot ] && sudo sh -c 'cat cronroot | crontab -'
-
-# Enable bluetooth
-sudo systemctl enable bluetooth.service
+[ -f crontab ] && crontab - <./crontab
+[ -f cronroot ] && sudo sh -c 'crontab - <./cronroot'
 
 # Symlink deprecated mimelist for old applications
 # Source: https://wiki.archlinux.org/index.php/XDG_MIME_Applications#mimeapps.list

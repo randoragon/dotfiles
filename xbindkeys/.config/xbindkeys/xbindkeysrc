@@ -86,16 +86,28 @@
 # Drawing Tablet
 "~/.scripts/wacom/wacom_pad_b1.sh"
     b:11
+"~/.scripts/wacom/wacom_pad_b1.sh"
+    Mod2+Mod4 + b:11
 "~/.scripts/wacom/wacom_pad_b2.sh"
     b:12
+"~/.scripts/wacom/wacom_pad_b2.sh"
+    Mod2+Mod4 + b:12
 "~/.scripts/wacom/wacom_pad_b3.sh"
     b:13
+"~/.scripts/wacom/wacom_pad_b3.sh"
+    Mod2+Mod4 + b:13
 "~/.scripts/wacom/wacom_pad_b4.sh"
     b:14
+"~/.scripts/wacom/wacom_pad_b4.sh"
+    Mod2+Mod4 + b:14
 "~/.scripts/wacom/wacom_stylus_b1.sh"
     b:15
+"~/.scripts/wacom/wacom_stylus_b1.sh"
+    Mod2+Mod4 + b:15
 "~/.scripts/wacom/wacom_stylus_b2.sh"
     b:16
+"~/.scripts/wacom/wacom_stylus_b2.sh"
+    Mod2+Mod4 + b:16
 
 # Backlight
 "xbacklight -inc 5"

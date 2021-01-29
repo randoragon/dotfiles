@@ -127,12 +127,12 @@ yay -Sa --needed \
     farbfeld-git \
     dwm-randoragon-git \
     dwmblocks-randoragon-git \
-    librnd-git \
     mousemode-git \
     sent-randoragon-git \
     surf-randoragon-git \
     st-randoragon-git \
-    dmenu-randoragon-git
+    dmenu-randoragon-git \
+    xkeycheck-git
 
 # Set up network manager
 # Source: https://unix.stackexchange.com/a/292196

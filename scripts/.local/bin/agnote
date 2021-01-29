@@ -20,9 +20,16 @@ passdir="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
 notedir="$passdir/notes"
 [ ! -d "$notedir" ] && echo "agnote: notes dir not found" >&2 && exit 1
 
-dir="$(mktemp -p "${XDG_CACHE_HOME:-$HOME/.cache}" -d agnote.XXXXX)"
+dir="$(mktemp -d /tmp/agnote.XXXXX)"
 chmod 700 "$dir"
 
+# Recreate directory structure
+find "$notedir" -mindepth 1 -type d -exec realpath --relative-to "$notedir" '{}' \; \
+    | while read -r nestdir; do
+    mkdir -p "$dir/$nestdir"
+done
+
+# Decrypt & copy over all notes
 export dir
 find "$notedir" -type f -name "*.gpg" | while read -r f; do
     relpath="$(realpath --relative-to "$passdir" -- "$f")"
@@ -30,7 +37,9 @@ find "$notedir" -type f -name "*.gpg" | while read -r f; do
     pass show "${relpath%.gpg}" >"$dir/${newpath%.gpg}"
 done
 
+# Search for the query
 ag -H --color "$@" "$dir" | less -R
 
+# Shred sensitive data
 find "$dir" -type f -print0 | xargs -0 shred -x
 rm -rf -- "$dir"

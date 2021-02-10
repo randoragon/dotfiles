@@ -36,6 +36,7 @@ Plug 'Shougo/deoplete-clangx'
 Plug 'psliwka/vim-smoothie'
 Plug 'ap/vim-css-color'
 Plug 'junegunn/goyo.vim'
+Plug 'thinca/vim-quickrun'
 call plug#end()
 
 " Airline {{{2
@@ -59,6 +60,10 @@ nnoremap [h :GitGutterPrevHunk<CR>
 
 " Tabular keyboard shortcuts {{{2
 vnoremap <Leader>t= :Tabular/=<CR>
+vnoremap <Leader>t- :Tabular/-<CR>
+vnoremap <Leader>t+ :Tabular/+<CR>
+vnoremap <Leader>t< :Tabular/<<CR>
+vnoremap <Leader>t> :Tabular/><CR>
 vnoremap <Leader>t, :Tabular/,/l0r1<CR>
 vnoremap <Leader>t; :Tabular/;/l0r1<CR>
 " }}}
@@ -75,6 +80,7 @@ let g:AutoPairsShortcutToggle='<Leader>0'
 " }}}
 
 " FZF {{{2
+nnoremap <C-Space>  :Files<CR>
 nnoremap <Leader>ff :Files<CR>
 nnoremap <Leader>fl :Lines<CR>
 nnoremap <Leader>fc :Commands<CR>
@@ -87,10 +93,18 @@ nnoremap <Leader>fb :Buffers<CR>
 
 " {{{2 Deoplete
 let g:deoplete#enable_at_startup = 1
+" Close preview window after completion
+" https://github.com/Shougo/deoplete.nvim/issues/115
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
 " }}}
 
 " {{{2 Goyo
 nnoremap <Leader>g :Goyo<CR>
+" }}}
+
+" {{{2 QuickRun
+let g:quickrun_no_default_key_mappings = 1
+nnoremap <Leader>qr :QuickRun<CR>
 " }}}
 
 " }}}

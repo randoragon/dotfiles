@@ -80,7 +80,7 @@ let g:AutoPairsShortcutToggle='<Leader>0'
 " }}}
 
 " FZF {{{2
-nnoremap <C-Space>  :Files<CR>
+nnoremap <C-Space>  :GFiles<CR>
 nnoremap <Leader>ff :Files<CR>
 nnoremap <Leader>fl :Lines<CR>
 nnoremap <Leader>fc :Commands<CR>

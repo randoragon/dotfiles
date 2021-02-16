@@ -72,7 +72,6 @@ export NNN_BMS='h:~;d:~/Documents'
 export NNN_COLORS='6532'
 export NNN_TRASH=1
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
-export FZF_DEFAULT_COMMAND='ag'
 
 # Start ssh-agent if not already running
 ps -e | grep "$SSH_AGENT_PID"  | grep "ssh-agent$" || eval "$(ssh-agent -s)"

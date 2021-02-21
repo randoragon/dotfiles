@@ -16,7 +16,6 @@ vnoremap . :normal .<CR>
 
 " Plugins {{{1
 call plug#begin('~/.config/nvim/plugged')
-Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
@@ -39,16 +38,6 @@ Plug 'junegunn/goyo.vim'
 Plug 'thinca/vim-quickrun'
 call plug#end()
 
-" Airline {{{2
-let g:airline_detect_spell = 0
-let g:airline_detect_spelllang = 0
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#whitespace#enabled = 1
-" }}} 
-
 " AutoPairs {{{2
 let g:AutoPairsFlyMode = 1
 " }}}
@@ -68,9 +57,14 @@ vnoremap <Leader>t, :Tabular/,/l0r1<CR>
 vnoremap <Leader>t; :Tabular/;/l0r1<CR>
 " }}}
 
-" ALE {{{2
+" ALE & Deoplete {{{2
+let g:ale_enabled = 0
+let g:deoplete#enable_at_startup = 0
+" Close Deoplete preview window after completion
+" https://github.com/Shougo/deoplete.nvim/issues/115
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
+nnoremap <Leader>a :ALEToggle<CR>:call deoplete#toggle()<CR>
 nnoremap <Leader>e :ALEDetail<CR>
-nnoremap <Leader>a :ALEToggle<CR>
 nnoremap ]a :ALENextWrap<CR>
 nnoremap [a :ALEPreviousWrap<CR>
 " }}} 
@@ -92,10 +86,6 @@ nnoremap <Leader>fb :Buffers<CR>
 " }}}
 
 " {{{2 Deoplete
-let g:deoplete#enable_at_startup = 1
-" Close preview window after completion
-" https://github.com/Shougo/deoplete.nvim/issues/115
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
 " }}}
 
 " {{{2 Goyo
@@ -106,6 +96,22 @@ nnoremap <Leader>g :Goyo<CR>
 let g:quickrun_no_default_key_mappings = 1
 nnoremap <Leader>qr :QuickRun<CR>
 " }}}
+
+" }}}
+
+" Status Bar{{{1
+" https://jdhao.github.io/2019/11/03/vim_custom_statusline/
+" https://shapeshed.com/vim-statuslines/
+
+set statusline=
+set statusline+=%#PmenuSel#\ %n\                           " Buffer number
+set statusline+=%#Visual#\ %F\                             " File path
+set statusline+=%#WarningMsg#%h%m%r                        " {help, modified, readonly} flags
+set statusline+=%#CursorColumn#%=                          " Align the rest to the right
+set statusline+=%#Conceal#%y\                              " File type
+set statusline+=%{&fileencoding?&fileencoding:&encoding}\  " File encoding
+set statusline+=%#MsgArea#\ \ %c:%l/%L\ (%p%%)\            " Position in file
+set statusline+=\ 
 
 " }}}
 

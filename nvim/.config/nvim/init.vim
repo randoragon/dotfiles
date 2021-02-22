@@ -40,11 +40,14 @@ call plug#end()
 
 " AutoPairs {{{2
 let g:AutoPairsFlyMode = 1
+let g:AutoPairsShortcutToggle = '<Leader>0'
+let g:AutoPairsShortcutBackInsert = '<Leader><Backspace>'
 " }}}
 
 " GitGutter {{{2
 nnoremap ]h :GitGutterNextHunk<CR>
 nnoremap [h :GitGutterPrevHunk<CR>
+nnoremap <Leader>h :GitGutterPreviewHunk<CR>
 " }}}
 
 " Tabular keyboard shortcuts {{{2
@@ -68,10 +71,6 @@ nnoremap <Leader>e :ALEDetail<CR>
 nnoremap ]a :ALENextWrap<CR>
 nnoremap [a :ALEPreviousWrap<CR>
 " }}} 
-
-" Auto Pairs {{{2
-let g:AutoPairsShortcutToggle='<Leader>0'
-" }}}
 
 " FZF {{{2
 nnoremap <C-Space>  :GFiles<CR>
@@ -243,7 +242,7 @@ inoremap <C-b> <Left>
 inoremap <C-f> <Right>
 inoremap <C-k> <Esc>lC
 inoremap <C-u> <Esc>d0xi
-inoremap <C-y> <Esc>Pa
+inoremap <C-y> <C-o>P
 
 " Paste current datetime
 inoremap <C-d> <C-r>=strftime('%a %Y-%m-%d %H:%M %Z')<CR>

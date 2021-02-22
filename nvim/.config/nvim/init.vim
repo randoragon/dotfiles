@@ -235,17 +235,15 @@ inoremap <M-a> <ESC>:%y+<CR>a
 
 " Insert Mode Shortcuts {{{1
 
-" Shell or Emacs-like navigation
+" Shell or Emacs-like shortcuts
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
-inoremap <C-k> <Esc>lC
-inoremap <C-u> <Esc>d0xi
 inoremap <C-y> <C-o>P
 
-" Paste current datetime
-inoremap <C-d> <C-r>=strftime('%a %Y-%m-%d %H:%M %Z')<CR>
+" Paste current date
+inoremap <C-d> <C-r>=strftime('%a %Y-%m-%d')<CR>
 " }}}
 
 " Backup directories {{{1

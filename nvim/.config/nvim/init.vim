@@ -187,18 +187,6 @@ set smartcase
 " Binary file editing {{{1
 " requires xxd, on Arch install xxd-standalone from AUR
 
-" Open *.bin files in binary mode
-augroup Binary
-    au!
-    au BufReadPre  *.bin let &bin=1
-    au BufReadPost *.bin if &bin | %!xxd
-    au BufReadPost *.bin set ft=xxd | endif
-    au BufWritePre *.bin if &bin | %!xxd -r
-    au BufWritePre *.bin endif
-    au BufWritePost *.bin if &bin | %!xxd
-    au BufWritePost *.bin set nomod | endif
-augroup END
-
 " Convert to and from hexdump
 nnoremap <Leader>d :%!xxd<CR>:set filetype=xxd<CR>
 nnoremap <Leader>D :%!xxd -r<CR>:filetype detect<CR>

@@ -12,6 +12,15 @@
 notedir="${PASSWORD_STORE_DIR:-~/.password-store}/notes"
 [ ! -d "$notedir" ] && echo "note: notes dir not found" >&2 && exit 1
 
+htmltablestyle="<style>
+table, th, td {
+    padding: 5px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+"
+
 help () {
     printf "NAME
     note - wrapper script for storing and retrieving notes in pass.
@@ -89,7 +98,8 @@ if [ $# -eq 0 ]; then
         elif [ -f "$notedir/$note.md.gpg" ]; then
             if [ -z "$textonly" ]; then
                 tmp="$(mktemp -p /tmp note.XXXX.html)"
-                pass "notes/$note.md" | md2html --ftables --ftasklists >"$tmp"
+                printf "%s" "$htmltablestyle" >"$tmp"
+                pass "notes/$note.md" | md2html --ftables --ftasklists >>"$tmp"
                 [ -s "$tmp" ] && surf "file://$tmp"
             else
                 tmp="$(mktemp -p /tmp note.XXXX.md)"

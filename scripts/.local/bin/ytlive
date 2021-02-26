@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# This script intakes a YouTube channel ID and spawns two windows,
+# mpv displaying the transmission and browser with popup chat.
+#
+# Dependencies:
+#   - mpv
+#   - surf (or any other browser, just change the code)
+#   - youtube-dl (for streaming through mpv)
+
+help () {
+printf 'SYNOPSIS
+    ytlive [-h, --help] [-c, --chat] [-v, --video] USERNAME
+
+    Intakes a ytlive username and spawns two windows, one
+    containing the live video stream, the other containing
+    popout live chat.
+
+OPTIONS
+  -h, --help
+      Prints this help message
+
+  -c, --chat
+      Only opens the chat window
+
+  -v, --video
+      Only opens the mpv window
+'
+}
+
+video=1
+chat=1
+
+case "$1" in
+    -h|--help) help; exit ;;
+    -c|--chat) video= ; shift ;;
+    -v|--video) chat= ; shift ;;
+esac
+
+username="$1"
+
+[ -n "$video" ] && setsid mpv "https://www.youtube.com/watch?v=$username" >/dev/null 2>&1 &
+[ -n "$chat" ] && setsid surf "https://www.youtube.com/live_chat?is_popout=1&v=$username" >/dev/null 2>&1 &

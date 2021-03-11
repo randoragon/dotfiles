@@ -144,7 +144,7 @@ set softtabstop=4
 " File type detection settings {{{1
 augroup filetype_detect
     autocmd! BufEnter *.MD  :set filetype=markdown
-    autocmd! BufEnter *.mom :set filetype=groff
+    autocmd! BufEnter *.mom :set filetype=mom
     autocmd! BufEnter *.ms  :set filetype=groff
 augroup END
 " }}}
@@ -258,8 +258,10 @@ function Preview()
     write
     if &filetype == "markdown"
         AsyncRun mdtopdf "%:p" "/tmp/vim_preview.pdf"
-    elseif &filetype == "nroff"
+    elseif &filetype == "mom"
         AsyncRun pdfmom "%:p" > "/tmp/vim_preview.pdf"
+    elseif &filetype == "groff"
+        AsyncRun groff -ms -t -e -T pdf "%:p" > "/tmp/vim_preview.pdf"
     endif
 endfunction
 nnoremap <Leader>pm :call Preview()<CR>

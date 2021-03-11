@@ -143,7 +143,9 @@ set softtabstop=4
 
 " File type detection settings {{{1
 augroup filetype_detect
-    autocmd! BufEnter *.MD :set filetype=markdown
+    autocmd! BufEnter *.MD  :set filetype=markdown
+    autocmd! BufEnter *.mom :set filetype=groff
+    autocmd! BufEnter *.ms  :set filetype=groff
 augroup END
 " }}}
 

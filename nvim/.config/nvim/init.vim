@@ -251,12 +251,16 @@ nnoremap j gj
 nnoremap gj j
 " }}}
 
-" Markdown Preview config {{{1
-function PreviewMarkdown()
+" Documents preview config {{{1
+function Preview()
     write
-	AsyncRun mdtopdf "%:p" "/tmp/vim_preview.pdf"
+    if &filetype == "markdown"
+        AsyncRun mdtopdf "%:p" "/tmp/vim_preview.pdf"
+    elseif &filetype == "nroff"
+        AsyncRun pdfmom "%:p" > "/tmp/vim_preview.pdf"
+    endif
 endfunction
-nnoremap <Leader>pm :call PreviewMarkdown()<CR>
+nnoremap <Leader>pm :call Preview()<CR>
 nnoremap <Leader>po :AsyncRun setsid xdg-open /tmp/vim_preview.pdf<CR>
 " }}}
 

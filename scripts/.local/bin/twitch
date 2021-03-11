@@ -40,4 +40,4 @@ esac
 username="$1"
 
 [ -n "$video" ] && setsid mpv "https://www.twitch.tv/$username" >/dev/null 2>&1 &
-[ -n "$chat" ] && setsid surf "https://www.twitch.tv/popout/$username/chat?popout=" >/dev/null 2>&1 &
+[ -n "$chat" ] && setsid surf -S "https://www.twitch.tv/popout/$username/chat?popout=" >/dev/null 2>&1 &

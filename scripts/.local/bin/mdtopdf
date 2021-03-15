@@ -6,14 +6,14 @@
 # mdtopdf INPUT OUTPUT
 #
 # DEPENDENCIES
-# - marked
+# - md2html (md4c)
 # - wkhtmltopdf
 
 in="$1"
 out="$2"
 tmp="$(mktemp -p /tmp md2pdf_XXXXX.html)"
 
-marked --silent -i "$in" -o "$tmp"
+md2html --github "$in" >"$tmp"
 
 # wkhtmltopdf has troubles with specifying encoding, the best way is to have the html file specify it
 head='<!DOCTYPE html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text\/html; charset=UTF-8\">\n<\/head>\n<body>'

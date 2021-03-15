@@ -69,7 +69,7 @@ sudo pacman -S --needed \
     trash-cli \
     atomicparsley \
     zathura zathura-cb zathura-pdf-poppler \
-    marked wkhtmltopdf \
+    md4c wkhtmltopdf \
     shellcheck \
     newsboat weechat \
     physlock \

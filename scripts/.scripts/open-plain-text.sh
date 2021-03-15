@@ -51,7 +51,6 @@ for f in "$@"; do
             groff -ms -t -e -T pdf -- "$f" | "$PDF_READER" -
             ;;
         *)
-            notify-send "fallback option"
             "$TERMINAL" -e "$EDITOR" -- "$f"
             ;;
     esac

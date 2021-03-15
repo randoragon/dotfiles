@@ -15,45 +15,43 @@ mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
 sudo pacman -Syu
 sudo pacman -S --needed \
     make cmake gcc gdb \
-    firefox lynx \
+    firefox \
     git patch \
     picom \
     pass \
     stow \
-    xorg xorg-xinit xorg-xkbcomp xterm xorg-drivers numlockx \
+    xorg xorg-xinit xorg-xkbcomp xorg-drivers \
     xbindkeys xwallpaper \
     ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
-    grub-customizer \
     gparted \
     mpd ncmpcpp mpc beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     networkmanager udisks2 \
-    iputils wpa_supplicant wireless_tools gnome-keyring \
+    iputils wpa_supplicant wireless_tools \
     sxiv mpv \
-    python3 python-pip python-mutagen go \
+    python3 python-pip go \
     tmux \
     xarchiver \
     curl wget reflector \
     thunderbird \
-    bc libqalculate speedcrunch \
+    bc libqalculate \
     qrencode zbar \
     htop \
     fakeroot \
-    adapta-gtk-theme \
     xf86-input-libinput \
     autoconf pkgconf \
     bluez bluez-utils blueman \
-    pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pulsemixer pavucontrol \
+    pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pulsemixer \
     ntp \
     ntfs-3g dosfstools which \
     arch-install-scripts \
     xclip \
-    gtk-engines gtk-engine-murrine \
-    flameshot gimp \
-    the_silver_searcher \
+    gtk-engine-murrine \
+    flameshot \
+    the_silver_searcher fzf \
     pkgfile \
     dash \
-    neovim fzf \
-    wmctrl xdotool \
+    neovim \
+    xdotool \
     pacman-contrib \
     libnotify dunst \
     imagemagick graphicsmagick \
@@ -63,7 +61,6 @@ sudo pacman -S --needed \
     tar gzip bzip2 xz zip unzip p7zip \
     gnupg pinentry \
     cronie \
-    cpulimit \
     tokei ctags highlight \
     neofetch screenkey \
     trash-cli \
@@ -71,7 +68,7 @@ sudo pacman -S --needed \
     zathura zathura-cb zathura-pdf-poppler \
     md4c wkhtmltopdf \
     shellcheck \
-    newsboat weechat \
+    newsboat \
     physlock \
     rsync syncthing \
     webkit2gtk
@@ -215,4 +212,3 @@ ecd ~/dotfiles/.other
 sudo ln -sTf /usr/bin/pinentry-gtk-2 /usr/bin/pinentry
 
 ecd ~
-

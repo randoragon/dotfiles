@@ -1,26 +1,44 @@
 [Default Applications]
-application/mpeg=mpv.desktop;
+
+# Document
 application/pdf=pdf.desktop;
+text/plain=text.desktop;
+text/x-shellscript=text.desktop;
+text/x-c=text.desktop;
+text/x-makefile=text.desktop;
+text/html=firefox.desktop;
+text/csv=text.desktop
+application/rss+xml=firefox.desktop;
+application/rss+xml=text.desktop;firefox.desktop;
+application/atom+xml=text.desktop;firefox.desktop;
+application/json=text.desktop
+
+# Audio
 audio/mpeg=mpv.desktop;
 audio/x-wave=mpv.desktop
 audio/x-wav=mpv.desktop
 audio/ogg=mpv.desktop;
+audio/x-hx-aac-adts=mpv.desktop;
+
+# Image
 image/gif=image.desktop;
 image/png=image.desktop;
 image/jpeg=image.desktop;
+
+# Video
+application/mpeg=mpv.desktop;
 video/mp4=mpv.desktop;
 video/x-matroska=mpv.desktop;
+
+# Misc
 inode/directory=file.desktop;
-text/plain=text.desktop;
-text/x-shellscript=text.desktop;
+application/octet-stream=text.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;
+application/zip=xarchiver.desktop;
+
+# URL Schemes
 x-scheme-handler/http=firefox.desktop;
 x-scheme-handler/https=firefox.desktop;
-text/html=firefox.desktop;
-application/rss+xml=firefox.desktop;
-application/rss+xml=text.desktop;firefox.desktop;
-application/atom+xml=text.desktop;firefox.desktop;
-application/octet-stream=text.desktop;
 x-scheme-handler/about=firefox.desktop
 x-scheme-handler/unknown=firefox.desktop
-application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;
 x-scheme-handler/webcal=firefox.desktop

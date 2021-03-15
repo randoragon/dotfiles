@@ -3,6 +3,7 @@
 # Document
 application/pdf=pdf.desktop;
 text/plain=text.desktop;
+text/troff=text.desktop;
 text/x-shellscript=text.desktop;
 text/x-c=text.desktop;
 text/x-makefile=text.desktop;

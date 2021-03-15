@@ -51,16 +51,8 @@ map \\ :find-prev
 map ,
 map ,p :set preview!
 
-# Custom file opener based on mime types
-cmd open &{{
-    case $(file --mime-type $f -b) in
-        *)
-            for f in $fx; do
-                setsid xdg-open "$f" >/dev/null 2>/dev/null & done
-        ;;
-    esac
-}}
-
+# Make opened things appear in new windows
+cmd open $setsid xdg-open "$f" >/dev/null 2>&1 &
 
 # Trash and delete files
 map x :trash

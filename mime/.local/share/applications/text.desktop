@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
-Name=NeoVim
-Exec=/usr/local/bin/st -e nvim -- %u
+Name=OpenPlainText
+Exec=~/.scripts/open-plain-text.sh %u

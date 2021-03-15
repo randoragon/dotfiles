@@ -29,8 +29,9 @@ export LC_ALL=en_US.UTF-8
 # Default applications
 export EDITOR=nvim
 export TERMINAL=st
-export BROWSER="firefox"
+export BROWSER=firefox
 export PAGER=less
+export PDF_READER=zathura
 
 # Default directories
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -72,6 +73,17 @@ export NNN_BMS='h:~;d:~/Documents'
 export NNN_COLORS='6532'
 export NNN_TRASH=1
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+# This makes markdown previews with tables bearable
+# to look at, just prepend the html file with it
+export HTML_TABLE_STYLE="<style>
+table, th, td {
+    padding: 5px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+"
 
 # Start ssh-agent if not already running
 ps -e | grep "$SSH_AGENT_PID"  | grep "ssh-agent$" || eval "$(ssh-agent -s)"

@@ -41,6 +41,7 @@ for f in "$@"; do
             printf "%s" "$HTML_TABLE_STYLE" >"$tmp"
             md2html --github -- "$f" >>"$tmp"
             surf -- "$tmp"
+            rm -- "$tmp"
             ;;
         mom) # groff -mom
             pdfmom -t -e -- "$f" | "$PDF_READER" -

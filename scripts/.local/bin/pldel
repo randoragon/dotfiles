@@ -30,7 +30,7 @@ while read -r line; do
     linenum="$(grep -n "$line" "$tmp" | cut -d ":" -f1 | head -n1)"
     [ -n "$linenum" ] && sed -i "$linenum{d;q}" "$tmp"
 done <"$pldel"
-cp -- "$tmp" "$pldel"
+mv -- "$tmp" "$pldel"
 
 if [ "$dcount" -gt 0 ]; then
     printf "Successfully trashed %s file%s. Remember to run 'beet update'\n" "$dcount" "$([ "$dcount" -gt 1 ] && printf "s")"

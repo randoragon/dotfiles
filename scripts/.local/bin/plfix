@@ -46,7 +46,7 @@ done
 
 count1="$(head -n1 -- "$counter")"
 count2="$(sed -n 2p "$counter")"
-rm -- "$counter"
+rm -f -- "$counter" "$dupes"
 if [ "$count1" -gt 0 ]; then
     printf "%s %s invalid path%s\n" "$(if [ -z "$pretend" ]; then printf "Removed"; else printf "Detected"; fi)" "$count1" "$([ "$count1" -eq 1 ] || printf s)"
     "$PAGER" "$log"

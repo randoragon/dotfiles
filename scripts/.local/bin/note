@@ -110,12 +110,12 @@ if [ $# -eq 0 ]; then
         # Markdown notes
         elif [ -f "$notedir/$note.md.gpg" ]; then
             if [ -z "$textonly" ]; then
-                tmp="$(mktemp -p /tmp note.XXXX.html)"
+                tmp="$(mktemp -p /tmp note.XXXXX.html)"
                 printf "%s" "$HTML_TABLE_STYLE" >"$tmp"
                 pass "notes/$note.md" | md2html --github >>"$tmp"
                 [ -s "$tmp" ] && surf "file://$tmp"
             else
-                tmp="$(mktemp -p /tmp note.XXXX.md)"
+                tmp="$(mktemp -p /tmp note.XXXXX.md)"
                 pass "notes/$note.md" >"$tmp"
                 [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
             fi
@@ -126,7 +126,7 @@ if [ $# -eq 0 ]; then
             if [ -z "$textonly" ]; then
                 pass "notes/$note.ms" | groff -ms -t -e -T pdf | "${PDF_READER:-zathura}" -
             else
-                tmp="$(mktemp -p /tmp note.XXXX.ms)"
+                tmp="$(mktemp -p /tmp note.XXXXX.ms)"
                 pass "notes/$note.ms" >"$tmp"
                 [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
                 shred -u -- "$tmp"
@@ -137,7 +137,7 @@ if [ $# -eq 0 ]; then
             if [ -z "$textonly" ]; then
                 pass "notes/$note.mom" | pdfmom -t -e | "${PDF_READER:-zathura}" -
             else
-                tmp="$(mktemp -p /tmp note.XXXX.mom)"
+                tmp="$(mktemp -p /tmp note.XXXXX.mom)"
                 pass "notes/$note.mom" >"$tmp"
                 [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
                 shred -u -- "$tmp"

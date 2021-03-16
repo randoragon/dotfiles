@@ -266,13 +266,13 @@ nnoremap gj j
 function Preview()
     write
     if &filetype == "markdown"
-        AsyncRun mdtopdf "%:p" "/tmp/vim_preview.pdf"
+        AsyncRun mdtopdf "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "groff"
-        AsyncRun pdfmom -t -e "%:p" > "/tmp/vim_preview.pdf"
+        AsyncRun pdfmom -t -e "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     endif
 endfunction
 nnoremap <Leader>pm :call Preview()<CR>
-nnoremap <Leader>po :AsyncRun setsid xdg-open /tmp/vim_preview.pdf<CR>
+nnoremap <Leader>po :AsyncRun setsid xdg-open "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"<CR>
 " }}}
 
 " Enable 256 color support, set colorscheme {{{1

@@ -105,7 +105,7 @@ if [ $# -eq 0 ]; then
             tmp="$(mktemp -p /tmp note.XXXXX.txt)"
             pass "notes/$note" >"$tmp"
             [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
-            rm -- "$tmp"
+            shred -u -- "$tmp"
 
         # Markdown notes
         elif [ -f "$notedir/$note.md.gpg" ]; then
@@ -119,31 +119,29 @@ if [ $# -eq 0 ]; then
                 pass "notes/$note.md" >"$tmp"
                 [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
             fi
-            rm -- "$tmp"
+            shred -u -- "$tmp"
 
         # Groff ms notes
         elif [ -f "$notedir/$note.ms.gpg" ]; then
-            tmp=
             if [ -z "$textonly" ]; then
                 pass "notes/$note.ms" | groff -ms -t -e -T pdf | "${PDF_READER:-zathura}" -
             else
                 tmp="$(mktemp -p /tmp note.XXXX.ms)"
                 pass "notes/$note.ms" >"$tmp"
                 [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
+                shred -u -- "$tmp"
             fi
-            rm -f -- "$tmp"
 
         # Groff mom notes
         elif [ -f "$notedir/$note.mom.gpg" ]; then
-            tmp=
             if [ -z "$textonly" ]; then
                 pass "notes/$note.mom" | pdfmom -t -e | "${PDF_READER:-zathura}" -
             else
                 tmp="$(mktemp -p /tmp note.XXXX.mom)"
                 pass "notes/$note.mom" >"$tmp"
                 [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
+                shred -u -- "$tmp"
             fi
-            rm -f -- "$tmp"
 
         fi
     else

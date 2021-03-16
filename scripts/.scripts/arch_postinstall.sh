@@ -45,7 +45,7 @@ sudo pacman -S --needed \
     ntfs-3g dosfstools which \
     arch-install-scripts \
     xclip \
-    gtk-engine-murrine \
+    gtk-engine-murrine materia-gtk-theme xcursor-bluecurve \
     flameshot \
     the_silver_searcher fzf \
     pkgfile \

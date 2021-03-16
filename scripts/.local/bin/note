@@ -6,8 +6,10 @@
 # Dependencies:
 # - pass
 # - dmenu and fzf
-# - md2html
+# - md2html (md4c)
+# - groff
 # - surf (html viewing)
+# - env: $PDF_READER (fallback to zathura)
 
 notedir="${PASSWORD_STORE_DIR:-~/.password-store}/notes"
 [ ! -d "$notedir" ] && echo "note: notes dir not found" >&2 && exit 1
@@ -34,8 +36,18 @@ OPTIONS
         Create a markdown note instead of plain text. This option
         is only allowed when creating a new note by passing NAME.
 
+    -s, --groff-ms
+        Create a groff-ms note instead of plain text. This option
+        is only allowed when creating a new note by passing NAME.
+        (tbl and eqn preprocessors are available)
+
+    -o, --groff-mom
+        Create a groff-mom note instead of plain text. This option
+        is only allowed when creating a new note by passing NAME.
+        (tbl and eqn preprocessors are available)
+
     -t, --textonly
-        View a markdown note as plain text.
+        View any markup note as plain text.
 
     -h, --help
         Display this help text.
@@ -45,14 +57,18 @@ OPTIONS
 
 edit=
 markdown=
+groff_ms=
+groff_mom=
 textonly=
-opts="$(getopt -n note -s sh -o hemt -l help,edit,markdown,textonly -- "$@")"
+opts="$(getopt -n note -s sh -o hemtso -l help,edit,markdown,textonly,groff-ms,groff-mom -- "$@")"
 eval set -- "$opts"
 while true; do
     case "$1" in
         -h|--help) help ; exit ; shift ;;
         -e|--edit) edit=1 ; shift ;;
         -m|--markdown) markdown=1 ; shift ;;
+        -s|--groff-ms) groff_ms=1 ; shift ;;
+        -o|--groff-mom) groff_mom=1 ; shift ;;
         -t|--textonly) textonly=1 ; shift ;;
         --) shift ; break ;;
         *) break ;;
@@ -62,20 +78,26 @@ done
 # View/edit existing note
 if [ $# -eq 0 ]; then
     [ -n "$markdown" ] && echo "note: illegal use of --markdown option" >&2 && exit 2
+    [ -n "$groff_ms" ] && echo "note: illegal use of --groff-ms option" >&2 && exit 2
+    [ -n "$groff_mom" ] && echo "note: illegal use of --groff-mom option" >&2 && exit 2
 
     # Check if shell is interactive. For interactive
     # shells use fzf, otherwise use dmenu.
     interactive=
     if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
     if [ -t 0 ]; then
-        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "$prompt ")"
+        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.\(md\|ms\|mom\)\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "$prompt ")"
         interactive=1
     else
-        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.md\)\?\.gpg$//' | dmenu -F -l 5 -p "$prompt")"
+        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.\(md\|ms\|mom\)\)\?\.gpg$//' | dmenu -F -l 5 -p "$prompt")"
     fi
 
     [ -z "$note" ] && exit
-    [ ! -f "$notedir/$note.gpg" ] && [ ! -f "$notedir/$note.md.gpg" ] && echo "note: file not found" >&2 && exit 1
+    [ ! -f "$notedir/$note.gpg" ] && \
+    [ ! -f "$notedir/$note.md.gpg" ] && \
+    [ ! -f "$notedir/$note.ms.gpg" ] && \
+    [ ! -f "$notedir/$note.mom.gpg" ] && \
+        echo "note: file not found" >&2 && exit 1
 
     if [ -z "$edit" ]; then
         # Plain text notes
@@ -98,14 +120,43 @@ if [ $# -eq 0 ]; then
                 [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
             fi
             rm -- "$tmp"
+
+        # Groff ms notes
+        elif [ -f "$notedir/$note.ms.gpg" ]; then
+            tmp=
+            if [ -z "$textonly" ]; then
+                pass "notes/$note.ms" | groff -ms -t -e -T pdf | "${PDF_READER:-zathura}" -
+            else
+                tmp="$(mktemp -p /tmp note.XXXX.ms)"
+                pass "notes/$note.ms" >"$tmp"
+                [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
+            fi
+            rm -f -- "$tmp"
+
+        # Groff mom notes
+        elif [ -f "$notedir/$note.mom.gpg" ]; then
+            tmp=
+            if [ -z "$textonly" ]; then
+                pass "notes/$note.mom" | pdfmom -t -e | "${PDF_READER:-zathura}" -
+            else
+                tmp="$(mktemp -p /tmp note.XXXX.mom)"
+                pass "notes/$note.mom" >"$tmp"
+                [ -s "$tmp" ] && if [ -n "$interactive" ]; then "$PAGER" "$tmp"; else st -e "$PAGER" "$tmp"; fi
+            fi
+            rm -f -- "$tmp"
+
         fi
     else
         if [ -n "$interactive" ]; then
             [ -f "$notedir/$note.gpg" ] && pass edit "notes/$note" && exit
             [ -f "$notedir/$note.md.gpg" ] && pass edit "notes/$note.md" && exit
+            [ -f "$notedir/$note.ms.gpg" ] && pass edit "notes/$note.ms" && exit
+            [ -f "$notedir/$note.mom.gpg" ] && pass edit "notes/$note.mom" && exit
         else
             [ -f "$notedir/$note.gpg" ] && st -e pass edit "notes/$note" && exit
             [ -f "$notedir/$note.md.gpg" ] && st -e pass edit "notes/$note.md" && exit
+            [ -f "$notedir/$note.ms.gpg" ] && st -e pass edit "notes/$note.ms" && exit
+            [ -f "$notedir/$note.mom.gpg" ] && st -e pass edit "notes/$note.mom" && exit
         fi
     fi
 
@@ -115,7 +166,16 @@ else
     [ -n "$edit" ] && echo "note: illegal use of --edit option" >&2 && exit 2
     note="$*"
     [ -z "$(basename -- "$note")" ] && echo "note: cannot create a note with empty filename" >&2 && exit 2
-    [ -n "$markdown" ] && note="$note.md"
+
+    # Only allow one markup language at a time
+    expr \( "${markdown:-0}" + "${groff_ms:-0}" + "${groff_mom:-0}" \) \> 1 >/dev/null && {
+        echo "note: only one of --markdown, --groff-ms, --groff-mom may be specified at a time" >&2
+        exit 2
+    }
+
+    [ -n "$markdown" ]  && note="$note.md"
+    [ -n "$groff_ms" ]  && note="$note.ms"
+    [ -n "$groff_mom" ] && note="$note.mom"
     [ -f "$notedir/$note.gpg" ] && echo "note: note with the same name already exists" >&2 && exit
     pass edit "notes/$note"
 fi

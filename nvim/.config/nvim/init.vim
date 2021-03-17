@@ -3,7 +3,6 @@
 " Basic Settings {{{1
 set nowrap
 set number
-set path+=** " Enables recursive :find
 set mouse=a
 let mapleader=','
 nnoremap \ ,
@@ -293,4 +292,13 @@ else
     " fallback colorscheme for TTY
     colorscheme ron
 endif
+" }}}
+
+" Searching configuration {{{1
+set wildmenu
+set wildmode=longest:full,full
+set wildignorecase
+set wildignore=*.git/*,*.tags,*.o
+cnoremap <expr> / wildmenumode() ? "\<C-E>" : "/"
+set path+=** " Enables recursive :find
 " }}}

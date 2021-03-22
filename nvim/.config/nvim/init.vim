@@ -73,7 +73,7 @@ let g:ale_enabled = 0
 let g:deoplete#enable_at_startup = 0
 " Close Deoplete preview window after completion
 " https://github.com/Shougo/deoplete.nvim/issues/115
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
+autocmd InsertLeave * if pumvisible() == 0 | silent! pclose | endif
 nnoremap <Leader>a :ALEToggle<CR>:call deoplete#toggle()<CR>
 nnoremap <Leader>e :ALEDetail<CR>
 nnoremap ]a :ALENextWrap<CR>
@@ -267,7 +267,11 @@ function Preview()
     if &filetype == "markdown"
         AsyncRun mdtopdf "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "groff"
-        AsyncRun pdfmom -t -e "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        if match(@%, ".*\.ms$") == 0
+            AsyncRun groff -ms -Uket -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        elseif match(@%, ".*\.mom$") == 0
+            AsyncRun pdfmom -ket "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        endif
     endif
 endfunction
 nnoremap <Leader>pm :call Preview()<CR>

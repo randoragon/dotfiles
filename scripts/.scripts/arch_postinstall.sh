@@ -65,7 +65,7 @@ sudo pacman -S --needed \
     neofetch screenkey \
     trash-cli \
     atomicparsley \
-    zathura zathura-cb zathura-pdf-poppler \
+    zathura zathura-ps zathura-cb zathura-pdf-poppler \
     md4c wkhtmltopdf \
     shellcheck \
     newsboat \

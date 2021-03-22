@@ -31,7 +31,7 @@ pldir="$HOME/Music/Playlists"
 # Handle errors
 [ $# -ne 1 ] && [ $# -ne 2 ] && echo "pladd: Exactly one or two arguments required (received $#)" >&2 && exit 1
 [ ! -f "$1" ] && [ ! -f "$pldir/$1.m3u" ] && echo "pladd: playlist not found" >&2 && exit 1
-[ $# -eq 2 ] && [ ! -f "$2" ] && echo "pladd: file not found" >&2 && exit 1
+[ $# -eq 2 ] && [ ! -f "$2" ] && echo "pladd: file \"$2\" not found" >&2 && exit 1
 
 plist="$(if [ -f "$1" ]; then printf "%s" "$1"; else printf "%s" "$pldir/$1.m3u"; fi)"
 plname="$(basename -- "$plist" | sed 's/\.m3u//')"

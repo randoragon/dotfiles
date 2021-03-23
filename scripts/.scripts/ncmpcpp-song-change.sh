@@ -8,7 +8,7 @@ printf "%s" "$(mpc current --format '%artist% - %title%')    " >${XDG_CACHE_HOME
 # SET ALBUM COVER AS WALLPAPER
 #
 # Uncomment the line below to activate:
-# switch_wallpaper=1
+switch_wallpaper=1
 if [ -n "$switch_wallpaper" ]; then
     mroot=~/Music
     cachefile="${XDG_CACHE_HOME:-~/.cache}/ncmpcpp-albumart.jpg"

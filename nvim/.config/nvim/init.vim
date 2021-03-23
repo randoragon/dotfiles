@@ -296,6 +296,17 @@ else
     " fallback colorscheme for TTY
     colorscheme ron
 endif
+" Make background transparent on any colorscheme
+function TransparentBG()
+    highlight Normal     guibg=NONE ctermbg=NONE
+    highlight Title      guibg=NONE ctermbg=NONE
+    highlight LineNr     guibg=NONE ctermbg=NONE
+    highlight Folded     guibg=NONE ctermbg=NONE
+    highlight NonText    guibg=NONE ctermbg=NONE
+    highlight FoldColumn guibg=NONE ctermbg=NONE
+    highlight SignColumn guibg=NONE ctermbg=NONE
+endfunction
+autocmd VimEnter,ColorScheme * call TransparentBG()
 " }}}
 
 " Searching configuration {{{1

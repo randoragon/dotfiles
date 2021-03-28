@@ -22,8 +22,9 @@ alias umt='udisksctl unmount -b'
 alias dh='dirs -v'
 alias updatepkg='makepkg -scf && makepkg --printsrcinfo >.SRCINFO'
 alias e='$EDITOR'
-alias fe='$EDITOR "$(find . | fzf)"'
-alias fd='cd "$(find . -type d | fzf)"'
+alias fe='als_tmp="$(find . -type f | fzf)"; [ -n "$als_tmp" ] && $EDITOR -- "$als_tmp"'
+alias fd='cd -- "$(find . -type d | fzf)"'
+alias ff='als_tmp="$(find . -type f | fzf)"; [ -n "$als_tmp" ] && cd "$(dirname -- "$als_tmp")"'
 
 # Git 
 alias gs="git status"

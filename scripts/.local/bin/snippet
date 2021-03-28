@@ -121,7 +121,7 @@ if __name__ == '__main__':
     items  = []
     values = {}
     for key, value in snippets.items():
-        s = '{}: {}'.format(key, value.replace('\n', ' '))
+        s = '{}: {}'.format(key, value.partition('\n')[0])
         items.append(s)
         values[s] = value
 

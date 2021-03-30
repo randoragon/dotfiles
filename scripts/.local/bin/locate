@@ -28,7 +28,7 @@ esac
 if [ -z "$home" ]; then
     grep --color=auto -a "$@" "$db"
 elif [ "$home" = 1 ]; then
-    grep --color=auto -a "$@" "$db" | grep -a "^$HOME"
+    grep -a "^$HOME" "$db" | grep --color=auto -a "$@"
 elif [ "$home" = 0 ]; then
-    grep --color=auto -a "$@" "$db" | grep -av "^$HOME"
+    grep -av "^$HOME" "$db" | grep --color=auto -a "$@"
 fi

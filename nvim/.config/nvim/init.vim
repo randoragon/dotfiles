@@ -268,7 +268,8 @@ function Preview()
         AsyncRun mdtopdf "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "groff"
         if match(@%, ".*\.ms$") == 0
-            AsyncRun groff -ms -Uket -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+            " Requires my handy neatroff script
+            AsyncRun ntmake < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
         elseif match(@%, ".*\.mom$") == 0
             AsyncRun pdfmom -ket "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
         endif

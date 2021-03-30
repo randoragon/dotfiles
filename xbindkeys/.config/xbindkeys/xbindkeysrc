@@ -35,6 +35,8 @@
     mod2+mod4 + space
 "snippet"
     mod2+mod4 + c
+"~/.scripts/book"
+    mod2+mod4+control + b
 
 # Screenshots
 "flameshot gui"

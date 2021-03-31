@@ -44,11 +44,13 @@ for f in "$@"; do
             rm -- "$tmp"
             ;;
         mom) # groff -mom
-            pdfmom -t -e -- "$f" | "$PDF_READER" -
+            pdfmom -ket -- "$f" | $PDF_READER -
             ;;
-        ms) # groff -ms
-            pnotify-send "IS THIS EVEN"
-            groff -ms -t -e -T pdf -- "$f" | "$PDF_READER" -
+        ms) # neatroff -ms
+            ntmake <"$f" | $PDF_READER -
+            ;;
+        groff) # pure groff
+            groff -ket -- "$f" | $PDF_READER -
             ;;
         *)
             "$TERMINAL" -e "$EDITOR" -- "$f"

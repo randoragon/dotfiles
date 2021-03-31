@@ -151,9 +151,10 @@ set softtabstop=4
 
 " File type detection settings {{{1
 augroup filetype_detect
-    autocmd! BufEnter *.MD  :set filetype=markdown
-    autocmd! BufEnter *.mom :set filetype=groff
-    autocmd! BufEnter *.ms  :set filetype=groff
+    autocmd! BufEnter *.MD    :set filetype=markdown
+    autocmd! BufEnter *.mom   :set filetype=groff
+    autocmd! BufEnter *.ms    :set filetype=groff
+    autocmd! BufEnter *.groff :set filetype=groff
 augroup END
 " }}}
 
@@ -272,6 +273,9 @@ function Preview()
             AsyncRun ntmake < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
         elseif match(@%, ".*\.mom$") == 0
             AsyncRun pdfmom -ket "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        elseif match(@%, ".*\.groff$") == 0
+            " No macro package, pure groff
+            AsyncRun groff -ket -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
         endif
     endif
 endfunction

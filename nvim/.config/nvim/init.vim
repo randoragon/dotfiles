@@ -149,15 +149,6 @@ set tabstop=4
 set softtabstop=4
 " }}}
 
-" File type detection settings {{{1
-augroup filetype_detect
-    autocmd! BufEnter *.MD    :set filetype=markdown
-    autocmd! BufEnter *.mom   :set filetype=groff
-    autocmd! BufEnter *.ms    :set filetype=groff
-    autocmd! BufEnter *.groff :set filetype=groff
-augroup END
-" }}}
-
 " Fold settings {{{1
 set foldmethod=manual
 
@@ -268,15 +259,13 @@ function Preview()
     if &filetype == "markdown"
         AsyncRun mdtopdf "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "groff"
-        if match(@%, ".*\.ms$") == 0
-            " Requires my handy neatroff script
-            AsyncRun ntmake < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-        elseif match(@%, ".*\.mom$") == 0
-            AsyncRun pdfmom -ket "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-        elseif match(@%, ".*\.groff$") == 0
-            " No macro package, pure groff
-            AsyncRun groff -ket -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-        endif
+        " No macro package, pure groff
+        AsyncRun groff -ket -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+    elseif &filetype == "groff-ms"
+        " Requires my handy ntmake script
+        AsyncRun ntmake < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+    elseif &filetype == "groff-mom"
+        AsyncRun pdfmom -ket "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     endif
 endfunction
 nnoremap <Leader>pm :call Preview()<CR>

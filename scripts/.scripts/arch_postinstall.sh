@@ -46,7 +46,7 @@ sudo pacman -S --needed \
     arch-install-scripts \
     xclip \
     gtk-engine-murrine materia-gtk-theme xcursor-bluecurve \
-    flameshot slop maim \
+    flameshot slop shotgun \
     the_silver_searcher fzf \
     pkgfile \
     dash \

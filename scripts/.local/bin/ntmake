@@ -5,7 +5,6 @@
 
 # Executables with flags
 ROFF="ntroff -mpost -mtbl -mkeep -ms -msrefs"
-POST="ntpost"
 PPDF="ntpdf -pa4"
 EQN="nteqn"
 REFR="ntrefer"
@@ -13,4 +12,4 @@ PIC="ntpic"
 TBL="nttbl"
 SOIN="ntsoin"
 
-printf "%s" "$($SOIN <&0 | $REFR | $PIC | $TBL | $EQN | $ROFF | $PPDF)"
+$SOIN <&0 | $REFR | $PIC | $TBL | $EQN | $ROFF | $PPDF

@@ -46,7 +46,7 @@ sudo pacman -S --needed \
     arch-install-scripts \
     xclip \
     gtk-engine-murrine materia-gtk-theme xcursor-bluecurve \
-    flameshot \
+    flameshot slop maim \
     the_silver_searcher fzf \
     pkgfile \
     dash \
@@ -111,7 +111,6 @@ yay -Sa --needed \
     numix-icon-theme-git \
     id3ted \
     rar \
-    xrectsel \
     bfg \
     mp3gain \
     gromit-mpx-git \

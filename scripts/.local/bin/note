@@ -7,9 +7,11 @@
 # - pass
 # - dmenu and fzf
 # - md2html (md4c)
-# - groff
+# - groff (mom)
+# - neatroff (ms)
 # - surf (html viewing)
 # - env: $PDF_READER (fallback to zathura)
+# - ntmake (my script for quick neatroff compilation)
 
 notedir="${PASSWORD_STORE_DIR:-~/.password-store}/notes"
 [ ! -d "$notedir" ] && echo "note: notes dir not found" >&2 && exit 1
@@ -36,10 +38,10 @@ OPTIONS
         Create a markdown note instead of plain text. This option
         is only allowed when creating a new note by passing NAME.
 
-    -s, --groff-ms
-        Create a groff-ms note instead of plain text. This option
+    -s, --neat-ms
+        Create a neatroff-ms note instead of plain text. This option
         is only allowed when creating a new note by passing NAME.
-        (tbl and eqn preprocessors are available)
+        (most preprocessors are available)
 
     -o, --groff-mom
         Create a groff-mom note instead of plain text. This option
@@ -57,17 +59,17 @@ OPTIONS
 
 edit=
 markdown=
-groff_ms=
+neat_ms=
 groff_mom=
 textonly=
-opts="$(getopt -n note -s sh -o hemtso -l help,edit,markdown,textonly,groff-ms,groff-mom -- "$@")"
+opts="$(getopt -n note -s sh -o hemtso -l help,edit,markdown,textonly,neat-ms,groff-mom -- "$@")"
 eval set -- "$opts"
 while true; do
     case "$1" in
         -h|--help) help ; exit ; shift ;;
         -e|--edit) edit=1 ; shift ;;
         -m|--markdown) markdown=1 ; shift ;;
-        -s|--groff-ms) groff_ms=1 ; shift ;;
+        -s|--neat-ms) neat_ms=1 ; shift ;;
         -o|--groff-mom) groff_mom=1 ; shift ;;
         -t|--textonly) textonly=1 ; shift ;;
         --) shift ; break ;;
@@ -78,7 +80,7 @@ done
 # View/edit existing note
 if [ $# -eq 0 ]; then
     [ -n "$markdown" ] && echo "note: illegal use of --markdown option" >&2 && exit 2
-    [ -n "$groff_ms" ] && echo "note: illegal use of --groff-ms option" >&2 && exit 2
+    [ -n "$neat_ms" ] && echo "note: illegal use of --neat-ms option" >&2 && exit 2
     [ -n "$groff_mom" ] && echo "note: illegal use of --groff-mom option" >&2 && exit 2
 
     # Check if shell is interactive. For interactive
@@ -121,10 +123,10 @@ if [ $# -eq 0 ]; then
             fi
             shred -u -- "$tmp"
 
-        # Groff ms notes
+        # NeatRoff ms notes
         elif [ -f "$notedir/$note.ms.gpg" ]; then
             if [ -z "$textonly" ]; then
-                pass "notes/$note.ms" | groff -ms -t -e -T pdf | "${PDF_READER:-zathura}" -
+                pass "notes/$note.ms" | ntmake | "${PDF_READER:-zathura}" -
             else
                 tmp="$(mktemp -p /tmp note.XXXXX.ms)"
                 pass "notes/$note.ms" >"$tmp"
@@ -166,13 +168,13 @@ else
     [ -z "$(basename -- "$note")" ] && echo "note: cannot create a note with empty filename" >&2 && exit 2
 
     # Only allow one markup language at a time
-    expr \( "${markdown:-0}" + "${groff_ms:-0}" + "${groff_mom:-0}" \) \> 1 >/dev/null && {
-        echo "note: only one of --markdown, --groff-ms, --groff-mom may be specified at a time" >&2
+    expr \( "${markdown:-0}" + "${neat_ms:-0}" + "${groff_mom:-0}" \) \> 1 >/dev/null && {
+        echo "note: only one of --markdown, --neat-ms, --groff-mom may be specified at a time" >&2
         exit 2
     }
 
     [ -n "$markdown" ]  && note="$note.md"
-    [ -n "$groff_ms" ]  && note="$note.ms"
+    [ -n "$neat_ms" ]   && note="$note.ms"
     [ -n "$groff_mom" ] && note="$note.mom"
     [ -f "$notedir/$note.gpg" ] && echo "note: note with the same name already exists" >&2 && exit
     pass edit "notes/$note"

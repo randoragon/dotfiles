@@ -264,7 +264,7 @@ function Preview()
     elseif &filetype == "groff"
         " No macro package, pure groff
         AsyncRun groff -ket -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-    elseif &filetype == "groff-ms"
+    elseif &filetype == "neat-ms"
         " Requires my handy ntmake script
         AsyncRun ntmake < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "groff-mom"

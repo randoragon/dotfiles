@@ -1,0 +1,21 @@
+#!/usr/bin/sh
+
+# NeatRoff PDF .sp generator script. Used by my vim configuration to
+# automatically embed screenshots in roff documents. One quirk or NeatRoff
+# images is that they are embedded from bottom-left corner, so proper
+# spacing needs to be put before the image to make it display intuitively.
+# This script prints a request in groff language that does the spacing.
+#
+# Dependencies:
+# - pdfinfo
+# - grep
+# - cut
+
+[ $# -ne 1 ] && echo "ntpdfsp: exactly one argument required (pdf file)" >&2 && exit 1
+[ ! -r "$1" ] && echo "ntpdfsp: cannot open file \"$1\"" && exit 1
+
+geometry="$(pdfinfo "$1" | grep -ao '^Page size:.*')"
+w="$(echo "$geometry" | cut -d ' ' -f 8)"
+h="$(echo "$geometry" | cut -d ' ' -f 10)"
+
+printf ".sp \\\n(.lu*%sp/%sp" "$h" "$w"

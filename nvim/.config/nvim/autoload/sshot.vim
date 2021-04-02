@@ -14,7 +14,7 @@ function! sshot#NeatRoffScreenshot(desc, dir, filename)
     call append(line('.') - 1, system(ntpdfsp." '".imgpath."'"))
     if v:shell_error
         echo "NeatRoffScreenshot: failed to run ntpdfsp"
-        call setline('.', desc)
+        call setline('.', a:desc)
         return
     endif
     call setline('.', printf("\\X'pdf ".'%s/%s'." \\n(.l'", a:dir, a:filename))
@@ -23,7 +23,7 @@ endfunction
 
 " Driver function for all screenshot types
 function! sshot#ImportScreenshot(screenshotfunc, extension)
-    let dir = 'img'
+    let dir = expand('%:p:h').'img'
     let desc = getline('.')
     if strlen(desc) == 0
         echo "ImportScreenshot: empty filename"

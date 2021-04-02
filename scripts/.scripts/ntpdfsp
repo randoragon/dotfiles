@@ -11,8 +11,8 @@
 # - grep
 # - cut
 
-[ $# -ne 1 ] && echo "ntpdfsp: exactly one argument required (pdf file)" >&2 && exit 1
-[ ! -r "$1" ] && echo "ntpdfsp: cannot open file \"$1\"" && exit 1
+[ $# -ne 1 ] && printf "ntpdfsp: exactly one argument required (pdf file)" >&2 && exit 1
+[ ! -r "$1" ] && printf "ntpdfsp: cannot open file \"%s\"" "$1" >&2 && exit 1
 
 geometry="$(pdfinfo "$1" | grep -ao '^Page size:.*')"
 w="$(echo "$geometry" | cut -d ' ' -f 8)"

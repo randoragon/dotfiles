@@ -201,6 +201,7 @@ stow wget
 ./detach xkb
 stow xorg
 stow zathura
+ln -s -- "$PWD/.other/tmac.rnd" ~/Software/neatroff/tmac
 
 # Replace vi with vim and vim with nvim
 sudo ln -sfT /usr/bin/nvim /usr/bin/vim

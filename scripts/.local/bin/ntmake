@@ -4,9 +4,13 @@
 # into PDF using neatroff. All command-line arguments are
 # transparently passed to neatroff, and should be used to
 # specify the main macro package (if any).
+#
+# The "rnd" macro package is my own extensions, published
+# in my dotfiles repository:
+# https://github.com/randoragon/dotfiles
 
 # Executables with flags
-ROFF="ntroff -mpost -mtbl -mkeep -msrefs $*"
+ROFF="ntroff -mpost -mtbl -mkeep -msrefs -mrnd $*"
 PPDF="ntpdf -pa4"
 EQN="nteqn"
 REFR="ntrefer"

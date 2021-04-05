@@ -23,25 +23,26 @@ endfunction
 
 " Driver function for all screenshot types
 function! sshot#ImportScreenshot(screenshotfunc, extension)
-    let dir = expand('%:p:h').'img'
+    let rel_dir = expand('%:h').'/img'
+    let abs_dir = expand('%:p:h').'/'.rel_dir
     let desc = getline('.')
     if strlen(desc) == 0
         echo "ImportScreenshot: empty filename"
         return
     endif
     let filename = substitute(getline('.'), ' ', '_', 'g').a:extension
-    if filereadable(dir.'/'.filename)
+    if filereadable(abs_dir.'/'.filename)
         echo "ImportScreenshot: file already exists"
         return
     endif
-    if !isdirectory(dir)
-        call mkdir(dir)
+    if !isdirectory(abs_dir)
+        call mkdir(abs_dir)
     endif
-    call system('shotgun -g "$(xrectsel)" - | convert - "'.dir.'/'.filename.'"')
+    call system('shotgun -g "$(xrectsel)" - | convert - "'.abs_dir.'/'.filename.'"')
     if v:shell_error
         echo "ImportScreenshot: failed to save screenshot"
         call setline('.', desc)
         return
     endif
-    call a:screenshotfunc(desc, dir, filename)
+    call a:screenshotfunc(desc, rel_dir, filename)
 endfunction

@@ -46,7 +46,7 @@ xdotool | `xdotool` | Automation | simulates key and mouse presses, moves window
 GNOME Unicode Charmap | `gucharmap` | Font Previewer | not many deps, clean font view, but can't see all glyphs in one place like in FontMatrix
 cpulimit | `cpulimit` | CPU Limiter | makes it possible to run any command with a limit on how much CPU it can use
 tokei | `tokei` | Code Statistics | counts lines of code per language in a project, really fast and verbose
-slop | `slop` | X Utilities | easy screen geometry selection with the mouse
+xrectsel | `*xrectsel` | X Utilities | easy screen geometry selection with the mouse
 maim | `maim` | Screenshots | scriptable screenshot utility, relies on `slop` for selections
 Flameshot | `flameshot` | Screenshots | general purpose screenshot utility, allows annotations and drawing (not scriptable)
 spark | `*sparklines` | Shell Charts | display simple graphs from stdin numbers, install with `curl https://raw.githubusercontent.com/holman/spark/master/spark -o /usr/local/bin/spark && chmod +x /usr/local/bin/spark`

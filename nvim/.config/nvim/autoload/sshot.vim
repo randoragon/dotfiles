@@ -10,7 +10,7 @@ endfunction
 " NeatRoff
 function! sshot#NeatRoffScreenshot(desc, dir, filename)
     let ntpdfsp = expand('~')."/.scripts/ntpdfsp"
-    let imgpath = expand('%:p:h').'/'.a:dir.'/'.a:filename
+    let imgpath = a:dir.'/'.a:filename
     call append(line('.') - 1, system(ntpdfsp." '".imgpath."'"))
     if v:shell_error
         echo "NeatRoffScreenshot: failed to run ntpdfsp"
@@ -37,7 +37,7 @@ function! sshot#ImportScreenshot(screenshotfunc, extension)
     if !isdirectory(dir)
         call mkdir(dir)
     endif
-    call system('shotgun -g "$(slop)" - | convert - "'.dir.'/'.filename.'"')
+    call system('shotgun -g "$(xrectsel)" - | convert - "'.dir.'/'.filename.'"')
     if v:shell_error
         echo "ImportScreenshot: failed to save screenshot"
         call setline('.', desc)

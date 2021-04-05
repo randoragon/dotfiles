@@ -46,7 +46,7 @@ sudo pacman -S --needed \
     arch-install-scripts \
     xclip \
     gtk-engine-murrine materia-gtk-theme xcursor-bluecurve \
-    flameshot slop shotgun \
+    flameshot shotgun \
     the_silver_searcher fzf \
     pkgfile \
     dash \
@@ -128,7 +128,8 @@ yay -Sa --needed \
     surf-randoragon-git \
     st-randoragon-git \
     dmenu-randoragon-git \
-    xkeycheck-git
+    xkeycheck-git \
+    xrectsel
 
 # Set up network manager
 # Source: https://unix.stackexchange.com/a/292196

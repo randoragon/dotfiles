@@ -40,3 +40,15 @@
 .rr _i
 .rr _maxw
 ..
+.\" Clickable URL (Requires: NeatRoff)
+.\" \*[URL <destination> [text]]
+.\" This macro works exactly like the "post.url"
+.\" one that ships with neatroff's "post" package,
+.\" but automatically adds surrounding spaces
+.\" to the displayed name.
+.de URL
+\R'ps._linkh \\w'\\?'\\n(.$>1@ \\$2 @\\$1'''\
+\R'ps._linkv \\n(.sp'\
+\v'+\\n(.sp*2u/10u'\X'link "\\$1" \\n[ps._linkh] -\\n[ps._linkv]'\v'-\\n(.sp*2u/10u'\
+\\?'\\n(.$>1@ \\$2 @\\$1'
+..

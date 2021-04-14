@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Wrapper for ffmpeg and slop to easily record
+# Wrapper for ffmpeg and xrectsel to easily record
 # audio-video screencasts of an arbitrary rectangle.
 # Available formats:
 # - mp4
@@ -52,7 +52,7 @@ else
 fi
 
 echo "Select a rectangle"
-dims="$(slop)"
+dims="$(xrectsel)"
 size="$(printf "%s" "$dims" | sed 's/\+.*$//')"
 xy="$(printf "%s" "$dims" | sed 's/^[^+]*// ; s/\+/,/g' | cut -c 2-)"
 

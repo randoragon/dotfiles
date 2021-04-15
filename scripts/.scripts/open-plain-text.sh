@@ -55,6 +55,9 @@ for f in "$@"; do
         groff) # pure groff
             groff -ket -- "$f" | $PDF_READER -
             ;;
+        0|1|2|3|4|5|6|7|8|9) # man page
+            "$TERMINAL" -e man -l -- "$f"
+            ;;
         *)
             "$TERMINAL" -e "$EDITOR" -- "$f"
             ;;

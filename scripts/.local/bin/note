@@ -96,15 +96,16 @@ if [ $# -eq 0 ]; then
     interactive=
     if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
     if [ -t 0 ]; then
-        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.\(md\|ms\|mom\)\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "$prompt ")"
+        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.\(md\|mm\|ms\|mom\)\)\?\.gpg$//' | fzf --no-sort --no-multi --prompt "$prompt ")"
         interactive=1
     else
-        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.\(md\|ms\|mom\)\)\?\.gpg$//' | dmenu -F -l 5 -p "$prompt")"
+        note="$(find "$notedir" -type f -name "*.gpg" -print0 | xargs -0l realpath --relative-to "$notedir" | sed 's/\(\.\(md\|mm\|ms\|mom\)\)\?\.gpg$//' | dmenu -F -l 5 -p "$prompt")"
     fi
 
     [ -z "$note" ] && exit
     [ ! -f "$notedir/$note.gpg" ] && \
     [ ! -f "$notedir/$note.md.gpg" ] && \
+    [ ! -f "$notedir/$note.mm.gpg" ] && \
     [ ! -f "$notedir/$note.ms.gpg" ] && \
     [ ! -f "$notedir/$note.mom.gpg" ] && \
         echo "note: file not found" >&2 && exit 1

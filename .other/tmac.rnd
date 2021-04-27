@@ -8,6 +8,10 @@
 .\"
 .\" vim: ft=groff
 .
+.\" Default URL color (you can define "col_url" for
+.\" custom colors, this is used as fallback default).
+.ds def_col_url #216287
+.
 .\" PDF Picture (Requires: NeatRoff, ms/mm)
 .\" .PDF <adjust> <path> <width> <height> [scale]
 .\" <adjust> l, c, r or a number for custom indent
@@ -40,16 +44,13 @@
 .rr _i
 .rr _maxw
 ..
-.\" Clickable URL (Requires: NeatRoff)
+.\" Clickable URL (Requires: NeatRoff, mpost)
 .\" \*[URL <destination> [text]]
 .\" This macro works exactly like the "post.url"
 .\" one that ships with neatroff's "post" package,
-.\" but automatically adds surrounding spaces
-.\" to the displayed name, and doesn't add extra space.
+.\" but displays the link with a custom color.
 .de URL
-\R'ps._linkh \\w'\\?'\\n(.$>1@ \\$2 @\\$1'''\
-\R'ps._linkv \\n(.sp'\
-\v'+\\n(.sp*2u/10u'\X'link "\\$1" \\n[ps._linkh] -\\n[ps._linkv]'\v'-\\n(.sp*2u/10u'\
-\\?'\\n(.$>1@ \\$2 @\\$1'
-.sp -1
+.ie "\\*[col_url]"" .ds _col \\*[def_col_url]
+.el .ds _col \\*[col_url]
+.post.url "\\$1" "\\m[\\*[_col]]\\$2\\m[]"
 ..

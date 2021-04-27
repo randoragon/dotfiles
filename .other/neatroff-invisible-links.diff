@@ -1,0 +1,36 @@
+# Removes surrounding rectangles from links in NeatRoff
+# credit goes to pjfichet:
+# https://github.com/pjfichet/utmac/blob/master/neatroff/invisible_links.diff
+diff --git a/pdf.c b/pdf.c
+index acc52d7..76f80b5 100644
+--- a/pdf.c
++++ b/pdf.c
+@@ -732,7 +732,7 @@ void outlink(char *lnk, int hwid, int vwid)
+ 	pdfout("  /Type /Annot\n");
+ 	pdfout("  /Subtype /Link\n");
+ 	pdfout("  /Rect [%s", pdfpos(o_h, o_v));
+-	pdfout(" %s]\n", pdfpos(o_h + hwid, o_v + vwid));
++	pdfout(" %s] /Border [0 0 0]\n", pdfpos(o_h + hwid, o_v + vwid));
+ 	if (lnk[0] == '#') {	/* internal links */
+ 		pdfout("  /A << /S /GoTo /D (%s) >>\n", lnk + 1);
+ 	} else {		/* external links */
+diff --git a/ps.c b/ps.c
+index c888f1e..b468d15 100644
+--- a/ps.c
++++ b/ps.c
+@@ -310,13 +310,13 @@ void outlink(char *lnk, int hwid, int vwid)
+ {
+ 	o_flush();
+ 	if (lnk[0] == '#' || isdigit((unsigned char) lnk[0])) {
+-		outf("[ /Rect [ %d %d t %d %d t ] %s%s "
++		outf("[ /Rect [ %d %d t %d %d t ] /Border [0 0 0] %s%s "
+ 			"/Subtype /Link /LNK pdfmark\n",
+ 			o_h, o_v, o_h + hwid, o_v + vwid,
+ 			lnk[0] == '#' ? "/Dest /" : "/Page ",
+ 			lnk[0] == '#' ? lnk + 1 : lnk);
+ 	} else {
+-		outf("[ /Rect [ %d %d t %d %d t ] "
++		outf("[ /Rect [ %d %d t %d %d t ] /Border [0 0 0] "
+ 			"/Action << /Subtype /URI /URI %s >> /Open true "
+ 			"/Subtype /Link /LNK pdfmark\n",
+ 			o_h, o_v, o_h + hwid, o_v + vwid, pdftext_static(lnk));

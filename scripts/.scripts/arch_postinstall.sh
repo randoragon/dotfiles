@@ -143,22 +143,6 @@ sudo gpasswd -a "$USER" network
 sudo systemctl start wpa_supplicant.service
 sudo systemctl start NetworkManager.service
 
-# Install neatgroff
-ecd ~/Software
-git clone 'git://repo.or.cz/neatroff_make.git' neatroff
-ecd ~/Software/neatroff
-make init neat
-cp -- ~/Software/neatroff/neatroff/roff   ~/.local/bin/ntroff
-cp -- ~/Software/neatroff/troff/pic/pic   ~/.local/bin/ntpic
-cp -- ~/Software/neatroff/troff/tbl/tbl   ~/.local/bin/nttbl
-cp -- ~/Software/neatroff/neateqn/eqn     ~/.local/bin/nteqn
-cp -- ~/Software/neatroff/neatmkfn/mkfn   ~/.local/bin/ntmkfn
-cp -- ~/Software/neatroff/neatpost/post   ~/.local/bin/ntpost
-cp -- ~/Software/neatroff/neatpost/pdf    ~/.local/bin/ntpdf
-cp -- ~/Software/neatroff/neatrefer/refer ~/.local/bin/ntrefer
-cp -- ~/Software/neatroff/shape/shape     ~/.local/bin/ntshape
-cp -- ~/Software/neatroff/soin/soin       ~/.local/bin/ntsoin
-
 # Download and apply dotfiles
 [ ! -d ~/dotfiles ] && {
     ecd ~
@@ -202,6 +186,24 @@ stow wget
 stow xorg
 stow zathura
 ln -s -- "$PWD/.other/tmac.rnd" ~/Software/neatroff/tmac
+
+# Install neatroff
+ecd ~/Software
+git clone 'git://repo.or.cz/neatroff_make.git' neatroff
+ecd ~/Software/neatroff/neatpost/
+git apply ~/dotfiles/.other/neatroff-invisible-links.diff
+ecd ~/Software/neatroff
+make init neat
+ln -Tfs -- ~/Software/neatroff/neatroff/roff   ~/.local/bin/ntroff
+ln -Tfs -- ~/Software/neatroff/troff/pic/pic   ~/.local/bin/ntpic
+ln -Tfs -- ~/Software/neatroff/troff/tbl/tbl   ~/.local/bin/nttbl
+ln -Tfs -- ~/Software/neatroff/neateqn/eqn     ~/.local/bin/nteqn
+ln -Tfs -- ~/Software/neatroff/neatmkfn/mkfn   ~/.local/bin/ntmkfn
+ln -Tfs -- ~/Software/neatroff/neatpost/post   ~/.local/bin/ntpost
+ln -Tfs -- ~/Software/neatroff/neatpost/pdf    ~/.local/bin/ntpdf
+ln -Tfs -- ~/Software/neatroff/neatrefer/refer ~/.local/bin/ntrefer
+ln -Tfs -- ~/Software/neatroff/shape/shape     ~/.local/bin/ntshape
+ln -Tfs -- ~/Software/neatroff/soin/soin       ~/.local/bin/ntsoin
 
 # Replace vi with vim and vim with nvim
 sudo ln -sfT /usr/bin/nvim /usr/bin/vim

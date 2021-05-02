@@ -73,7 +73,7 @@ fetchart:
     minwidth: 0
     maxwidth: 500
     enforce_ratio: no
-    sources: filesystem covertart itunes amazon albumart wikipedia
+    sources: filesystem coverart itunes amazon albumart wikipedia
     store_source: no
 
 embedart:

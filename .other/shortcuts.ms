@@ -1,8 +1,8 @@
 .TL
 Global Keyboard Shortcuts
-
+.
 .MC 65 0
-
+.
 .TS
 allbox nospaces tab(|);
 cs,rl.
@@ -30,7 +30,7 @@ Super+. | Focus Next Monitor
 Super+Shift+, | Move To Previous Monitor
 Super+Shift+. | Move To Next Monitor
 .TE
-
+.sp
 .TS
 allbox nospaces tab(|);
 cs,rl.
@@ -49,7 +49,7 @@ Super+Shift+S | Toggle Sticky
 Super+Shift+Space | Toggle Floating
 Super+F | Toggle Fullscreen
 .TE
-
+.sp
 .TS
 allbox nospaces tab(|);
 cs,rl.
@@ -77,7 +77,7 @@ Super+Control+0 | Reset All Gaps
 Super+B | Toggle Bar
 Super+Shift+B | Toggle Bar Light Mode
 .TE
-
+.sp
 .TS
 allbox nospaces tab(|);
 cs,rl.
@@ -98,7 +98,7 @@ Super+Shift+Alt+K | Throw Up
 Super+Shift+Alt+L | Throw Right
 Super+Shift+Alt+N | Throw Middle
 .TE
-
+.sp
 .TS
 allbox nospaces tab(|);
 cs,rl.
@@ -112,7 +112,7 @@ Super+' | Next
 Super+Shift+; | Rewind 5s
 Super+Shift+' | Fast-forward 5s
 .TE
-
+.sp
 .TS
 allbox nospaces tab(|);
 cs,rl.
@@ -137,7 +137,7 @@ PrintScreen | Screenshot Region
 Control+PrintScreen | Screenshot Fullscreen
 Super+Shift+Q | Power Options
 .TE
-
+.sp
 .TS
 allbox nospaces tab(|);
 cs,rl.

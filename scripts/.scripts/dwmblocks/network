@@ -3,8 +3,8 @@
 # Shows how much data has been received (RX) or transmitted (TX)
 # since the previous time this script ran.
 
-rxcache=${XDG_CACHE_HOME:-$HOME/.cache}/dwmb.network.rx
-txcache=${XDG_CACHE_HOME:-$HOME/.cache}/dwmb.network.tx
+rxcache=${TMPDIR:-/tmp}/dwmb.network.rx
+txcache=${TMPDIR:-/tmp}/dwmb.network.tx
 
 rxcol1="#448822"
 rxcol2="#AAFF66"
@@ -16,8 +16,8 @@ fontid=1         # monospace font index from dwm's config.h
 rxnow=0
 txnow=0
 for line in /sys/class/net/[ew]*/; do
-	rxnow="$((rxnow + $(cat -- "$line/statistics/rx_bytes")))"
-	txnow="$((txnow + $(cat -- "$line/statistics/tx_bytes")))"
+    rxnow="$((rxnow + $(cat -- "$line/statistics/rx_bytes")))"
+    txnow="$((txnow + $(cat -- "$line/statistics/tx_bytes")))"
 done
 
 # Get stored byte values
@@ -26,7 +26,9 @@ done
 
 # Cache new values
 printf "%d\n" "$rxnow" >"$rxcache"
+chmod 600 -- "$rxcache"
 printf "%d\n" "$txnow" >"$txcache"
+chmod 600 -- "$txcache"
 
 # Calculate difference
 rxnew="$((rxnow - rxprev))"

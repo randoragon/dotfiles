@@ -17,13 +17,14 @@ command -v "nvidia-smi" >/dev/null 2>&1 || exit
 WARN=80
 CRIT=94
 DUNSTID=71098266
-FILE="$HOME/.cache/gputemp"
+FILE="/tmp/gputemp"
 SFX="$HOME/.sfx/alarm.wav"
 
 # Runs when temp is in range <-∞;WARN)
 norm () {
     # Log temperature
     echo "$1" > "$FILE"
+    chmod 600 -- "$FILE"
 }
 
 # Runs when temp is in range <WARN;CRIT)
@@ -36,6 +37,7 @@ warn () {
 
     # Log temperature
     echo "$1" > "$FILE"
+    chmod 600 -- "$FILE"
 }
 
 # Runs when temp is in range <CRIT;+∞)
@@ -48,6 +50,7 @@ crit () {
 
     # Log temperature
     echo "$1" > "$FILE"
+    chmod 600 -- "$FILE"
 }
 
 # Runs when temperature crosses from <-∞;WARN) to <WARN;CRIT)

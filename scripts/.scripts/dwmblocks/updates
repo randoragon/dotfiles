@@ -8,7 +8,7 @@
 # Dependencies: pacman-contrib
 
 UPDATES="$(checkupdates)"
-FILE=~/.cache/dwmbupdates
+FILE="${TMPDIR:-/tmp}/dwmbupdates"
 
 if [ -n "$UPDATES" ]; then
     COUNT="$(printf "%s\n" "$UPDATES" | wc -l)"
@@ -17,9 +17,11 @@ if [ -n "$UPDATES" ]; then
     printf "%s" "$UPDATES" | grep -q '^linux ' && { FG="00FFAA" BG="003311"; }
     OUTPUT="^b#$BG^^c#$FG^  $COUNT "
     echo "$OUTPUT" >"$FILE"
+    chmod 600 -- "$FILE"
     echo "  $COUNT"
 else
     :>"$FILE"
+    chmod 600 -- "$FILE"
 fi
 
 pkill -RTMIN+4 -x dwmblocks

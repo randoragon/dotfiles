@@ -15,13 +15,14 @@
 WARN=80
 CRIT=95
 DUNSTID=71098265
-FILE="$HOME/.cache/cputemp"
+FILE="/tmp/cputemp"
 SFX="$HOME/.sfx/alarm.wav"
 
 # Runs when temp is in range <-∞;WARN)
 norm () {
     # Log temperature
     echo "$1" > "$FILE"
+    chmod 600 -- "$FILE"
 }
 
 # Runs when temp is in range <WARN;CRIT)
@@ -34,6 +35,7 @@ warn () {
 
     # Log temperature
     echo "$1" > "$FILE"
+    chmod 600 -- "$FILE"
 }
 
 # Runs when temp is in range <CRIT;+∞)
@@ -46,6 +48,7 @@ crit () {
 
     # Log temperature
     echo "$1" > "$FILE"
+    chmod 600 -- "$FILE"
 }
 
 # Runs when temperature crosses from <-∞;WARN) to <WARN;CRIT)

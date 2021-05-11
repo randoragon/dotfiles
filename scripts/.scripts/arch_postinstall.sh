@@ -176,10 +176,9 @@ stow python
 stow scripts
 stow sfx
 stow shell
-./detach speedcrunch
+#./detach speedcrunch
 stow sxiv
 stow tmux
-#stow weechat
 stow wget
 ./detach xbindkeys
 ./detach xkb

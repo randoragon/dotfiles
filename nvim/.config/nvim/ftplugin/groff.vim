@@ -4,6 +4,7 @@ inoremap <buffer> <C-L> <Esc>/<,,><CR>"_cf>
 " Inline font type
 inoremap <buffer> <Leader>ii \fI\fP<,,><C-O>F\
 inoremap <buffer> <Leader>ib \fB\fP<,,><C-O>F\
+inoremap <buffer> <Leader>iI \f(BI\fP<,,><C-O>F\
 inoremap <buffer> <Leader>i1 \f1\fP<,,><C-O>F\
 inoremap <buffer> <Leader>i2 \f2\fP<,,><C-O>F\
 inoremap <buffer> <Leader>i3 \f3\fP<,,><C-O>F\
@@ -18,6 +19,12 @@ inoremap <buffer> <Leader>iv \v''<,,><C-O>F'
 inoremap <buffer> <Leader>iw \w''<,,><C-O>F'
 inoremap <buffer> <Leader>ir \s''<,,><C-O>F'
 
-" Preprocessor macros
+" Surround blocks
 inoremap <buffer> <Leader>ie <C-O>O.EQ<Esc>jo.EN<C-O>k
 inoremap <buffer> <Leader>it <C-O>O.TS<Esc>jo.TE<C-O>k
+inoremap <buffer> <Leader>ik <C-O>O.KS<Esc>jo.KE<C-O>k
+inoremap <buffer> <Leader>id <C-O>O.DS<Esc>jo.DE<C-O>k
+inoremap <buffer> <Leader>ip <C-O>O.DS<Esc>jo.DE<C-O>k
+
+" Disable auto-pairs
+let b:autopairs_enabled = 0

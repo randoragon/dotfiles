@@ -168,12 +168,13 @@ endfunction
 
 augroup fold_switch
     autocmd!
-    autocmd BufWinEnter * :normal zR
-    autocmd! BufWinEnter .vimrc,init.vim     setlocal foldmethod=marker foldlevel=0
-    autocmd! BufWinEnter *.c,*.h,*.cpp,*.hpp setlocal foldmethod=syntax | :normal zR
-    autocmd! BufWinEnter *.py      setlocal foldmethod=indent | :normal zR
-    autocmd! BufWinEnter *.md,*.MD setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
+    autocmd  BufNewFile,BufRead * :normal zR
+    autocmd! BufNewFile,BufRead .vimrc,init.vim     setlocal foldmethod=marker foldlevel=0
+    autocmd! BufNewFile,BufRead *.c,*.h,*.cpp,*.hpp setlocal foldmethod=syntax | :normal zR
+    autocmd! BufNewFile,BufRead *.py      setlocal foldmethod=indent | :normal zR
+    autocmd! BufNewFile,BufRead *.md,*.MD setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
 augroup END
+
 " }}}
 
 " FSwitch settings {{{1
@@ -264,12 +265,15 @@ function Preview()
     elseif &filetype == "groff"
         " No macro package, pure groff
         AsyncRun groff -ket -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-    elseif &filetype == "neat-mm"
+    elseif &filetype == "neat-rnd"
         " Requires my handy ntmake script
-        AsyncRun ntmake -mm < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        AsyncRun ntmake -mrnd < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "neat-ms"
         " Requires my handy ntmake script
         AsyncRun ntmake -ms < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+    elseif &filetype == "neat-mm"
+        " Requires my handy ntmake script
+        AsyncRun ntmake -mm < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "groff-mom"
         AsyncRun pdfmom -ket "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     endif

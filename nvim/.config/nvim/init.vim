@@ -164,6 +164,11 @@ function MarkdownLevel()
         return ">" .  len(h)
     endif
 endfunction
+
+nnoremap <M-i> za
+nnoremap <M-I> zA
+nnoremap <M-m> zm
+nnoremap <M-r> zr
 " }}}
 
 augroup fold_switch

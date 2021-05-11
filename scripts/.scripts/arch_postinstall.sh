@@ -205,6 +205,13 @@ ln -Tfs -- ~/Software/neatroff/neatrefer/refer ~/.local/bin/ntrefer
 ln -Tfs -- ~/Software/neatroff/shape/shape     ~/.local/bin/ntshape
 ln -Tfs -- ~/Software/neatroff/soin/soin       ~/.local/bin/ntsoin
 
+# Install neatroff rnd macros
+ecd ~/Software
+git clone 'https://github.com/Randoragon/tmac-rnd'
+make
+ln -Tfs -- ~/Software/tmac-rnd/src/tmac.media ~/Software/neatroff/tmac/tmac.media
+ln -Tfs -- ~/Software/tmac-rnd/tmac.rnd   ~/Software/neatroff/tmac/tmac.rnd
+
 # Replace vi with vim and vim with nvim
 sudo ln -sfT /usr/bin/nvim /usr/bin/vim
 sudo ln -sfT /usr/bin/vim /usr/bin/vi

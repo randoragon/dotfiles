@@ -212,6 +212,7 @@ else
     [ -n "$neat_ms" ]   && ext="ms"
     [ -n "$groff_mom" ] && ext="mom"
     [ -f "$notedir/$fname.$ext" ] && echo "note: a note with the same name already exists" >&2 && exit
+    mkdir -p "$notedir/$(dirname -- "$fname")"
     :>"$notedir/$fname.$ext"
     edit "$fname.$ext" 1
 fi

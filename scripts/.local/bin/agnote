@@ -3,38 +3,31 @@
 # Search all notes for a substring. For more details
 # on notes read comments inside the note script.
 #
-# GNU pass actually has a grepping function, but
-# I haven't found a way to make it only search in
-# the notes directory. Also, the silver searcher
-# produces prettier output and is a lot faster.
-#
 # This script doesn't use any long-term cache,
 # which causes it to be heavy and slow. Use it only
 # when you actually need to perform a serious search.
 #
 # Dependencies:
 # - ag (the_silver_searcher)
-# - pass
+# - gpg
 
-passdir="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
-notedir="$passdir/notes"
+notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
 [ ! -d "$notedir" ] && echo "agnote: notes dir not found" >&2 && exit 1
 
-dir="$(mktemp -d /tmp/agnote.XXXXX)"
+dir="$(mktemp --tmpdir -d agnote.XXXXX)"
 chmod 700 "$dir"
 
 # Recreate directory structure
-find "$notedir" -mindepth 1 -type d -exec realpath --relative-to "$notedir" '{}' \; \
+find "$notedir" -mindepth 1 -type d -not -path '*/\.git*' -exec realpath --relative-to "$notedir" '{}' \; \
     | while read -r nestdir; do
     mkdir -p "$dir/$nestdir"
 done
 
 # Decrypt & copy over all notes
 export dir
-find "$notedir" -type f -name "*.gpg" | while read -r f; do
-    relpath="$(realpath --relative-to "$passdir" -- "$f")"
-    newpath="$(realpath --relative-to "$notedir" -- "$f")"
-    pass show "${relpath%.gpg}" >"$dir/${newpath%.gpg}"
+find "$notedir" -type f -not -path '*/\.git*' -name "?*.?*" | while read -r f; do
+    relpath="$(realpath --relative-to "$notedir" -- "$f")"
+    gpg --yes --quiet --decrypt --output "$dir/$relpath" -- "$f"
 done
 
 # Search for the query

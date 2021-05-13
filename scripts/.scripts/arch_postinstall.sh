@@ -109,7 +109,6 @@ yay -Sa --needed \
     ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
     numix-icon-theme-git \
-    id3ted \
     rar \
     bfg \
     mp3gain \
@@ -121,15 +120,23 @@ yay -Sa --needed \
     xidlehook \
     pass-extension-tail
     farbfeld-git \
-    dwm-randoragon-git \
-    dwmblocks-randoragon-git \
     mousemode-git \
-    sent-randoragon-git \
-    surf-randoragon-git \
-    st-randoragon-git \
-    dmenu-randoragon-git \
     xkeycheck-git \
     xrectsel
+
+# Install programs from my GitHub
+for i in dwm dwmblocks st dmenu surf sent; do
+    ecd ~/Software
+    git clone "https://github.com/randoragon/$i"
+    ecd ~/Software/"$i"
+    sudo make install
+done
+
+# Install id3ted
+ecd ~/Software
+git clone https://github.com/muennich/id3ted
+ecd ~/Software/id3ted
+sudo make install
 
 # Set up network manager
 # Source: https://unix.stackexchange.com/a/292196

@@ -11,6 +11,7 @@ map Y y$
 set hidden
 nnoremap c "_c
 vnoremap . :normal .<CR>
+nnoremap <Leader>/ :nohlsearch<CR>
 filetype plugin indent on
 set encoding=utf-8
 set listchars=tab:→\ ,trail:·,nbsp:·

@@ -34,5 +34,5 @@ All the files, tips, scripts, and other data contained in this repository are di
 1. Convenience - so that I have an easy way to share my scripts with others or use github links as reference
 2. Information - so that other Linux users may find my solutions and replicate/improve them for their own use
 
-You are free to copy, modify and redistribute these configs, but I'm not responsible for what you do with them.
-
+You are free to copy, modify and redistribute these configs, but I'm not responsible for what you do with them
+(see LICENSE).

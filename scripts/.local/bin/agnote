@@ -33,11 +33,14 @@ cd "$notedir" && find . -type f -not -path '\./\.*' | while read -r f; do
     gpg --yes --quiet --output "$tmp" --decrypt -- "$f"
     tar -xzf "$tmp" -C "$dir/$(dirname -- "$relpath")"
 done
-shred -u -- "$tmp"
 
-# Search for the query
-ag -H --color "$@" "$dir" | less -R
+# Store query results
+ag -H --color "$@" "$dir" >"$tmp"
 
 # Shred sensitive data
 find "$dir" -type f -exec shred -x '{}' \;
 rm -rf -- "$dir"
+
+# Display the data
+less -R -- "$tmp"
+shred -u -- "$tmp"

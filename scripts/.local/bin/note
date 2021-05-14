@@ -13,6 +13,7 @@
 # - env: $PDF_READER (fallback to zathura)
 # - ntmake (my script for quick neatroff compilation)
 # - git
+# - tar
 #
 # For neatroff rnd macros see https://github.com/randoragon/tmac-rnd
 
@@ -27,36 +28,12 @@ Usage:
 
     Without the NAME argument, note will let you select a note for
     viewing with either dmenu or fzf.
-    To create a new note, pass the NAME argument (without extension).
+    To create a new note, pass the NAME argument (with extension).
 
 Options:
     -e, --edit
         Open note for editing instead of viewing. This implies that
         the note already exists (NAME cannot be passed).
-
-    -d, --markdown
-        Create a markdown note instead of plain text. This option
-        is only allowed when creating a new note by passing NAME.
-
-    -r, --neat-rnd
-        Create a neatroff-rnd note instead of plain text. This option
-        is only allowed when creating a new note by passing NAME.
-        (most preprocessors are available)
-
-    -m, --neat-mm
-        Create a neatroff-mm note instead of plain text. This option
-        is only allowed when creating a new note by passing NAME.
-        (most preprocessors are available)
-
-    -s, --neat-ms
-        Create a neatroff-ms note instead of plain text. This option
-        is only allowed when creating a new note by passing NAME.
-        (most preprocessors are available)
-
-    -o, --groff-mom
-        Create a groff-mom note instead of plain text. This option
-        is only allowed when creating a new note by passing NAME.
-        (tbl and eqn preprocessors are available)
 
     -t, --textonly
         View any markup note as plain text.
@@ -64,100 +41,159 @@ Options:
     -h, --help
         Display this help text.
 
+NAME Extensions:
+    *.txt
+        Plain text. If no extension in NAME is present, \".txt\"
+        will be appended automatically.
+
+    *.md
+        Markdown
+
+    *.rnd
+        Neatroff + rnd macros
+        See https://github.com/randoragon/tmac-rnd
+
+    *.mm
+        Neatroff + mm macros
+
+    *.ms
+        Neatroff + ms macros
+
+    *.mom
+        groff + mom macros
+
 "
 }
 
-edit () {
-    [ ! -r "$gpgid" ] && echo "note: .gpg-id file not found, aborting." >&2 && exit 3
-    ext="${1##*.}"
-    tmp="$(mktemp --tmpdir "note.XXXXX.$ext")"
-    sum=
+# extract <archive> <dir>
+# Decrypts and extracts an archive into dir
+extract () {
+    tmp="$(mktemp --tmpdir note.XXXXX)"
     chmod 600 -- "$tmp"
-    if [ -z "$2" ]; then
-        gpg --yes --quiet --decrypt --output "$tmp" -- "$notedir/$1"
-    else
-        cp -- "$notedir/$1" "$tmp"
-    fi
-    sum="$(md5sum -- "$tmp")"
-    if [ -z "$interactive" ]; then
-        st -e "$EDITOR" "$tmp"
-    else
-        "$EDITOR" "$tmp"
-    fi
-    if [ "$(md5sum -- "$tmp")" = "$sum" ]; then
-        printf "No changes were made, skipping.\n"
-        [ -n "$2" ] && rm -- "$notedir/$1"
-    else
-        if [ $? ]; then
-            gpg --yes --quiet --encrypt --recipient "$(cat -- "$gpgid")" --output "$notedir/$1" -- "$tmp"
-            git -C "$notedir" add "$1"
-            git -C "$notedir" commit -o "$1" -m "Edit $1"
-        else
-            printf "An error occurred while encrypting the note\n"
-        fi
-    fi
+    printf "Decrypting \"%s\" into \"%s\"...\n" "$1" "$tmp"
+    gpg --yes --quiet --output "$tmp" --decrypt -- "$1"
+    tar -xzf "$tmp" -C "$2"
     shred -u -- "$tmp"
 }
 
+# archive <basedir> <dir> <archive> <gpuid>
+# The opposite of extract, requires gpgid for encryption
+# basedir is the root directory of the archive
+# dir must be the NAME (not path) of a directory within basedir
+archive () {
+    tmp="$(mktemp --tmpdir note.XXXXX)"
+    chmod 600 -- "$tmp"
+    tar -C "$1" -czf "$tmp" -- "$2"
+    gpg --yes --quiet --output "$3" --encrypt --recipient "$4" -- "$tmp"
+    shred -u -- "$tmp"
+}
+
+# edit <archive>
+# archive - path to the note archive file, relative to $notedir
+edit () {
+    [ ! -r "$gpgid" ] && echo "note: .gpg-id file not found, aborting." >&2 && exit 3
+    tmpd="$(mktemp --tmpdir -d note.XXXXX)"
+    chmod 700 -- "$tmpd"
+    extract "$notedir/$1" "$tmpd"
+    fname="$(basename -- "$1")"
+    target="$tmpd/$fname/$fname"
+    [ ! -f "$target" ] && echo "error: file not found" >&2 && exit 4
+    sum=
+    sum="$(md5sum -- "$target")"
+    if [ -z "$interactive" ]; then
+        st -e "$EDITOR" "$target"
+    else
+        "$EDITOR" "$target"
+    fi
+    if [ "$(md5sum -- "$target")" = "$sum" ]; then
+        echo "No changes were made, skipping."
+    else
+        archive "$tmpd" "$fname" "$notedir/$1" "$(cat -- "$gpgid")"
+        git -C "$notedir" add "$1"
+        git -C "$notedir" commit -o "$1" -m "Edit $1"
+    fi
+    find "$tmpd" -type f -exec shred -x '{}' \;
+    rm -r -- "$tmpd"
+}
+
+# view <archive>
+# archive - path to the note archive file, relative to $notedir
 view () {
-    ext="${1##*.}"
-    fmt="$ext"
+    tmpd="$(mktemp --tmpdir -d note.XXXXX)"
+    chmod 700 -- "$tmpd"
+    extract "$notedir/$1" "$tmpd"
+    fname="$(basename -- "$1")"
+    target="$tmpd/$fname/$fname"
+    fmt="${1##*.}"
     [ -n "$textonly" ] && fmt=txt
     case "$fmt" in
         txt)
             if [ -z "$interactive" ]; then
-                tmp="$(mktemp --tmpdir "note.XXXXX")"
-                chmod 600 -- "$tmp"
-                gpg --yes --quiet --decrypt --output "$tmp" -- "$notedir/$1"
-                [ -s "$tmp" ] && st -e "$PAGER" -- "$tmp"
-                shred -u -- "$tmp"
+                st -e "$PAGER" -- "$target"
             else
-                gpg --yes --quiet --decrypt --output - -- "$notedir/$1" | "$PAGER" -
+                "$PAGER" -- "$target"
             fi
             ;;
         md)
-            tmp="$(mktemp --tmpdir "note.XXXXX.html")"
-            chmod 600 -- "$tmp"
+            tmp="$(mktemp -p "$tmpd/$1" "note.XXXXX.html")"
             printf "%s" "$HTML_TABLE_STYLE" >"$tmp"
-            gpg --yes --quiet --decrypt --output - -- "$notedir/$1" | md2html --github >>"$tmp"
+            md2html --github "$target" >>"$tmp"
             [ -s "$tmp" ] && surf "file://$tmp"
-            shred -u -- "$tmp"
             ;;
         rnd)
-            gpg --yes --quiet --decrypt --output - -- "$notedir/$1" | ntmake -rnd | "${PDF_READER:-zathura}" -
+            ntmake -rnd <"$target" | "${PDF_READER:-zathura}" -
             ;;
         ms)
-            gpg --yes --quiet --decrypt --output - -- "$notedir/$1" | ntmake -ms | "${PDF_READER:-zathura}" -
+            ntmake -ms <"$target" | "${PDF_READER:-zathura}" -
             ;;
         mm)
-            gpg --yes --quiet --decrypt --output - -- "$notedir/$1" | ntmake -mm | "${PDF_READER:-zathura}" -
+            ntmake -mm <"$target" | "${PDF_READER:-zathura}" -
             ;;
         mom)
-            gpg --yes --quiet --decrypt --output - -- "$notedir/$1" | pdfmom -k -e -p -t | "${PDF_READER:-zathura}" -
+            pdfmom -k -e -p -t "$target" | "${PDF_READER:-zathura}" -
             ;;
         *)
-            printf "note: unknown note extension \"%s\"\n" "$ext" >&2
+            printf "note: unknown note format \"%s\"\n" "$fmt" >&2
     esac
+    find "$tmpd" -type f -exec shred -x '{}' \;
+    rm -rf -- "$tmpd"
+}
+
+# create <note>
+# note is a path of a new note relative to notedir
+create () {
+    tmpd="$(mktemp --tmpdir -d note.XXXXX)"
+    fname="$(basename -- "$1")"
+    mkdir -p "$tmpd/$fname"
+    target="$tmpd/$fname/$fname"
+    :>"$target"
+    sum=
+    sum="$(md5sum -- "$target")"
+    if [ -z "$interactive" ]; then
+        st -e "$EDITOR" "$target"
+    else
+        "$EDITOR" "$target"
+    fi
+    if [ "$(md5sum -- "$target")" = "$sum" ]; then
+        echo "File unchanged, cancelling."
+    else
+        archive "$tmpd" "$fname" "$notedir/$1" "$(cat -- "$gpgid")"
+        git -C "$notedir" add "$1"
+        git -C "$notedir" commit -o "$1" -m "Create $1"
+        mkdir -p "$notedir/$(dirname -- "$fname")"
+    fi
+    find "$tmpd" -type f -exec shred -x '{}' \;
+    rm -r -- "$tmpd"
 }
 
 edit=
-markdown=
-neat_rnd=
-neat_mm=
-neat_ms=
-groff_mom=
 textonly=
-opts="$(getopt -n note -s sh -o hedtrmso -l help,edit,markdown,textonly,neat-rnd,neat-mm,neat-ms,groff-mom -- "$@")"
+opts="$(getopt -n note -s sh -o het -l help,edit,textonly -- "$@")"
 eval set -- "$opts"
 while true; do
     case "$1" in
         -h|--help) help ; exit ; shift ;;
         -e|--edit) edit=1 ; shift ;;
-        -d|--markdown) markdown=1 ; shift ;;
-        -r|--neat-rnd) neat_rnd=1 ; shift ;;
-        -m|--neat-mm) neat_mm=1 ; shift ;;
-        -s|--neat-ms) neat_ms=1 ; shift ;;
-        -o|--groff-mom) groff_mom=1 ; shift ;;
         -t|--textonly) textonly=1 ; shift ;;
         --) shift ; break ;;
         *) break ;;
@@ -168,21 +204,18 @@ done
 
 # View/edit existing note
 if [ $# -eq 0 ]; then
-    [ -n "$markdown" ]  && echo "note: illegal use of --markdown option"  >&2 && exit 2
-    [ -n "$neat_rnd" ]  && echo "note: illegal use of --neat-rnd option"  >&2 && exit 2
-    [ -n "$neat_mm" ]   && echo "note: illegal use of --neat-mm option"   >&2 && exit 2
-    [ -n "$neat_ms" ]   && echo "note: illegal use of --neat-ms option"   >&2 && exit 2
-    [ -n "$groff_mom" ] && echo "note: illegal use of --groff-mom option" >&2 && exit 2
 
     # Check if shell is interactive. For interactive
     # shells use fzf, otherwise use dmenu.
     interactive=
     if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
     if [ -t 0 ]; then
-        note="$(find "$notedir" -type f -not -path '*/\.git*' -name '?*.?*' -print0 | xargs -0l realpath --relative-to "$notedir" | fzf --no-sort --no-multi --prompt "$prompt ")"
+        note="$(find "$notedir" -type f -exec realpath --relative-to "$notedir" '{}' \; \
+            | fzf --no-sort --no-multi --prompt "$prompt ")"
         interactive=1
     else
-        note="$(find "$notedir" -type f -not -path '*/\.git*' -name '?*.?*' -print0 | xargs -0l realpath --relative-to "$notedir" | dmenu -F -l 5 -p "$prompt")"
+        note="$(find "$notedir" -type f -exec realpath --relative-to "$notedir" '{}' \; \
+            | dmenu -F -l 5 -p "$prompt")"
     fi
 
     [ -z "$note" ] && exit
@@ -199,21 +232,15 @@ else
     fname="$*"
     [ -z "$(basename -- "$fname")" ] && echo "note: cannot create a note with empty filename" >&2 && exit 2
 
-    # Only allow one markup language at a time
-    expr \( "${markdown:-0}" + "${neat_rnd:-0}" + "${neat_mm:-0}" + "${neat_ms:-0}" + "${groff_mom:-0}" \) \> 1 >/dev/null && {
-        echo "note: only one markup language may be specified at a time" >&2
-        exit 2
-    }
-
-    ext=txt
-    [ -n "$markdown" ]  && ext="md"
-    [ -n "$neat_rnd" ]  && ext="rnd"
-    [ -n "$neat_mm" ]   && ext="mm"
-    [ -n "$neat_ms" ]   && ext="ms"
-    [ -n "$groff_mom" ] && ext="mom"
-    [ -f "$notedir/$fname.$ext" ] && echo "note: a note with the same name already exists" >&2 && exit
-    mkdir -p "$notedir/$(dirname -- "$fname")"
-    :>"$notedir/$fname.$ext"
-    edit "$fname.$ext" 1
+    ext=.txt
+    case "$fname" in
+        *.md)  ext= ;;
+        *.rnd) ext= ;;
+        *.ms)  ext= ;;
+        *.mm)  ext= ;;
+        *.mom) ext= ;;
+        *.txt) ext= ;;
+    esac
+    [ -e "$notedir/$fname$ext" ] && echo "note: a note with the same name already exists" >&2 && exit
+    create "$fname$ext"
 fi
-

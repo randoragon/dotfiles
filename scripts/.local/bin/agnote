@@ -10,6 +10,7 @@
 # Dependencies:
 # - ag (the_silver_searcher)
 # - gpg
+# - tar
 
 notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
 [ ! -d "$notedir" ] && echo "agnote: notes dir not found" >&2 && exit 1
@@ -18,21 +19,25 @@ dir="$(mktemp --tmpdir -d agnote.XXXXX)"
 chmod 700 "$dir"
 
 # Recreate directory structure
-find "$notedir" -mindepth 1 -type d -not -path '*/\.git*' -exec realpath --relative-to "$notedir" '{}' \; \
+cd "$notedir" && find . -type d -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
     | while read -r nestdir; do
     mkdir -p "$dir/$nestdir"
 done
 
 # Decrypt & copy over all notes
+tmp="$(mktemp --tmpdir agnote.XXXXX)"
+chmod 600 -- "$tmp"
 export dir
-find "$notedir" -type f -not -path '*/\.git*' -name "?*.?*" | while read -r f; do
+cd "$notedir" && find . -type f -not -path '\./\.*' | while read -r f; do
     relpath="$(realpath --relative-to "$notedir" -- "$f")"
-    gpg --yes --quiet --decrypt --output "$dir/$relpath" -- "$f"
+    gpg --yes --quiet --output "$tmp" --decrypt -- "$f"
+    tar -xzf "$tmp" -C "$dir/$(dirname -- "$relpath")"
 done
+shred -u -- "$tmp"
 
 # Search for the query
 ag -H --color "$@" "$dir" | less -R
 
 # Shred sensitive data
-find "$dir" -type f -print0 | xargs -0 shred -x
+find "$dir" -type f -exec shred -x '{}' \;
 rm -rf -- "$dir"

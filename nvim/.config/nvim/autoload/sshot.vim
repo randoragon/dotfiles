@@ -49,7 +49,6 @@ function! sshot#ImportScreenshot(screenshotfunc, extension)
             let overwrite = 1
         endif
     endif
-    echo "overwrite == ".overwrite
     if overwrite
         call system('xclip -selection clipboard -t TARGETS -o | grep -q image/png')
         if v:shell_error

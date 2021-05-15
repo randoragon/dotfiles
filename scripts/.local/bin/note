@@ -70,21 +70,20 @@ NAME Extensions:
 extract () {
     tmp="$(mktemp --tmpdir note.XXXXX)"
     chmod 600 -- "$tmp"
-    printf "Decrypting \"%s\" into \"%s\"...\n" "$1" "$tmp"
     gpg --yes --quiet --output "$tmp" --decrypt -- "$1"
     tar -xzf "$tmp" -C "$2"
     shred -u -- "$tmp"
 }
 
-# archive <basedir> <dir> <archive> <gpuid>
+# archive <basedir> <archive> <gpuid>
 # The opposite of extract, requires gpgid for encryption
 # basedir is the root directory of the archive
 # dir must be the NAME (not path) of a directory within basedir
 archive () {
     tmp="$(mktemp --tmpdir note.XXXXX)"
     chmod 600 -- "$tmp"
-    tar -C "$1" -czf "$tmp" -- "$2"
-    gpg --yes --quiet --output "$3" --encrypt --recipient "$4" -- "$tmp"
+    tar -C "$1" -czf "$tmp" -- NOTE
+    gpg --yes --quiet --output "$2" --encrypt --recipient "$3" -- "$tmp"
     shred -u -- "$tmp"
 }
 
@@ -95,9 +94,17 @@ edit () {
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     chmod 700 -- "$tmpd"
     extract "$notedir/$1" "$tmpd"
-    fname="$(basename -- "$1")"
-    target="$tmpd/$fname/$fname"
-    [ ! -f "$target" ] && echo "error: file not found" >&2 && exit 4
+    note="$(basename -- "$1")"
+
+    # Determine filetype
+    target="$tmpd/NOTE/NOTE.txt"
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd"
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom"
+    [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
+
     sum=
     sum="$(md5sum -- "$target")"
     if [ -z "$interactive" ]; then
@@ -108,7 +115,7 @@ edit () {
     if [ "$(md5sum -- "$target")" = "$sum" ]; then
         echo "No changes were made, skipping."
     else
-        archive "$tmpd" "$fname" "$notedir/$1" "$(cat -- "$gpgid")"
+        archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Edit $1"
     fi
@@ -122,10 +129,19 @@ view () {
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     chmod 700 -- "$tmpd"
     extract "$notedir/$1" "$tmpd"
-    fname="$(basename -- "$1")"
-    target="$tmpd/$fname/$fname"
-    fmt="${1##*.}"
+    note="$(basename -- "$1")"
+
+    # Determine filetype
+    target="$tmpd/NOTE/NOTE.txt"
+    fmt=txt
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"  && fmt=md
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd" && fmt=rnd
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"  && fmt=ms
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"  && fmt=mm
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom" && fmt=mom
+    [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
     [ -n "$textonly" ] && fmt=txt
+
     case "$fmt" in
         txt)
             if [ -z "$interactive" ]; then
@@ -135,7 +151,7 @@ view () {
             fi
             ;;
         md)
-            tmp="$(mktemp -p "$tmpd/$1" "note.XXXXX.html")"
+            tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
             printf "%s" "$HTML_TABLE_STYLE" >"$tmp"
             md2html --github "$target" >>"$tmp"
             [ -s "$tmp" ] && surf "file://$tmp"
@@ -159,13 +175,14 @@ view () {
     rm -rf -- "$tmpd"
 }
 
-# create <note>
+# create <note> <ext>
 # note is a path of a new note relative to notedir
+# ext is the target NOTE file extension
 create () {
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     fname="$(basename -- "$1")"
-    mkdir -p "$tmpd/$fname"
-    target="$tmpd/$fname/$fname"
+    mkdir -p "$tmpd/NOTE"
+    target="$tmpd/NOTE/NOTE$2"
     :>"$target"
     sum=
     sum="$(md5sum -- "$target")"
@@ -177,10 +194,10 @@ create () {
     if [ "$(md5sum -- "$target")" = "$sum" ]; then
         echo "File unchanged, cancelling."
     else
-        archive "$tmpd" "$fname" "$notedir/$1" "$(cat -- "$gpgid")"
+        mkdir -p "$notedir/$(dirname -- "$1")"
+        archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Create $1"
-        mkdir -p "$notedir/$(dirname -- "$fname")"
     fi
     find "$tmpd" -type f -exec shred -x '{}' \;
     rm -r -- "$tmpd"
@@ -202,17 +219,18 @@ done
 
 [ ! -d "$notedir" ] && echo "note: notes dir not found" >&2 && exit 1
 
+# Check if shell is interactive
+interactive=
+[ -t 0 ] && interactive=1
+
 # View/edit existing note
 if [ $# -eq 0 ]; then
 
-    # Check if shell is interactive. For interactive
-    # shells use fzf, otherwise use dmenu.
-    interactive=
+    # For interactive shells use fzf, otherwise use dmenu.
     if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
-    if [ -t 0 ]; then
+    if [ -n "$interactive" ]; then
         note="$(cd "$notedir" && find . -type f -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
             | fzf --no-sort --no-multi --prompt "$prompt ")"
-        interactive=1
     else
         note="$(cd "$notedir" && find . -type f -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
             | dmenu -F -l 5 -p "$prompt")"
@@ -232,15 +250,16 @@ else
     fname="$*"
     [ -z "$(basename -- "$fname")" ] && echo "note: cannot create a note with empty filename" >&2 && exit 2
 
-    ext=.txt
+    ext=
     case "$fname" in
-        *.md)  ext= ;;
-        *.rnd) ext= ;;
-        *.ms)  ext= ;;
-        *.mm)  ext= ;;
-        *.mom) ext= ;;
-        *.txt) ext= ;;
+        *.md)  ext=.md  ;;
+        *.rnd) ext=.rnd ;;
+        *.ms)  ext=.ms  ;;
+        *.mm)  ext=.mm  ;;
+        *.mom) ext=.mom ;;
+        *.txt) ext=.txt ;;
+        *)     ext=.txt fname="$fname$ext" ;;
     esac
-    [ -e "$notedir/$fname$ext" ] && echo "note: a note with the same name already exists" >&2 && exit
-    create "$fname$ext"
+    [ -e "$notedir/$fname" ] && echo "note: a note with the same name already exists" >&2 && exit
+    create "$fname" "$ext"
 fi

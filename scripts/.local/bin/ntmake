@@ -81,5 +81,11 @@ if [ -n "$rnd" ]; then
     # Cleanup
     rm -rf -- "$raw" "$err" "$toc" "$out"
 else
-    $SOIN <&0 | $REFR | $PIC | $TBL | $EQN | $ROFF 2>/dev/null | $PPDF
+    if [ -z "$input" ]; then
+        $SOIN <&0 | $REFR | $PIC | $TBL | $EQN | $ROFF 2>/dev/null | $PPDF
+    else
+        cd -- "$(dirname -- "$input")"
+        fname="$(basename -- "$input")"
+        $SOIN <"$fname" | $REFR | $PIC | $TBL | $EQN | $ROFF 2>/dev/null | $PPDF
+    fi
 fi

@@ -16,7 +16,6 @@ notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
 [ ! -d "$notedir" ] && echo "agnote: notes dir not found" >&2 && exit 1
 
 dir="$(mktemp --tmpdir -d agnote.XXXXX)"
-chmod 700 "$dir"
 
 # Recreate directory structure
 cd "$notedir" && find . -type d -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
@@ -26,7 +25,6 @@ done
 
 # Decrypt & copy over all notes
 tmp="$(mktemp --tmpdir agnote.XXXXX)"
-chmod 600 -- "$tmp"
 export dir
 cd "$notedir" && find . -type f -not -path '\./\.*' | while read -r f; do
     relpath="$(realpath --relative-to "$notedir" -- "$f")"

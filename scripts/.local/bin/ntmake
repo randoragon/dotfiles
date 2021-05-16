@@ -1,12 +1,20 @@
 #!/usr/bin/sh
 
 # Invokes all commands necessary to process a troff document
-# into PDF using neatroff. All command-line arguments are
-# transparently passed to neatroff, and should be used to
-# specify the macro packages (if any).
+# into PDF using neatroff. All command-line arguments starting
+# with a dash are transparently passed to neatroff, and should
+# be used to specify the macro packages (if any).
 #
 # The "rnd" macro package is my own extensions, published
 # in this repository: https://github.com/randoragon/tmac-rnd
+
+# Capture filename for later
+if [ "$1" = '-' ]; then
+    input=
+else
+    input="$1"
+fi
+shift
 
 # Executables with flags
 ROFF="ntroff -mpost -msdisp -mskeep -msrefs -mmedia $*"
@@ -32,10 +40,14 @@ if [ -n "$rnd" ]; then
     err="$(mktemp --tmpdir ntmake.XXXXX)"
     toc="$(mktemp --tmpdir ntmake.XXXXX)"
     out="$(mktemp --tmpdir ntmake.XXXXX)"
-    chmod 600 -- "$raw" "$err" "$toc" "$out"
 
     # Store source code in raw, stderr output in err
-    cat <&0 >"$raw"
+    if [ -z "$input" ]; then
+        cat <&0 >"$raw"
+    else
+        cp -- "$input" "$raw"
+        cd -- "$(dirname -- "$input")"
+    fi
     $SOIN <"$raw" | $REFR | $PIC | $TBL | $EQN | $ROFF >/dev/null 2>"$err"
 
     # Parse err so that only the lines between "toc_begin" and "toc_end"

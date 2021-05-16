@@ -3,19 +3,18 @@
 " see <https://github.com/Gavinok/dotvim/blob/master/autoload/dotvim.vim>
 
 " Markdown
-function! sshot#MarkdownScreenshot(dir, filename)
+function! sshot#MarkdownScreenshot(imgpath)
     if strlen(getline('.')) > 0
-        call append('.', '![image]('.a:dir.'/'.a:filename.')')
+        call append('.', '![image]('.a:imgpath.')')
     else
-        call setline('.', '![image]('.a:dir.'/'.a:filename.')')
+        call setline('.', '![image]('.a:imgpath.')')
     endif
 endfunction
 
 " NeatRoff
-function! sshot#NeatRoffScreenshot(dir, filename)
+function! sshot#NeatRoffScreenshot(imgpath)
     let ntpdfsp = expand('~').'/.scripts/ntpdfsp'
-    let imgpath = a:dir.'/'.a:filename
-    let newline = system(ntpdfsp." '".imgpath."'")
+    let newline = system(ntpdfsp." '".a:imgpath."'")
     if v:shell_error
         echo 'NeatRoffScreenshot: failed to run ntpdfsp'
         return
@@ -61,5 +60,7 @@ function! sshot#ImportScreenshot(screenshotfunc, extension)
             return
         endif
     endif
-    call a:screenshotfunc(expand('%:h').'/img', filename)
+    lcd %:p:h
+    call a:screenshotfunc('img/'.filename)
+    lcd -
 endfunction

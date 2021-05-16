@@ -69,7 +69,6 @@ NAME Extensions:
 # Decrypts and extracts an archive into dir
 extract () {
     tmp="$(mktemp --tmpdir note.XXXXX)"
-    chmod 600 -- "$tmp"
     gpg --yes --quiet --output "$tmp" --decrypt -- "$1"
     tar -xzf "$tmp" -C "$2"
     shred -u -- "$tmp"
@@ -81,7 +80,6 @@ extract () {
 # dir must be the NAME (not path) of a directory within basedir
 archive () {
     tmp="$(mktemp --tmpdir note.XXXXX)"
-    chmod 600 -- "$tmp"
     tar -C "$1" -czf "$tmp" -- NOTE
     gpg --yes --quiet --output "$2" --encrypt --recipient "$3" -- "$tmp"
     shred -u -- "$tmp"
@@ -92,7 +90,6 @@ archive () {
 edit () {
     [ ! -r "$gpgid" ] && echo "note: .gpg-id file not found, aborting." >&2 && exit 3
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
-    chmod 700 -- "$tmpd"
     extract "$notedir/$1" "$tmpd"
     note="$(basename -- "$1")"
 
@@ -127,7 +124,6 @@ edit () {
 # archive - path to the note archive file, relative to $notedir
 view () {
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
-    chmod 700 -- "$tmpd"
     extract "$notedir/$1" "$tmpd"
     note="$(basename -- "$1")"
 
@@ -157,13 +153,15 @@ view () {
             [ -s "$tmp" ] && surf "file://$tmp"
             ;;
         rnd)
-            ntmake -rnd <"$target" | "${PDF_READER:-zathura}" -
+            printf "about to run command: \"%s\"\n" "ntmake \"$target\" -mrnd | zathura -"
+            read -r line
+            ntmake "$target" -mrnd | "${PDF_READER:-zathura}" -
             ;;
         ms)
-            ntmake -ms <"$target" | "${PDF_READER:-zathura}" -
+            ntmake "$target" -ms | "${PDF_READER:-zathura}" -
             ;;
         mm)
-            ntmake -mm <"$target" | "${PDF_READER:-zathura}" -
+            ntmake "$target" -mm | "${PDF_READER:-zathura}" -
             ;;
         mom)
             pdfmom -k -e -p -t "$target" | "${PDF_READER:-zathura}" -
@@ -247,7 +245,7 @@ if [ $# -eq 0 ]; then
 else
     [ -n "$textonly" ] && echo "note: illegal use of --textonly option" >&2 && exit 2
     [ -n "$edit" ] && echo "note: illegal use of --edit option" >&2 && exit 2
-    fname="$*"
+    fname="$(printf "%s" "$*" | tr ' ' '-')"
     [ -z "$(basename -- "$fname")" ] && echo "note: cannot create a note with empty filename" >&2 && exit 2
 
     ext=

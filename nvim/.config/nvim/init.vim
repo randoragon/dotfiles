@@ -270,18 +270,18 @@ function Preview()
         AsyncRun mdtopdf "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "groff"
         " No macro package, pure groff
-        AsyncRun groff -ket -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        AsyncRun groff -kept -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "neat-rnd"
         " Requires my handy ntmake script
-        AsyncRun ntmake -mrnd < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        AsyncRun ntmake "%:p" -mrnd > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "neat-ms"
         " Requires my handy ntmake script
-        AsyncRun ntmake -ms < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        AsyncRun ntmake "%:p" -ms > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "neat-mm"
         " Requires my handy ntmake script
-        AsyncRun ntmake -mm < "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        AsyncRun ntmake "%:p" -mm > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "groff-mom"
-        AsyncRun pdfmom -ket "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+        AsyncRun pdfmom -kept "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     endif
 endfunction
 nnoremap <Leader>pm :call Preview()<CR>

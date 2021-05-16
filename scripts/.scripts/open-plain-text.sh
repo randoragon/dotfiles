@@ -46,11 +46,14 @@ for f in "$@"; do
         mom) # groff -mom
             pdfmom -ket -- "$f" | $PDF_READER -
             ;;
+        rnd) # neatroff -mrnd
+            ntmake "$f" -mrnd | $PDF_READER -
+            ;;
         mm) # neatroff -mm
-            ntmake -mm <"$f" | $PDF_READER -
+            ntmake "$f" -mm | $PDF_READER -
             ;;
         ms) # neatroff -ms
-            ntmake -ms <"$f" | $PDF_READER -
+            ntmake "$f" -ms | $PDF_READER -
             ;;
         groff) # pure groff
             groff -ket -- "$f" | $PDF_READER -

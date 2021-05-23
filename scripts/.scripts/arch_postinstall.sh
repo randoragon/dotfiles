@@ -50,7 +50,6 @@ sudo pacman -S --needed \
     the_silver_searcher fzf \
     pkgfile \
     dash \
-    neovim \
     xdotool \
     pacman-contrib \
     libnotify dunst \
@@ -87,7 +86,9 @@ sudo chmod a+rx /usr/local/bin/youtube-dl
 # Install beets plugins
 sudo python3 -m pip install beets\[fetchart,lyrics,lastgenre\] pyacoustid requests pylast pyxdg pathlib
 
-# Install NeoVim dependencies (Deoplete plugin)
+# Install NeoVim dependencies (Paq, Deoplete plugin)
+git clone https://github.com/savq/paq-nvim.git \
+    "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/opt/paq-nvim
 pip3 install --user pynvim
 
 # Install yay
@@ -104,6 +105,7 @@ fi
 # Installs from AUR
 yay -Syua
 yay -Sa --needed \
+    neovim-nightly-latest \
     xxd-standalone \
     pass-update \
     ttf-unifont ttf-twemoji-color \

@@ -19,28 +19,34 @@ set list
 " }}}
 
 " Plugins {{{1
-call plug#begin('~/.config/nvim/plugged')
-Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/fzf'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-repeat'
-Plug 'glts/vim-radical'
-Plug 'glts/vim-magnum'
-Plug 'dense-analysis/ale'
-Plug 'nanotech/jellybeans.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'godlygeek/tabular'
-Plug 'skywind3000/asyncrun.vim'
-Plug 'derekwyatt/vim-fswitch'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete-clangx'
-Plug 'psliwka/vim-smoothie'
-Plug 'ap/vim-css-color'
-Plug 'junegunn/goyo.vim'
-Plug 'thinca/vim-quickrun'
-call plug#end()
+lua << EOF
+
+vim.cmd 'packadd paq-nvim'
+local paq = require'paq-nvim'.paq
+paq{'savq/paq-nvim', opt=true}
+
+paq 'airblade/vim-gitgutter'
+paq 'junegunn/fzf.vim'
+paq 'junegunn/fzf'
+paq 'tpope/vim-surround'
+paq 'tpope/vim-speeddating'
+paq 'tpope/vim-repeat'
+paq 'glts/vim-radical'
+paq 'glts/vim-magnum'
+paq 'dense-analysis/ale'
+paq 'nanotech/jellybeans.vim'
+paq 'jiangmiao/auto-pairs'
+paq 'godlygeek/tabular'
+paq 'skywind3000/asyncrun.vim'
+paq 'derekwyatt/vim-fswitch'
+paq 'Shougo/deoplete.nvim'
+paq 'Shougo/deoplete-clangx'
+paq 'psliwka/vim-smoothie'
+paq 'ap/vim-css-color'
+paq 'junegunn/goyo.vim'
+paq 'thinca/vim-quickrun'
+
+EOF
 
 " netrw (tree view) settings {{{2
 let g:netrw_banner = 0

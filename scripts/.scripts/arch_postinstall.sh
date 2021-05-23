@@ -196,10 +196,11 @@ ln -s -- "$PWD/.other/tmac.rnd" ~/Software/neatroff/tmac
 # Install neatroff
 ecd ~/Software
 git clone 'git://repo.or.cz/neatroff_make.git' neatroff
-ecd ~/Software/neatroff/neatpost/
-git apply ~/dotfiles/.other/neatroff-invisible-links.diff
 ecd ~/Software/neatroff
 make init neat
+ecd ~/Software/neatroff/neatpost/
+git apply ~/dotfiles/.other/neatroff-invisible-links.diff
+make
 ln -Tfs -- ~/Software/neatroff/neatroff/roff   ~/.local/bin/ntroff
 ln -Tfs -- ~/Software/neatroff/troff/pic/pic   ~/.local/bin/ntpic
 ln -Tfs -- ~/Software/neatroff/troff/tbl/tbl   ~/.local/bin/nttbl

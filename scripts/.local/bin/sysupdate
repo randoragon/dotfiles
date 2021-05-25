@@ -30,7 +30,7 @@ section "RUNNING" "youtube-dl -U"
 sudo youtube-dl -U
 sectionend
 
-section "RUNNING" "nvim +PlugUpdate +qall"
+section "RUNNING" "nvim +PaqUpdate +qall"
 nvim +PlugUpdate +qall
 
 ~/.scripts/dwmblocks/updates

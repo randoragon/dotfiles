@@ -86,11 +86,6 @@ sudo chmod a+rx /usr/local/bin/youtube-dl
 # Install beets plugins
 sudo python3 -m pip install beets\[fetchart,lyrics,lastgenre\] pyacoustid requests pylast pyxdg pathlib
 
-# Install NeoVim dependencies (Paq, Deoplete plugin)
-git clone https://github.com/savq/paq-nvim.git \
-    "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/opt/paq-nvim
-pip3 install --user pynvim
-
 # Install yay
 if [ -z "$(command -v yay)" ]; then
     ecd ~
@@ -105,7 +100,7 @@ fi
 # Installs from AUR
 yay -Syua
 yay -Sa --needed \
-    neovim-nightly-latest \
+    neovim-git \
     xxd-standalone \
     pass-update \
     ttf-unifont ttf-twemoji-color \
@@ -125,6 +120,11 @@ yay -Sa --needed \
     mousemode-git \
     xkeycheck-git \
     xrectsel
+
+# Install NeoVim dependencies (Paq, Deoplete plugin)
+git clone https://github.com/savq/paq-nvim.git \
+    "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/opt/paq-nvim
+pip3 install --user pynvim
 
 # Install programs from my GitHub
 for i in dwm dwmblocks st dmenu surf sent; do

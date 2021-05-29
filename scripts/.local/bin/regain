@@ -1,0 +1,11 @@
+#!/usr/bin/sh
+
+# Use mp3gain to force a recalculation of gain
+# in ID3v2 tags. If an update is recommended,
+# offer it to the user interactively.
+
+mp3gain -s r -e "$@"
+printf "regain: Overwrite current tag information? [Y/n] "
+read -r ans
+[ -n "$ans" ] && [ "$ans" != Y ] && [ "$ans" != y ] && exit
+mp3gain -s i -r -e "$@"

@@ -10,6 +10,13 @@ map <f-6> :echo "Dual session not detected"
 map <f-7> &lf -remote "send $id push \&mkdir<space>"
 map <f-8> :trash
 
+# Y to copy file contents to clipboard
+map Y &{{
+    xclip -selection clipboard "$f"
+    fname="$(basename -- "$f")"
+    lf -remote "send $id echo \\\"$fname\\\" copied to clipboard."
+}}
+
 # Initialization of a dual session
 %{{
     # To bind two LF sessions together in a dual session,

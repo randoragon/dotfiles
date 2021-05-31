@@ -22,7 +22,7 @@ sudo pacman -S --needed \
     stow \
     xorg xorg-xinit xorg-xkbcomp xorg-drivers \
     xbindkeys xwallpaper \
-    ttf-dejavu ttf-hack ttf-opensans ttf-droid ttf-ubuntu-font-family powerline-fonts ttf-font-awesome otf-font-awesome \
+    ttf-bitstream-vera ttf-font-awesome ttf-joypixels otf-ipafont \
     gparted \
     mpd ncmpcpp mpc beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     networkmanager udisks2 \
@@ -55,7 +55,6 @@ sudo pacman -S --needed \
     libnotify dunst \
     imagemagick graphicsmagick \
     figlet sl asciiquarium \
-    traceroute tree \
     zsh zsh-completions zsh-syntax-highlighting \
     tar gzip bzip2 xz zip unzip p7zip \
     gnupg pinentry \
@@ -103,7 +102,6 @@ yay -Sa --needed \
     neovim-git \
     xxd-standalone \
     pass-update \
-    ttf-unifont ttf-twemoji-color \
     onedrive-abraunegg \
     numix-icon-theme-git \
     rar \

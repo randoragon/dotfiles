@@ -8,4 +8,4 @@ mp3gain -s r -e "$@"
 printf "regain: Overwrite current tag information? [Y/n] "
 read -r ans
 [ -n "$ans" ] && [ "$ans" != Y ] && [ "$ans" != y ] && exit
-mp3gain -s i -r -e "$@"
+mp3gain -s r -r -e "$@"

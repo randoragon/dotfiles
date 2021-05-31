@@ -108,7 +108,6 @@ yay -Sa --needed \
     bfg \
     mp3gain \
     gromit-mpx-git \
-    nerd-fonts-dejavu-complete \
     lf \
     libxft-bgra \
     sparklines-git \

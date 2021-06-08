@@ -8,7 +8,7 @@
 # Accepts the -u urgency and -i icon options for notify-send
 # SFX can be omitted for the default.
 
-DEFAULT_SFX="$HOME/.sfx/notification.mp3"
+DEFAULT_SFX="$HOME/dotfiles/.other/notification.mp3"
 
 # Get options for notify-send
 OPTS="$(getopt -s sh -n notify-play -o u:i: -- "$@")"

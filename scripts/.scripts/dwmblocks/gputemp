@@ -18,7 +18,7 @@ WARN=80
 CRIT=94
 DUNSTID=71098266
 FILE="/tmp/gputemp"
-SFX="$HOME/.sfx/alarm.wav"
+SFX="$HOME/dotfiles/.other/alarm.wav"
 
 # Runs when temp is in range <-∞;WARN)
 norm () {

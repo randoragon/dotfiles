@@ -6,8 +6,8 @@ ncmpcpp_directory = ~/.config/ncmpcpp
 lyrics_directory = ~/.local/share/ncmpcpp/lyrics
 
 ##### connection settings #####
-mpd_host = localhost
-mpd_port = 6601
+#mpd_host = localhost (overridden by MPD_HOST)
+#mpd_port = 6601      (overridden by MPD_PORT)
 mpd_connection_timeout = 5
 mpd_music_dir = "~/Music"
 mpd_crossfade_time = 3
@@ -49,10 +49,10 @@ current_item_inactive_column_suffix = $/r$(end)
 
 ##### various settings #####
 execute_on_song_change = ~/.scripts/ncmpcpp-song-change.sh >/dev/null 2>&1 &
-#execute_on_player_state_change = ""
+execute_on_player_state_change = pkill -RTMIN+6 -x dwmblocks
 #playlist_show_mpd_host = no
-#playlist_show_remaining_time = no
-#playlist_shorten_total_times = no
+playlist_show_remaining_time = yes
+playlist_shorten_total_times = yes
 #playlist_separate_albums = no
 playlist_display_mode = columns
 browser_display_mode = columns
@@ -60,10 +60,10 @@ browser_display_mode = columns
 #playlist_editor_display_mode = classic
 #discard_colors_if_item_is_selected = yes
 #show_duplicate_tags = true
-#incremental_seeking = yes
+incremental_seeking = no
 seek_time = 5
 #volume_change_step = 2
-#autocenter_mode = no
+autocenter_mode = yes
 #centered_cursor = no
 progressbar_look = ▬🔘
 #default_place_to_search_in = database

@@ -7,7 +7,12 @@
 # mp3gain acts on the replaygain values stored in id3v2 tags,
 # so before you run this command be sure those are up to date.
 # Here's a list of steps for normalizing music, in order:
-# 
+#
+# To avoid the overhead of scanning an entire music library, by
+# default the script invokes beets to determine only tracks added
+# during the past week. You can scan the entire library with the
+# "-a" flag.
+#
 # 1. Run `beet replaygain -f ...` (run by default during import)
 # 2. Run `beet write ...` to save replaygain in the physical files
 # 3. Run `normalize` to adjust music and after that recalculate replaygain tags
@@ -16,9 +21,15 @@
 musicdir=~/Music
 log=~/.cache/normalize-latest.log
 
-# Filter out the lines that state no changes
-find "$musicdir" -type f -name '*.mp3' -print0 | xargs -0 mp3gain -s i -r -e -c \
-    | sed -n '/^\(No changes to \|\/\)/!{H;g;p} ; h' >"$log"
+if [ "$1" = -a ]; then
+    # Run on the entire library recursively
+    find "$musicdir" -type f -name '*.mp3' -print0 | xargs -0 mp3gain -s i -r -e -c \
+        | sed -n '/^\(No changes to \|\/\)/!{H;g;p} ; h' >"$log"
+else
+    # Run only on the tracks added in the last week (faster)
+    beet ls -p added:-1w.. | xargs -d '\n' mp3gain -s i -r -e -c \
+        | sed -n '/^\(No changes to \|\/\)/!{H;g;p} ; h' >"$log"
+fi
 
 # View the log if any changes were made
 [ -n "$(cat "$log")" ] && "$PAGER" "$log"

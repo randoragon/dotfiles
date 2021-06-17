@@ -168,6 +168,7 @@ stow gtk
 #stow i3
 #./detach keepassxc
 #stow krita
+stow less
 stow lf
 stow lynx
 ./detach mime

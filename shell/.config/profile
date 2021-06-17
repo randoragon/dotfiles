@@ -55,6 +55,7 @@ export NMBGIT="${XDG_CONFIG_HOME:-$HOME/.config}/notmuch/nmbug"
 export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
+export LESSKEY="${XDG_CONFIG_HOME:-$HOME/.config}/less"
 export LESSHISTFILE=-
 export PYTHONSTARTUP="${XDG_CONFIG_HOME:-$HOME/.config}/python/pythonrc"
 export SQLITE_HISTORY="${XDG_DATA_HOME:-$HOME/.local/share}/sqlite/history"

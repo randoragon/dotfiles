@@ -1,0 +1,8 @@
+#command
+h left-scroll
+l right-scroll
+^N next-file
+^P prev-file
+
+#env
+LESS=-MJSWR -j3 --use-color

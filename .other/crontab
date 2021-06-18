@@ -9,3 +9,8 @@
 
 # Update locate database
 0 12 * * * ~/.local/bin/updatedb
+
+# Delete some nvim files older than 60 days
+0 12 */3 * * find "${XDG_DATA_HOME}/nvim/backup" -mtime +60 -delete
+0 12 */3 * * find "${XDG_DATA_HOME}/nvim/view"   -mtime +60 -delete
+0 12 */3 * * find "${XDG_DATA_HOME}/nvim/swap"   -mtime +60 -delete

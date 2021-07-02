@@ -14,7 +14,7 @@ vnoremap . :normal .<CR>
 nnoremap <Leader>/ :nohlsearch<CR>
 filetype plugin indent on
 set encoding=utf-8
-set listchars=tab:→\ ,trail:·,nbsp:·
+set listchars=tab:\ \ ┊,trail:·,nbsp:·
 set list
 " }}}
 
@@ -153,10 +153,10 @@ nnoremap <Leader>s :set spell!<CR>
 " }}}
 
 " Indentation settings {{{1
-set expandtab
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
+set noexpandtab
+set shiftwidth=8
+set tabstop=8
+set softtabstop=8
 " }}}
 
 " Fold settings {{{1

@@ -343,3 +343,7 @@ set wildignore=*.git/*,*.tags,*.o
 cnoremap <expr> / wildmenumode() ? "\<C-E>" : "/"
 set path+=** " Enables recursive :find
 " }}}
+
+" Reload vimrc {{{1
+nnoremap <Leader>r :source $XDG_CONFIG_HOME/nvim/init.vim<CR>
+" }}}

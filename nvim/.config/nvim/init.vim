@@ -263,8 +263,8 @@ set backupdir=~/.local/share/nvim/backup/
 " from these autocmds, such as help pages, and buffers
 " that aren't actual files like those from fzf plugin, etc.
 augroup create_views
-    autocmd! BufWinLeave ?* if &filetype != "help" && expand('%:p:t') !~ '^\([0-9];#FZF\|COMMIT_EDITMSG\)$' | mkview           | endif
-    autocmd! BufWinEnter ?* if &filetype != "help" && expand('%:p:t') !~ '^\([0-9];#FZF\|COMMIT_EDITMSG\)$' | silent! loadview | endif
+    autocmd! BufWinLeave ?* if &filetype != "help" && expand('%:p:t') !~ '^\([0-9]\+;#FZF\|COMMIT_EDITMSG\)$' | mkview           | endif
+    autocmd! BufWinEnter ?* if &filetype != "help" && expand('%:p:t') !~ '^\([0-9]\+;#FZF\|COMMIT_EDITMSG\)$' | silent! loadview | endif
 augroup END
 " }}}
 

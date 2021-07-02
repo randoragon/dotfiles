@@ -258,6 +258,16 @@ set writebackup
 set backupdir=~/.local/share/nvim/backup/
 " }}}
 
+" Automatically create view files {{{1
+" It's important to exclude all undesired filetypes
+" from these autocmds, such as help pages, and buffers
+" that aren't actual files like those from fzf plugin, etc.
+augroup create_views
+    autocmd! BufWinLeave ?* if &filetype != "help" && expand('%:p:t') !~ '^[0-9];#FZF$' | mkview           | endif
+    autocmd! BufWinEnter ?* if &filetype != "help" && expand('%:p:t') !~ '^[0-9];#FZF$' | silent! loadview | endif
+augroup END
+" }}}
+
 " Force redraw shortcut {{{1
 nnoremap <Leader>l :redraw!<CR>
 " }}}

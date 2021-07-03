@@ -15,6 +15,7 @@ mkdir -p Documents Pictures/Screenshots Music Videos Downloads Software \
 sudo pacman -Syu
 sudo pacman -S --needed \
     make cmake gcc gdb \
+    neovim \
     firefox \
     git patch \
     picom \
@@ -99,7 +100,6 @@ fi
 # Installs from AUR
 yay -Syua
 yay -Sa --needed \
-    neovim-git \
     xxd-standalone \
     pass-update \
     onedrive-abraunegg \

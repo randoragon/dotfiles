@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Open a new mpv window with live webcam feed.
+# The camera device can be specified explicitly,
+# but will fall back to /dev/video0 if unspecified:
+#
+#	webcam [device]
+
+camera=/dev/video0
+[ -f "$1" ] && camera="$1"
+
+mpv "av://v4l2:${camera}" --profile=low-latency --untimed

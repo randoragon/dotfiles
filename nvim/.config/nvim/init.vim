@@ -174,8 +174,8 @@ endfunction
 
 nnoremap <M-i> za
 nnoremap <M-I> zA
-nnoremap <M-m> zm
-nnoremap <M-r> zr
+nnoremap <M-m> zM
+nnoremap <M-r> zR
 " }}}
 
 augroup fold_switch

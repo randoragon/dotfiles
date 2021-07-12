@@ -36,7 +36,11 @@ Options:
         the note already exists (NAME cannot be passed).
 
     -t, --textonly
-        View any markup note as plain text.
+        View or output any markup note as plain text.
+
+    -o FILE, --output FILE
+        Output note to file, or - for standard output. This option
+        is mutually exclusive with --edit and creating new notes.
 
     -h, --help
         Display this help text.
@@ -201,15 +205,96 @@ create () {
     rm -r -- "$tmpd"
 }
 
+# output <archive> <filename>
+# archive -  path to the note archive file, relative to $notedir
+# filename - path to the file to export to, or - for stdout
+output () {
+    tmpd="$(mktemp --tmpdir -d note.XXXXX)"
+    extract "$notedir/$1" "$tmpd"
+    note="$(basename -- "$1")"
+    output="$2"
+    stdout=
+    [ "$output" = - ] && stdout=1
+
+    # Determine filetype
+    target="$tmpd/NOTE/NOTE.txt"
+    fmt=txt
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"  && fmt=md
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd" && fmt=rnd
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"  && fmt=ms
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"  && fmt=mm
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom" && fmt=mom
+    [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
+    [ -n "$textonly" ] && fmt=txt
+
+    case "$fmt" in
+        txt)
+            if [ $stdout ]; then
+                cat -- "$target"
+            else
+                cp -- "$target" "$output"
+            fi
+            ;;
+        md)
+            if [ $stdout ]; then
+                printf "%s" "$HTML_TABLE_STYLE"
+                md2html --github "$target"
+            else
+                printf "%s" "$HTML_TABLE_STYLE" >"$output"
+                md2html --github "$target" >>"$output"
+            fi
+            ;;
+        rnd)
+            if [ $stdout ]; then
+                ntmake "$target" -mrnd
+            else
+                ntmake "$target" -mrnd >"$output"
+            fi
+            ;;
+        ms)
+            if [ $stdout ]; then
+                ntmake "$target" -ms
+            else
+                ntmake "$target" -ms >"$output"
+            fi
+            ;;
+        mm)
+            if [ $stdout ]; then
+                ntmake "$target" -mm
+            else
+                ntmake "$target" -mm >"$output"
+            fi
+            ;;
+        mom)
+            if [ $stdout ]; then
+                pdfmom -k -e -p -t "$target"
+            else
+                pdfmom -k -e -p -t "$target" >"$output"
+            fi
+            ;;
+        *)
+            printf "note: unknown note format \"%s\"\n" "$fmt" >&2
+    esac
+    find "$tmpd" -type f -exec shred -x '{}' \;
+    rm -rf -- "$tmpd"
+}
+
 edit=
 textonly=
-opts="$(getopt -n note -s sh -o het -l help,edit,textonly -- "$@")"
-eval set -- "$opts"
+output=
 while true; do
     case "$1" in
         -h|--help) help ; exit ; shift ;;
         -e|--edit) edit=1 ; shift ;;
         -t|--textonly) textonly=1 ; shift ;;
+        -o|--output)
+            if [ -z "$2" ]; then
+                echo "note: output filename needed" >&2
+                exit 2
+            else
+                output="$2"
+                shift 2
+            fi ;;
         --) shift ; break ;;
         *) break ;;
     esac
@@ -221,30 +306,49 @@ done
 interactive=
 [ -t 0 ] && interactive=1
 
-# View/edit existing note
 if [ $# -eq 0 ]; then
+    if [ -n "$output" ]; then # Output existing note
 
-    # For interactive shells use fzf, otherwise use dmenu.
-    if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
-    if [ -n "$interactive" ]; then
-        note="$(cd "$notedir" && find . -type f -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
-            | fzf --no-sort --no-multi --prompt "$prompt ")"
-    else
-        note="$(cd "$notedir" && find . -type f -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
-            | dmenu -F -l 5 -p "$prompt")"
-    fi
+        [ -n "$edit" ] && echo "note: illegal use of --edit option" >&2 && exit 2
 
-    [ -z "$note" ] && exit
-    if [ -z "$edit" ]; then
-        view "$note"
-    else
-        edit "$note"
+        # For interactive shells use fzf, otherwise use dmenu.
+        prompt="Output Note:"
+        if [ -n "$interactive" ]; then
+            note="$(cd "$notedir" && find . -type f -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
+                | fzf --no-sort --no-multi --prompt "$prompt ")"
+        else
+            note="$(cd "$notedir" && find . -type f -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
+                | dmenu -F -l 5 -p "$prompt")"
+        fi
+
+        [ -z "$note" ] && exit
+        output "$note" "$output"
+
+    else # View/edit existing note
+
+        # For interactive shells use fzf, otherwise use dmenu.
+        if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
+        if [ -n "$interactive" ]; then
+            note="$(cd "$notedir" && find . -type f -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
+                | fzf --no-sort --no-multi --prompt "$prompt ")"
+        else
+            note="$(cd "$notedir" && find . -type f -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
+                | dmenu -F -l 5 -p "$prompt")"
+        fi
+
+        [ -z "$note" ] && exit
+        if [ -z "$edit" ]; then
+            view "$note"
+        else
+            edit "$note"
+        fi
     fi
 
 # Create new note
 else
     [ -n "$textonly" ] && echo "note: illegal use of --textonly option" >&2 && exit 2
     [ -n "$edit" ] && echo "note: illegal use of --edit option" >&2 && exit 2
+    [ -n "$output" ] && echo "note: illegal use of --output option" >&2 && exit 2
     fname="$(printf "%s" "$*" | tr ' ' '-')"
     [ -z "$(basename -- "$fname")" ] && echo "note: cannot create a note with empty filename" >&2 && exit 2
 

@@ -3,6 +3,7 @@
 " Basic Settings {{{1
 set nowrap
 set number
+set cursorline
 set mouse=a
 let mapleader=','
 nnoremap \ ,
@@ -159,9 +160,6 @@ set tabstop=8
 set softtabstop=0
 " }}}
 
-" Fold settings {{{1
-set foldmethod=manual
-
 " For markdown folding, src: https://stackoverflow.com/a/4677454 (comments) {{{2
 function MarkdownLevel()
     let h = matchstr(getline(v:lnum), '^#\+')
@@ -172,15 +170,15 @@ function MarkdownLevel()
     endif
 endfunction
 
-nnoremap <M-i> za
-nnoremap <M-I> zA
+nnoremap <M-i> zA
+nnoremap <M-I> za
 nnoremap <M-m> zM
 nnoremap <M-r> zR
 " }}}
 
 augroup fold_switch
     autocmd!
-    autocmd  BufNewFile,BufRead * :normal zR
+    autocmd! BufNewFile,BufRead * :normal zR
     autocmd! BufNewFile,BufRead .vimrc,init.vim     setlocal foldmethod=marker foldlevel=0
     autocmd! BufNewFile,BufRead *.c,*.h,*.cpp,*.hpp setlocal foldmethod=syntax | :normal zR
     autocmd! BufNewFile,BufRead *.py      setlocal foldmethod=indent | :normal zR
@@ -322,7 +320,7 @@ else
     " fallback colorscheme for TTY
     colorscheme ron
 endif
-" Make background transparent on any colorscheme
+" Make background transparent on any colorscheme, embolden current line number
 function TransparentBG()
     highlight Normal     guibg=NONE ctermbg=NONE
     highlight Title      guibg=NONE ctermbg=NONE
@@ -331,6 +329,7 @@ function TransparentBG()
     highlight NonText    guibg=NONE ctermbg=NONE
     highlight FoldColumn guibg=NONE ctermbg=NONE
     highlight SignColumn guibg=NONE ctermbg=NONE
+    highlight CursorLine guibg=NONE ctermbg=NONE
 endfunction
 autocmd VimEnter,ColorScheme * call TransparentBG()
 " }}}
@@ -347,3 +346,12 @@ set path+=** " Enables recursive :find
 " Reload vimrc {{{1
 nnoremap <Leader>r :source $XDG_CONFIG_HOME/nvim/init.vim<CR>
 " }}}
+
+"{{{1 Center screen after each search
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+"1}}}

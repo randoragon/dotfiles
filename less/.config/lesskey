@@ -5,4 +5,4 @@ l right-scroll
 ^P prev-file
 
 #env
-LESS=-MJSWR -j3 --use-color
+LESS=-MSWR -j3 --use-color

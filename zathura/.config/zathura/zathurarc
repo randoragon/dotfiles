@@ -10,3 +10,4 @@ map J zoom out
 map i recolor
 map w adjust_window best-fit
 map e adjust_window width
+set font "bitstream vera sans mono 18"

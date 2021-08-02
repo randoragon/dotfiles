@@ -35,7 +35,7 @@ push () {
     [ ! -d "$src" ] && [ ! -f "$src" ] && echo "spush: push: invalid path $(tput setaf 1)$src$(tput setaf 7)" >&2 && return 1
     [ -n "$dest" ] && [ ! -d "$syncroot/$dest" ] && mkdir -p -- "$syncroot/$dest"
     printf "\b%s\n" "$(tput bold)Mirroring $(tput setaf 2)$src$(tput setaf 15) to $(tput setaf 3)$syncroot/$dest$(tput setaf 7)...$(tput sgr0)"
-    rsync -vcr --delete -- "$src" "$syncroot/$dest" | tee -a "$log"
+    rsync -va --delete -- "$src" "$syncroot/$dest" | tee -a "$log"
     printf "\n%s\n" "$(tput bold)Uploading $(tput setaf 2)$syncroot/$dest$(tput setaf 15) to $(tput setaf 3)onedrive://$(basename -- "$syncroot")/$dest$(tput setaf 7)...$(tput sgr0)"
     if command -v "onedrive"; then
         onedrive --syncdir "$(dirname -- "$syncroot")" --synchronize --upload-only --single-directory "$(basename -- "$syncroot")/$dest" 2>&1 | tee -a "$log"

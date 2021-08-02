@@ -25,7 +25,7 @@ PIC="ntpic"
 TBL="nttbl"
 SOIN="ntsoin"
 
-# If using rnd macros, additional passes will be needed
+# If using rnd macros, additional passes may be needed
 rnd=
 for i in "$@"; do
     [ "$i" = '-mrnd' ] && {
@@ -48,32 +48,43 @@ if [ -n "$rnd" ]; then
         cp -- "$input" "$raw"
         cd -- "$(dirname -- "$input")"
     fi
-    $SOIN <"$raw" | $REFR | $PIC | $TBL | $EQN | $ROFF >/dev/null 2>"$err"
 
-    # Parse err so that only the lines between "toc_begin" and "toc_end"
-    # are included in the toc file. This is a convention that guarantees
-    # no other stderr output will pollute the document.
-    in=
-    :>"$toc"
+    # Check if TOC is requested anywhere within the document
+    toc_needed=
     while read -r line; do
-        if [ "$line" = 'toc_begin' ]; then
-            in=1
-        elif [ "$line" = 'toc_end' ]; then
-            in=
-        elif [ -n "$in" ]; then
-            printf "%s\n" "$line" >>"$toc"
-        fi
-    done <"$err"
-
-    # Insert toc into the part of file where '.TOC' is present
-    :>"$out"
-    while read -r line; do
-        if [ "$line" = '.TOC' ]; then
-            cat -- "$toc" >>"$out"
-        else
-            printf "%s\n" "$line" >>"$out"
-        fi
+        [ "$line" = '.TOC' ] && toc_needed=1 && break
     done <"$raw"
+
+    if [ -z "$toc_needed" ]; then
+        cat -- "$raw" >"$out"
+    else
+        $SOIN <"$raw" | $REFR | $PIC | $TBL | $EQN | $ROFF >/dev/null 2>"$err"
+
+        # Parse err so that only the lines between "toc_begin" and "toc_end"
+        # are included in the toc file. This is a convention that guarantees
+        # no other stderr output will pollute the document.
+        in=
+        :>"$toc"
+        while read -r line; do
+            if [ "$line" = 'toc_begin' ]; then
+                in=1
+            elif [ "$line" = 'toc_end' ]; then
+                in=
+            elif [ -n "$in" ]; then
+                printf "%s\n" "$line" >>"$toc"
+            fi
+        done <"$err"
+
+        # Insert toc into the part of file where '.TOC' is present
+        :>"$out"
+        while read -r line; do
+            if [ "$line" = '.TOC' ]; then
+                cat -- "$toc" >>"$out"
+            else
+                printf "%s\n" "$line" >>"$out"
+            fi
+        done <"$raw"
+    fi
 
     # Compile the final source code
     $SOIN <"$out" | $REFR | $PIC | $TBL | $EQN | $ROFF 2>/dev/null | $PPDF

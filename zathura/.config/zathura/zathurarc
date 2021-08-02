@@ -10,4 +10,8 @@ map J zoom out
 map i recolor
 map w adjust_window best-fit
 map e adjust_window width
-set font "bitstream vera sans mono 18"
+set font "bitstream vera sans mono 12"
+set guioptions "shv"
+set window-title-home-tilde true
+set window-title-page true
+set statusbar-home-tilde true

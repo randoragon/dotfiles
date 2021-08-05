@@ -74,6 +74,7 @@ export NNN_BMS='h:~;d:~/Documents'
 export NNN_COLORS='6532'
 export NNN_TRASH=1
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
+export NVIM_SMOOTHIE_ENABLED=1
 
 # This makes markdown previews with tables bearable
 # to look at, just prepend the html file with it

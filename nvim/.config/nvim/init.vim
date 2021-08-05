@@ -28,7 +28,6 @@ paq{'savq/paq-nvim', opt=true}
 
 paq 'airblade/vim-gitgutter'
 paq 'junegunn/fzf.vim'
-paq 'junegunn/fzf'
 paq 'tpope/vim-surround'
 paq 'tpope/vim-speeddating'
 paq 'tpope/vim-repeat'
@@ -42,10 +41,9 @@ paq 'skywind3000/asyncrun.vim'
 paq 'derekwyatt/vim-fswitch'
 paq 'Shougo/deoplete.nvim'
 paq 'Shougo/deoplete-clangx'
-paq 'psliwka/vim-smoothie'
 paq 'ap/vim-css-color'
 paq 'junegunn/goyo.vim'
-paq 'thinca/vim-quickrun'
+paq 'psliwka/vim-smoothie'
 
 EOF
 
@@ -103,16 +101,21 @@ nnoremap <Leader>fa :Ag<CR>
 nnoremap <Leader>fb :Buffers<CR>
 " }}}
 
-" {{{2 Deoplete
-" }}}
-
 " {{{2 Goyo
 nnoremap <Leader>g :Goyo<CR>
 " }}}
 
-" {{{2 QuickRun
-let g:quickrun_no_default_key_mappings = 1
-nnoremap <Leader>qr :QuickRun<CR>
+" {{{2 Smoothie
+let g:smoothie_enabled = getenv("NVIM_SMOOTHIE_ENABLED")
+if g:smoothie_enabled == v:null | let g:smoothie_enabled = 1 | endif
+function! ToggleVimSmoothie()
+    if g:smoothie_enabled
+        let g:smoothie_enabled = 0
+    else
+        let g:smoothie_enabled = 1
+    endif
+endfunction
+nnoremap <Leader>S :call ToggleVimSmoothie()<CR>
 " }}}
 
 " }}}
@@ -154,10 +157,25 @@ nnoremap <Leader>s :set spell!<CR>
 " }}}
 
 " Indentation settings {{{1
-set noexpandtab
-set shiftwidth=8
-set tabstop=8
-set softtabstop=0
+function! ToggleIndentStyle()
+    if &expandtab
+        " 8-character wide tabs
+        set noexpandtab
+        set shiftwidth=8
+        set tabstop=8
+        set softtabstop=0
+    else
+        " 4-character wide spaces
+        set expandtab
+        set shiftwidth=4
+        set tabstop=4
+        set softtabstop=4
+    endif
+endfunction
+nnoremap <Leader>T :call ToggleIndentStyle()<CR>
+
+set expandtab
+call ToggleIndentStyle()
 " }}}
 
 " For markdown folding, src: https://stackoverflow.com/a/4677454 (comments) {{{2
@@ -256,7 +274,9 @@ set writebackup
 set backupdir=~/.local/share/nvim/backup/
 " }}}
 
-" Automatically create view files {{{1
+" Remember Folds (view files) {{{1
+set viewoptions=folds,cursor
+
 " It's important to exclude all undesired filetypes
 " from these autocmds, such as help pages, and buffers
 " that aren't actual files like those from fzf plugin, etc.

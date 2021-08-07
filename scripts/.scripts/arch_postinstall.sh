@@ -17,7 +17,7 @@ sudo pacman -S --needed \
     make cmake gcc gdb \
     neovim \
     firefox \
-    git patch \
+    git patch lazygit \
     picom \
     pass \
     stow \
@@ -116,7 +116,8 @@ yay -Sa --needed \
     farbfeld-git \
     mousemode-git \
     xkeycheck-git \
-    xrectsel
+    xrectsel \
+    dashbinsh
 
 # Install NeoVim dependencies (Paq, Deoplete plugin)
 git clone https://github.com/savq/paq-nvim.git \

@@ -38,6 +38,7 @@ alias gpl="git pull"
 alias grs="git restore --staged"
 alias gau="git update-index --assume-unchanged"
 alias gnau="git update-index --no-assume-unchanged"
+alias lg='lazygit'
 
 # Youtube-DL
 alias ytmp3="youtube-dl -x -o '~/Downloads/Music/%(title)s.%(ext)s' --no-playlist --audio-quality 0 --audio-format mp3"

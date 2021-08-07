@@ -211,6 +211,7 @@ ln -Tfs -- ~/Software/neatroff/neatpost/pdf    ~/.local/bin/ntpdf
 ln -Tfs -- ~/Software/neatroff/neatrefer/refer ~/.local/bin/ntrefer
 ln -Tfs -- ~/Software/neatroff/shape/shape     ~/.local/bin/ntshape
 ln -Tfs -- ~/Software/neatroff/soin/soin       ~/.local/bin/ntsoin
+cp -- ~/dotfiles/.other/neatroff-devutf/* ~/Software/neatroff/devutf/
 
 # Install neatroff rnd macros
 ecd ~/Software

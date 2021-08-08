@@ -15,7 +15,7 @@
 WARN=80
 CRIT=95
 DUNSTID=71098265
-FILE="/tmp/cputemp"
+FILE="/tmp/dwmblocks-cputemp"
 SFX="$HOME/dotfiles/.other/alarm.wav"
 
 # Runs when temp is in range <-∞;WARN)
@@ -62,7 +62,7 @@ crit_enter () {
     topcmd="$(ps -eo pcpu,comm | sort -r | sed -n '2s/.* //p')"
     dunstify -r "$DUNSTID" -i cpu -u critical "CPU Temp Critical! [$1°C]" "<u>Top Process</u>: $topcmd" >/dev/null 2>&1
     mpc --port="$MPD_PORT" pause >/dev/null 2>&1
-    mpv --no-terminal -- "$SFX" >/dev/null 2>&1 & 
+    mpv --no-terminal -- "$SFX" >/dev/null 2>&1 &
 }
 
 # Extract the highest temperature from sensors output
@@ -75,7 +75,7 @@ text="$(sensors \
     | sort -r \
     | sed 'q')"
 
-# Get the raw number, without the Celcius suffix
+# Get the raw number, without the Celsius suffix
 temp="$(echo "$text" | sed 's/[^0-9.]//g')"
 temp="${temp%.*}"
 text="$temp°C"

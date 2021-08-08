@@ -1,5 +1,11 @@
 #!/usr/bin/sh
 
+warn=15
+crit=5
+dunstid=82147924
+file=/tmp/dwmblocks-power
+sfx="/home/pcache/dotfiles/.other/notification2.mp3"
+
 barh=19     # dwm bar height
 pad=2       # padding from top and bottom
 
@@ -9,6 +15,43 @@ bd=1                         # battery border
 bdcol="#BBBBBB"              # border color
 bgcol="#303030"              # battery bg color
 midw=4                       # small top rect width
+
+# Runs when battery level is in range (warn;100>
+norm () {
+    # Log battery level
+    echo "$1" >"$file"
+    chmod 600 -- "$file"
+}
+
+# Runs when battery level is in range (crit;warn> and discharging
+warn () {
+    prev="$(cat -- "$file")"
+    [ "$prev" -gt "$warn" ] && warn_enter "$1"
+    echo "$1" >"$file"
+    chmod 600 -- "$file"
+}
+
+# Runs when battery level is in range <0;crit> and discharging
+crit () {
+    prev="$(cat -- "$file")"
+    [ "$prev" -gt "$crit" ] && crit_enter "$1"
+    echo "$1" >"$file"
+    chmod 600 -- "$file"
+}
+
+# Runs when battery level crosses from (warn;100> to (crit;warn>
+warn_enter () {
+    remaining="$(acpi | grep -o '[0-9:]* remaining')"
+    dunstify -r "$dunstid" -i battery -u critical "Battery Low [$1%]" "$remaining"
+}
+
+# Runs when battery level crosses from (crit;warn> to <0;crit>
+crit_enter () {
+    remaining="$(acpi | grep -o '[0-9:]* remaining')"
+    dunstify -r "$dunstid" -i battery -u critical "Battery Low [$1%]" "$remaining"
+    mpc --port="$MPD_PORT" pause >/dev/null 2>&1
+    mpv --no-terminal -- "$sfx" >/dev/null 2>&1 &
+}
 
 output=
 for path in /sys/class/power_supply/BAT?; do
@@ -34,6 +77,15 @@ for path in /sys/class/power_supply/BAT?; do
     fillh="$(( (bath - (3*bd)) * (100 - capacity) / 100 ))"
     output="$output^c$bgcol^^r$bd,$(( pad + (2*bd) )),$(( batw - (2*bd) )),$fillh^"
     output="$output^c$bdcol^"
+
+    # Compare the percentage number to find the right range
+    if [ "$capacity" -le "$crit" ]; then
+        crit "$capacity"
+    elif [ "$capacity" -le "$warn" ]; then
+        warn "$capacity"
+    else
+        norm "$capacity"
+    fi
 
     echo "$output^f$(( batw + 2 ))^$capacity%"
     exit

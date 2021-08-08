@@ -364,11 +364,17 @@ set path+=** " Enables recursive :find
 nnoremap <Leader>r :source $XDG_CONFIG_HOME/nvim/init.vim<CR>
 " }}}
 
-"{{{1 Center screen after each search
+"{{{1 Center screen after each search or jump
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
+nnoremap ]] ]]zz
+nnoremap [[ [[zz
+nnoremap [] []zz
+nnoremap ][ ][zz
+nnoremap { {zz
+nnoremap } }zz
 "1}}}

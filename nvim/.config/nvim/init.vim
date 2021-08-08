@@ -240,13 +240,10 @@ set splitright
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bNext<CR>
 
-nnoremap <S-h> :tabprevious<CR>
-nnoremap <S-l> :tabnext<CR>
-nnoremap g<S-h> :-tabmove<CR>
-nnoremap g<S-l> :+tabmove<CR>
-
-nnoremap gt <S-h>
-nnoremap gT <S-l>
+nnoremap [t :tabprevious<CR>
+nnoremap ]t :tabnext<CR>
+nnoremap g[t :-tabmove<CR>
+nnoremap g]t :+tabmove<CR>
 " }}}
 
 " Copy shortcuts {{{1

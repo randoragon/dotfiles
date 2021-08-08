@@ -11,11 +11,34 @@
 
 # Enable colors and change prompt:
 autoload -U colors && colors
-if [ -z "$LF_LEVEL" ]; then
-    PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%} $%b "
-else
-    PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$LF_LEVEL$%b "
-fi
+autoload -Uz vcs_info
+precmd() {
+    vcs_info
+}
+setopt prompt_subst
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git*' formats "%{$fg[green]%}(%b)"
+prompt_base="%B%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~"
+exit_code () {
+    code=$?
+    [ $code -ne 0 ] && col=red || { col=green; code=" " }
+    [ $(printf "%d" "$code" | wc -c) = 1 ] && tile="$code " || tile="$code"
+    echo "%{$bg[$col]$fg[black]%}${tile}%{$reset_color%}"
+}
+lf_level () {
+    [ -n "$LF_LEVEL" ] && {
+        [ $(printf "%d" "$LF_LEVEL" | wc -c) = 1 ] && tile="$LF_LEVEL " || tile="$LF_LEVEL"
+        echo "%{$bg[magenta]$fg[black]%}${tile}%{$reset_color%}"
+    }
+}
+no_jobs () {
+    num="$(jobs | wc -l)"
+    [ "$num" != 0 ] && {
+        [ $(printf "%d" "$num" | wc -c) = 1 ] && tile="$num " || tile="$num"
+        echo "%{$bg[cyan]$fg[black]%}${tile}%{$reset_color%}"
+    }
+}
+PROMPT='$(exit_code)$(lf_level)$(no_jobs) ${prompt_base} ${vcs_info_msg_0_}%{$reset_color%}'$'\n'"$%b "
 
 # History and its location
 HISTSIZE=100
@@ -27,7 +50,7 @@ compinit
 promptinit
 
 # Disable freezing terminal with Ctrl-S
-stty stop undef	
+stty stop undef
 
 # Discard duplicates from $PATH and $path (Zsh ties PATH to path)
 typeset -U PATH path
@@ -53,7 +76,7 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
-bindkey -s '^o' 'lfcd\n'
+bindkey -s '^o' 'lfcd\n'
 
 # Allow GnuPG to use console for authentication
 export GPG_TTY="$(tty)"

@@ -25,31 +25,35 @@ norm () {
 
 # Runs when battery level is in range (crit;warn> and discharging
 warn () {
-    prev="$(cat -- "$file")"
-    [ "$prev" -gt "$warn" ] && warn_enter "$1"
-    echo "$1" >"$file"
-    chmod 600 -- "$file"
+    [ "$status" != "Charging" ] && {
+        prev="$(cat -- "$file")"
+        [ "$prev" -gt "$warn" ] && warn_enter "$1"
+        echo "$1" >"$file"
+        chmod 600 -- "$file"
+    }
 }
 
 # Runs when battery level is in range <0;crit> and discharging
 crit () {
-    prev="$(cat -- "$file")"
-    [ "$prev" -gt "$crit" ] && crit_enter "$1"
-    echo "$1" >"$file"
-    chmod 600 -- "$file"
+    [ "$status" != "Charging" ] && {
+        prev="$(cat -- "$file")"
+        [ "$prev" -gt "$1" ] && crit_enter "$1"
+        echo "$1" >"$file"
+        chmod 600 -- "$file"
+    }
 }
 
 # Runs when battery level crosses from (warn;100> to (crit;warn>
 warn_enter () {
     remaining="$(acpi | grep -o '[0-9:]* remaining')"
     dunstify -r "$dunstid" -i battery -u critical "Battery Low [$1%]" "$remaining"
+    mpv --no-terminal -- "$sfx" >/dev/null 2>&1 &
 }
 
-# Runs when battery level crosses from (crit;warn> to <0;crit>
+# Runs when battery level crosses from (crit;warn> to <0;crit> and lower
 crit_enter () {
     remaining="$(acpi | grep -o '[0-9:]* remaining')"
     dunstify -r "$dunstid" -i battery -u critical "Battery Low [$1%]" "$remaining"
-    mpc --port="$MPD_PORT" pause >/dev/null 2>&1
     mpv --no-terminal -- "$sfx" >/dev/null 2>&1 &
 }
 

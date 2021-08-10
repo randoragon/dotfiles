@@ -181,7 +181,6 @@ view () {
             [ -s "$tmp" ] && surf "file://$tmp"
             ;;
         rnd)
-            printf "about to run command: \"%s\"\n" "ntmake \"$target\" -mrnd | zathura -"
             read -r line
             ntmake "$target" -mrnd | "${PDF_READER:-zathura}" -
             ;;

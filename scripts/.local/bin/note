@@ -66,6 +66,13 @@ NAME Extensions:
     *.mom
         groff + mom macros
 
+String Substitutions:
+    Inside a note in any format, the following strings will be
+    substituted before compilation:
+
+        NOTE_ATIME - last access time, e.g. 'Tue 2021-08-10 14:20'
+        NOTE_MTIME - last modification time
+        NOTE_BTIME - birth time
 "
 }
 
@@ -87,6 +94,19 @@ archive () {
     tar -C "$1" -czf "$tmp" -- NOTE
     gpg --yes --quiet --output "$2" --encrypt --recipient "$3" -- "$tmp"
     shred -u -- "$tmp"
+}
+
+# strsub <source> <file>
+# Does in-place string substitution, as described in --help.
+# source is the file that will be stat'ted for information
+# file is the file that will be modified with substitutions
+strsub () {
+    atime="$(date -d "@$(stat -c %X -- "$1")" +'%a %Y-%m-%d %H:%M')"
+    mtime="$(date -d "@$(stat -c %Y -- "$1")" +'%a %Y-%m-%d %H:%M')"
+    btime="$(date -d "@$(stat -c %W -- "$1")" +'%a %Y-%m-%d %H:%M')"
+    sed -i -e "s/NOTE_ATIME/$atime/g" \
+           -e "s/NOTE_MTIME/$mtime/g" \
+           -e "s/NOTE_BTIME/$btime/g" "$2"
 }
 
 # edit <archive>
@@ -141,6 +161,10 @@ view () {
     [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom" && fmt=mom
     [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
     [ -n "$textonly" ] && fmt=txt
+
+    # Perform string substitutions, update access time
+    strsub "$notedir/$1" "$target"
+    touch -ac "$notedir/$1"
 
     case "$fmt" in
         txt)

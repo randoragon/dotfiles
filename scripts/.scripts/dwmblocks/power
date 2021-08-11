@@ -10,10 +10,12 @@ barh=19     # dwm bar height
 pad=2       # padding from top and bottom
 
 bath="$(( barh - (2*pad) ))" # battery height
-batw=8                      # battery width
+batw=8                       # battery width
 bd=1                         # battery border
-bdcol="#BBBBBB"              # border color
-bgcol="#303030"              # battery bg color
+bdcol_normal="#BBBBBB"       # border color
+bdcol_charging="#00FFFF"
+bgcol_normal="#303030"       # battery bg color
+bgcol_charging="#000000"
 midw=4                       # small top rect width
 
 # Runs when battery level is in range (warn;100>
@@ -62,6 +64,13 @@ for path in /sys/class/power_supply/BAT?; do
     capacity="$(cat -- "$path/capacity")"
     [ -z "$capacity" ] && exit
     status="$(cat -- "$path/status")"
+    if [ "$status" = "Charging" ]; then
+	    bdcol="$bdcol_charging"
+	    bgcol="$bgcol_charging"
+    else
+	    bdcol="$bdcol_normal"
+	    bgcol="$bgcol_normal"
+    fi
 
     output="^c$bdcol^"
 

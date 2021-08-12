@@ -250,6 +250,10 @@ output () {
     [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
     [ -n "$textonly" ] && fmt=txt
 
+    # Perform string substitutions, update access time
+    strsub "$notedir/$1" "$target"
+    touch -ac "$notedir/$1"
+
     case "$fmt" in
         txt)
             if [ $stdout ]; then

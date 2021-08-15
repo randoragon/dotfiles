@@ -70,7 +70,7 @@ String Substitutions:
     Inside a note in any format, the following strings will be
     substituted before compilation:
 
-        NOTE_ATIME - last access time, e.g. 'Tue 2021-08-10 14:20'
+        NOTE_ATIME - last access time, e.g. 'Tue 2021-08-10 14:20 CEST'
         NOTE_MTIME - last modification time
         NOTE_BTIME - birth time
 "
@@ -101,9 +101,9 @@ archive () {
 # source is the file that will be stat'ted for information
 # file is the file that will be modified with substitutions
 strsub () {
-    atime="$(date -d "@$(stat -c %X -- "$1")" +'%a %Y-%m-%d %H:%M')"
-    mtime="$(date -d "@$(stat -c %Y -- "$1")" +'%a %Y-%m-%d %H:%M')"
-    btime="$(date -d "@$(stat -c %W -- "$1")" +'%a %Y-%m-%d %H:%M')"
+    atime="$(date -d "@$(stat -c %X -- "$1")" +'%a %Y-%m-%d %H:%M %Z')"
+    mtime="$(date -d "@$(stat -c %Y -- "$1")" +'%a %Y-%m-%d %H:%M %Z')"
+    btime="$(date -d "@$(stat -c %W -- "$1")" +'%a %Y-%m-%d %H:%M %Z')"
     sed -i -e "s/NOTE_ATIME/$atime/g" \
            -e "s/NOTE_MTIME/$mtime/g" \
            -e "s/NOTE_BTIME/$btime/g" "$2"

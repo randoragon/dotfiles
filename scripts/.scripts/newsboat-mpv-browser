@@ -4,9 +4,18 @@
 # The advantage that it offers over simply running mpv is that
 # if can detect certain error messages that mpv gives and notify
 # the user about it via notifications (e.g. video premieres).
+# It also does not block newsboat during playback.
+# 
 
-out="$(mpv "$@")"
-[ "$?" -ne 0 ] && {
+# Run mpv and obtain its output
+fout="$(mktemp newsboat-mpv-browser.XXXXX)"
+setsid mpv --player-operation-mode=pseudo-gui "$@" >"$fout" 2>/dev/null &
+code=$?
+out="$(cat -- "$fout")"
+shred -u -- "$fout"
+
+# If failed, interpret the error message and display notification
+if [ "$code" -ne 0 ]; then
     icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
     echo "$out" >&2
     if printf "%s" "$out" | grep -qsF 'Premieres in'; then
@@ -14,4 +23,4 @@ out="$(mpv "$@")"
     elif printf "%s" "$out" | grep -qsF 'ERROR'; then
         notify-send -i "$icon" 'youtube-dl' "$(printf "%s" "$out" | grep -o 'ERROR:.*$')"
     fi
-}
+fi

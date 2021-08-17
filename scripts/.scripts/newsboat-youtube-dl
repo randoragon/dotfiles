@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# This is a wrapper script for newsboat. It downloads a video or audio file with
+# youtube-dl without blocking the running newsboat instance by running the
+# command in a new terminal.
+#
+# The first argument must be either "v" or "a" for video or audio respectively.
+# The second argument must be the url.
+# All subsequent arguments are transparently passed to youtube-dl.
+#
+# Requires ytmp3 and ytmp3 wrapper scripts around youtube-dl.
+
+if [ "$1" = 'a' ]; then
+    shift
+    title='ytmp3'
+    [ -n "$(command -v termtit)" ] && title="${title}: $(youtube-dl -e "$1")"
+    $TERMINAL -t "$title" ytmp3 "$@" &
+elif [ "$1" = 'v' ]; then
+    shift
+    title='ytmp4'
+    [ -n "$(command -v termtit)" ] && title="${title}: $(youtube-dl -e "$1")"
+    $TERMINAL -t "$title" ytmp4 "$@" &
+fi

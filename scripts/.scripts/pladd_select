@@ -4,7 +4,7 @@
 mroot="$HOME/Music"
 pldir="$mroot/Playlists"
 
-playlists="$(find "$pldir" -maxdepth 1 -type f -name '*.m3u' -not -path "$pldir/Filtered.m3u" -print0 | xargs -0l basename -- | sed 's/\.m3u$//')"
+playlists="$(find "$pldir" -maxdepth 1 -type f -name '*.m3u' \! -path "$pldir/Filtered.m3u" -print0 | xargs -0l basename -- | sed 's/\.m3u$//')"
 [ -z "$playlists" ] && notify-send -u low "pladd_select" "No playlists detected" && exit
 playing="$(mpc current -f %file% --port="$MPD_PORT")"
 echo "$playing" | grep -q '^Download/\|^/' && notify-send -u low "pladd_select" "The current file is in the <u>Download</u> directory" && exit

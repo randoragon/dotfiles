@@ -18,7 +18,7 @@ notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
 dir="$(mktemp --tmpdir -d agnote.XXXXX)"
 
 # Recreate directory structure
-cd "$notedir" && find . -type d -not -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
+cd "$notedir" && find . -type d \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
     | while read -r nestdir; do
     mkdir -p "$dir/$nestdir"
 done
@@ -26,7 +26,7 @@ done
 # Decrypt & copy over all notes
 tmp="$(mktemp --tmpdir agnote.XXXXX)"
 export dir
-cd "$notedir" && find . -type f -not -path '\./\.*' | while read -r f; do
+cd "$notedir" && find . -type f \! -path '\./\.*' | while read -r f; do
     relpath="$(realpath --relative-to "$notedir" -- "$f")"
     gpg --yes --quiet --output "$tmp" --decrypt -- "$f"
     tar -xzf "$tmp" -C "$dir/$(dirname -- "$relpath")"

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# youtube-dl wrapper for downloading mp4 playlists in best quality.
+
+youtube-dl                                                                    \
+    -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'             \
+    -o '~/Downloads/%(playlist_title)s/%(playlist_index)s. %(title)s.%(ext)s' \
+    --write-sub --embed-subs                                                  \
+    --yes-playlist -i                                                         \
+    "$@"

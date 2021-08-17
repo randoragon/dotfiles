@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# youtube-dl wrapper for downloading mp3 playlists in best quality.
+
+youtube-dl                                                                          \
+    -x                                                                              \
+    -o '~/Downloads/Music/%(playlist_title)s/%(playlist_index)s. %(title)s.%(ext)s' \
+    --audio-quality 0                                                               \
+    --audio-format mp3                                                              \
+    --yes-playlist -i                                                               \
+    "$@"

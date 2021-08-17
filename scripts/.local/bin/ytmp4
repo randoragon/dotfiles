@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# youtube-dl wrapper for downloading single mp4 files in best quality.
+
+youtube-dl                                                        \
+    -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' \
+    -o '~/Downloads/%(title)s.%(ext)s'                            \
+    --write-sub --embed-subs                                      \
+    --no-playlist                                                 \
+    "$@"

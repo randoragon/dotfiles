@@ -160,6 +160,8 @@ rm -- ~/.bashrc ~/.bash_profile
 
 stow beets
 #stow copyq
+./detach cronie
+mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}/anacron/spool"
 stow dunst
 stow dwm
 ./detach flameshot
@@ -232,12 +234,13 @@ sudo ln -sfT /usr/bin/vim /usr/bin/vi
 sudo systemctl enable ntpd.service
 sudo systemctl start ntpd.service
 
-# Enable cronie and install crontabs
+# Enable cronie and install (ana)crontabs
 sudo systemctl enable cronie.service
 sudo systemctl start cronie.service
 ecd ~/dotfiles/.other
 [ -f crontab ] && crontab - <./crontab
 [ -f cronroot ] && sudo sh -c 'crontab - <./cronroot'
+[ -f anacron-pacman.sh ] && sudo cp -- anacron-pacman.sh /etc/cron.weekly/
 
 # Symlink deprecated mimelist for old applications
 # Source: https://wiki.archlinux.org/index.php/XDG_MIME_Applications#mimeapps.list

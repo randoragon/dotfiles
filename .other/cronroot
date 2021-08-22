@@ -3,6 +3,3 @@
 
 # Download system updates without installing
 0 * * * * pacman -Syuw --noconfirm ; yay -Syuwa --noconfirm
-
-# Clear pacman cache
-0 13 * * 0 paccache -r ; yay -Sca --noconfirm

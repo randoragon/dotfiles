@@ -1,0 +1,17 @@
+# /etc/anacrontab: configuration file for anacron
+
+# See anacron(8) and anacrontab(5) for details.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+# the maximal random delay added to the base delay of the jobs
+RANDOM_DELAY=45
+# the jobs will be started during the following hours only
+START_HOURS_RANGE=3-22
+
+# period	delay	job-identifier	command
+@weekly		0	run_pldel	~/.local/bin/pldel
+@daily		0	nvim_cleanup1	find "${XDG_DATA_HOME:-$HOME/.local/share}/nvim/backup" -mtime +60 -delete
+@daily		0	nvim_cleanup2	find "${XDG_DATA_HOME:-$HOME/.local/share}/nvim/view"   -mtime +60 -delete
+@daily		0	nvim_cleanup3	find "${XDG_DATA_HOME:-$HOME/.local/share}/nvim/swap"   -mtime +60 -delete
+@daily		0	testing		touch ~/anacron-is-working

@@ -4,13 +4,8 @@
 # Update dwmblocks updates module
 */30 * * * * ~/.scripts/dwmblocks/updates
 
-# Weekly Delete playlist removal
-0 12 * * 0 ~/.local/bin/pldel
-
 # Update locate database
 0 12 * * * ~/.local/bin/updatedb
 
-# Delete some nvim files older than 60 days
-0 12 */3 * * find "${XDG_DATA_HOME}/nvim/backup" -mtime +60 -delete
-0 12 */3 * * find "${XDG_DATA_HOME}/nvim/view"   -mtime +60 -delete
-0 12 */3 * * find "${XDG_DATA_HOME}/nvim/swap"   -mtime +60 -delete
+# Run user anacron jobs
+0 * * * * /usr/sbin/anacron -s -t ${XDG_CONFIG_HOME:-$HOME/.config}/anacron/etc/anacrontab -S ${XDG_CONFIG_HOME:-$HOME/.config}/anacron/spool

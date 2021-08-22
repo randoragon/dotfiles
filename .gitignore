@@ -2,6 +2,7 @@
 # that i don't care about
 beets/**/state.pickle
 beets/**/import.log
+cronie/.config/anacron/spool
 mpd/**/mpd.db
 mpd/**/mpd.log
 mpd/**/mpd.pid

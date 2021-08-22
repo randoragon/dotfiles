@@ -15,7 +15,7 @@
 [ ! -r "$1" ] && printf "ntpdfsp: cannot open file \"%s\"" "$1" >&2 && exit 1
 
 geometry="$(pdfinfo "$1" | grep -ao '^Page size:.*')"
-w="$(echo "$geometry" | cut -d ' ' -f 8)"
-h="$(echo "$geometry" | cut -d ' ' -f 10)"
+w="$(echo "$geometry" | cut -d ' ' -f8)"
+h="$(echo "$geometry" | cut -d ' ' -f10)"
 
 printf ".PDF c \"%s\" %sp %sp" "$1" "$w" "$h"

@@ -14,4 +14,3 @@ START_HOURS_RANGE=3-22
 @daily		0	nvim_cleanup1	find "${XDG_DATA_HOME:-$HOME/.local/share}/nvim/backup" -mtime +60 -delete
 @daily		0	nvim_cleanup2	find "${XDG_DATA_HOME:-$HOME/.local/share}/nvim/view"   -mtime +60 -delete
 @daily		0	nvim_cleanup3	find "${XDG_DATA_HOME:-$HOME/.local/share}/nvim/swap"   -mtime +60 -delete
-@daily		0	testing		touch ~/anacron-is-working

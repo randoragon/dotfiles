@@ -2,7 +2,7 @@
 
 # This script intakes multiple playlist names and returns a list of
 # files that are present on all the supplied playlists.
-# It then saves the filtered results in the "Filtered.m3u" playlist.
+# It then saves the filtered results in the ".Filtered.m3u" playlist.
 
 playlistsdir=~/Music/Playlists
 
@@ -41,5 +41,5 @@ sed -ni "s/^#\{$(( $# - 1 ))\}//p" "$tmp"
 # Add filter bio comment on top
 sed -i "1i # filter: $*" "$tmp"
 
-mv -- "$tmp" "$playlistsdir/Filtered.m3u"
-printf "%s filtered lines\n" "$(wc -l -- "$playlistsdir/Filtered.m3u" | awk '{ print $1 }')"
+mv -- "$tmp" "$playlistsdir/.Filtered.m3u"
+printf "%s filtered line(s)\n" "$(($(wc -l -- "$playlistsdir/.Filtered.m3u" | awk '{ print $1 }') - 1))"

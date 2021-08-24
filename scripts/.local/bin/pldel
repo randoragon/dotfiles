@@ -1,16 +1,16 @@
 #!/usr/bin/sh
 
 # This script deletes mp3 files with paths stored
-# inside a "Delete" playlist. This is just a convention.
+# inside a ".Delete" playlist. This is just a convention.
 #
 # Dependencies:
 # - trash-cli
 
 mroot=~/Music
-pldel=~/Music/Playlists/Delete.m3u
+pldel=~/Music/Playlists/.Delete.m3u
 log="${XDG_DATA_HOME:-$HOME/.local/share}/pldel-latest.log"
 
-[ ! -f "$pldel" ] && echo "pldel: Delete playlist not found" >&2 && exit 1
+[ ! -f "$pldel" ] && echo "pldel: .Delete playlist not found" >&2 && exit 1
 
 tmp="$(mktemp -p /tmp pldel.XXXXX)"
 printf "Last run: %s\nTrashed paths:\n\n" "$(date)" >"$log"

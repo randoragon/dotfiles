@@ -8,7 +8,7 @@
 icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
 
 # Run mpv and obtain its output
-fout="${TMPDIR:-/tmp}/$(mktemp newsboat-mpv-browser.XXXXX)"
+fout="$(mktemp --tmpdir newsboat-mpv-browser.XXXXX)"
 notif="$(dunstify -p -i "$icon" -u low "$0" "starting <u>$@</u>...")"
 mpv --force-window "$@" >"$fout" 2>/dev/null
 

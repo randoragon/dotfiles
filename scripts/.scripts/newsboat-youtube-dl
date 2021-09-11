@@ -10,14 +10,18 @@
 #
 # Requires ytmp3 and ytmp3 wrapper scripts around youtube-dl.
 
+icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
+
 if [ "$1" = 'a' ]; then
     shift
     title='ytmp3'
-    [ -n "$(command -v termtit)" ] && title="${title}: $(youtube-dl -e "$1")"
-    $TERMINAL -t "$title" ytmp3 "$@" &
+    dunstify -u low -i "$icon" "$0" "downloading audio from <u>$1</u>..."
+    [ -n "$(command -v termtit)" ] && title="${title}: $(youtube-dl -e "$1" 2>/dev/null)"
+    $TERMINAL -t "$title" ytmp3 "$@" >/dev/null 2>&1 &
 elif [ "$1" = 'v' ]; then
     shift
     title='ytmp4'
-    [ -n "$(command -v termtit)" ] && title="${title}: $(youtube-dl -e "$1")"
-    $TERMINAL -t "$title" ytmp4 "$@" &
+    dunstify -u low -i "$icon" "$0" "downloading video from <u>$1</u>..."
+    [ -n "$(command -v termtit)" ] && title="${title}: $(youtube-dl -e "$1" 2>/dev/null)"
+    $TERMINAL -t "$title" ytmp4 "$@" >/dev/null 2>&1 &
 fi

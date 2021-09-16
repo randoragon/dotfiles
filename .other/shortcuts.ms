@@ -127,11 +127,13 @@ Control+Alt+I | Launch LF
 Control+Alt+W | Launch Surf
 Control+Alt+V | Launch NVIM
 Control+Alt+D | Launch Discord
+Control+Alt+F | Launch FSearch
 Super+Space | Launch MouseMode
 Super+Shift+O | Copy Password
 Super+Control+O | Copy Username
 Super+Shift+N | View Note
 Super+Control+N | Edit Note
+Super+Control+B | Open Book
 Super+C | Copy Text Snippet
 PrintScreen | Screenshot Region
 Control+PrintScreen | Screenshot Fullscreen

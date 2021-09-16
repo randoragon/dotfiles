@@ -117,7 +117,8 @@ yay -Sa --needed \
     mousemode-git \
     xkeycheck-git \
     xrectsel \
-    dashbinsh
+    dashbinsh \
+    fsearch-git
 
 # Install NeoVim dependencies (Paq, Deoplete plugin)
 git clone https://github.com/savq/paq-nvim.git \

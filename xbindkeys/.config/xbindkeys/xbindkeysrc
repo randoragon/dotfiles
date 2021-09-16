@@ -37,6 +37,8 @@
     mod2+mod4 + c
 "~/.scripts/book"
     mod2+mod4+control + b
+"fsearch"
+    control+alt + f
 
 # Screenshots
 "flameshot gui"

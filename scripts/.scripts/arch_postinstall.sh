@@ -8,7 +8,7 @@ set -e
 
 col1=2 # sections
 col2=4 # package names
-scount=29
+scount=19
 
 ask () {
     printf '%s [Y/n] ' "$*"
@@ -37,7 +37,7 @@ eprint () {
 
 pacinstall () {
     printf "installing $(tput setaf $col2)%s$(tput sgr0)... " "$*"
-    if pacman -Qsq "$@" >/dev/null; then
+    if pacman -Qsq "^$@$" >/dev/null; then
         printf "found.\n"
     else
         sudo pacman -Sq --needed --noconfirm "$@" >/dev/null || printf "failed.\n"
@@ -47,7 +47,7 @@ pacinstall () {
 
 yayinstall () {
     printf "installing $(tput setaf $col2)%s$(tput sgr0)... " "$*"
-    if pacman -Qsq "$@" >/dev/null; then
+    if pacman -Qsq "^$@$" >/dev/null; then
         printf "found.\n"
     else
         yay -Sqa --needed --noconfirm "$@" >/dev/null || printf "failed.\n"
@@ -133,6 +133,8 @@ printf "done.\n"
 sectionend
 
 section "Installing Official Packages"
+# pkg-config needed by several AUR packages later
+# binutils needed for yay (provide "strip")
 for package in \
     make cmake gcc \
     neovim \
@@ -141,7 +143,7 @@ for package in \
     stow \
     networkmanager udisks2 \
     iputils wpa_supplicant wireless_tools \
-    pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pulsemixer \
+    pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulsemixer \
     physlock \
     ntfs-3g dosfstools which \
     arch-install-scripts \
@@ -152,6 +154,7 @@ for package in \
     the_silver_searcher fzf \
     pkgfile \
     dash \
+    python python-pip \
     pacman-contrib \
     zsh zsh-completions zsh-syntax-highlighting \
     tar gzip bzip2 xz zip unzip p7zip \
@@ -159,13 +162,22 @@ for package in \
     cronie \
     trash-cli \
     bc libqalculate \
-    rsync
+    rsync \
+    pkg-config binutils
 do
     pacinstall "$package"
 done
 
+
+# "xorg" is a group of packages, so it has to be dealt with separately
+[ -n "$need_gui" ] && {
+    printf "installing xorg packages... "
+    sudo pacman -Sq --needed --noconfirm xorg >/dev/null || printf "failed.\n"
+    printf "done.\n"
+}
+# gcr package needed by surf later
 [ -n "$need_gui" ] && for package in \
-    xorg xorg-xinit xorg-xkbcomp xorg-drivers \
+    xorg-xinit xorg-xkbcomp xorg-drivers \
     picom \
     ttf-bitstream-vera ttf-font-awesome ttf-joypixels otf-ipafont \
     xwallpaper \
@@ -180,7 +192,7 @@ done
     libnotify dunst \
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
-    md4c wkhtmltopdf webkit2gtk
+    md4c wkhtmltopdf webkit2gtk gcr
 do
     pacinstall "$package"
 done
@@ -282,7 +294,6 @@ done
 [ -n "$need_gui" ] && for package in \
     numix-icon-theme-git \
     gromit-mpx-git \
-    libxft-bgra \
     mousemode-git \
     xkeycheck-git \
     xrectsel \
@@ -292,6 +303,14 @@ done
 do
     yayinstall "$package"
 done
+
+# libxft-bgra conflicts with libxft, and conflicts
+# sadly cannot be resolved automatically with --noconfirm
+[ -n "$need_gui" ] && {
+    printf "installing $(tput setaf $col2)libxft-bgra$(tput sgr0)...\n"
+    yay -Sqa --needed libxft-bgra || printf "failed.\n"
+    printf "done.\n"
+}
 
 [ -n "$need_sync" ]  && yayinstall onedrive-abraunegg
 [ -n "$need_music" ] && yayinstall mp3gain
@@ -373,7 +392,6 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow python
     #sstow redshift
     sstow scripts
-    sstow sfx
     sstow shell
     #ddetach speedcrunch
     [ -n "$need_gui" ] && sstow sxiv
@@ -383,6 +401,11 @@ if [ -n "$overwrite_dotfiles" ]; then
     [ -n "$need_gui" ] && ddetach xkb
     [ -n "$need_gui" ] && sstow xorg
     [ -n "$need_gui" ] && sstow zathura
+
+    printf "copying sfx... "
+    cp -- .other/alarm.wav         ~/.sfx || printf "failed.\n"
+    cp -- .other/notification.mp3  ~/.sfx || printf "failed.\n"
+    cp -- .other/notification2.mp3 ~/.sfx || printf "failed.\n"
     printf "done.\n"
 else
     echo "'overwrite_dotfiles'" disabled, skipping.
@@ -422,6 +445,7 @@ if [ -n "$need_gui" ]; then
         printf "tmac-rnd already installed, skipping.\n"
     else
         git clone 'https://github.com/Randoragon/tmac-rnd'
+        cd tmac-rnd
         make
         ln -Tfs -- ~/Software/tmac-rnd/src/tmac.media ~/Software/neatroff/tmac/tmac.media
         ln -Tfs -- ~/Software/tmac-rnd/tmac.rnd   ~/Software/neatroff/tmac/tmac.rnd
@@ -485,6 +509,14 @@ printf "done.\n"
 
 printf "setting up default gpg-agent pinentry program... "
 sudo ln -sTf /usr/bin/pinentry-gtk-2 /usr/bin/pinentry || printf "failed.\n"
+printf "done.\n"
+
+printf "cleaning up... "
+[ -d ~/go ]     && mv -f -- ~/go     ~/.local/share
+[ -d ~/.gnupg ] && mv -f -- ~/.gnupg ~/.local/share
+rm -f -- ~/.bash_history
+rm -f -- ~/.lesshst
+rm -f -- ~/.wget-hsts
 printf "done.\n"
 sectionend
 

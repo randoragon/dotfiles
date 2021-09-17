@@ -4,8 +4,9 @@
 # Update dwmblocks updates module
 */30 * * * * ~/.scripts/dwmblocks/updates
 
-# Update locate database
+# Update search databases
 0 12 * * * ~/.local/bin/updatedb
+0 12 * * * /usr/bin/fsearch --update-database
 
 # Run user anacron jobs
 0 * * * * /usr/sbin/anacron -s -t ${XDG_CONFIG_HOME:-$HOME/.config}/anacron/etc/anacrontab -S ${XDG_CONFIG_HOME:-$HOME/.config}/anacron/spool

@@ -117,7 +117,7 @@ mkdir -p -- \
     .local/bin \
     .sfx \
     .local/share/applications \
-    .local/share/nvim/backup \
+    .local/share/nvim/backup
 [ -n "$need_gui" ] && mkdir -p -- \
     Pictures/Screenshots \
     .local/share/wallpapers

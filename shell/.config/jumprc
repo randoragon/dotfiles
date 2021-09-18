@@ -17,7 +17,7 @@ alias rss='$EDITOR ~/.config/newsboat/urls'
 alias art='$EDITOR ~/Music/Playlists/artists.yaml'
 alias bms='$EDITOR ~/.config/surf/bookmarks'
 alias snip='$EDITOR ~/.config/snippetrc'
-alias todo='$EDITOR ~/Documents/todo'
+alias todo='$EDITOR ~/Sync/todo'
 
 # Directories
 alias cdap='cd ~/.local/share/applications && ls'

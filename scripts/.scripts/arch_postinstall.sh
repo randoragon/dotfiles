@@ -141,7 +141,7 @@ for package in \
     git \
     pass \
     stow \
-    networkmanager udisks2 \
+    networkmanager net-tools udisks2 \
     iputils wpa_supplicant wireless_tools \
     pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulsemixer \
     physlock \

@@ -379,6 +379,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     [ -n "$need_gui" ] && sstow dwm
     [ -n "$need_gui" ] && ddetach flameshot
     sstow git
+    ddetach gpg
     [ -n "$need_gui" ] && sstow gromit-mpx
     [ -n "$need_gui" ] && sstow gtk
     sstow less

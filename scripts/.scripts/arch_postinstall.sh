@@ -179,7 +179,7 @@ done
 [ -n "$need_gui" ] && for package in \
     xorg-xinit xorg-xkbcomp xorg-drivers \
     picom \
-    ttf-bitstream-vera ttf-font-awesome ttf-joypixels otf-ipafont \
+    ttf-bitstream-vera ttf-dejavu ttf-font-awesome ttf-joypixels otf-ipafont \
     xwallpaper \
     xbindkeys \
     sxiv \

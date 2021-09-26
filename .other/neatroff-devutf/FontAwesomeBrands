@@ -1,5 +1,4 @@
 fontname FontAwesome5Brands-Regular
-fontpath /usr/share/fonts/TTF/fa-brands-400.ttf
 spacewidth 0
 ligatures 0
 char ---	100	3	.notdef	
@@ -143,7 +142,6 @@ char 	113,0,-6,113,81	3	cc-diners-club
 char 	97,0,-11,97,86	3	creative-commons	
 char 	100,0,2,100,73	3	gg	
 char 	100,2,-11,99,86	3	gg-circle	
-char 	113,0,1,113,74	3	tripadvisor	
 char 	63,0,-14,62,88	3	odnoklassniki	
 char 	88,0,-6,88,81	3	odnoklassniki-square	
 char 	88,0,-3,88,75	3	get-pocket	
@@ -234,7 +232,7 @@ char 	113,4,-14,108,88	3	d-and-d
 char 	100,0,0,100,75	3	deploydog	
 char 	94,0,-13,94,88	3	deskpro	
 char 	100,2,-11,100,88	3	digital-ocean	
-char 	88,0,-13,88,88	3	discord	
+char 	125,2,-6,123,81	3	discord	
 char 	88,0,-6,88,81	3	discourse	
 char 	81,0,-13,78,88	3	dochub	
 char 	125,-1,-6,125,81	3	docker	
@@ -342,7 +340,7 @@ char 	88,0,0,88,75	3	vuejs
 char 	88,3,-6,84,81	3	angular	
 char 	125,0,17,125,58	3	aviato	
 char 	125,0,24,125,74	3	ember	
-char 	88,1,-13,87,88	3	font-awesome-flag	
+char 	88,0,-6,88,81	3	font-awesome-flag	
 char 	75,3,-13,72,88	3	gitter	
 char 	125,0,15,125,58	3	hooli	
 char 	75,1,-13,74,88	3	strava	
@@ -428,7 +426,7 @@ char 	125,0,29,125,47	3	dhl
 char 	100,5,-6,95,81	3	diaspora	
 char 	125,0,18,125,56	3	fedex	
 char 	88,0,-6,88,81	3	fedora	
-char 	75,4,-13,71,88	3	figma	
+char 	75,3,-13,72,88	3	figma	
 char 	88,0,-6,88,81	3	intercom	
 char 	88,0,-6,88,81	3	invision	
 char 	97,0,-13,97,88	3	jira	
@@ -444,7 +442,7 @@ char 	113,5,6,107,69	3	usps
 char 	97,0,-11,97,86	3	yarn	
 char 	88,1,-6,87,81	3	airbnb	
 char 	100,0,-13,101,88	3	battle-net	
-char 	88,0,-6,88,81	3	bootstrap	
+char 	113,1,-6,111,81	3	bootstrap	
 char 	88,2,-6,85,81	3	buffer	
 char 	100,4,0,96,75	3	chromecast	
 char 	75,0,-6,75,82	3	evernote	

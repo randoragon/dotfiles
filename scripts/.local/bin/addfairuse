@@ -24,7 +24,7 @@ for f in "$@"; do
     [ ! -f "$f" ] || [ "$(expr "$f" : '.*\.mp3$')" = 0 ] && echo "addfairuse: the input must be a path to an mp3 file" && exit 1
 done
 
-playlist="$HOME/Music/Playlists/Fair Use.m3u"
+playlist="$HOME/Music/Playlists/#Fair Use.m3u"
 artists="$HOME/Music/Playlists/artists.txt"
 
 # Colors

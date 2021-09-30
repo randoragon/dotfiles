@@ -315,6 +315,8 @@ function Preview()
         AsyncRun ntmake "%:p" -mm > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     elseif &filetype == "groff-mom"
         AsyncRun pdfmom -kept "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
+    elseif &filetype == "postscr"
+        AsyncRun ps2pdf "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
     endif
 endfunction
 nnoremap <Leader>pm :call Preview()<CR>

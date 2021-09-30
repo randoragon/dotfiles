@@ -111,6 +111,7 @@ Super+; | Previous
 Super+' | Next
 Super+Shift+; | Rewind 5s
 Super+Shift+' | Fast-forward 5s
+Super+Control+= | Add To Playlist
 .TE
 .sp
 .TS
@@ -152,6 +153,5 @@ Super+Backspace | Toggle Mute
 Super+~ | Show Last Notification
 Alt+~ | Clear Last Notification
 Control+~ | Clear All Notifications
-Super+Shift+Insert | Add To Playlist
 Super+Shift+/ | Show This Help Sheet
 .TE

@@ -299,7 +299,8 @@ done
     xrectsel \
     xidlehook \
     farbfeld-git \
-    fsearch-git
+    fsearch-git \
+    ttf-unifont
 do
     yayinstall "$package"
 done

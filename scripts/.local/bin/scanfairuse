@@ -11,7 +11,7 @@
 # DEPENDENCIES
 # - id3ted
 
-pl="$HOME/Music/Playlists/Fair Use.m3u"
+pl="$HOME/Music/Playlists/#Fair Use.m3u"
 base="$HOME/Music"
 artists="$HOME/Music/Playlists/artists.yaml"
 

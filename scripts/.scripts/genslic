@@ -11,7 +11,7 @@
 from mutagen.id3 import ID3
 from os.path import expanduser
 
-PLAYLIST = '{}/Music/Playlists/Fair Use.m3u'.format(expanduser('~'))
+PLAYLIST = '{}/Music/Playlists/#Fair Use.m3u'.format(expanduser('~'))
 ROOTDIR = '{}/Music'.format(expanduser('~'))
 OUTPUT = 'licenses.md'
 

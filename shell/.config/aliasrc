@@ -26,8 +26,9 @@ alias e='$EDITOR'
 alias fe='als_tmp="$(find . -type f | fzf)"; [ -n "$als_tmp" ] && $EDITOR -- "$als_tmp"'
 alias fd='cd -- "$(find . -type d | fzf)"'
 alias ff='als_tmp="$(find . -type f | fzf)"; [ -n "$als_tmp" ] && cd "$(dirname -- "$als_tmp")"'
+alias R='R --no-save'
 
-# Git 
+# Git
 alias gs="git status"
 alias ga="git add"
 alias gd="git diff"

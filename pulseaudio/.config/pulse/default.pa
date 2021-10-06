@@ -1,0 +1,7 @@
+.include /etc/pulse/default.pa
+
+# Create sinks and loopbacks for OBS recording
+load-module module-null-sink sink_name=Main sink_properties=device.description=Main
+load-module module-loopback source=Main.monitor
+load-module module-null-sink sink_name=Music sink_properties=device.description=Music
+load-module module-loopback source=Music.monitor

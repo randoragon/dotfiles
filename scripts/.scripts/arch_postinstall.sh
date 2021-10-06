@@ -391,6 +391,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow newsboat
     sstow nvim
     [ -n "$need_gui" ] && sstow picom
+    sstow pulseaudio
     sstow python
     #sstow redshift
     sstow scripts

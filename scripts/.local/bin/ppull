@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Distributes some config files from pass to the filesystem.
+# To be used along with "ppush".
+
+set -e
+
+heading () {
+    tput setaf 3
+    tput bold
+    printf "\n%s\n" "$*"
+    tput setaf 7
+    tput sgr0
+}
+
+ppull () {
+    tmp="$(mktemp --tmpdir ppull.XXXXX)"
+    pass "$1" >"$tmp"
+    nvim -d -- "$tmp" "$2"
+    printf "Copy left to right? [Y/n] "
+    read -r ans
+    case "$ans" in
+        [Nn]) printf "Skipped.\n" ;;
+        *) cp -- "$tmp" "$2" && printf "Copied.\n" ;;
+    esac
+    shred -u -- "$tmp"
+}
+
+heading "Copying misc/snippetrc..."
+ppull 'misc/snippetrc' ~/.config/snippetrc
+
+heading "Copying misc/rss..."
+ppull 'misc/rss' ~/.config/newsboat/urls

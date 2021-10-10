@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# Commits some files to pass, with the intent of pushing them, then
+# pulling on another device and applying with "ppull".
+
+set -e
+
+heading () {
+    tput setaf 3
+    tput bold
+    printf "\n%s\n" "$*"
+    tput setaf 7
+    tput sgr0
+}
+
+ppush () {
+    tmp="$(mktemp --tmpdir ppush.XXXXX)"
+    pass "$2" >"$tmp"
+    nvim -d -- "$1" "$tmp"
+    printf "Copy left to right? [Y/n] "
+    read -r ans
+    case "$ans" in
+        [Nn]) printf "Skipped.\n" ;;
+        *) pass insert -m -f "$2" <"$1" >/dev/null && printf "Copied.\n" ;;
+    esac
+    shred -u -- "$tmp"
+}
+heading "Inserting misc/snippetrc..."
+ppush ~/.config/snippetrc 'misc/snippetrc' 
+
+heading "Inserting misc/rss..."
+ppush ~/.config/newsboat/urls 'misc/rss' 
+
+heading "Running git status..."
+[ -n "$PASSWORD_STORE_DIR" ] && {
+    git -C "$PASSWORD_STORE_DIR" status
+    printf "\nTry to 'git push' the changes? [Y/n] "
+    read -r ans
+    case "$ans" in
+        [Nn]*) exit ;;
+        *) heading "Running git push..." && git -C "$PASSWORD_STORE_DIR" push ;;
+    esac
+}

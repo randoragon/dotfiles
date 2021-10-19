@@ -1,23 +1,14 @@
 #!/bin/sh
 
 # Simple reflector wrapper that fetches the latest arch repository mirrors,
-# filters out non HTTPS and HTTP mirrors, puts Poland in front of them all.
-# Finally, backups the old mirrorlist and replaces with the new version.
-# Also favors HTTPS over HTTP by reverse-sorting (only for polish servers).
+# backups the old mirrorlist and replaces with the new version.
 #
 # DEPENDENCIES:
 # - reflector
 
 export MIRRORLIST='/etc/pacman.d/mirrorlist'
 
-raw="$(reflector)"
-
-# Process reflector output
-header="$(printf "%s" "$raw" | sed -n '/^#/p')"
-pl="$(echo "$raw" | grep -E '^Server = https?://.*\.pl/' | sort -r)"
-rest="$(echo "$raw" | sed -n '/^Server = https\?.*/p' | sed '/\.pl\//d')"
-export header pl rest
-
 # Backup old mirrorlist
-cp -- "$MIRRORLIST" "$MIRRORLIST.bak"
-sh -c 'printf "%s\n\n%s\n\n%s" "$header" "$pl" "$rest" > "$MIRRORLIST"'
+cmp -s -- "$MIRRORLIST" "$MIRRORLIST.bak" || cp -- "$MIRRORLIST" "$MIRRORLIST.bak"
+
+reflector >"$MIRRORLIST"

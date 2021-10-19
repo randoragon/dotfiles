@@ -9,4 +9,5 @@ augroup filetypedetect
   au! BufNewFile,BufRead *.rnd   setfiletype neat-rnd | set syntax=groff
   au! BufNewFile,BufRead *.groff setfiletype groff | set syntax=groff
   au! BufNewFile,BufRead *.MD    setfiletype markdown
+  au! BufNewFile,BufRead *.sent  setfiletype sent | set syntax=conf
 augroup END

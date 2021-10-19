@@ -372,3 +372,10 @@ nnoremap <Leader>r :source $XDG_CONFIG_HOME/nvim/init.vim<CR>
 nnoremap n nzz
 nnoremap N Nzz
 "1}}}
+
+"{{{1 Automatically enter insert mode when starting a terminal in NeoVim
+"https://github.com/neovim/neovim/issues/8816#issuecomment-410512452
+if has('nvim')
+    autocmd TermOpen term://* startinsert
+endif
+"}}}

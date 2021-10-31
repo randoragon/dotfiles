@@ -46,14 +46,14 @@ fi
 
 # Convert file to be a relative path to mroot
 relfile="$(realpath --relative-to "$mroot" -- "$file" | sed 's/\.\.\/Downloads\/Music/Download/')"
-grep -qF -- "$relfile" "$plist" && notify-send -u low "pladd" "\"$title\" is already on the <b>$plname</b> playlist." && exit
+grep -qFx -- "$relfile" "$plist" && notify-send -u low "pladd" "\"$title\" is already on the <b>$plname</b> playlist." && exit
 
 # Add the path to the playlist
 printf '%s\n' "$relfile" >>"$plist"
 sed -i '/^$/d' "$plist"
 
 # Verify the item was added correctly
-if grep -qF -- "$relfile" "$plist"; then
+if grep -qFx -- "$relfile" "$plist"; then
     notify-send -u low "pladd" "\"$title\" added to <b>$plname</b>"
 else
     notify-send -u critical "pladd" "Failed to add \"$title\" to <b>$plname</b>"

@@ -1,0 +1,75 @@
+#!/bin/sh
+
+# Queries mpc for the current music track playing on mpd, then
+# writes a custom ID3v2 tag to that file denoting user rating.
+# The rating is polled from user with dmenu.
+#
+# The rating is stored in a TXXX frame (user defined text) with the label
+# "rnd_rating" to prevent name collisions with other music players.
+#
+# Dependencies:
+# - dmenu (with "instant" patch for -n option)
+# - mpc
+# - id3ted
+
+MUSIC_DIR=~/Music
+PLAYLIST_DIR=${MUSIC_DIR}/Playlists
+PL1='#Rate1'
+PL2='#Rate2'
+PL3='#Rate3'
+PL4='#Rate4'
+PL5='#Rate5'
+PL_ALL="$PL1 $PL2 $PL3 $PL4 $PL5"
+
+# Obtain and validate current playing file path
+file="$(mpc current -f '%file%')"
+[ ! -r "${MUSIC_DIR}/$file" ] && printf "rate-playing: failed to read file \"%s\"\n" "$file" >&2 && exit 2
+
+# Extract previous rating
+playlist=
+prev_rating=
+for playlist in $PL_ALL; do
+    plfile="${PLAYLIST_DIR}/${playlist}.m3u"
+    [ ! -f "$plfile" ] && touch -- "$plfile"
+    grep -qFx "$file" "$plfile" && {
+        case "$playlist" in
+            $PL1) prev_rating=1 ;;
+            $PL2) prev_rating=2 ;;
+            $PL3) prev_rating=3 ;;
+            $PL4) prev_rating=4 ;;
+            $PL5) prev_rating=5 ;;
+        esac
+        break
+    }
+done
+
+# Poll user for rating
+if [ -n "$prev_rating" ]; then
+    prompt="Rate (${prev_rating}):"
+else
+    prompt="Rate:"
+fi
+rating="$(seq 5 | dmenu -n -p "$prompt")"
+[ -z "$rating" ] && exit
+
+# Remove possible duplicate ratings
+tmp="$(mktemp --tmpdir "rate-playing.XXXXX")"
+for playlist in $PL_ALL; do
+    plfile="${PLAYLIST_DIR}/${playlist}.m3u"
+    grep -Fvx "$file" "$plfile" >"$tmp"
+    cp -- "$tmp" "$plfile"
+done
+shred -u -- "$tmp"
+
+# Insert new rating
+plfile="${PLAYLIST_DIR}/$(eval printf %s "\$PL${rating}").m3u"
+printf '%s\n' "$file" >>"$plfile"
+sed -i '/^$/d' "$plfile"
+
+# Print notification
+title="$(id3ted -l "${MUSIC_DIR}/${file}" | sed -n 's/^TIT2: //p')"
+stars=
+for i in $(seq "$rating"); do
+    stars="★$stars"
+done
+notify-send -u low "rate-playing" "\"$title\" rated $stars"

@@ -82,8 +82,6 @@
 
 "~/.scripts/pladd_select"
     Mod2+Mod4+control + equal
-"~/.scripts/rate-playing"
-    Mod2+Mod4+control + minus
 
 # Calculators
 "st -c floatme -t qalc -e qalc"

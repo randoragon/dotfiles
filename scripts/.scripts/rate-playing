@@ -1,16 +1,11 @@
 #!/bin/sh
 
-# Queries mpc for the current music track playing on mpd, then
-# writes a custom ID3v2 tag to that file denoting user rating.
-# The rating is polled from user with dmenu.
+# Gives a dmenu prompt to rate the currently playing MPD track from 1 to 5.
+# Then saves the result to one of playlists (as configured below).
 #
-# The rating is stored in a TXXX frame (user defined text) with the label
-# "rnd_rating" to prevent name collisions with other music players.
-#
-# Dependencies:
-# - dmenu (with "instant" patch for -n option)
-# - mpc
-# - id3ted
+# I no longer use this script, because I've found that rating each track in
+# my library doesn't serve a useful purpose to me. A simple "Favorites" playlist
+# suffices as means of giving extra love to some pieces over others.
 
 MUSIC_DIR=~/Music
 PLAYLIST_DIR=${MUSIC_DIR}/Playlists

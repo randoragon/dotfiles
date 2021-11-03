@@ -1,11 +1,21 @@
 #!/usr/bin/sh
 
-case "$1" in 
+case "$1" in
     *.tar|*.tar.gz|*.tar.bz|*.tar.xz) tar tf "$1" ;;
     *.zip) unzip -l "$1" ;;
     *.rar) unrar l "$1" ;;
     *.7z) 7z l "$1" ;;
     *.jar) jar tf "$1" ;;
     *.pdf) pdftotext "$1" - ;;
+    *.mp3)
+        mp3info -x -- "$1"
+        frames="$(id3ted -l -- "$1")"
+        artist="$(printf '%s' "$frames" | sed -n 's/^TPE1: //p')"
+        title="$(printf '%s' "$frames" | sed -n 's/^TIT2: //p')"
+        album="$(printf '%s' "$frames" | sed -n 's/^TALB: //p')"
+        track="$(printf '%s' "$frames" | sed -n 's/^TRCK: //p')"
+        printf 'artist: %s\ntitle:  %s\nalbum:  %s\ntrack:  %s' \
+            "$artist" "$title" "$album" "$track"
+        ;;
     *) highlight -O ansi "$1" || cat "$1" ;;
 esac

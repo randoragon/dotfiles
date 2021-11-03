@@ -210,6 +210,7 @@ done
     mpd ncmpcpp mpc \
     beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     atomicparsley
+    mp3info
 do
     pacinstall "$package"
 done

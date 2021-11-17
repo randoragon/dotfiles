@@ -200,7 +200,7 @@ augroup fold_switch
     autocmd!
     autocmd! BufNewFile,BufRead * :normal zR
     autocmd! BufNewFile,BufRead .vimrc,init.vim     setlocal foldmethod=marker foldlevel=0
-    autocmd! BufNewFile,BufRead *.c,*.h,*.cpp,*.hpp setlocal foldmethod=syntax | :normal zR
+    autocmd! BufNewFile,BufRead *.c,*.h,*.cpp,*.hpp setlocal foldmethod=indent | :normal zR
     autocmd! BufNewFile,BufRead *.py      setlocal foldmethod=indent | :normal zR
     autocmd! BufNewFile,BufRead *.md,*.MD setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
 augroup END
@@ -271,18 +271,6 @@ inoremap <C-d> <C-r>=strftime('%a %Y-%m-%d')<CR>
 set backup
 set writebackup
 set backupdir=~/.local/share/nvim/backup/
-" }}}
-
-" Remember Folds (view files) {{{1
-set viewoptions=folds,cursor
-
-" It's important to exclude all undesired filetypes
-" from these autocmds, such as help pages, and buffers
-" that aren't actual files like those from fzf plugin, etc.
-augroup create_views
-    autocmd! BufWinLeave ?* if &filetype != "help" && expand('%:p:t') !~ '^\([0-9]\+;#FZF\|COMMIT_EDITMSG\)$' | mkview           | endif
-    autocmd! BufWinEnter ?* if &filetype != "help" && expand('%:p:t') !~ '^\([0-9]\+;#FZF\|COMMIT_EDITMSG\)$' | silent! loadview | endif
-augroup END
 " }}}
 
 " Force redraw shortcut {{{1

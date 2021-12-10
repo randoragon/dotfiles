@@ -4,10 +4,25 @@ nnoremap <buffer> <Leader>m :split \| terminal javac %<CR>
 nnoremap <buffer> <C-]> :ALEGoToDefinition<CR>
 inoremap <buffer> <M-n> <C-o>o
 set tw=80
+inoremap <buffer> <Leader>k package 
+inoremap <buffer> <Leader>m import 
 inoremap <buffer> <Leader>t static 
-inoremap <buffer> <Leader>c const 
-inoremap <buffer> <Leader>s struct 
+inoremap <buffer> <Leader>a abstract 
+inoremap <buffer> <Leader>p public 
+inoremap <buffer> <Leader>P private 
+inoremap <buffer> <Leader>.p protected 
+inoremap <buffer> <Leader>c class 
+inoremap <buffer> <Leader>I implements 
+inoremap <buffer> <Leader>E extends 
+
+inoremap <buffer> <Leader>s String 
+inoremap <buffer> <Leader>A ArrayList<> <,,><C-o>F<<C-o>F>
+inoremap <buffer> <Leader>H HashMap<> <,,><C-o>F<<C-o>F>
+inoremap <buffer> <Leader>/ /** 
+inoremap <buffer> <Leader>2 {@link } <,,><C-o>F}
+
 inoremap <buffer> <Leader>u unsigned 
+inoremap <buffer> <Leader>S System.out.println()<Left>
 inoremap <buffer> <Leader>.s switch () <,,><C-o>F)
 inoremap <buffer> <Leader>r return 
 inoremap <buffer> <Leader>i if () <,,><C-o>F)

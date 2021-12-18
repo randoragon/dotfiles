@@ -137,7 +137,7 @@ section "Installing Official Packages"
 # binutils needed for yay (provide "strip")
 for package in \
     make cmake gcc \
-    neovim \
+    neovim python-pynvim \
     git \
     pass \
     stow \
@@ -326,7 +326,6 @@ else
     git clone https://github.com/savq/paq-nvim.git \
         "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/opt/paq-nvim
 fi
-pip3 install -q --user pynvim
 printf "done.\n"
 sectionend
 

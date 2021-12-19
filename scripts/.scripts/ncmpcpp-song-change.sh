@@ -13,11 +13,9 @@ printf "%s" "$(mpc current --format '%album%    ·')    " >${XDG_CACHE_HOME:-~/.
 # Uncomment the line below to activate:
 switch_wallpaper=1
 if [ -n "$switch_wallpaper" ]; then
-    mroot=~/Music
     cachefile="${XDG_CACHE_HOME:-~/.cache}/ncmpcpp-albumart.jpg"
-    fpath="${mroot}/$(mpc current --format %file% --port "$MPD_PORT")"
-    [ ! -r "$fpath" ] && exit 1
-    if ffmpeg -y -i "$fpath" "$cachefile"; then
+    mpdfpath="$(mpc current --format %file% --port "$MPD_PORT")"
+    if mpc readpicture "$mpdfpath" >"$cachefile"; then
         xwallpaper --maximize "$cachefile"
     else
         rm -f -- "$cachefile"

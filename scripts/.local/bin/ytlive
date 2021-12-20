@@ -6,7 +6,7 @@
 # Dependencies:
 #   - mpv
 #   - surf (or any other browser, just change the code)
-#   - youtube-dl (for streaming through mpv)
+#   - youtube-dl/yt-dlp (for streaming through mpv)
 
 help () {
 printf 'SYNOPSIS

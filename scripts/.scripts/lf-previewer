@@ -11,11 +11,12 @@ case "$1" in
         mp3info -x -- "$1"
         frames="$(id3ted -l -- "$1")"
         artist="$(printf '%s' "$frames" | sed -n 's/^TPE1: //p')"
+        albumartist="$(printf '%s' "$frames" | sed -n 's/^TPE2: //p')"
         title="$(printf '%s' "$frames" | sed -n 's/^TIT2: //p')"
         album="$(printf '%s' "$frames" | sed -n 's/^TALB: //p')"
         track="$(printf '%s' "$frames" | sed -n 's/^TRCK: //p')"
-        printf 'artist: %s\ntitle:  %s\nalbum:  %s\ntrack:  %s' \
-            "$artist" "$title" "$album" "$track"
+        printf 'artist: %s\ntitle:  %s\nalbum:  %s\ntrack:  %s\nalbum artist: %s\n' \
+            "$artist" "$title" "$album" "$track" "$albumartist"
         ;;
     *) highlight -O ansi "$1" || cat "$1" ;;
 esac

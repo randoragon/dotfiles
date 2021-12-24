@@ -50,7 +50,7 @@ paths:
 # info           : enables listing quaried items' tag information
 # duplicates     : finds duplicate tracks or albums
 # fromfilename   : guesses missing artist/title from filename
-plugins: fetchart lastgenre chroma acousticbrainz edit embedart ftintitle mbsync replaygain thumbnails fuzzy info duplicates fromfilename
+plugins: fetchart acousticbrainz edit embedart ftintitle mbsync replaygain thumbnails fuzzy info fromfilename
 
 chroma:
     auto: yes

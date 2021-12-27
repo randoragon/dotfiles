@@ -143,7 +143,7 @@ for package in \
     stow \
     networkmanager net-tools udisks2 \
     iputils wpa_supplicant wireless_tools \
-    pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulsemixer \
+    pipewire pipewire-pulse pipewire-jack pipewire-alsa pulsemixer \
     physlock \
     ntfs-3g dosfstools which \
     arch-install-scripts \
@@ -281,6 +281,7 @@ sectionend
 # Installs from AUR
 section "Installing AUR Packages"
 for package in \
+    pipewire-jack-dropin \
     xxd-standalone \
     pass-update \
     pass-extension-tail \
@@ -391,7 +392,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow newsboat
     sstow nvim
     [ -n "$need_gui" ] && sstow picom
-    sstow pulseaudio
+    sstow pipewire
     sstow python
     #sstow redshift
     sstow scripts

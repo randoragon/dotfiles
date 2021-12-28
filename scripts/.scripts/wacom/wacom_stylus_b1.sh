@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# This script is executed by xbindkeys when button1 is pressed on a wacom stylus device.
+# This script is executed by the hotkey daemon when button1 is pressed on a wacom stylus device.
 
 # Icon used for notifications
 icon="/usr/share/icons/Adwaita/96x96/devices/input-tablet-symbolic.symbolic.png" 

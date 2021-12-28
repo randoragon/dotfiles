@@ -1,0 +1,80 @@
+# Generic Launchers
+control+alt + {e,i,w,v,d,f}
+	{\
+	st -c dualf -t dualf -e dualf,\
+	st -e lf,\
+	~/.scripts/surfbm,\
+	st -e vim,\
+	discord,\
+	fsearch\
+	}
+
+super + {Return,o,space,c}
+	{\
+	st,\
+	dmenu_run,\
+	~/.scripts/mousemode-run,\
+	snippet\
+	}
+
+# Pass
+super+{shift,control} + o
+	{~/.scripts/passcpy,~/.scripts/usercpy}
+
+# Notes
+super+{shift,control} + n
+	{note,note -e}
+
+# Screenshots
+{_,control} + Print
+	{flameshot gui,flameshot full -c}
+
+# Music and Volume Control
+{XF86AudioPlay,super + p}
+	mpc --port=$MPD_PORT toggle && pkill -RTMIN+6 -x dwmblocks
+{XF86AudioStop,super+shift + p}
+	mpc --port=$MPD_PORT stop && pkill -RTMIN+6 -x dwmblocks
+{XF86AudioNext,super + apostrophe}
+	mpc --port=$MPD_PORT next && pkill -RTMIN+6 -x dwmblocks
+{XF86AudioPrev,super + semicolon}
+	mpc --port=$MPD_PORT next && pkill -RTMIN+6 -x dwmblocks
+super+shift + semicolon
+	mpc --port=$MPD_PORT seek +5 && pkill -RTMIN+6 -x dwmblocks
+super+shift + apostrophe
+	mpc --port=$MPD_PORT seek -5 && pkill -RTMIN+6 -x dwmblocks
+{XF86AudioMute,super + BackSpace}
+	pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks
+{XF86AudioRaiseVolume,super + equal}
+	pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks
+{XF86AudioLowerVolume,super + minus}
+	pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks
+
+# Add to playlist
+super+control + equal
+	~/.scripts/pladd_select
+
+# Calculator
+super + slash
+	st -c floatme -t qalc -e qalc
+
+# Drawing Tablet
+{_,super} + button11
+	~/.scripts/wacom/wacom_pad_b1.sh
+{_,super} + button12
+	~/.scripts/wacom/wacom_pad_b2.sh
+{_,super} + button13
+	~/.scripts/wacom/wacom_pad_b3.sh
+{_,super} + button14
+	~/.scripts/wacom/wacom_pad_b4.sh
+{_,super} + button15
+	~/.scripts/wacom/wacom_stylus_b1.sh
+{_,super} + button16
+	~/.scripts/wacom/wacom_stylus_b2.sh
+
+# Backlight
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+	xbacklight {-inc,-dec} 5
+
+# Shortcuts Help
+super+shift + slash
+	groff -ms -t -T pdf -dpaper=a3l -P-pa3 -P-l ~/dotfiles/.other/shortcuts.ms | zathura --mode=fullscreen -

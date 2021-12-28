@@ -181,7 +181,7 @@ done
     picom \
     ttf-bitstream-vera ttf-dejavu ttf-font-awesome ttf-joypixels otf-ipafont \
     xwallpaper \
-    xbindkeys \
+    sxhkd \
     sxiv \
     xarchiver \
     firefox \
@@ -401,7 +401,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     [ -n "$need_gui" ] && sstow sxiv
     sstow tmux
     sstow wget
-    [ -n "$need_gui" ] && ddetach xbindkeys
+    [ -n "$need_gui" ] && ddetach sxhkd
     [ -n "$need_gui" ] && ddetach xkb
     [ -n "$need_gui" ] && sstow xorg
     [ -n "$need_gui" ] && sstow zathura

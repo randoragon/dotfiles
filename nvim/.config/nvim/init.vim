@@ -22,30 +22,28 @@ set list
 " Plugins {{{1
 lua << EOF
 
-vim.cmd 'packadd paq-nvim'
-local paq = require'paq-nvim'.paq
-paq{'savq/paq-nvim', opt=true}
-
-paq 'airblade/vim-gitgutter'
-paq 'junegunn/fzf.vim'
-paq 'tpope/vim-surround'
-paq 'tpope/vim-speeddating'
-paq 'tpope/vim-repeat'
-paq 'tpope/vim-abolish'
-paq 'tpope/vim-commentary'
-paq 'glts/vim-radical'
-paq 'glts/vim-magnum'
-paq 'dense-analysis/ale'
-paq 'nanotech/jellybeans.vim'
-paq 'jiangmiao/auto-pairs'
-paq 'godlygeek/tabular'
-paq 'skywind3000/asyncrun.vim'
-paq 'derekwyatt/vim-fswitch'
-paq 'Shougo/deoplete.nvim'
-paq 'Shougo/deoplete-clangx'
-paq 'ap/vim-css-color'
-paq 'junegunn/goyo.vim'
-paq 'psliwka/vim-smoothie'
+require "paq" {
+    'airblade/vim-gitgutter';
+    'junegunn/fzf.vim';
+    'tpope/vim-surround';
+    'tpope/vim-speeddating';
+    'tpope/vim-repeat';
+    'tpope/vim-abolish';
+    'tpope/vim-commentary';
+    'glts/vim-radical';
+    'glts/vim-magnum';
+    'dense-analysis/ale';
+    'nanotech/jellybeans.vim';
+    'jiangmiao/auto-pairs';
+    'godlygeek/tabular';
+    'skywind3000/asyncrun.vim';
+    'derekwyatt/vim-fswitch';
+    'Shougo/deoplete.nvim';
+    'Shougo/deoplete-clangx';
+    'ap/vim-css-color';
+    'junegunn/goyo.vim';
+    'psliwka/vim-smoothie';
+}
 
 EOF
 

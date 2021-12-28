@@ -321,11 +321,11 @@ printf "done.\n"
 sectionend
 
 section "Installing Paq and Deoplete for Neovim"
-if [ -d "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/opt/paq-nvim ]; then
+if [ -d "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim ]; then
     printf "Paq already installed, skipping.\n"
 else
     git clone https://github.com/savq/paq-nvim.git \
-        "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/opt/paq-nvim
+        "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
 fi
 printf "done.\n"
 sectionend

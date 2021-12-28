@@ -5,6 +5,7 @@ inoremap <buffer> <M-n> <C-o>o
 set tw=80
 inoremap <buffer> <Leader>t static 
 inoremap <buffer> <Leader>c const 
+inoremap <buffer> <Leader>.c /*  */<Left><Left><Left>
 inoremap <buffer> <Leader>s struct 
 inoremap <buffer> <Leader>u unsigned 
 inoremap <buffer> <Leader>z size_t 

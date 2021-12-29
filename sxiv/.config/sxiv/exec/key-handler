@@ -13,20 +13,20 @@
 # - Y   : copy full path to clipboard
 
 while read -r file; do
-	case "$1" in
+    case "$1" in
         'w') chwall "$file" ;;
-		'greater') convert -rotate 90 "$file" "$file" ;;
-		'less') convert -rotate -90 "$file" "$file" ;;
-		'question') convert -rotate 180 "$file" "$file" ;;
-		'bar') convert -flop "$file" "$file" ;;
-		'underscore') convert -rotate 180 -flop "$file" "$file" ;;
-		'C-c') xclip -t "$(xdg-mime query filetype "$file")" -selection clipboard <"$file" &&
-			   notify-send -i "$(readlink -f "$file")" "$file" "Image copied to clipboard" ;;
-		'y') printf "%s" "$(basename -- "$file")" | xclip -selection clipboard &&
-			 notify-send -i "$(readlink -f "$file")" "$(basename -- "$file")" "Name copied to clipboard" ;;
-		'Y') readlink -f "$file" | tr -d '\n' | xclip -selection clipboard &&
-			 notify-send -i "$(readlink -f "$file")" "$(readlink -f "$file")" "Path copied to clipboard" ;;
-		'g') notify-send -i "$(readlink -f "$file")" "$file" "Launching in GIMP..." && gimp "$file" & ;;
+        'greater') convert -rotate 90 "$file" "$file" ;;
+        'less') convert -rotate -90 "$file" "$file" ;;
+        'question') convert -rotate 180 "$file" "$file" ;;
+        'bar') convert -flop "$file" "$file" ;;
+        'underscore') convert -rotate 180 -flop "$file" "$file" ;;
+        'C-c') xclip -t "$(xdg-mime query filetype "$file")" -selection clipboard <"$file" &&
+                 notify-send -i "$(readlink -f "$file")" "$file" "Image copied to clipboard" ;;
+        'y') printf "%s" "$(basename -- "$file")" | xclip -selection clipboard &&
+                 notify-send -i "$(readlink -f "$file")" "$(basename -- "$file")" "Name copied to clipboard" ;;
+        'Y') readlink -f "$file" | tr -d '\n' | xclip -selection clipboard &&
+                 notify-send -i "$(readlink -f "$file")" "$(readlink -f "$file")" "Path copied to clipboard" ;;
+        'g') notify-send -i "$(readlink -f "$file")" "$file" "Launching in GIMP..." && gimp "$file" & ;;
         'd') [ "$(printf "yes\nno\n" | dmenu -p "Delete image?")" = yes ] && rm -f -- "$file" ;;
-	esac
+    esac
 done

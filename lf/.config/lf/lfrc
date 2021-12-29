@@ -2,44 +2,11 @@
 # I need the read -q command
 set shell zsh
 
-# Midnight commander - like binds
-map <f-3> :info
-map <f-4> $$EDITOR -- "$f"
-map <f-5> :echo "Dual session not detected"
-map <f-6> :echo "Dual session not detected"
-map <f-7> &lf -remote "send $id push \&mkdir<space>"
-map <f-8> :trash
-
 # Y to copy file contents to clipboard
 map Y &{{
     xclip -selection clipboard "$f"
     fname="$(basename -- "$f")"
     lf -remote "send $id echo \\\"$fname\\\" copied to clipboard."
-}}
-
-# Initialization of a dual session
-%{{
-    # To bind two LF sessions together in a dual session,
-    # simply export DUALF=PATH, where PATH is some directory
-    # where two files, "1" and "2" can reside. Then, in one
-    # terminal export DUALF1=1 and in the other DUALF2=1.
-    [ -n "$DUALF" ] && {
-        lf -remote "send $id set nopreview"
-        lf -remote "send $id set ratios 1"
-        lf -remote "send $id map <f-5> :dual-copy"
-        lf -remote "send $id map <f-6> :dual-move"
-        lf -remote "send $id map gs :dual-swap"
-        lf -remote "send $id map gd :dual-dupe"
-        [ -n "$DUALF1" ] && {
-            printf "%s" "$id" > "$DUALF/1"
-            while [ ! -f "$DUALF/2" ]; do sleep 0.1; done
-            exit
-        }
-        [ -n "$DUALF2" ] && {
-            printf "%s" "$id" > "$DUALF/2"
-            while [ ! -f "$DUALF/1" ]; do sleep 0.1; done
-        }
-    }
 }}
 
 # Enable icons
@@ -107,9 +74,9 @@ map <c-z> $ kill -STOP $PPID
 cmd bulk-rename ${{
     old="$(mktemp)"
     new="$(mktemp)"
-    [ -z $fs ] && fs="$(ls)"
-    printf "$fs\n" > "$old"
-    printf "$fs\n" > "$new"
+    [ -z "$fs" ] && fs="$(ls)"
+    printf "%s\n" "$fs" > "$old"
+    printf "%s\n" "$fs" > "$new"
     "$EDITOR" "$new"
     [ "$(cat -- "$new" | wc -l)" -ne "$(cat -- "$old" | wc -l)" ] && exit
     paste "$old" "$new" | while read names; do
@@ -123,6 +90,15 @@ cmd bulk-rename ${{
     lf -remote "send $id unselect"
 }}
 map R :bulk-rename
+
+# Change permission flags
+cmd chmod &{{
+    [ -z "$fs" ] && fs="$f"
+    printf "%s\n" "$fs" | while read -r fpath; do
+        chmod "$@" -- "$fpath"
+    done
+}}
+map P :push :chmod<space>
 
 # Print file information
 cmd info !{{
@@ -482,95 +458,8 @@ map gl &{{
     lf -remote "send $id select '$origin'"
 }}
 
-# Dual session copy and move
-cmd dual-copy %{{
-    [ -z "$DUALF" ] && echo "Dual session not detected" && exit
-    [ -n "$DUALF1" ] && other="$(cat -- "$DUALF/2")" && oname=right
-    [ -n "$DUALF2" ] && other="$(cat -- "$DUALF/1")" && oname=left
-    lf -remote "$(printf "%s\n%s\n%s" "save" "copy" "$fx")"
-    count="$(echo "$fx" | wc -l)"
-    plural="$([ $count -gt 1 ] && printf 's')"
-    printf "Copy $count item$plural to the $oname panel? [y/N] "
-    read -q ans
-    if [ "$ans" = y ] || [ "$ans" = Y ]; then
-        lf -remote "send $other paste"
-    else
-        lf -remote "send $id clear";
-    fi
-}}
-cmd dual-move %{{
-    [ -z "$DUALF" ] && echo "Dual session not detected" && exit
-    [ -n "$DUALF1" ] && other="$(cat -- "$DUALF/2")" && oname=right
-    [ -n "$DUALF2" ] && other="$(cat -- "$DUALF/1")" && oname=left
-    lf -remote "$(printf "%s\n%s\n%s" "save" "move" "$fx")"
-    count="$(echo "$fx" | wc -l)"
-    plural="$([ $count -gt 1 ] && printf 's')"
-    printf "Move $count item$plural to the $oname panel? [y/N] "
-    read -q ans
-    if [ "$ans" = y ] || [ "$ans" = Y ]; then
-        lf -remote "send $other paste"
-    else
-        lf -remote "send $id clear";
-    fi
-}}
-
-# Echo the other panel's id in a dual session
-cmd other %{{
-    [ -z "$DUALF" ] && echo "Dual session not detected" && exit
-    [ -n "$DUALF1" ] && {
-        [ -f "$DUALF/2" ] && echo "$(cat -- "$DUALF/2")" || echo "Dual session is broken" && exit
-    }
-    [ -n "$DUALF2" ] && {
-        [ -f "$DUALF/1" ] && echo "$(cat -- "$DUALF/1")" || echo "Dual session is broken" && exit
-    }
-}}
-
-# Swap/match panels in a dual session
-cmd dual-swap %{{
-    [ -z "$DUALF" ] && echo "Dual session not detected" && exit
-    [ -n "$DUALF1" ] && {
-        echo "$f" > "$DUALF/1.f"
-        other="$(cat -- "$DUALF/2")"
-        lf -remote "send $other save-f '$DUALF/2.f'"
-        sleep 0.005
-        while [ ! -f "$DUALF/2.f" ]; do sleep 0.1; done
-        mine="$f"
-        lf -remote "send $id select '$(cat -- "$DUALF/2.f")'"
-        lf -remote "send $other select '$mine'"
-        rm -- "$DUALF/1.f" "$DUALF/2.f"
-    }
-    [ -n "$DUALF2" ] && {
-        echo "$f" > "$DUALF/2.f"
-        other="$(cat -- "$DUALF/1")"
-        lf -remote "send $other save-f '$DUALF/1.f'"
-        sleep 0.005
-        while [ ! -f "$DUALF/1.f" ]; do sleep 0.1; done
-        mine="$f"
-        lf -remote "send $id select '$(cat -- "$DUALF/1.f")'"
-        lf -remote "send $other select '$mine'"
-        rm -- "$DUALF/1.f" "$DUALF/2.f"
-    }
-}}
-cmd dual-dupe %{{
-    [ -z "$DUALF" ] && echo "Dual session not detected" && exit
-    [ -n "$DUALF1" ] && {
-        other="$(cat -- "$DUALF/2")"
-        lf -remote "send $other select '$f'"
-    }
-    [ -n "$DUALF2" ] && {
-        other="$(cat -- "$DUALF/1")"
-        lf -remote "send $other select '$f'"
-    }
-}}
-
 # Echo current id
 cmd id %echo "$id"
-
-# Dump highlighted item to an external file
-cmd save-f &{{
-    [ ! -f "$1" ] && [ ! -d "$1" ] && printf "%s" "$f" > "$1" && exit
-    lf -remote "send $id echo save-f failure: path already exists"
-}}
 
 # Quick edit ratios
 map ,r :push :set<space>ratios<space>

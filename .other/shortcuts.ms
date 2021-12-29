@@ -123,7 +123,6 @@ T}
 Super+Return | Launch Terminal
 Super+O | Run Command
 Super+/ | Launch Qalc
-Control+Alt+E | Launch Dualf
 Control+Alt+I | Launch LF
 Control+Alt+W | Launch Surf
 Control+Alt+V | Launch NVIM

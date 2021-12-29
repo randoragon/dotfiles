@@ -18,26 +18,6 @@ St.color13: #e386ab
 St.color14: #8ed08c
 St.color15: #fbcbc2
 
-! dualf (also st)
-dualf.alpha: 0.85
-!! gruvbox
-dualf.color0: #000000
-dualf.color1: #d0241d
-dualf.color2: #98a21a
-dualf.color3: #d7a221
-dualf.color4: #458598
-dualf.color5: #a16296
-dualf.color6: #68ad7a
-dualf.color7: #b8a994
-dualf.color8: #928374
-dualf.color9: #fd4934
-dualf.color10: #b8cb26
-dualf.color11: #fdcd2f
-dualf.color12: #83a5a8
-dualf.color13: #e386ab
-dualf.color14: #8ed08c
-dualf.color15: #fbcbc2
-
 ! sxiv
 Sxiv.foreground: #cccccc
 Sxiv.background: #151515

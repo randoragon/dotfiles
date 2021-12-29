@@ -1,7 +1,6 @@
 # Generic Launchers
-control+alt + {e,i,w,v,d,f}
+control+alt + {i,w,v,d,f}
 	{\
-	st -c dualf -t dualf -e dualf,\
 	st -e lf,\
 	~/.scripts/surfbm,\
 	st -e vim,\
@@ -78,3 +77,7 @@ super + slash
 # Shortcuts Help
 super+shift + slash
 	groff -ms -t -T pdf -dpaper=a3l -P-pa3 -P-l ~/dotfiles/.other/shortcuts.ms | zathura --mode=fullscreen -
+
+# Laugh Tracks
+super + {KP_End,KP_Down,KP_Next}
+	~/.scripts/laugh-track {ss,si,l}

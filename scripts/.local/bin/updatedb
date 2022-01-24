@@ -12,7 +12,7 @@ if [ -e "$db" ] && [ ! -f "$db" ]; then
     exit 1
 fi
 
-nice -n15 find / -xdev 2>/dev/null >"$tmp"
+nice -n15 find / \! -path '/mnt/*' 2>/dev/null >"$tmp"
 mv -f -- "$tmp" "$db"
 
 [ -f "$tmp" ] && rm -f -- "$tmp"

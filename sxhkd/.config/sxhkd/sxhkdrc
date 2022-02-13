@@ -42,9 +42,9 @@ super+{shift,control} + n
 {XF86AudioPrev,super + semicolon}
 	mpc --port=$MPD_PORT next && pkill -RTMIN+6 -x dwmblocks
 super+shift + semicolon
-	mpc --port=$MPD_PORT seek +5 && pkill -RTMIN+6 -x dwmblocks
-super+shift + apostrophe
 	mpc --port=$MPD_PORT seek -5 && pkill -RTMIN+6 -x dwmblocks
+super+shift + apostrophe
+	mpc --port=$MPD_PORT seek +5 && pkill -RTMIN+6 -x dwmblocks
 {XF86AudioMute,super + BackSpace}
 	pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks
 {XF86AudioRaiseVolume,super + equal}

@@ -21,6 +21,10 @@ Some files cannot be stowed for various reasons, for example crontabs are not st
 For that reason, the ``.other`` directory exists, and it contains all the oddballs that don't belong elsewhere.
 Installing configs from the ``.other`` directory has to be done manually (or see [Installation](https://github.com/Randoragon/dotfiles#installation-arch-linux)).
 
+Any unused configuration files (e.g. from window managers that I'm not currently
+using, but have configured to some extent in the past) are stored in the
+``.unused`` directory.
+
 ## Installation (Arch Linux)
 
 To make matters convenient when performing a fresh system installation, I've written a single script that handles it the way I like it.

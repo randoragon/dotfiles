@@ -45,6 +45,13 @@ Options:
     -h, --help
         Display this help text.
 
+    --dmenu, --fzf
+        Force the use of dmenu or fzf. By default, dmenu will be
+        used if the stdin descriptor is not open (test ! -t 0)
+        and fzf will be used otherwise. However, this test is not
+        foolproof, and so you can force either dmenu or fzf with
+        these options, if you need. They are mutually exclusive.
+
 NAME Extensions:
     *.txt
         Plain text. If no extension in NAME is present, \".txt\"
@@ -308,6 +315,8 @@ output () {
 edit=
 textonly=
 output=
+force_dmenu=
+force_fzf=
 while true; do
     case "$1" in
         -h|--help) help ; exit ; shift ;;
@@ -321,16 +330,28 @@ while true; do
                 output="$2"
                 shift 2
             fi ;;
+        --dmenu) force_dmenu=1 ; shift ;;
+        --fzf)   force_fzf=1   ; shift ;;
         --) shift ; break ;;
         *) break ;;
     esac
 done
+[ -n "$force_dmenu" ] && [ -n "$force_fzf" ] && {
+    echo 'note: --fzf and --dmenu are mutually exclusive' >&2
+    exit 5
+}
 
 [ ! -d "$notedir" ] && echo "note: notes dir not found" >&2 && exit 1
 
 # Check if shell is interactive
-interactive=
-[ -t 0 ] && interactive=1
+if [ -n "$force_dmenu" ]; then
+    interactive=
+elif [ -n "$force_fzf" ]; then
+    interactive=1
+else
+    interactive=
+    [ -t 0 ] && interactive=1
+fi
 
 if [ $# -eq 0 ]; then
     if [ -n "$output" ]; then # Output existing note

@@ -111,8 +111,12 @@ hc keybind $MOD+h     focus left
 hc keybind $MOD+j     focus down
 hc keybind $MOD+k     focus up
 hc keybind $MOD+l     focus right
-hc keybind $MOD+u     cycle_all  1
-hc keybind $MOD+i     cycle_all -1
+hc keybind $MOD+u         spawn ~/.scripts/herbstluftwm/cycle_frame.sh  1
+hc keybind $MOD+i         spawn ~/.scripts/herbstluftwm/cycle_frame.sh -1
+hc keybind $MOD+Shift+u   spawn ~/.scripts/herbstluftwm/cycle_floating.sh  1
+hc keybind $MOD+Shift+i   spawn ~/.scripts/herbstluftwm/cycle_floating.sh -1
+hc keybind $MOD+Control+u cycle_all  1
+hc keybind $MOD+Control+i cycle_all -1
 shift_or_move () {
     # If the focused window is tiled, shift in the specified direction.
     # Otherwise, use the warp_window.sh script to move the floating

@@ -74,10 +74,6 @@ hc attr theme.title_height     0
 hc attr theme.active.color     '#88FF00'
 hc attr theme.urgent.color     '#FF0000'
 hc attr theme.floating.active.color '#00FFFF'
-hc attr theme.floating.border_width 5
-hc attr theme.floating.outer_width  3
-hc attr theme.floating.outer_color        '#112222'
-hc attr theme.floating.active.outer_color '#002222'
 
 # Rules
 hc unrule -F
@@ -119,14 +115,14 @@ hc keybind $MOD+u     cycle_all  1
 hc keybind $MOD+i     cycle_all -1
 shift_or_move () {
     # If the focused window is tiled, shift in the specified direction.
-    # Otherwise, use the move_window.sh script to move the floating
+    # Otherwise, use the warp_window.sh script to move the floating
     # window by some constant number of pixels.
-    hc keybind $MOD+Shift+"$1"                                  \
-            or                                                  \
-            . and _ compare clients.focus.floating = 0          \
-                  _ chain , shift "$2" , true                   \
-            . and _ compare clients.focus.floating = 1          \
-                  _ spawn ~/.scripts/herbstluftwm/move_window.sh "$3"
+    hc keybind $MOD+Shift+"$1"                                       \
+            or                                                       \
+            . and _ compare clients.focus.floating = 0               \
+                  _ chain , shift "$2" , true                        \
+            . and _ compare clients.focus.floating = 1               \
+                  _ spawn ~/.scripts/herbstluftwm/warp_window.sh "$3"
 }
 shift_or_move Left  left  w
 shift_or_move Down  down  s
@@ -136,14 +132,25 @@ shift_or_move h     left  w
 shift_or_move j     down  s
 shift_or_move k     up    n
 shift_or_move l     right e
-hc keybind $MOD-Control-h     resize left  +0.02
-hc keybind $MOD-Control-j     resize down  +0.02
-hc keybind $MOD-Control-k     resize up    +0.02
-hc keybind $MOD-Control-l     resize right +0.02
-hc keybind $MOD-Control-Left  resize left  +0.02
-hc keybind $MOD-Control-Down  resize down  +0.02
-hc keybind $MOD-Control-Up    resize up    +0.02
-hc keybind $MOD-Control-Right resize right +0.02
+resize () {
+    # If the focused window is tiled, use the built-in resize command.
+    # Otherwise, use the warp_window.sh script to resize by a constant
+    # number of pixels (built-in resize works weird for floating).
+    hc keybind $MOD+Control+"$1"                                          \
+            or                                                            \
+            . and _ compare clients.focus.floating = 0                    \
+                  _ chain , resize "$2" +0.02 , true                      \
+            . and _ compare clients.focus.floating = 1                    \
+                  _ spawn ~/.scripts/herbstluftwm/warp_window.sh "$3" "$4"
+}
+resize h     left  er -30
+resize j     down  sr  30
+resize k     up    sr -30
+resize l     right er  30
+resize Left  left  er -30
+resize Down  down  sr  30
+resize Up    up    sr -30
+resize Right right er  30
 hc keybind $MOD+Shift+space set_attr clients.focus.floating toggle
 hc keybind $MOD+f           fullscreen toggle
 hc keybind $MOD+Control+t   pseudotile toggle
@@ -152,13 +159,13 @@ hc keybind $MOD+Control+s   spawn ~/.scripts/herbstluftwm/sticky_toggle.sh
 # Frame bindings
 split_or_move () {
     # If the focused window isn't floating, split the frame in the
-    # specified direction. Otherwise, use the move_window.sh script
+    # specified direction. Otherwise, use the warp_window.sh script
     # to teleport the floating window to the edge of the monitor.
     hc keybind $MOD+Control+Shift+"$1"                            \
             or                                                    \
             . and _ \! compare clients.focus.floating = 1         \
                   _ chain , split "$2" 0.5 , focus -e "$3" , true \
-            . spawn ~/.scripts/herbstluftwm/move_window.sh "$4"
+            . spawn ~/.scripts/herbstluftwm/warp_window.sh "$4"
 }
 split_or_move Left  left   left  wt
 split_or_move Down  bottom down  st
@@ -172,10 +179,12 @@ hc keybind $MOD+Control+Shift+n                        \
             or                                         \
             . and _ compare clients.focus.floating = 0 \
                   _ chain , split explode , true       \
-            . spawn ~/.scripts/herbstluftwm/move_window.sh c
-hc keybind $MOD+a                   remove
-hc keybind $MOD+s                   mirror horizontal
-hc keybind $MOD+Shift+s             mirror vertical
+            . spawn ~/.scripts/herbstluftwm/warp_window.sh c
+hc keybind $MOD+a                                       \
+            and _ \! compare clients.focus.floating = 1 \
+                _ remove
+hc keybind $MOD+s       mirror horizontal
+hc keybind $MOD+Shift+s mirror vertical
 
 # Tag creation and bindings
 for i in $(seq 1 9) w e d; do

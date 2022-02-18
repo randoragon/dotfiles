@@ -42,7 +42,6 @@ if [ "$action" = show ]; then
         [ $# -gt 0 ] && {
 
             # Listen to store the about-to-be-spawned window's id
-    echo listen
             hc -w rule "$HOOK_PREFIX$name" | while read -r line; do
                 newwid="$(printf %s "$line" | cut -f3)"
 
@@ -58,15 +57,13 @@ if [ "$action" = show ]; then
                 hc watch clients."$newwid".pid
             done &
 
-    echo rule
             hc rule once instance="$name" hook="$HOOK_PREFIX$name"
 
-            echo spawn
             "$@" &
         }
     }
 elif [ "$action" = hide ]; then
-    hc silent attr clients."$wid".minimized true
+    hc set_attr clients."$wid".minimized true
 else
     echo "scratchpad.sh: invalid action" >&2
 fi

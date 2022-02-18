@@ -6,7 +6,6 @@
 # Autostart utilities
 xwallpaper --zoom "$HOME/.config/wallpaper"
 flameshot &
-sxhkd &
 dunst &
 picom --config "$HOME/.config/picom/picom.conf" &
 xidlehook --not-when-audio --timer 600 'physlock' '' --timer 1200 'systemctl suspend' '' &

@@ -1,0 +1,215 @@
+#!/bin/sh
+
+# This is an init script for the herbstluftwm window manager.
+#
+# To keep this file from growing too big, I split a lot of repetitive
+# code into separate scripts which are sourced by this main one.
+#
+# This script should only contain core settings, such as keyboard and
+# mouse behavior, appearance, external layout program and keybindings
+# for basic things like tag/view manipulation and session management.
+#
+# All other configuration should be logically divided into standalone
+# executable shell scripts and put inside the init.d directory.
+
+hc () {
+    herbstclient "$@"
+}
+
+hc emit_hook reload
+xsetroot -solid '#000000'
+hc keyunbind --all
+MOD=Mod4
+
+# Behavior Settings
+hc set auto_detect_monitors             false
+hc set auto_detect_panels               false
+hc set default_direction_external_only  false
+hc set default_frame_layout             horizontal
+hc set focus_crosses_monitor_boundaries true
+hc set focus_follows_mouse              true
+hc set focus_stealing_prevention        false
+hc set mouse_recenter_gap               0
+hc set raise_on_click                   true
+hc set raise_on_focus                   true
+hc set raise_on_focus_temporarily       false
+hc set snap_distance                    0
+hc set snap_gap                         0
+hc set swap_monitors_to_get_tag         false
+hc set tabbed_max                       false
+hc set update_dragged_clients           true
+
+# Appearance Settings
+hc set always_show_frame           on
+hc set gapless_grid                true
+hc set hide_covered_windows        true
+hc set pseudotile_center_threshold 0
+hc set smart_frame_surroundings    false
+hc set smart_window_surroundings   false
+hc set frame_active_opacity        60
+hc set frame_normal_opacity        40
+hc set frame_bg_transparent        false
+hc set frame_bg_active_color       '#004400'
+hc set frame_bg_normal_color       '#000000'
+hc set frame_border_width          0
+hc set frame_gap                   5
+hc set frame_padding               -4
+hc set frame_transparent_width     0
+hc set window_gap                  10
+hc set ellipsis                    '...'
+hc set tree_style                  '╾│ ├└╼─┐'
+
+# Window Theme
+hc attr theme.background_color '#000000'
+hc attr theme.border_width     2
+hc attr theme.color            '#666666'
+hc attr theme.inner_width      0
+hc attr theme.outer_width      0
+hc attr theme.padding_bottom   0
+hc attr theme.padding_left     0
+hc attr theme.padding_right    0
+hc attr theme.padding_top      0
+hc attr theme.tight_decoration false
+hc attr theme.title_height     0
+hc attr theme.active.color     '#88FF00'
+hc attr theme.urgent.color     '#FF0000'
+
+# Rules
+hc unrule -F
+hc rule focus=on
+hc rule floatplacement=center
+hc rule switchtag=off
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+hc rule class='floatme' floating=on
+hc rule class='Gimp' title='GIMP Startup' floating=on floatplacement=none
+hc rule class='firefox'     tag=w
+hc rule class='Thunderbird' tag=e
+hc rule class='discord'     tag=d
+hc rule title='Event Tester' floating=on # xev
+hc rule class='GLava' fullscreen=on floating=on focus=off
+hc rule instance~'sp_.*' floating=on
+
+# Mouse bindings
+hc mousebind $MOD+B1       move
+hc mousebind $MOD+B3       resize
+hc mousebind $MOD+Shift+B3 zoom
+
+# General bindings
+hc keybind $MOD+Shift+q spawn quitmenu
+hc keybind $MOD+Shift+r reload
+
+# Window bindings
+hc keybind $MOD+q     close
+hc keybind $MOD+Left  focus left
+hc keybind $MOD+Down  focus down
+hc keybind $MOD+Up    focus up
+hc keybind $MOD+Right focus right
+hc keybind $MOD+h     focus left
+hc keybind $MOD+j     focus down
+hc keybind $MOD+k     focus up
+hc keybind $MOD+l     focus right
+hc keybind $MOD+u     cycle_all  1
+hc keybind $MOD+i     cycle_all -1
+shift_or_move () {
+    # If the focused window is tiled, shift in the specified direction.
+    # Otherwise, use the move_window.sh script to move the floating
+    # window by some constant number of pixels.
+    hc keybind $MOD+Shift+"$1"                                  \
+            or                                                  \
+            . and _ compare clients.focus.floating = 0          \
+                  _ chain , shift "$2" , true                   \
+            . and _ compare clients.focus.floating = 1          \
+                  _ spawn ~/.scripts/herbstluftwm/move_window.sh "$3"
+}
+shift_or_move Left  left  w
+shift_or_move Down  down  s
+shift_or_move Up    up    n
+shift_or_move Right right e
+shift_or_move h     left  w
+shift_or_move j     down  s
+shift_or_move k     up    n
+shift_or_move l     right e
+hc keybind $MOD-Control-h     resize left  +0.02
+hc keybind $MOD-Control-j     resize down  +0.02
+hc keybind $MOD-Control-k     resize up    +0.02
+hc keybind $MOD-Control-l     resize right +0.02
+hc keybind $MOD-Control-Left  resize left  +0.02
+hc keybind $MOD-Control-Down  resize down  +0.02
+hc keybind $MOD-Control-Up    resize up    +0.02
+hc keybind $MOD-Control-Right resize right +0.02
+hc keybind $MOD+Shift+space set_attr clients.focus.floating toggle
+hc keybind $MOD+f           fullscreen toggle
+hc keybind $MOD+Control+t   pseudotile toggle
+
+# Frame bindings
+split_or_move () {
+    # If the focused window isn't floating, split the frame in the
+    # specified direction. Otherwise, use the move_window.sh script
+    # to teleport the floating window to the edge of the monitor.
+    hc keybind $MOD+Control+Shift+"$1"                            \
+            or                                                    \
+            . and _ \! compare clients.focus.floating = 1         \
+                  _ chain , split "$2" 0.5 , focus -e "$3" , true \
+            . spawn ~/.scripts/herbstluftwm/move_window.sh "$4"
+}
+split_or_move Left  left   left  wt
+split_or_move Down  bottom down  st
+split_or_move Up    top    up    nt
+split_or_move Right right  right et
+split_or_move h     left   left  wt
+split_or_move j     bottom down  st
+split_or_move k     top    up    nt
+split_or_move l     right  right et
+hc keybind $MOD+Control+Shift+n                        \
+            or                                         \
+            . and _ compare clients.focus.floating = 0 \
+                  _ chain , split explode , true       \
+            . spawn ~/.scripts/herbstluftwm/move_window.sh c
+hc keybind $MOD+a                   remove
+hc keybind $MOD+s                   mirror horizontal
+hc keybind $MOD+Shift+s             mirror vertical
+
+# Tag creation and bindings
+for i in $(seq 1 9) w e d; do
+    hc add "$i"
+    hc keybind $MOD+"$i"       use  "$i"
+    hc keybind $MOD+Shift+"$i" move "$i"
+done
+hc use 1
+hc merge_tag default 1
+hc keybind $MOD+Tab use_previous
+hc keybind $MOD+bracketleft  use_index -1
+hc keybind $MOD+bracketright use_index +1
+hc keybind $MOD+Shift+bracketleft  move_index -1
+hc keybind $MOD+Shift+bracketright move_index +1
+
+# Layout bindings
+hc keybind $MOD+t       set_layout horizontal
+hc keybind $MOD+Shift+t set_layout vertical
+hc keybind $MOD+y       set_layout max
+hc keybind $MOD+Shift+y set_layout grid
+hc keybind $MOD+Control+Shift+space floating toggle
+
+# Monitor bindings
+hc keybind $MOD+period cycle_monitor -1
+hc keybind $MOD+comma  cycle_monitor  1
+
+# Source script files from init.d directory
+dir="$(dirname -- "$0")"
+[ -d "$dir/init.d" ] && {
+    for f in "$dir/init.d"/?*.sh; do
+        [ -x "$f" ] && . "$f"
+    done
+    unset f
+}
+
+# Unlock, just to be sure
+hc unlock
+
+# Run only during the first startup
+hc silent new_attr bool my_is_first_startup && {
+    hc detect_monitors
+    ~/.config/X11/xprofile
+}

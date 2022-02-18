@@ -13,3 +13,4 @@ sp () {
 sp "$MOD"+space sp_term  st -n sp_term
 sp "$MOD"+m     sp_music st -n sp_music ncmpcpp
 sp "$MOD"+n     sp_news  st -n sp_news dualboat
+sp "$MOD"+slash sp_calc  st -n sp_calc -t qalc qalc

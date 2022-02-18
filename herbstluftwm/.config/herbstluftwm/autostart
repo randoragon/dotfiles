@@ -73,6 +73,11 @@ hc attr theme.tight_decoration false
 hc attr theme.title_height     0
 hc attr theme.active.color     '#88FF00'
 hc attr theme.urgent.color     '#FF0000'
+hc attr theme.floating.active.color '#00FFFF'
+hc attr theme.floating.border_width 5
+hc attr theme.floating.outer_width  3
+hc attr theme.floating.outer_color        '#112222'
+hc attr theme.floating.active.outer_color '#002222'
 
 # Rules
 hc unrule -F
@@ -142,6 +147,7 @@ hc keybind $MOD-Control-Right resize right +0.02
 hc keybind $MOD+Shift+space set_attr clients.focus.floating toggle
 hc keybind $MOD+f           fullscreen toggle
 hc keybind $MOD+Control+t   pseudotile toggle
+hc keybind $MOD+Control+s   spawn ~/.scripts/herbstluftwm/sticky_toggle.sh
 
 # Frame bindings
 split_or_move () {
@@ -210,6 +216,22 @@ hc unlock
 
 # Run only during the first startup
 hc silent new_attr bool my_is_first_startup && {
+
+    # Sets frames to be transparent when there's only one frame
+    # on the monitor (otherwise, a big blob of the frame's bg
+    # color covers up the wallpaper).
+    hc watch tags.focus.frame_count
+    hc -i attribute_changed tags.focus.frame_count \
+      | while read -r line; do
+        old="$(printf %s "$line" | cut -f3)"
+        new="$(printf %s "$line" | cut -f4)"
+        if [ "$new" = 1 ] && [ "$old" -gt 1 ]; then
+            hc set frame_bg_transparent true
+        elif [ "$new" -gt 1 ] && [ "$old" = 1 ]; then
+            hc set frame_bg_transparent false
+        fi
+    done &
+
     hc detect_monitors
     ~/.config/X11/xprofile
 }

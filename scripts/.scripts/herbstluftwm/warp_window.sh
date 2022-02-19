@@ -27,8 +27,7 @@
 # Window borders. Much cheaper to hardcode than query.
 BORDER=2
 
-# WM status bar height (top)
-BAR_H=20
+BAR_H="$(hc get_attr monitors.focus.pad_up)"
 
 hc () {
     herbstclient "$@"
@@ -58,7 +57,7 @@ case "$1" in
         ty=$((ty - ${2:-$AMOUNT}))
         ;;
     nt)
-        ty=$((BAR_H + BORDER))
+        ty=$((BORDER))
         ;;
     e)
         tx=$((tx + ${2:-$AMOUNT}))
@@ -70,7 +69,7 @@ case "$1" in
         ty=$((ty + ${2:-$AMOUNT}))
         ;;
     st)
-        ty=$((sh - th - BORDER))
+        ty=$((sh - th - BORDER - BAR_H))
         ;;
     w)
         tx=$((tx - ${2:-$AMOUNT}))

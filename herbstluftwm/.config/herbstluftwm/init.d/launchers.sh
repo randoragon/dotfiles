@@ -18,6 +18,7 @@ appmap "$MOD"+Shift+n       note --dmenu
 appmap "$MOD"+Control+n     note --dmenu -e
 appmap "$MOD"+Control+equal ~/.scripts/pladd_select
 appmap "$MOD"+Shift+slash   groff -ms -t -T pdf -dpaper=a3l -P-pa3 -P-l ~/dotfiles/.other/shortcuts.ms \| zathura --mode=fullscreen -
+appmap "$MOD"+slash         st -t qalc qalc
 appmap Control+Alt+i        st -e lf
 appmap Control+Alt+w        ~/.scripts/surfbm
 appmap Control+Alt+d        discord

@@ -45,9 +45,9 @@ hc set hide_covered_windows        true
 hc set pseudotile_center_threshold 0
 hc set smart_frame_surroundings    false
 hc set smart_window_surroundings   false
-hc set frame_active_opacity        60
+hc set frame_active_opacity        0
 hc set frame_normal_opacity        40
-hc set frame_bg_transparent        true
+hc set frame_bg_transparent        false
 hc set frame_bg_active_color       '#004400'
 hc set frame_bg_normal_color       '#000000'
 hc set frame_border_width          0
@@ -228,9 +228,9 @@ pid="$(hc get_attr my_frame_watcher_pid)"
         old="$(printf %s "$line" | cut -f3)"
         new="$(printf %s "$line" | cut -f4)"
         if [ "$new" = 1 ] && [ "$old" -gt 1 ]; then
-            hc set frame_bg_transparent true
+            hc set frame_active_opacity 0
         elif [ "$new" -gt 1 ] && [ "$old" = 1 ]; then
-            hc set frame_bg_transparent false
+            hc set frame_active_opacity 60
         fi
     done &
     hc set_attr my_frame_watcher_pid $! || \

@@ -21,7 +21,7 @@ hc -i 'tag_(changed|flags|added|removed|renamed)|bar_workspaces' | \
     while read -r _; do
 
     moni="$(hc get_attr monitors.focus.index)"
-    out="$MON_FG$MON_BG $moni  "
+    out="$MON_FG$MON_BG $moni  %{O1}"
     for i in $(hc tag_status); do
         case "$i" in
            \#*) fgc="$TAG_ACTIVE_FG"
@@ -38,7 +38,7 @@ hc -i 'tag_(changed|flags|added|removed|renamed)|bar_workspaces' | \
                 ;;
         esac
         tag="${i#?}"
-        out="$out$fgc$bgc%{A1:herbstclient use $tag:} $tag %{A}"
+        out="$out$fgc$bgc%{A1:herbstclient use $tag:} $tag %{A}%{O1}"
     done
 
     printf "%s\n" "$out$DEFAULT_FG$DEFAULT_BG"

@@ -17,12 +17,11 @@ font-0 = Cantarell:size=10.5:style=Bold;3
 font-1 = FontAwesome 6 Free Solid:size=9.5:antialias=true;3
 font-2 = FontAwesome 6 Brands Regular:size=9.5:antialias=true;3
 font-3 = Bitstream Vera Sans Mono:size=10:style=Bold:antialias=true;3
-modules-left = hlwm_workspaces hlwm_frame hlwm_clients mpd
+modules-left = hlwm_workspaces hlwm_frame mpd
 modules-center = xwindow
 modules-right = pulseaudio rootfs homefs memory cpu cputemp date battery
 tray-position = none
-cursor-click = pointer
-cursor-scroll = ns-resize
+click-right = "$TERMINAL -e $EDITOR ~/.config/polybar/config"
 
 [module/hlwm_workspaces]
 type = custom/script
@@ -40,14 +39,6 @@ tail = true
 format-background = #000
 format-padding = 2
 click-right = "$TERMINAL -e $EDITOR ~/.scripts/herbstluftwm/bar_frame.sh"
-
-[module/hlwm_clients]
-type = custom/script
-exec = "pidof herbstclient | wc -w"
-interval = 3
-format-foreground = #999
-format-background = #000
-format-padding = 2
 
 [module/xwindow]
 type = internal/xwindow
@@ -125,7 +116,7 @@ label-padding = 2
 type = internal/pulseaudio
 label-volume =   %percentage%%
 label-muted =   %percentage%%
-click-right = qjackctl &
+click-right = "$TERMINAL -n floatme -e pulsemixer"
 label-volume-background = #7236A7
 label-muted-foreground = #7236A7
 label-muted-background = #FFFFFF

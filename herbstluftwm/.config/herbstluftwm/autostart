@@ -208,7 +208,7 @@ hc rule switchtag=off
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
-hc rule class='floatme' floating=on
+hc rule instance='floatme' floating=on
 hc rule class='Gimp' title='GIMP Startup' floating=on floatplacement=none
 hc rule class='firefox'     tag=
 hc rule class='Thunderbird' tag=

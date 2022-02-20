@@ -133,15 +133,14 @@ shift_or_move j     down  s
 shift_or_move k     up    n
 shift_or_move l     right e
 resize () {
-    # If the focused window is tiled, use the built-in resize command.
-    # Otherwise, use the warp_window.sh script to resize by a constant
-    # number of pixels (built-in resize works weird for floating).
-    hc keybind $MOD+Control+"$1"                                          \
-            or                                                            \
-            . and _ compare clients.focus.floating = 0                    \
-                  _ try resize "$2" +0.02                                 \
-            . and _ compare clients.focus.floating = 1                    \
-                  _ spawn ~/.scripts/herbstluftwm/warp_window.sh "$3" "$4"
+    # If a floating client is focused, use the warp_window.sh script to
+    # resize by a constant number of pixels. Otherwise use the built-in
+    # resize command (built-in resize works weird for floating).
+    hc keybind $MOD+Control+"$1"                                               \
+            or                                                                 \
+            . and _ compare clients.focus.floating = 1                         \
+                  _ try spawn ~/.scripts/herbstluftwm/warp_window.sh "$3" "$4" \
+            . resize "$2" +0.02
 }
 resize h     left  er -30
 resize j     down  sr  30

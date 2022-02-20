@@ -24,10 +24,12 @@ hc -i 'tag_(changed|flags|added|removed|renamed)|statusbar_init' | \
     out="$MON_FG$MON_BG $moni  "
     for i in $(hc tag_status); do
         case "$i" in
-            .*) continue ;;
            \#*) fgc="$TAG_ACTIVE_FG"
                 bgc="$TAG_ACTIVE_BG"
                 ;;
+            # skip unfocused tags without clients, OR, by my own convention,
+            # unfocused tags with names beginning with "_"
+            .*|?_*) continue ;;
             !*) fgc="$TAG_URGENT_FG"
                 bgc="$TAG_URGENT_BG"
                 ;;

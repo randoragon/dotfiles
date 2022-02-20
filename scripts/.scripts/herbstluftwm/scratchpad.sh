@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # Unlimited dwm-like scratchpads for HerbstluftWM.
+# The script requires an "_sp" tag for keeping scratchpads,
+# add this to your hlwm autostart:
+#       herbstclient add _sp
 #
 # Usage:
 #     scratchpad.sh NAME show|hide|toggle [CMD...]
@@ -23,6 +26,7 @@ name="$1"
 action="$2"
 shift 2
 
+SCRATCHPAD_TAG=_sp
 ATTR_PREFIX=my_spwid_ # must begin with "my_" (herbstluftwm(1))
 
 hc () {
@@ -57,7 +61,18 @@ if [ "$action" = show ]; then
         }
     }
 elif [ "$action" = hide ]; then
-    hc set_attr clients."$wid".minimized true
+    # If the currently focused client is the scratchpad we want
+    # to hide, then simply move it to the scratchpad tag.
+    # If it's some other client, then jump to scratchpad, move
+    # and jump back.
+    hc chain , lock                                            \
+             , or . and _ compare clients.focus.winid = "$wid" \
+                        _ try move "$SCRATCHPAD_TAG"           \
+                  . substitute FOCUS clients.focus.winid       \
+                    chain ,, jumpto "$wid"                     \
+                          ,, move "$SCRATCHPAD_TAG"            \
+                          ,, jumpto FOCUS                      \
+             , unlock
 else
     echo "scratchpad.sh: invalid action" >&2
 fi

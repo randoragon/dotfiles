@@ -18,5 +18,6 @@ else
 
     # Send dummy hooks to force bar_workspaces.sh and
     # bar_frame.sh to print an initial state for polybar.
-    hc emit_hook statusbar_init
+    hc chain , emit_hook bar_workspaces \
+             , emit_hook bar_frame
 fi

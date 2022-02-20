@@ -19,5 +19,6 @@ info="$(hc sprintf X '%s %s'                     \
     echo X)"
 idx="${info%% *}"
 max="${info##* }"
-hc set_attr tags.focus.tiling.focused_frame.selection \
-    "$(((idx + $1 + max) % max))"
+hc chain , set_attr tags.focus.tiling.focused_frame.selection \
+               "$(((idx + $1 + max) % max))"                  \
+         , emit_hook bar_frame

@@ -17,7 +17,7 @@ TAG_URGENT_FG='%{F#FF0000}'
 TAG_URGENT_BG='%{B#000}'
 
 # Spawn listener to notify the status bar of focus changes
-hc -i 'tag_(changed|flags|added|removed|renamed)|statusbar_init' | \
+hc -i 'tag_(changed|flags|added|removed|renamed)|bar_workspaces' | \
     while read -r _; do
 
     moni="$(hc get_attr monitors.focus.index)"

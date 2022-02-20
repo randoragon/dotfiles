@@ -9,7 +9,7 @@ hc () {
 # Color definitions
 LAYOUT_FG='%{F#FF9F00}'
 
-hc -i '(focus|layout)_changed|statusbar_init' | while read -r _; do
+hc -i '(focus|layout)_changed|bar_frame' | while read -r _; do
     data="$(hc sprintf X '%s %s %s'                      \
             tags.focus.tiling.focused_frame.algorithm    \
             tags.focus.tiling.focused_frame.selection    \

@@ -36,8 +36,7 @@ pid="${info#* }"
             else
                 hc or . substitute PREV clients.focus.winid \
                             chain , bring "$wid"            \
-                                  , jumpto PREV             \
-                                  , true                    \
+                                  , try jumpto PREV         \
                       . bring "$wid"
             fi
         done &

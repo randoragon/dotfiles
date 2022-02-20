@@ -120,7 +120,7 @@ shift_or_move () {
     hc keybind $MOD+Shift+"$1"                                       \
             or                                                       \
             . and _ compare clients.focus.floating = 0               \
-                  _ chain , shift "$2" , true                        \
+                  _ try shift "$2"                                   \
             . and _ compare clients.focus.floating = 1               \
                   _ spawn ~/.scripts/herbstluftwm/warp_window.sh "$3"
 }
@@ -139,7 +139,7 @@ resize () {
     hc keybind $MOD+Control+"$1"                                          \
             or                                                            \
             . and _ compare clients.focus.floating = 0                    \
-                  _ chain , resize "$2" +0.02 , true                      \
+                  _ try resize "$2" +0.02                                 \
             . and _ compare clients.focus.floating = 1                    \
                   _ spawn ~/.scripts/herbstluftwm/warp_window.sh "$3" "$4"
 }
@@ -164,7 +164,7 @@ split_or_move () {
     hc keybind $MOD+Control+Shift+"$1"                            \
             or                                                    \
             . and _ \! compare clients.focus.floating = 1         \
-                  _ chain , split "$2" 0.5 , focus -e "$3" , true \
+                  _ chain , split "$2" 0.5 , try focus -e "$3"    \
             . spawn ~/.scripts/herbstluftwm/warp_window.sh "$4"
 }
 split_or_move Left  left   left  wt
@@ -178,7 +178,7 @@ split_or_move l     right  right et
 hc keybind $MOD+Control+Shift+n                        \
             or                                         \
             . and _ compare clients.focus.floating = 0 \
-                  _ chain , split explode , true       \
+                  _ try split explode                  \
             . spawn ~/.scripts/herbstluftwm/warp_window.sh c
 hc keybind $MOD+a                                       \
             and _ \! compare clients.focus.floating = 1 \

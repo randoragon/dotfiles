@@ -5,10 +5,9 @@
 MOD="${MOD:-Super}"
 
 sp () {
-    key="$1" name="$2"
+    keys="$1" name="$2"
     shift 2
-    herbstclient keybind "$MOD"+"$key"         spawn ~/.scripts/herbstluftwm/scratchpad.sh "$name" toggle "$@"
-    herbstclient keybind "$MOD"+Control+"$key" spawn ~/.scripts/herbstluftwm/scratchpad.sh "$name" remap  "$@"
+    herbstclient keybind "$keys" spawn ~/.scripts/herbstluftwm/scratchpad.sh "$name" toggle "$@"
 }
 
 sp "$MOD"+space sp_term  st -n sp_term

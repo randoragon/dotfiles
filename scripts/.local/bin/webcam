@@ -7,6 +7,6 @@
 #	webcam [device]
 
 camera=/dev/video0
-[ -f "$1" ] && camera="$1"
+[ -r "$1" ] && camera="$1"
 
 mpv "av://v4l2:${camera}" --profile=low-latency --untimed

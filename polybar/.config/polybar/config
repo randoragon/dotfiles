@@ -8,7 +8,7 @@ height = 20
 offset-x = 0%
 offset-y = 0%
 radius = 0
-fixed-center = true
+fixed-center = false
 background = ${colors.background}
 foreground = ${colors.foreground}
 padding = 0
@@ -19,7 +19,7 @@ font-2 = FontAwesome 6 Brands Regular:size=9.5:antialias=true;3
 font-3 = Bitstream Vera Sans Mono:size=10:style=Bold:antialias=true;3
 modules-left = hlwm_workspaces hlwm_frame mpd
 modules-center = xwindow
-modules-right = pulseaudio rootfs homefs memory cpu iowait date power battery
+modules-right = pulseaudio rootfs homefs memory cpu iowait date battery
 tray-position = none
 click-right = "$TERMINAL -e $EDITOR ~/.config/polybar/config"
 
@@ -71,9 +71,8 @@ mount-0 = /
 interval = 10
 fixed-values = true
 format-mounted =  <label-mounted>
-format-unmounted =  <label-unmounted>
+format-unmounted =
 label-mounted = %free%
-label-unmounted = -
 format-mounted-background = #B04F00
 format-unmounted-background = #B04F00
 format-mounted-padding = 2
@@ -85,9 +84,8 @@ mount-0 = /home
 interval = 10
 fixed-values = true
 format-mounted =  <label-mounted>
-format-unmounted =  <label-unmounted>
+format-unmounted =
 label-mounted = %free%
-label-unmounted = -
 format-mounted-background = #6F3616
 format-unmounted-background = #6F3616
 format-mounted-padding = 2
@@ -137,27 +135,13 @@ label-muted-background = #FFFFFF
 label-volume-padding = 2
 label-muted-padding = 2
 
-[module/power]
-type = custom/script
-exec = "~/.scripts/herbstluftwm/bar_power.sh"
-tail = true
-label-background = #9C9600
-label-padding = 2
-click-right = "$TERMINAL -e $EDITOR ~/.scripts/herbstluftwm/bar_power.sh"
-
 [module/battery]
-type = internal/battery
-battery = BAT0
-adapter = ADP1
-full-at = 98
-time-format = %H:%M
-format-discharging = <ramp-capacity> <label-discharging>
-label-discharging = %percentage%% (%time%)
-format-charging = %{F#AA0} %{F#FFFF00}<label-charging>
-label-charging = ${self.label-discharging}
-ramp-capacity-0 = %{F#944}%{F#C22}
-ramp-capacity-1 = %{F#994}%{F#BB2}
-ramp-capacity-2 = %{F#494}%{F#2C2}
+type = custom/script
+exec = "~/.scripts/herbstluftwm/bar_battery.sh"
+tail = true
+label-padding = 0
+label-background = #000
+click-right = "$TERMINAL -e $EDITOR ~/.scripts/herbstluftwm/bar_battery.sh"
 
 [settings]
 screenchange-reload = true

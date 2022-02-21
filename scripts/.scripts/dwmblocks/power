@@ -65,11 +65,11 @@ for path in /sys/class/power_supply/BAT?; do
     [ -z "$capacity" ] && exit
     status="$(cat -- "$path/status")"
     if [ "$status" = "Charging" ]; then
-	    bdcol="$bdcol_charging"
-	    bgcol="$bgcol_charging"
+        bdcol="$bdcol_charging"
+        bgcol="$bgcol_charging"
     else
-	    bdcol="$bdcol_normal"
-	    bgcol="$bgcol_normal"
+        bdcol="$bdcol_normal"
+        bgcol="$bgcol_normal"
     fi
 
     output="^c$bdcol^"

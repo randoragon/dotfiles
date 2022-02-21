@@ -8,6 +8,8 @@ BAR_H=20
 DIR=/sys/class/power_supply/BAT0
 INTERVAL=5
 
+[ ! -d "$DIR" ] && exit
+
 notify () {
     remaining="$(acpi | grep -o '[0-9:]* remaining')"
     dunstify -r $DUNST_ID -i battery -u critical "Battery Low [$1%]" "$remaining"

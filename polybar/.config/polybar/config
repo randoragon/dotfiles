@@ -19,7 +19,7 @@ font-2 = FontAwesome 6 Brands Regular:size=9.5:antialias=true;3
 font-3 = Bitstream Vera Sans Mono:size=10:style=Bold:antialias=true;3
 modules-left = hlwm_workspaces hlwm_frame mpd
 modules-center = xwindow
-modules-right = pulseaudio rootfs homefs memory cpu cputemp date battery
+modules-right = pulseaudio rootfs homefs memory cpu iowait date power battery
 tray-position = none
 click-right = "$TERMINAL -e $EDITOR ~/.config/polybar/config"
 
@@ -31,6 +31,8 @@ format-font = 4
 format-background = #000
 format-padding-right = 2
 click-right = "$TERMINAL -e $EDITOR ~/.scripts/herbstluftwm/bar_workspaces.sh"
+scroll-up = "herbstclient use_index -1"
+scroll-down = "herbstclient use_index +1"
 
 [module/hlwm_frame]
 type = custom/script
@@ -38,10 +40,14 @@ exec = "~/.scripts/herbstluftwm/bar_frame.sh"
 tail = true
 format-background = #000
 format-padding = 2
+click-left = "herbstclient chain , cycle_layout , emit_hook layout_changed"
 click-right = "$TERMINAL -e $EDITOR ~/.scripts/herbstluftwm/bar_frame.sh"
+scroll-up = "~/.scripts/herbstluftwm/cycle_frame.sh -1"
+scroll-down = "~/.scripts/herbstluftwm/cycle_frame.sh 1"
 
 [module/xwindow]
 type = internal/xwindow
+label-maxlen = 80
 
 [module/mpd]
 type = internal/mpd
@@ -90,16 +96,24 @@ format-unmounted-padding = 2
 [module/cpu]
 type = internal/cpu
 interval = 2
-label = %percentage:2%%
+label = %{A3:$TERMINAL -n floatme -e htop -s PERCENT_CPU:}  %percentage:2%%  %{A}
 label-background = #AA2A2A
+label-padding = 0
+
+[module/iowait]
+type = custom/script
+exec = "~/.scripts/herbstluftwm/bar_iowait.sh"
+tail = true
+label-background = #567E80
 label-padding = 2
+click-right = "$TERMINAL -e $EDITOR ~/.scripts/herbstluftwm/bar_iowait.sh"
 
 [module/memory]
 type = internal/memory
 interval = 2
-label =  %gb_free%
+label = %{A3:$TERMINAL -n floatme -e htop -s PERCENT_MEM:}   %gb_free%  %{A}
 label-background = #1B4480
-label-padding = 2
+label-padding = 0
 
 [module/date]
 type = internal/date
@@ -122,6 +136,14 @@ label-muted-foreground = #7236A7
 label-muted-background = #FFFFFF
 label-volume-padding = 2
 label-muted-padding = 2
+
+[module/power]
+type = custom/script
+exec = "~/.scripts/herbstluftwm/bar_power.sh"
+tail = true
+label-background = #9C9600
+label-padding = 2
+click-right = "$TERMINAL -e $EDITOR ~/.scripts/herbstluftwm/bar_power.sh"
 
 [module/battery]
 type = internal/battery

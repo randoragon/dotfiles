@@ -27,8 +27,6 @@
 # Window borders. Much cheaper to hardcode than query.
 BORDER=2
 
-BAR_H="$(hc get_attr monitors.focus.pad_up)"
-
 hc () {
     herbstclient "$@"
 }
@@ -69,6 +67,7 @@ case "$1" in
         ty=$((ty + ${2:-$AMOUNT}))
         ;;
     st)
+        BAR_H="$(hc get_attr monitors.focus.pad_up)"
         ty=$((sh - th - BORDER - BAR_H))
         ;;
     w)

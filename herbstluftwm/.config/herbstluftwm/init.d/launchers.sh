@@ -23,3 +23,8 @@ appmap Control+Alt+w        ~/.scripts/surfbm
 appmap Control+Alt+d        discord
 appmap Control+Alt+f        fsearch
 appmap Print                flameshot gui
+
+[ "$(hostname)" = archX230 ] && {
+    appmap XF86Launch1      ~/.scripts/wipedown.sh
+    appmap XF86AudioMicMute ~/.scripts/toggle_mic.sh
+}

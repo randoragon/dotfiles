@@ -11,13 +11,14 @@ radius = 0
 fixed-center = false
 background = ${colors.background}
 foreground = ${colors.foreground}
+enable-ipc = true
 padding = 0
 module-margin = 0
 font-0 = Cantarell:size=10.5:style=Bold;3
 font-1 = FontAwesome 6 Free Solid:size=9.5:antialias=true;3
 font-2 = FontAwesome 6 Brands Regular:size=9.5:antialias=true;3
 font-3 = Bitstream Vera Sans Mono:size=10:style=Bold:antialias=true;3
-modules-left = hlwm_workspaces hlwm_frame mpd
+modules-left = hlwm_workspaces hlwm_frame hlwm_minimized mpd
 modules-center = xwindow
 modules-right = pulseaudio rootfs homefs memory cpu iowait date battery
 tray-position = none
@@ -44,6 +45,17 @@ click-left = "herbstclient chain , cycle_layout , emit_hook layout_changed"
 click-right = "$TERMINAL -e $EDITOR ~/.scripts/herbstluftwm/bar_frame.sh"
 scroll-up = "~/.scripts/herbstluftwm/cycle_frame.sh -1"
 scroll-down = "~/.scripts/herbstluftwm/cycle_frame.sh 1"
+
+[module/hlwm_minimized]
+type = custom/ipc
+hook-0 = "~/.scripts/herbstluftwm/bar_minimized.sh"
+format = "(<output>) "
+format-foreground = #377
+format-background = #000
+format-padding = 0
+click-left = "~/.scripts/herbstluftwm/unminimize.sh"
+click-right = "$TERMINAL -e $EDITOR ~/.scripts/herbstluftwm/bar_minimized.sh"
+initial = 1
 
 [module/xwindow]
 type = internal/xwindow

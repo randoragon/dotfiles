@@ -35,7 +35,7 @@ hc set raise_on_focus                   true
 hc set raise_on_focus_temporarily       false
 hc set snap_distance                    0
 hc set snap_gap                         0
-hc set swap_monitors_to_get_tag         false
+hc set swap_monitors_to_get_tag         true
 hc set update_dragged_clients           true
 
 # Appearance Settings
@@ -97,7 +97,7 @@ hc keybind $MOD+bracketright use_index +1
 hc keybind $MOD+Shift+bracketleft  move_index -1
 hc keybind $MOD+Shift+bracketright move_index +1
 
-# Window bindings
+# Window / Frame bindings
 hc keybind $MOD+q     close
 hc keybind $MOD+Left  focus left
 hc keybind $MOD+Down  focus down
@@ -154,16 +154,14 @@ hc keybind $MOD+Shift+space set_attr clients.focus.floating toggle
 hc keybind $MOD+f           fullscreen toggle
 hc keybind $MOD+Control+t   pseudotile toggle
 hc keybind $MOD+Control+s   spawn ~/.scripts/herbstluftwm/sticky_toggle.sh
-
-# Frame bindings
 split_or_move () {
     # If the focused window isn't floating, split the frame in the
     # specified direction. Otherwise, use the warp_window.sh script
     # to teleport the floating window to the edge of the monitor.
-    hc keybind $MOD+Control+Shift+"$1"                            \
-            or                                                    \
-            . and _ \! compare clients.focus.floating = 1         \
-                  _ chain , split "$2" 0.5 , try focus -e "$3"    \
+    hc keybind $MOD+Control+Shift+"$1"                          \
+            or                                                  \
+            . and _ \! compare clients.focus.floating = 1       \
+                  _ chain , split "$2" 0.5 , try focus -e "$3"  \
             . spawn ~/.scripts/herbstluftwm/warp_window.sh "$4"
 }
 split_or_move Left  left   left  wt
@@ -179,23 +177,28 @@ hc keybind $MOD+Control+Shift+n                        \
             . and _ compare clients.focus.floating = 0 \
                   _ try split explode                  \
             . spawn ~/.scripts/herbstluftwm/warp_window.sh c
-hc keybind $MOD+a                                       \
-            and _ \! compare clients.focus.floating = 1 \
-                _ remove
-hc keybind $MOD+s       mirror horizontal
+hc keybind $MOD+Control+q                           \
+            or . compare clients.focus.floating = 1 \
+               . remove
+hc keybind $MOD+Shift+a mirror horizontal
 hc keybind $MOD+Shift+s mirror vertical
+hc keybind $MOD+y       spawn ~/.scripts/herbstluftwm/minimize.sh
+hc keybind $MOD+Shift+y spawn ~/.scripts/herbstluftwm/unminimize.sh
 
 # Layout bindings
 # Notify status bar to update
-hc keybind $MOD+t       chain , set_layout horizontal , emit_hook layout_changed
-hc keybind $MOD+Shift+t chain , set_layout vertical   , emit_hook layout_changed
-hc keybind $MOD+y       chain , set_layout max        , emit_hook layout_changed
-hc keybind $MOD+Shift+y chain , set_layout grid       , emit_hook layout_changed
+hc keybind $MOD+a chain , cycle_layout 1 horizontal vertical , emit_hook layout_changed
+hc keybind $MOD+s chain , cycle_layout 1 max grid            , emit_hook layout_changed
 hc keybind $MOD+Control+Shift+space floating toggle
+hc keybind $MOD+0         spawn ~/.scripts/herbstluftwm/layout_load.sh
+hc keybind $MOD+Shift+0   spawn ~/.scripts/herbstluftwm/layout_save.sh
+hc keybind $MOD+Control+0 spawn ~/.scripts/herbstluftwm/layout_delete.sh
 
 # Monitor bindings
 hc keybind $MOD+period cycle_monitor -1
 hc keybind $MOD+comma  cycle_monitor  1
+hc keybind $MOD+Shift+period shift_to_monitor -1
+hc keybind $MOD+Shift+comma  shift_to_monitor +1
 
 # Toggle status bar
 hc keybind $MOD+b spawn ~/.scripts/herbstluftwm/bar_toggle.sh

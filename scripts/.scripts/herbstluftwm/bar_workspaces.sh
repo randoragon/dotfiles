@@ -29,7 +29,7 @@ hc -i 'tag_(changed|flags|added|removed|renamed)|bar_workspaces' | \
                 ;;
             # skip unfocused tags without clients, OR, by my own convention,
             # unfocused tags with names beginning with "_"
-            .*|?_*) continue ;;
+            .*|?.*) continue ;;
             !*) fgc="$TAG_URGENT_FG"
                 bgc="$TAG_URGENT_BG"
                 ;;

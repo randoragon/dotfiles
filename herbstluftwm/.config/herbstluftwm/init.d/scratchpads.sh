@@ -5,7 +5,7 @@
 MOD="${MOD:-Super}"
 
 # Dummy tag for keeping scratchpads
-herbstclient add _sp
+herbstclient add .sp
 
 sp () {
     keys="$1" name="$2"

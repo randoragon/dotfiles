@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # Unlimited dwm-like scratchpads for HerbstluftWM.
-# The script requires an "_sp" tag for keeping scratchpads,
+# The script requires an ".sp" tag for keeping scratchpads,
 # add this to your hlwm autostart:
-#       herbstclient add _sp
+#       herbstclient add .sp
 #
 # Usage:
 #     scratchpad.sh NAME show|hide|toggle [CMD...]
@@ -26,7 +26,7 @@ name="$1"
 action="$2"
 shift 2
 
-SCRATCHPAD_TAG=_sp
+SCRATCHPAD_TAG=.sp
 ATTR_PREFIX=my_spwid_ # must begin with "my_" (herbstluftwm(1))
 
 hc () {

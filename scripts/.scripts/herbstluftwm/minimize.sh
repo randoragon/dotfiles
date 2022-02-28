@@ -8,7 +8,7 @@
 #       minimize.sh
 
 FILE="${TMPDIR:-/tmp}/hlwm.$(whoami).minimized"
-MINIMIZE_TAG=_sp
+MINIMIZE_TAG=.sp
 
 hc () {
     herbstclient "$@"

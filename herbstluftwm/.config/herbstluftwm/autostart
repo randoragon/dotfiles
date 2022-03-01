@@ -200,8 +200,11 @@ hc keybind $MOD+comma  cycle_monitor  1
 hc keybind $MOD+Shift+period shift_to_monitor -1
 hc keybind $MOD+Shift+comma  shift_to_monitor +1
 
-# Toggle status bar
-hc keybind $MOD+b spawn ~/.scripts/herbstluftwm/bar_toggle.sh
+# Toggle/restart/kill status bar
+hc keybind $MOD+b         spawn ~/.scripts/herbstluftwm/bar_toggle.sh
+hc keybind $MOD+Shift+b   spawn polybar-msg cmd restart
+hc keybind $MOD+Control+b chain , spawn polybar-msg cmd quit \
+                                , set_attr monitors.focus.pad_up 0
 
 # Rules
 hc unrule -F

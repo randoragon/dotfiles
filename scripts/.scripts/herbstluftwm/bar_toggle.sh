@@ -12,7 +12,7 @@ if pidof -q polybar; then
     hc set_attr monitors.focus.pad_up 0
 else
     hc set_attr monitors.focus.pad_up 20
-    ~/.config/polybar/launch.sh
+    ~/.config/polybar/launch.sh &
     wid="$(xdo id -mn polybar)"
     [ -n "$wid" ] && hc lower "$wid"
 

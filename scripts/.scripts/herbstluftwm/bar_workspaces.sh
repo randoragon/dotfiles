@@ -7,12 +7,25 @@ hc () {
 }
 
 # Color definitions
+# DEFAULT      - fallback
+# MON          - monitor index
+# TAG_ACTIVE   - active tag on the current monitor, which is focused
+# TAG_ACTIVE2  - active tag on the current monitor, which is unfocused
+# TAG_MACTIVE  - active tag on some other monitor, which is focused
+# TAG_MACTIVE2 - active tag on some other monitor, which is unfocused
+# TAG_URGENT   - tag with an urgent client(s)
 DEFAULT_FG='%{F#FFF}'
 DEFAULT_BG='%{B#000}'
 MON_FG='%{F#F0F}'
 MON_BG='%{B#000}'
 TAG_ACTIVE_FG='%{F#000}'
 TAG_ACTIVE_BG='%{B#88FF00}'
+TAG_ACTIVE2_FG='%{F#FFF}'
+TAG_ACTIVE2_BG='%{B#226600}'
+TAG_MACTIVE_FG='%{F#000}'
+TAG_MACTIVE_BG='%{B#FF00FF}'
+TAG_MACTIVE2_FG='%{F#FFF}'
+TAG_MACTIVE2_BG='%{B#660066}'
 TAG_URGENT_FG='%{F#FF0000}'
 TAG_URGENT_BG='%{B#000}'
 
@@ -28,8 +41,17 @@ hc -i 'tag_(changed|flags|added|removed|renamed)|bar_workspaces' | \
                 bgc="$TAG_ACTIVE_BG"
                 ;;
             # skip unfocused tags without clients, OR, by my own convention,
-            # unfocused tags with names beginning with "_"
+            # unfocused tags with names beginning with "."
             .*|?.*) continue ;;
+            +*) fgc="$TAG_ACTIVE2_FG"
+                bgc="$TAG_ACTIVE2_BG"
+                ;;
+            %*) fgc="$TAG_MACTIVE_FG"
+                bgc="$TAG_MACTIVE_BG"
+                ;;
+            -*) fgc="$TAG_MACTIVE2_FG"
+                bgc="$TAG_MACTIVE2_BG"
+                ;;
             !*) fgc="$TAG_URGENT_FG"
                 bgc="$TAG_URGENT_BG"
                 ;;

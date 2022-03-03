@@ -9,7 +9,7 @@ case "$(printf "%s\n" "poweroff" "reboot" "suspend" "logout" | dmenu)" in
     "reboot") systemctl reboot ;;
     "suspend") systemctl suspend && physlock ;;
     "logout")
-        herbstclient quit
+        bspc quit
         killall newsboat podboat
         ;;
 esac

@@ -8,7 +8,7 @@ hc () {
 
 pidof -q polybar || {
     hc set_attr monitors.focus.pad_up 20
-    ~/.config/polybar/launch.sh &
+    ~/.scripts/polybar/launch &
     wid="$(xdo id -mn polybar)"
     [ -n "$wid" ] && hc lower "$wid"
 
@@ -25,5 +25,4 @@ if hc compare monitors.focus.pad_up = 0; then
 else
     polybar-msg cmd hide
     hc set_attr monitors.focus.pad_up 0
-
 fi

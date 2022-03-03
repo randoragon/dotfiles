@@ -1,5 +1,5 @@
 # Signal sxhkd to reload config
-super+control + s
+super+control + r
 	pkill -USR1 -x sxhkd && notify-send -u low 'sxhkd' 'reloaded config'
 
 # Generic Launchers
@@ -72,6 +72,8 @@ super+control + equal
 # Backlight
 {XF86MonBrightnessUp,XF86MonBrightnessDown}
 	xbacklight {-inc,-dec} 5
+shift + {XF86MonBrightnessUp,XF86MonBrightnessDown}
+	xbacklight -set {100,0}
 
 # Shortcuts Help
 super+shift + slash
@@ -93,27 +95,31 @@ super{_,+shift} + q
 	bspc node -{c,k}
 super{_,+shift} + {h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
+super{_,+shift} + {Left,Down,Up,Right}
+	bspc node -{f,s} {west,south,north,east}
 super + y
 	bspc node newest.marked.local -n newest.!automatic.local
 super + s
 	bspc node -s biggest.window
 super + {t,control + t,shift + space,f}
 	bspc node -t '{tiled,pseudo_tiled,~floating,~fullscreen}'
-super + ctrl + {m,x,s,z}
+super+control + {m,x,s,z}
 	bspc node -g {marked,locked,sticky,private}
 super + {u,i}
-	bspc node -f {next,prev}.local.!hidden.window
+	bspc node -f {next,prev}.local.!hidden
 super+shift + {u,i}
-	bspc node -f {next,prev}.local.!hidden.window.floating
+	bspc node -f {next,prev}.local.!hidden.floating
 super+shift+ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
-super+ctrl + {1-9}
+super+shift+ctrl + {Left,Down,Up,Right}
+	bspc node -p {west,south,north,east}
+super+shift+ctrl + {1-9}
 	bspc node -o 0.{1-9}
-super+ctrl + space
+super+shift+ctrl + space
 	bspc node -p cancel
-super+ctrl+shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 super+control + {h,j,k,l}
+	bspc node -z {right -30 0,bottom 0 30,bottom 0 -30,right 30 0}
+super+control + {Left,Down,Up,Right}
 	bspc node -z {right -30 0,bottom 0 30,bottom 0 -30,right 30 0}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
@@ -121,9 +127,30 @@ super + {Left,Down,Up,Right}
 # Desktop binds
 super{_,+shift} + {w,e,d,1-9}
 	bspc {desktop -f,node -d} {^1,^2,^3,1-9}
+super{_,+shift} + bracket{left,right}
+	bspc {desktop -f,node -d} {prev,next}.local
 super + a
 	bspc desktop -l next
-super + bracket{left,right}
-	bspc desktop -f {prev,next}.local
-super + Tab
-	bspc desktop -f last
+super{_,+shift} + Tab
+	bspc {desktop -f,node -d} last
+
+# Monitor binds
+super{_,+shift} + {comma,period}
+	bspc {monitor -f,node -m} {prev,next}
+
+# Status bar binds
+super{_,+shift,+control} + b
+	{\
+	~/.scripts/bspwm/bar_toggle.sh,\
+	polybar-msg cmd restart,\
+	polybar-msg cmd quit && bspc config top_padding 0
+	}
+
+# Scratchpads
+super + {space,m,n,slash}
+	~/.scripts/bspwm/scratchpad.sh {\
+	sp_term  toggle st -n sp -t scratchpad,\
+	sp_music toggle st -n sp ncmpcpp,\
+	sp_news  toggle st -n sp dualboat,\
+	sp_calc  toggle st -n sp -t qalc qalc\
+	}

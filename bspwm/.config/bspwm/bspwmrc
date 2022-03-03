@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# If any command fails, abort
-set -e
-
 # Gracefully exit if bspc is not available
 [ -z "$(command -v bspc)" ] && {
     echo 'bspwmrc: bspc required, but not detected' >&2
@@ -22,34 +19,35 @@ esac
 
 # Window rules - always use 'bspc rule...' when possible,
 # to minimize the overhead of the external rules script.
-bspc rule --add '*:sp_*'      state=floating sticky=on
-bspc rule --add '*:floatme'   state=floating
-bspc rule --add 'firefox'       desktop=
-bspc rule --add 'Brave-browser' desktop=
-bspc rule --add 'Chromium'      desktop=
-bspc rule --add 'Thunderbird' desktop=
-bspc rule --add 'discord'     desktop=
-bspc config external_rules_command ~/.scripts/bspwm-external-rules
+bspc rule -a 'polybar'    layer=BELOW
+bspc rule -a '*:sp'       state=floating sticky=on
+bspc rule -a '*:floatme'  state=floating
+bspc rule -a 'firefox'       desktop=
+bspc rule -a 'Brave-browser' desktop=
+bspc rule -a 'Chromium'      desktop=
+bspc rule -a 'Thunderbird' desktop=
+bspc rule -a 'discord'     desktop=
+bspc rule -a '*:*:Event Tester' state=floating
 
 # Behavior Settings
 bspc config split_ratio 0.5
 bspc config automatic_scheme longest_side
-bspc config initial_polarity first_child
+bspc config initial_polarity second_child
 bspc config directional_focus_tightness high
 bspc config removal_adjustment false
-#bspc config pointer_motion_interval
-bspc config pointer_modifier mod3
+bspc config pointer_motion_interval 17
+bspc config pointer_modifier mod4
 bspc config pointer_action1 move
 bspc config pointer_action2 none
 bspc config pointer_action3 resize_corner
 bspc config click_to_focus button1
-bspc config swallow_first_click true
-bspc config focus_follows_pointer false
+bspc config swallow_first_click false
+bspc config focus_follows_pointer true
 bspc config pointer_follows_focus false
 bspc config pointer_follows_monitor false
 bspc config mapping_events_count 0
 bspc config ignore_ewmh_focus false
-bspc config ignore_ewmh_fullscreen all
+bspc config ignore_ewmh_fullscreen none
 bspc config ignore_ewmh_struts false
 bspc config honor_size_hints true
 bspc config remove_disabled_monitors false
@@ -70,7 +68,7 @@ bspc config window_gap 10
 bspc config border_width 2
 
 # Run polybar
-~/.config/polybar/launch.sh
+~/.config/polybar/launch.sh &
 
 # Run xprofile autostart script
 # Using sxhkd as a condition to determine whether or not xprofile

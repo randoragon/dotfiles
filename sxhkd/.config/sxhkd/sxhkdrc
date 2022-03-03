@@ -3,16 +3,15 @@ super+control + s
 	pkill -USR1 -x sxhkd && notify-send -u low 'sxhkd' 'reloaded config'
 
 # Generic Launchers
-control+alt + {i,w,v,d,f}
+control+alt + {i,w,d,f}
 	{\
 	st -e lf,\
 	~/.scripts/surfbm,\
-	st -e vim,\
 	discord,\
 	fsearch\
 	}
 
-super + {Return,o,space,c}
+super + {Return,o,g,c}
 	{\
 	st,\
 	dmenu_run,\
@@ -56,10 +55,6 @@ super+shift + apostrophe
 super+control + equal
 	~/.scripts/pladd_select
 
-# Calculator
-super + slash
-	st -c floatme -t qalc -e qalc
-
 # Drawing Tablet
 {_,super} + button11
 	~/.scripts/wacom/wacom_pad_b1.sh
@@ -85,3 +80,50 @@ super+shift + slash
 # Laugh Tracks
 super + {KP_End,KP_Down,KP_Next}
 	~/.scripts/laugh-track {ss,si,l}
+
+
+# BSPWM
+
+# General binds
+super+shift + {q,r}
+	{quitmenu,bspc wm -r}
+
+# Node binds
+super{_,+shift} + q
+	bspc node -{c,k}
+super{_,+shift} + {h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+super + s
+	bspc node -s biggest.window
+super + {t,control + t,shift + space,f}
+	bspc node -t '{tiled,pseudo_tiled,~floating,~fullscreen}'
+super + ctrl + {m,x,s,z}
+	bspc node -g {marked,locked,sticky,private}
+super + {u,i}
+	bspc node -f {next,prev}.local.!hidden.window
+super+shift + {u,i}
+	bspc node -f {next,prev}.local.!hidden.window.floating
+super+shift+ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+super+ctrl + {1-9}
+	bspc node -o 0.{1-9}
+super+ctrl + space
+	bspc node -p cancel
+super+ctrl+shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+super+control + {h,j,k,l}
+	bspc node -z {right -30 0,bottom 0 30,bottom 0 -30,right 30 0}
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Desktop binds
+super{_,+shift} + {w,e,d,1-9}
+	bspc {desktop -f,node -d} {^1,^2,^3,1-9}
+super + a
+	bspc desktop -l next
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+super + Tab
+	bspc desktop -f last

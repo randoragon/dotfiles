@@ -27,4 +27,4 @@ unset xres
 
 
 # Start the window/display manager
-exec herbstluftwm -l --no-tag-import
+exec bspwm #herbstluftwm -l --no-tag-import

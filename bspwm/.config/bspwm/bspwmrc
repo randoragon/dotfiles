@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# If any command fails, abort
+set -e
+
+# Gracefully exit if bspc is not available
+[ -z "$(command -v bspc)" ] && {
+    echo 'bspwmrc: bspc required, but not detected' >&2
+    exit
+}
+
+# Set up monitors
+hostname="$(cat -- /etc/hostname)"
+case "$hostname" in
+    archbox)
+        bspc monitor HDMI-0 -d    1 2 3 4 5 6 7 8 9
+        ;;
+    *)
+        printf 'bspwmrc: no matching monitor setup for host "%s"\n' "$hostname" >&2
+        ;;
+esac
+
+# Window rules - always use 'bspc rule...' when possible,
+# to minimize the overhead of the external rules script.
+bspc rule --add '*:sp_*'      state=floating sticky=on
+bspc rule --add '*:floatme'   state=floating
+bspc rule --add 'firefox'       desktop=
+bspc rule --add 'Brave-browser' desktop=
+bspc rule --add 'Chromium'      desktop=
+bspc rule --add 'Thunderbird' desktop=
+bspc rule --add 'discord'     desktop=
+bspc config external_rules_command ~/.scripts/bspwm-external-rules
+
+# Gaps
+bspc config borderless_monocle true
+bspc config window_gap 20
+
+# Run polybar
+~/.config/polybar/launch.sh
+
+# Run xprofile autostart script
+# Using sxhkd as a condition to determine whether or not xprofile
+# should be run is a dirty solution, but it works.
+pidof -q sxhkd || {
+    xprofile="$HOME/.config/X11/xprofile"
+    [ -f "$xprofile" ] && . "$xprofile"
+}
+
+# Display normal cursor outside of windows
+xsetroot -cursor_name left_ptr

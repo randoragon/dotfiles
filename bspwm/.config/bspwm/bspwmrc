@@ -7,15 +7,9 @@
 }
 
 # Set up monitors
-hostname="$(cat -- /etc/hostname)"
-case "$hostname" in
-    archbox)
-        bspc monitor HDMI-0 -d    1 2 3 4 5 6 7 8 9
-        ;;
-    *)
-        printf 'bspwmrc: no matching monitor setup for host "%s"\n' "$hostname" >&2
-        ;;
-esac
+for mon in $(bspc query -M --names); do
+    bspc monitor "$mon" -d    1 2 3 4 5 6 7 8 9
+done
 
 # Window rules - always use 'bspc rule...' when possible,
 # to minimize the overhead of the external rules script.

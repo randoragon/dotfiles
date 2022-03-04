@@ -94,21 +94,23 @@ super+shift + {q,r}
 super{_,+shift} + q
 	bspc node -{c,k}
 super{_,+shift} + {h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+	bspc node -{f,s} {west,south,north,east}.!floating
 super{_,+shift} + {Left,Down,Up,Right}
-	bspc node -{f,s} {west,south,north,east}
+	bspc node -{f,s} {west,south,north,east}.!floating
 super + y
 	bspc node newest.marked.local -n newest.!automatic.local
 super + s
-	bspc node -s biggest.window
+	bspc node -s biggest.local.window || bspc node -s last.local.window
 super + {t,control + t,shift + space,f}
-	bspc node -t '{tiled,pseudo_tiled,~floating,~fullscreen}'
+	bspc node -t \~{tiled,pseudo_tiled,floating,fullscreen}
 super+control + {m,x,s,z}
 	bspc node -g {marked,locked,sticky,private}
 super + {u,i}
-	bspc node -f {next,prev}.local.!hidden
+	bspc node -f {next,prev}.local.window.!hidden
 super+shift + {u,i}
-	bspc node -f {next,prev}.local.!hidden.floating
+	bspc node -f {next,prev}.local.window.!hidden.floating
+super+control + {u,i}
+	bspc node -f {next,prev}.local.window.!hidden.!floating
 super+shift+ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
 super+shift+ctrl + {Left,Down,Up,Right}

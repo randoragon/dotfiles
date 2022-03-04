@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# shellcheck disable=SC2059
+
+# Color definitions
+LAYOUT_COL='%{F#FF9F00}'
+FLAGS_COL='%{F#97F}'
+
+bspc subscribe node_focus node_flag desktop_layout desktop_focus \
+    | while read -r _; do
+    out="$LAYOUT_COL"
+    report="$(bspc wm -g)"
+
+    unset flags
+    IFS=:
+    for i in L${report##*:L}; do
+        case "$i" in
+            T*) continue ;;
+            LT) out="$out %{F-}%{T0}" ;;
+            LM) out="$out %{F-}%{T0}" ;;
+            L*) out="$out ?%{F-}%{T0}" ;;
+            G*) flags="${i#G}" ;;
+        esac
+    done
+    unset IFS
+
+    windows="$(bspc query -N -d -n .window.!hidden)"
+    focused="$(bspc query -N -n)"
+    wcount="$(echo "$windows" | wc -w)"
+    widx=1
+    for wid in $windows; do
+        [ "$wid" = "$focused" ] && break
+        widx=$((widx + 1))
+    done
+
+    if [ "$wcount" -gt 0 ]; then
+        out="$out $widx/$wcount"
+    else
+        out="$out -"
+    fi
+
+    printf "%s\n" "$out $FLAGS_COL$flags"
+done

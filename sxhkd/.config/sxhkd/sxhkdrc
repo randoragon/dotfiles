@@ -127,8 +127,8 @@ super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
 # Desktop binds
-super{_,+shift} + {w,e,d,1-9}
-	bspc {desktop -f,node -d} {^1,^2,^3,1-9}
+super{_,+shift} + {1-9,w,e,d}
+	bspc {desktop -f,node -d} focused:^{1-9,10,11,12}
 super{_,+shift} + bracket{left,right}
 	bspc {desktop -f,node -d} {prev,next}.local
 super + a

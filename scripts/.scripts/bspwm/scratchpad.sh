@@ -35,14 +35,17 @@ wid=
 
 [ "$action" = toggle ] && {
     action=show
-    [ -n "$wid" ] && bspc query -N -n "$wid".\!hidden && \
+    [ -n "$wid" ] && bspc query -N -n "$wid".\!hidden.local && \
         action=hide
 }
 
 if [ "$action" = show ]; then
     # shellcheck disable=SC2015
     # This is NOT an if-else block, it's supposed to be like this
-    [ -n "$wid" ] && bspc node "$wid" -g hidden=off -f || {
+    [ -n "$wid" ] && {
+        bspc node "$wid" -m focused
+        bspc node "$wid" -g hidden=off -f
+    } || {
         [ $# -gt 0 ] && {
             # The first new node that appears will be considered the new scratchpad.
             # This technically could fail if another window was created by something

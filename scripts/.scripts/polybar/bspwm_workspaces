@@ -3,29 +3,31 @@
 # shellcheck disable=SC2059
 
 # Color definitions
-# DEFAULT      - fallback
-# DT_MFOCUS    - focused desktop on the focused monitor
-# DT_MIDLE     - unfocused desktop on the focused monitor
-# DT_mFOCUS   - focused desktop on an unfocused monitor
-# DT_mIDLE    - unfocused desktop on an unfocused monitor
-# DT_UFOCUS   - urgent focused desktop
-# DT_UIDLE    - urgent unfocused desktop
-DEFAULT_COL='%{F#FFF}%{B#000}'
+# MON       - monitor name
+# DT_MFOCUS - focused desktop on the focused monitor
+# DT_MIDLE  - unfocused desktop on the focused monitor
+# DT_mFOCUS - focused desktop on an unfocused monitor
+# DT_mIDLE  - unfocused desktop on an unfocused monitor
+# DT_UFOCUS - urgent focused desktop
+# DT_UIDLE  - urgent unfocused desktop
+MON_COL='%{F#F0F}%{B#000}'
 DT_MFOCUS_COL='%{F#000}%{B#AF0}'
 DT_MIDLE_COL='%{F#FFF}%{B#000}'
-DT_mFOCUS_COL='%{F#000}%{B#AAA}'
-DT_mIDLE_COL='%{F#AAA}%{B#000}'
+DT_mFOCUS_COL='%{F#000}%{B#999}'
+DT_mIDLE_COL='%{F#999}%{B#000}'
 DT_UFOCUS_COL='%{F#000}%{B#F00}'
 DT_UIDLE_COL='%{F#F00}%{B#000}'
 
 # Spawn listener to notify the status bar of focus changes
 bspc subscribe desktop | while read -r _; do
-    out=
-    report="$(bspc wm -g | cut -c2-)"
+    mon="$(bspc query -M -m --names)"
+    report="$(bspc wm -g | grep -o "[Mm]$mon:.*:L")"
+    out="$MON_COL $mon "
 
     IFS=:
     for i in $report; do
         case "$i" in
+            f*) continue ;;
             M*) DT_FOCUS_COL="$DT_MFOCUS_COL"
                 DT_IDLE_COL="$DT_MIDLE_COL"
                 continue
@@ -34,16 +36,17 @@ bspc subscribe desktop | while read -r _; do
                 DT_IDLE_COL="$DT_mIDLE_COL"
                 continue
                 ;;
-            f*|F*) continue ;;
-            O*) col="$DT_FOCUS_COL" ;;
+            O*|F*) col="$DT_FOCUS_COL" ;;
             o*) col="$DT_IDLE_COL" ;;
             U*) col="$DT_UFOCUS_COL" ;;
             u*) col="$DT_UIDLE_COL" ;;
+            L*) break ;;
             *) continue ;;
         esac
         dt="${i#?}"
         out="$out$col%{A1:bspc desktop -f $dt:} $dt %{A1}%{B- F-}%{O1}"
     done
+    unset IFS
 
     printf "%s\n" "$out$DEFAULT_FG$DEFAULT_BG"
 done

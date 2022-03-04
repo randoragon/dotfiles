@@ -4,9 +4,10 @@
 
 # Color definitions
 LAYOUT_COL='%{F#FF9F00}'
+STATE_COL='%{F#6B7}'
 FLAGS_COL='%{F#97F}'
 
-bspc subscribe node_focus node_flag desktop_layout desktop_focus \
+bspc subscribe node_focus node_state node_flag desktop_layout desktop_focus \
     | while read -r _; do
     out="$LAYOUT_COL"
     report="$(bspc wm -g)"
@@ -15,10 +16,10 @@ bspc subscribe node_focus node_flag desktop_layout desktop_focus \
     IFS=:
     for i in L${report##*:L}; do
         case "$i" in
-            T*) continue ;;
             LT) out="$out %{F-}%{T0}" ;;
             LM) out="$out %{F-}%{T0}" ;;
             L*) out="$out ?%{F-}%{T0}" ;;
+            T*) state="${i#T}" ;;
             G*) flags="${i#G}" ;;
         esac
     done
@@ -39,5 +40,5 @@ bspc subscribe node_focus node_flag desktop_layout desktop_focus \
         out="$out -"
     fi
 
-    printf "%s\n" "$out $FLAGS_COL$flags"
+    printf "%s\n" "$out $STATE_COL$state$FLAGS_COL$flags"
 done

@@ -1,14 +1,13 @@
 #!/bin/sh
 
-# shellcheck disable=SC2059
-
 # Color definitions
 LAYOUT_COL='%{F#FF9F00}'
 STATE_COL='%{F#6B7}'
 FLAGS_COL='%{F#97F}'
 
-bspc subscribe node_focus node_state node_flag desktop_layout desktop_focus \
-    | while read -r _; do
+EVENTS=node_focus node_state node_flag node_remove desktop_layout desktop_focus
+#shellcheck disable=SC2086
+bspc subscribe $EVENTS | while read -r _; do
     out="$LAYOUT_COL"
     report="$(bspc wm -g)"
 

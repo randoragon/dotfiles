@@ -33,23 +33,23 @@ super+{shift,control} + n
 
 # Music and Volume Control
 {XF86AudioPlay,super + p}
-	mpc --port=$MPD_PORT toggle && pkill -RTMIN+6 -x dwmblocks
+	mpc --port=$MPD_PORT toggle
 {XF86AudioStop,super+shift + p}
-	mpc --port=$MPD_PORT stop && pkill -RTMIN+6 -x dwmblocks
+	mpc --port=$MPD_PORT stop
 {XF86AudioNext,super + apostrophe}
-	mpc --port=$MPD_PORT next && pkill -RTMIN+6 -x dwmblocks
+	mpc --port=$MPD_PORT next
 {XF86AudioPrev,super + semicolon}
-	mpc --port=$MPD_PORT next && pkill -RTMIN+6 -x dwmblocks
+	mpc --port=$MPD_PORT prev
 super+shift + semicolon
-	mpc --port=$MPD_PORT seek -5 && pkill -RTMIN+6 -x dwmblocks
+	mpc --port=$MPD_PORT seek -5
 super+shift + apostrophe
-	mpc --port=$MPD_PORT seek +5 && pkill -RTMIN+6 -x dwmblocks
+	mpc --port=$MPD_PORT seek +5
 {XF86AudioMute,super + BackSpace}
-	pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks
+	pactl set-sink-mute @DEFAULT_SINK@ toggle
 {XF86AudioRaiseVolume,super + equal}
-	pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks
+	pactl set-sink-volume @DEFAULT_SINK@ +2%
 {XF86AudioLowerVolume,super + minus}
-	pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks
+	pactl set-sink-volume @DEFAULT_SINK@ -2%
 
 # Add to playlist
 super+control + equal

@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Unlimited dwm-like scratchpads for bspwm.
+# The script requires an "_sp" desktop for keeping scratchpads.
 #
 # Usage:
 #     scratchpad.sh NAME show|hide|toggle [CMD...]
@@ -26,6 +27,7 @@ name="$1"
 action="$2"
 shift 2
 
+SPDT=_sp
 SPDIR="${TMPDIR:-/tmp}/bspwm_sp"
 # shellcheck disable=SC2174
 mkdir -m 700 -p -- "$SPDIR" || exit 1
@@ -33,9 +35,11 @@ mkdir -m 700 -p -- "$SPDIR" || exit 1
 wid=
 [ -r "$SPDIR/$name" ] && wid="$(cat -- "$SPDIR/$name")"
 
+bspc wm -h off
+
 [ "$action" = toggle ] && {
     action=show
-    [ -n "$wid" ] && bspc query -N -n "$wid".\!hidden.local && \
+    [ -n "$wid" ] && bspc query -N -n "$wid".local && \
         action=hide
 }
 
@@ -43,8 +47,8 @@ if [ "$action" = show ]; then
     # shellcheck disable=SC2015
     # This is NOT an if-else block, it's supposed to be like this
     [ -n "$wid" ] && {
-        bspc node "$wid" -m focused
-        bspc node "$wid" -g hidden=off -f
+        bspc node "$wid" -d focused:focused
+        bspc node "$wid" -f
     } || {
         [ $# -gt 0 ] && {
             # The first new node that appears will be considered the new scratchpad.
@@ -60,7 +64,9 @@ if [ "$action" = show ]; then
         }
     }
 elif [ "$action" = hide ]; then
-    bspc node "$wid" -g hidden=on
+    bspc node "$wid" -d "$SPDT"
 else
     echo "scratchpad.sh: invalid action" >&2
 fi
+
+bspc wm -h on

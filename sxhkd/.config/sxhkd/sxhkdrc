@@ -97,9 +97,11 @@ super{_,+shift} + {h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}.!floating
 super{_,+shift} + {Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}.!floating
+super{+shift,+control} + m
+	~/.scripts/bspwm/{_,un}minimize.sh
 super + y
-	bspc node newest.marked.local -n newest.!automatic.local
-super + s
+	bspc node -n newest.!automatic.local
+super{_,+shift} + s
 	bspc node -s biggest.local.window || bspc node -s last.local.window
 super + {t,control + t,shift + space,f}
 	bspc node -t \~{tiled,pseudo_tiled,floating,fullscreen}
@@ -111,6 +113,8 @@ super+shift + {u,i}
 	bspc node -f {next,prev}.local.window.!hidden.floating
 super+control + {u,i}
 	bspc node -f {next,prev}.local.window.!hidden.!floating
+super+shift+control + {u,i,o}
+	bspc node -f @{1,parent,2}.!hidden
 super+shift+ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
 super+shift+ctrl + {Left,Down,Up,Right}

@@ -37,8 +37,9 @@ bspc subscribe desktop | while read -r _; do
                 continue
                 ;;
             O*|F*) col="$DT_FOCUS_COL" ;;
-            o*) col="$DT_IDLE_COL" ;;
             U*) col="$DT_UFOCUS_COL" ;;
+            ?_*) continue ;; # By my own convention, skip desktops named _*
+            o*) col="$DT_IDLE_COL" ;;
             u*) col="$DT_UIDLE_COL" ;;
             L*) break ;;
             *) continue ;;

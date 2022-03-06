@@ -47,7 +47,9 @@ if [ "$action" = show ]; then
     # shellcheck disable=SC2015
     # This is NOT an if-else block, it's supposed to be like this
     [ -n "$wid" ] && {
+        bspc wm -h off
         bspc node "$wid" -d focused:focused
+        bspc wm -h on
         bspc node "$wid" -f
     } || {
         [ $# -gt 0 ] && {

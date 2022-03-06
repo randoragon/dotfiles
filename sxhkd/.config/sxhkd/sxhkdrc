@@ -97,6 +97,8 @@ super{_,+shift} + {h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}.!floating
 super{_,+shift} + {Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}.!floating
+super+shift+control + {h,j,k,l,n}
+	~/.scripts/bspwm/throw_window.sh {w,s,n,e,c}
 super{+shift,+control} + m
 	~/.scripts/bspwm/{_,un}minimize.sh
 super{_,+shift} + y

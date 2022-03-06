@@ -99,14 +99,18 @@ super{_,+shift} + {Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}.!floating
 super{+shift,+control} + m
 	~/.scripts/bspwm/{_,un}minimize.sh
-super + y
-	bspc node -n newest.!automatic.local
-super{_,+shift} + s
-	bspc node -s biggest.local.window || bspc node -s last.local.window
+super{_,+shift} + y
+	bspc node {_,newest.marked} -n newest.!automatic.local
+super + s
+	bspc node -f biggest.local.window && bspc node -s last.local -f last.local
+super+shift + s
+	bspc query -N -n @parent.horizontal && bspc node @parent -F horizontal || bspc node @parent -F vertical
+super+shift+control + s
+	bspc node @brother/1 -s @brother/2
 super + {t,control + t,shift + space,f}
 	bspc node -t \~{tiled,pseudo_tiled,floating,fullscreen}
-super+control + {m,x,s,z}
-	bspc node -g {marked,locked,sticky,private}
+super+control + {a,s,z,x}
+	bspc node -g {marked,sticky,private,locked}
 super + {u,i}
 	bspc node -f {next,prev}.local.window.!hidden
 super+shift + {u,i}

@@ -1,9 +1,9 @@
 # Signal sxhkd to reload config
-super+control + r
+super+ctrl + r
 	pkill -USR1 -x sxhkd && notify-send -u low 'sxhkd' 'reloaded config'
 
 # Generic Launchers
-control+alt + {i,w,d,f}
+ctrl+alt + {i,w,d,f}
 	{\
 	st -e lf,\
 	~/.scripts/surfbm,\
@@ -20,15 +20,15 @@ super + {Return,o,g,c}
 	}
 
 # Pass
-super+{shift,control} + o
+super+{shift,ctrl} + o
 	{~/.scripts/passcpy,~/.scripts/usercpy}
 
 # Notes
-super+{shift,control} + n
+super+{shift,ctrl} + n
 	{note,note -e}
 
 # Screenshots
-{_,control} + Print
+{_,ctrl} + Print
 	{flameshot gui,flameshot full -c}
 
 # Music and Volume Control
@@ -52,7 +52,7 @@ super+shift + apostrophe
 	pactl set-sink-volume @DEFAULT_SINK@ -2%
 
 # Add to playlist
-super+control + equal
+super+ctrl + equal
 	~/.scripts/pladd_select
 
 # Drawing Tablet
@@ -84,59 +84,126 @@ super + {KP_End,KP_Down,KP_Next}
 	~/.scripts/laugh-track {ss,si,l}
 
 
-# BSPWM
+#,============#
+#    BSPWM    #
+#=============#
 
-# General binds
+# GENERAL BINDS
 super+shift + {q,r}
 	{quitmenu,bspc wm -r}
 
-# Node binds
+# NODE BINDS
+
+# Close / kill
 super{_,+shift} + q
 	bspc node -{c,k}
-super{_,+shift} + {h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}.!floating
-super{_,+shift} + {Left,Down,Up,Right}
-	bspc node -{f,s} {west,south,north,east}.!floating
-super+shift+control + {h,j,k,l,n}
-	~/.scripts/bspwm/throw_window.sh {w,s,n,e,c}
-super{+shift,+control} + m
+
+# Focus / swap / move floating
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}.!floating
+super + {Left,Down,Up,Right}
+	bspc node -f {west,south,north,east}.!floating
+super+shift + {h,j,k,l}
+	{\
+	bspc query -N -n focused.floating >/dev/null \
+	&& bspc node -v -30 0  || bspc node -s west.!floating,\
+	bspc query -N -n focused.floating >/dev/null \
+	&& bspc node -v  0  30 || bspc node -s south.!floating,\
+	bspc query -N -n focused.floating >/dev/null \
+	&& bspc node -v  0 -30 || bspc node -s north.!floating,\
+	bspc query -N -n focused.floating >/dev/null \
+	&& bspc node -v  30 0  || bspc node -s east.!floating\
+	}
+super+shift + {Left,Down,Up,Right}
+	{\
+	bspc query -N -n focused.floating >/dev/null \
+	&& bspc node -v -30 0  || bspc node -s west.!floating,\
+	bspc query -N -n focused.floating >/dev/null \
+	&& bspc node -v  0  30 || bspc node -s south.!floating,\
+	bspc query -N -n focused.floating >/dev/null \
+	&& bspc node -v  0 -30 || bspc node -s north.!floating,\
+	bspc query -N -n focused.floating >/dev/null \
+	&& bspc node -v  30 0  || bspc node -s east.!floating\
+	}
+
+# Minimize / unminimize
+super{+shift,+ctrl} + m
 	~/.scripts/bspwm/{_,un}minimize.sh
+
+# Send on presel / receptacle
 super{_,+shift} + y
 	bspc node {_,newest.marked} -n newest.!automatic.local
+super{+ctrl,+shift+ctrl} + y
+	bspc node {_,newest.marked} -n "$(bspc query -N -n .leaf.\!window.local | head -n1)"
+
+# Swap biggest / flip
 super + s
 	bspc node -f biggest.local.window && bspc node -s last.local -f last.local
 super+shift + s
 	bspc query -N -n @parent.horizontal && bspc node @parent -F horizontal || bspc node @parent -F vertical
-super+shift+control + s
+super+shift+ctrl + s
 	bspc node @brother/1 -s @brother/2
-super + {t,control + t,shift + space,f}
+
+# Toggle states / flags
+super + {t,ctrl + t,shift + space,f}
 	bspc node -t \~{tiled,pseudo_tiled,floating,fullscreen}
-super+control + {a,s,z,x}
+super+ctrl + {a,s,z,x}
 	bspc node -g {marked,sticky,private,locked}
+
+# Cycle
 super + {u,i}
 	bspc node -f {next,prev}.local.window.!hidden
 super+shift + {u,i}
 	bspc node -f {next,prev}.local.window.!hidden.floating
-super+control + {u,i}
+super+ctrl + {u,i}
 	bspc node -f {next,prev}.local.window.!hidden.!floating
-super+shift+control + {u,i,o}
+
+# Climb / descend the tree
+super+shift+ctrl + {u,i,o}
 	bspc node -f @{1,parent,2}.!hidden
+
+# Resize
+super+ctrl + {h,j,k,l}
+	~/.scripts/bspwm/tiled_resize.sh {h -30,v +30,v -30,h +30}
+super+ctrl + {Left,Down,Up,Right}
+	~/.scripts/bspwm/tiled_resize.sh {h -30,v +30,v -30,h +30}
+
+# Insert receptacle / toggle presel / throw floating window
+super+shift+ctrl + n
+	bspc query -N -n focused.floating >/dev/null \
+	&& ~/.scripts/bspwm/throw_window.sh c \
+	|| bspc node focused -i
 super+shift+ctrl + {h,j,k,l}
-	bspc node -p {west,south,north,east}
+	{\
+	bspc node -p \~west  || ~/.scripts/bspwm/throw_window.sh w,\
+	bspc node -p \~south || ~/.scripts/bspwm/throw_window.sh s,\
+	bspc node -p \~north || ~/.scripts/bspwm/throw_window.sh n,\
+	bspc node -p \~east  || ~/.scripts/bspwm/throw_window.sh e\
+	}
 super+shift+ctrl + {Left,Down,Up,Right}
-	bspc node -p {west,south,north,east}
+	{\
+	bspc node -p \~west  || ~/.scripts/bspwm/throw_window.sh w,\
+	bspc node -p \~south || ~/.scripts/bspwm/throw_window.sh s,\
+	bspc node -p \~north || ~/.scripts/bspwm/throw_window.sh n,\
+	bspc node -p \~east  || ~/.scripts/bspwm/throw_window.sh e\
+	}
+
+# Set presel ratio
 super+shift+ctrl + {1-9}
 	bspc node -o 0.{1-9}
-super+shift+ctrl + space
-	bspc node -p cancel
-super+control + {h,j,k,l}
-	bspc node -z {right -30 0,bottom 0 30,bottom 0 -30,right 30 0}
-super+control + {Left,Down,Up,Right}
-	bspc node -z {right -30 0,bottom 0 30,bottom 0 -30,right 30 0}
-super + {Left,Down,Up,Right}
-	bspc node -v {-20 0,0 20,0 -20,20 0}
 
-# Desktop binds
+# Equalize / balance
+super+shift+ctrl + {e,b}
+	{\
+	bspc node focused.!leaf -E || bspc node @/ -E,\
+	bspc node focused.!leaf -B || bspc node @/ -B\
+	}
+
+# Rotate parent
+super + {z,x}
+	bspc node @parent -R {270,90}
+
+# DESKTOP BINDS
 super{_,+shift} + {1-9,w,e,d}
 	bspc {desktop -f,node -d} focused:^{1-9,10,11,12}
 super{_,+shift} + bracket{left,right}
@@ -146,19 +213,19 @@ super + a
 super{_,+shift} + Tab
 	bspc {desktop -f,node -d} last
 
-# Monitor binds
+# MONITOR BINDS
 super{_,+shift} + {comma,period}
 	bspc {monitor -f,node -m} {prev,next}
 
-# Status bar binds
-super{_,+shift,+control} + b
+# STATUS BAR BINDS
+super{_,+shift,+ctrl} + b
 	{\
 	~/.scripts/bspwm/bar_toggle.sh,\
 	polybar-msg cmd restart,\
 	polybar-msg cmd quit && bspc config top_padding 0
 	}
 
-# Scratchpads
+# SCRATCHPADS
 super + {space,m,n,slash}
 	~/.scripts/bspwm/scratchpad.sh {\
 	sp_term  toggle st -n sp -t scratchpad,\

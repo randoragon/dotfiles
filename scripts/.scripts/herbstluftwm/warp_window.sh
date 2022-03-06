@@ -94,9 +94,7 @@ case "$1" in
         tx=$((tx - ${2:-$AMOUNT}))
         tw=$((tw + ${2:-$AMOUNT}))
         ;;
-    *)
-        echo 'wm-throw: invalid direction (must be one of: north, east, south, west, center)' >&2
-        exit 1
+    *) exit 1
 esac
 
 new_geom="${tw}x${th}+${tx}+${ty}"

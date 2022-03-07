@@ -1,0 +1,14 @@
+#!/bin/sh
+
+bspc subscribe node_focus | while read -r data; do
+    wid="${data##* }"
+    if bspc query -N -n "$wid".window >/dev/null; then
+        fullclass="$(xprop -id "$wid" | sed -n 's/^WM_CLASS(STRING) = //p')"
+        class="$(echo "$fullclass" | cut -d\" -f4)"
+        instance="$(echo "$fullclass" | cut -d\" -f2)"
+        title="$(xdotool getwindowname "$wid")"
+        printf '%s:%s   %s\n' "$class" "$instance" "$title"
+    else
+        printf '@ %s\n' "$wid"
+    fi
+done

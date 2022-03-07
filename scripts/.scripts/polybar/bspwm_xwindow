@@ -1,5 +1,7 @@
 #!/bin/sh
 
+PREFIX_COL='%{F#888}'
+
 bspc subscribe node_focus | while read -r data; do
     wid="${data##* }"
     if bspc query -N -n "$wid".window >/dev/null; then
@@ -7,8 +9,8 @@ bspc subscribe node_focus | while read -r data; do
         class="$(echo "$fullclass" | cut -d\" -f4)"
         instance="$(echo "$fullclass" | cut -d\" -f2)"
         title="$(xdotool getwindowname "$wid")"
-        printf '%s:%s   %s\n' "$class" "$instance" "$title"
+        printf '%s%s:%s%%{B- F-}   %s\n' "$PREFIX_COL" "$class" "$instance" "$title"
     else
-        printf '@ %s\n' "$wid"
+        printf '%s@%%{B- F-} %s\n' "$PREFIX_COL" "$wid"
     fi
 done

@@ -43,7 +43,7 @@ bspc config pointer_action2 none
 bspc config pointer_action3 resize_corner
 bspc config click_to_focus button1
 bspc config swallow_first_click false
-bspc config focus_follows_pointer true
+bspc config focus_follows_pointer false
 bspc config pointer_follows_focus false
 bspc config pointer_follows_monitor false
 bspc config mapping_events_count 0

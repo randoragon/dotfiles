@@ -28,6 +28,7 @@ bspc rule -a 'Chromium'      desktop=
 bspc rule -a 'Thunderbird' desktop=
 bspc rule -a 'discord'     desktop=
 bspc rule -a 'Carla2:carla' state=floating
+bspc rule -a 'Sxiv:sxiv'    state=floating
 bspc config external_rules_command ~/.scripts/bspwm/external_rules.sh
 
 # Behavior Settings

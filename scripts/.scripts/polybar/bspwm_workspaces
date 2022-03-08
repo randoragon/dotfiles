@@ -18,8 +18,10 @@ DT_mIDLE_COL='%{F#999}%{B#000}'
 DT_UFOCUS_COL='%{F#000}%{B#F00}'
 DT_UIDLE_COL='%{F#F00}%{B#000}'
 
-# Spawn listener to notify the status bar of focus changes
-bspc subscribe desktop | while read -r _; do
+EVENTS=desktop_activate desktop_add desktop_focus desktop_remove \
+desktop_rename desktop_swap desktop_transfer node_transfer
+#shellcheck disable=SC2086
+bspc subscribe $EVENTS | while read -r _; do
     mon="$(bspc query -M -m --names)"
     report="$(bspc wm -g | grep -o "[Mm]$mon:.*:L")"
     out="$MON_COL $mon "

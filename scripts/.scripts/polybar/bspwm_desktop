@@ -8,18 +8,20 @@ FLAGS_COL='%{F#97F}'
 EVENTS=node_focus node_state node_flag node_remove desktop_layout desktop_focus
 #shellcheck disable=SC2086
 bspc subscribe $EVENTS | while read -r _; do
+    mon="$(bspc query -M -m --names)"
+    report="L$(bspc wm -g | perl -pe "s/.*[Mm]$mon:.*?:L//")"
     out="$LAYOUT_COL"
-    report="$(bspc wm -g)"
 
     unset flags
     IFS=:
-    for i in L${report##*:L}; do
+    for i in ${report%%:[Mm]*}; do
         case "$i" in
             LT) out="$out %{F-}%{T0}" ;;
             LM) out="$out %{F-}%{T0}" ;;
             L*) out="$out ?%{F-}%{T0}" ;;
             T*) state="${i#T}" ;;
             G*) flags="${i#G}" ;;
+            *)  break ;;
         esac
     done
     unset IFS

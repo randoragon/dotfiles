@@ -164,9 +164,19 @@ super+shift+ctrl + {u,i,o}
 
 # Resize
 super+ctrl + {h,j,k,l}
-	~/.scripts/bspwm/tiled_resize.sh {h -30,v +30,v -30,h +30}
+	{\
+	bspc query -N -n focused.floating && bspc node -z right  -30 0  || ~/.scripts/bspwm/tiled_resize.sh h -30,\
+	bspc query -N -n focused.floating && bspc node -z bottom  0 +30 || ~/.scripts/bspwm/tiled_resize.sh v +30,\
+	bspc query -N -n focused.floating && bspc node -z bottom  0 -30 || ~/.scripts/bspwm/tiled_resize.sh v -30,\
+	bspc query -N -n focused.floating && bspc node -z right  +30 0  || ~/.scripts/bspwm/tiled_resize.sh h +30\
+	}
 super+ctrl + {Left,Down,Up,Right}
-	~/.scripts/bspwm/tiled_resize.sh {h -30,v +30,v -30,h +30}
+	{\
+	bspc query -N -n focused.floating && bspc node -z right  -30 0  || ~/.scripts/bspwm/tiled_resize.sh h -30,\
+	bspc query -N -n focused.floating && bspc node -z bottom  0 +30 || ~/.scripts/bspwm/tiled_resize.sh v +30,\
+	bspc query -N -n focused.floating && bspc node -z bottom  0 -30 || ~/.scripts/bspwm/tiled_resize.sh v -30,\
+	bspc query -N -n focused.floating && bspc node -z right  +30 0  || ~/.scripts/bspwm/tiled_resize.sh h +30\
+	}
 
 # Insert receptacle / toggle presel / throw floating window
 super+shift+ctrl + n

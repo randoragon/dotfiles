@@ -4,11 +4,11 @@
 # it should be executed by the window manager/desktop environment.
 
 # Autostart utilities
-xwallpaper --zoom "$HOME/.config/wallpaper"
+xwallpaper --zoom ~/.config/wallpaper
 flameshot &
 dunst &
 sxhkd &
-picom --config "$HOME/.config/picom/picom.conf" &
+picom --config ~/.config/picom/picom.conf &
 xidlehook --not-when-audio --timer 600 'physlock' '' --timer 1200 'systemctl suspend' '' &
 
 # Autostart other programs

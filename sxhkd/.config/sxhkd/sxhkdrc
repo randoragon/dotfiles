@@ -222,6 +222,8 @@ super{_,+shift} + {1-9,w,e,d}
 	bspc {desktop -f,node -d} focused:^{1-9,10,11,12}
 super{_,+shift} + bracket{left,right}
 	bspc {desktop -f,node -d} {prev,next}.local.occupied
+super{+control,+shift+control} + bracket{left,right}
+	bspc {desktop -f,node -d} {prev,next}.local
 super + a
 	bspc desktop -l next
 super{_,+shift} + Tab

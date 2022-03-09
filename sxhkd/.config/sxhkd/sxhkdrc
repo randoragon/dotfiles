@@ -247,3 +247,9 @@ super + {space,m,n,slash}
 	sp_news  toggle st -n sp dualboat,\
 	sp_calc  toggle st -n sp -t qalc qalc\
 	}
+
+# TOGGLE GAPS
+super+shift+ctrl + 0
+	[ "$(bspc config window_gap)" -eq 0 ] \
+	&& bspc config window_gap 10 \
+	|| bspc config window_gap 0

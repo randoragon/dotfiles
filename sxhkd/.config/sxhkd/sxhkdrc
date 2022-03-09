@@ -213,6 +213,10 @@ super+shift+ctrl + {e,b}
 super + {z,x}
 	bspc node @parent -R {270,90}
 
+# Jump to / bring / swap arbitrary window(s)
+super{_,+shift,+ctrl} + 0
+	~/.scripts/bspwm/{jumpto,bring,swap}.sh
+
 # DESKTOP BINDS
 super{_,+shift} + {1-9,w,e,d}
 	bspc {desktop -f,node -d} focused:^{1-9,10,11,12}

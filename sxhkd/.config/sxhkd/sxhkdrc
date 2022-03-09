@@ -89,13 +89,13 @@ super + {KP_End,KP_Down,KP_Next}
 #=============#
 
 # GENERAL BINDS
-super+shift + {ctrl + q,r}
+super+shift + {q,r}
 	{quitmenu,bspc wm -r}
 
 # NODE BINDS
 
 # Close / kill
-super{_,+shift} + q
+super{_,+control} + q
 	bspc node -{c,k}
 
 # Focus / swap / move floating

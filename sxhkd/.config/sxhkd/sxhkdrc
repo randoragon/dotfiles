@@ -89,7 +89,7 @@ super + {KP_End,KP_Down,KP_Next}
 #=============#
 
 # GENERAL BINDS
-super+shift + {q,r}
+super+shift + {ctrl + q,r}
 	{quitmenu,bspc wm -r}
 
 # NODE BINDS

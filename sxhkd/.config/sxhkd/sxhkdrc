@@ -105,25 +105,17 @@ super + {Left,Down,Up,Right}
 	bspc node -f {west,south,north,east}.!floating
 super+shift + {h,j,k,l}
 	{\
-	bspc query -N -n focused.floating >/dev/null \
-	&& bspc node -v -30 0  || bspc node -s west.!floating,\
-	bspc query -N -n focused.floating >/dev/null \
-	&& bspc node -v  0  30 || bspc node -s south.!floating,\
-	bspc query -N -n focused.floating >/dev/null \
-	&& bspc node -v  0 -30 || bspc node -s north.!floating,\
-	bspc query -N -n focused.floating >/dev/null \
-	&& bspc node -v  30 0  || bspc node -s east.!floating\
+	~/.scripts/bspwm/smooth_move.sh h -20 h,\
+	~/.scripts/bspwm/smooth_move.sh v +20 j,\
+	~/.scripts/bspwm/smooth_move.sh v -20 k,\
+	~/.scripts/bspwm/smooth_move.sh h +20 l\
 	}
 super+shift + {Left,Down,Up,Right}
 	{\
-	bspc query -N -n focused.floating >/dev/null \
-	&& bspc node -v -30 0  || bspc node -s west.!floating,\
-	bspc query -N -n focused.floating >/dev/null \
-	&& bspc node -v  0  30 || bspc node -s south.!floating,\
-	bspc query -N -n focused.floating >/dev/null \
-	&& bspc node -v  0 -30 || bspc node -s north.!floating,\
-	bspc query -N -n focused.floating >/dev/null \
-	&& bspc node -v  30 0  || bspc node -s east.!floating\
+	~/.scripts/bspwm/smooth_move.sh h -20 left,\
+	~/.scripts/bspwm/smooth_move.sh v +20 down,\
+	~/.scripts/bspwm/smooth_move.sh v -20 up,\
+	~/.scripts/bspwm/smooth_move.sh h +20 right\
 	}
 
 # Minimize / unminimize
@@ -165,17 +157,17 @@ super+shift+ctrl + {u,i,o}
 # Resize
 super+ctrl + {h,j,k,l}
 	{\
-	bspc query -N -n focused.floating && bspc node -z right  -30 0  || ~/.scripts/bspwm/tiled_resize.sh h -30,\
-	bspc query -N -n focused.floating && bspc node -z bottom  0 +30 || ~/.scripts/bspwm/tiled_resize.sh v +30,\
-	bspc query -N -n focused.floating && bspc node -z bottom  0 -30 || ~/.scripts/bspwm/tiled_resize.sh v -30,\
-	bspc query -N -n focused.floating && bspc node -z right  +30 0  || ~/.scripts/bspwm/tiled_resize.sh h +30\
+	~/.scripts/bspwm/smooth_resize.sh h -15 h,\
+	~/.scripts/bspwm/smooth_resize.sh v +15 j,\
+	~/.scripts/bspwm/smooth_resize.sh v -15 k,\
+	~/.scripts/bspwm/smooth_resize.sh h +15 l\
 	}
 super+ctrl + {Left,Down,Up,Right}
 	{\
-	bspc query -N -n focused.floating && bspc node -z right  -30 0  || ~/.scripts/bspwm/tiled_resize.sh h -30,\
-	bspc query -N -n focused.floating && bspc node -z bottom  0 +30 || ~/.scripts/bspwm/tiled_resize.sh v +30,\
-	bspc query -N -n focused.floating && bspc node -z bottom  0 -30 || ~/.scripts/bspwm/tiled_resize.sh v -30,\
-	bspc query -N -n focused.floating && bspc node -z right  +30 0  || ~/.scripts/bspwm/tiled_resize.sh h +30\
+	~/.scripts/bspwm/smooth_resize.sh h -15 left,\
+	~/.scripts/bspwm/smooth_resize.sh v +15 down,\
+	~/.scripts/bspwm/smooth_resize.sh v -15 up,\
+	~/.scripts/bspwm/smooth_resize.sh h +15 right\
 	}
 
 # Insert receptacle / toggle presel / throw floating window

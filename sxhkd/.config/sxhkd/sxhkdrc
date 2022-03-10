@@ -105,17 +105,17 @@ super + {Left,Down,Up,Right}
 	bspc node -f {west,south,north,east}.!floating
 super+shift + {h,j,k,l}
 	{\
-	~/.scripts/bspwm/smooth_move.sh h -20 h,\
-	~/.scripts/bspwm/smooth_move.sh v +20 j,\
-	~/.scripts/bspwm/smooth_move.sh v -20 k,\
-	~/.scripts/bspwm/smooth_move.sh h +20 l\
+	~/.scripts/bspwm/smooth_move.sh h -30 h,\
+	~/.scripts/bspwm/smooth_move.sh v +30 j,\
+	~/.scripts/bspwm/smooth_move.sh v -30 k,\
+	~/.scripts/bspwm/smooth_move.sh h +30 l\
 	}
 super+shift + {Left,Down,Up,Right}
 	{\
-	~/.scripts/bspwm/smooth_move.sh h -20 left,\
-	~/.scripts/bspwm/smooth_move.sh v +20 down,\
-	~/.scripts/bspwm/smooth_move.sh v -20 up,\
-	~/.scripts/bspwm/smooth_move.sh h +20 right\
+	~/.scripts/bspwm/smooth_move.sh h -30 left,\
+	~/.scripts/bspwm/smooth_move.sh v +30 down,\
+	~/.scripts/bspwm/smooth_move.sh v -30 up,\
+	~/.scripts/bspwm/smooth_move.sh h +30 right\
 	}
 
 # Minimize / unminimize
@@ -157,17 +157,17 @@ super+shift+ctrl + {u,i,o}
 # Resize
 super+ctrl + {h,j,k,l}
 	{\
-	~/.scripts/bspwm/smooth_resize.sh h -15 h,\
-	~/.scripts/bspwm/smooth_resize.sh v +15 j,\
-	~/.scripts/bspwm/smooth_resize.sh v -15 k,\
-	~/.scripts/bspwm/smooth_resize.sh h +15 l\
+	~/.scripts/bspwm/smooth_resize.sh h -30 h,\
+	~/.scripts/bspwm/smooth_resize.sh v +30 j,\
+	~/.scripts/bspwm/smooth_resize.sh v -30 k,\
+	~/.scripts/bspwm/smooth_resize.sh h +30 l\
 	}
 super+ctrl + {Left,Down,Up,Right}
 	{\
-	~/.scripts/bspwm/smooth_resize.sh h -15 left,\
-	~/.scripts/bspwm/smooth_resize.sh v +15 down,\
-	~/.scripts/bspwm/smooth_resize.sh v -15 up,\
-	~/.scripts/bspwm/smooth_resize.sh h +15 right\
+	~/.scripts/bspwm/smooth_resize.sh h -30 left,\
+	~/.scripts/bspwm/smooth_resize.sh v +30 down,\
+	~/.scripts/bspwm/smooth_resize.sh v -30 up,\
+	~/.scripts/bspwm/smooth_resize.sh h +30 right\
 	}
 
 # Insert receptacle / toggle presel / throw floating window

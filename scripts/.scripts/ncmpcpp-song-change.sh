@@ -21,7 +21,21 @@ if [ -n "$switch_wallpaper" ]; then
     mpdfpath="$(mpc current --format %file% --port "$MPD_PORT")"
     mpc readpicture "$mpdfpath" >"$cachefile"
     if file -- "$cachefile" | grep -qi 'image'; then
-        xwallpaper --maximize "$cachefile"
+        tmp="$(mktemp)"
+        h=$(magick "$cachefile" -format '%h' info:)
+        newh="$(echo "scale=0; $h * 1.1 / 1" | bc)"
+        convert "$cachefile" +write mpr:ORIG \
+            \( \
+                mpr:ORIG -resize 320x180^ -filter Gaussian -blur 0x4 \
+                -gravity Center -crop 320x180+0+0 \
+                -resize 1920x"$newh" +write mpr:BLUR \
+            \) \
+            \( \
+                mpr:BLUR mpr:ORIG -gravity center -composite \
+                +write "$tmp" \
+            \) null:
+        xwallpaper --maximize "$tmp"
+        rm -f -- "$tmp"
     else
         rm -f -- "$cachefile"
         xwallpaper --zoom "${XDG_CONFIG_HOME:-~/.config}/wallpaper"

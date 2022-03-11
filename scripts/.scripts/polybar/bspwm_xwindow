@@ -2,15 +2,23 @@
 
 PREFIX_COL='%{F#888}'
 
-bspc subscribe node_focus | while read -r data; do
-    wid="${data##* }"
-    if bspc query -N -n "$wid".window >/dev/null; then
-        fullclass="$(xprop -id "$wid" | sed -n 's/^WM_CLASS(STRING) = //p')"
-        class="$(echo "$fullclass" | cut -d\" -f4)"
-        instance="$(echo "$fullclass" | cut -d\" -f2)"
-        title="$(xdotool getwindowname "$wid")"
-        printf '%s%s:%s%%{B- F-}   %s\n' "$PREFIX_COL" "$class" "$instance" "$title"
-    else
-        printf '%s@%%{B- F-} %s\n' "$PREFIX_COL" "$wid"
-    fi
+bspc subscribe node_focus node_remove desktop_focus | while read -r data; do
+    event="${data%% *}"
+    case "$event" in
+        node_focus)
+            wid="${data##* }"
+            if bspc query -N -n "$wid".window >/dev/null; then
+                fullclass="$(xprop -id "$wid" | sed -n 's/^WM_CLASS(STRING) = //p')"
+                class="$(echo "$fullclass" | cut -d\" -f4)"
+                instance="$(echo "$fullclass" | cut -d\" -f2)"
+                title="$(xdotool getwindowname "$wid")"
+                printf '%s%s:%s%%{B- F-}   %s\n' "$PREFIX_COL" "$class" "$instance" "$title"
+            else
+                printf '%s@%%{B- F-} %s\n' "$PREFIX_COL" "$wid"
+            fi
+            ;;
+        node_remove|desktop_focus)
+            bspc query -N -n >/dev/null || echo "${PREFIX_COL}-"
+            ;;
+    esac
 done

@@ -2,7 +2,7 @@
 
 PREFIX_COL='%{F#888}'
 
-bspc subscribe node_focus node_remove desktop_focus | while read -r data; do
+bspc subscribe node_focus node_transfer node_remove desktop_focus | while read -r data; do
     event="${data%% *}"
     case "$event" in
         node_focus)
@@ -17,7 +17,7 @@ bspc subscribe node_focus node_remove desktop_focus | while read -r data; do
                 printf '%s@%%{B- F-} %s\n' "$PREFIX_COL" "$wid"
             fi
             ;;
-        node_remove|desktop_focus)
+        node_remove|desktop_focus|node_transfer)
             bspc query -N -n >/dev/null || echo "${PREFIX_COL}-"
             ;;
     esac

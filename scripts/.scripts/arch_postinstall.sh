@@ -143,7 +143,7 @@ for package in \
     stow \
     networkmanager net-tools udisks2 \
     iputils wpa_supplicant wireless_tools \
-    pipewire pipewire-pulse pipewire-jack pipewire-alsa pulsemixer \
+    pipewire lib32-pipewire pipewire-pulse pipewire-jack pipewire-alsa pulsemixer \
     physlock \
     ntfs-3g dosfstools which \
     arch-install-scripts \

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Reencodes a video for YouTube upload.
+# source: https://video.stackexchange.com/questions/24479/how-to-encode-for-youtube-with-ffmpeg
+#
+# The first argument must be the input video file.
+# Any trailing arguments are transparently appended to the ffmpeg command.
+
+[ $# -lt 2 ] && echo 'ffyt: at least 2 arguments expected' >&2 && exit 1
+fname="$1"
+shift
+ffmpeg -i "$fname" \
+    -vf yadif,format=yuv420p \
+    -force_key_frames 'expr:gte(t,n_forced/2)' \
+    -c:v libx264 \
+    -crf 18 \
+    -bf 2 \
+    -c:a aac \
+    -q:a 1 \
+    -ac 2 \
+    -ar 48000 \
+    -use_editlist 0 \
+    -movflags +faststart \
+    "$@"

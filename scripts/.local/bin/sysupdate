@@ -33,5 +33,5 @@ sectionend
 section "RUNNING" "nvim +PaqUpdate +qall"
 nvim +PlugUpdate +qall
 
-~/.scripts/dwmblocks/updates
-pkill -RTMIN+4 -x dwmblocks
+#~/.scripts/dwmblocks/updates
+#pkill -RTMIN+4 -x dwmblocks

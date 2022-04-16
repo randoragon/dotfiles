@@ -28,6 +28,6 @@ printf '%s\t%s\t%s\t%s\t%s\n' \
     "$title"                  \
     >>"$FILE"
 
-bspc node "$wid" -d "$MINIMIZE_DT"
+bspc node "$wid" -g sticky=off -d "$MINIMIZE_DT"
 
 polybar-msg hook bspwm_minimized 1

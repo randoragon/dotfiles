@@ -1,6 +1,6 @@
 inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
 
-nnoremap <buffer> <Leader>m :split \| terminal python3 -i %<CR>
+nnoremap <buffer> <Leader>m :write \| split \| terminal python3 -i %<CR>
 nnoremap <buffer> <C-]> :ALEGoToDefinition<CR>
 inoremap <buffer> <M-n> <C-o>o
 set tw=80

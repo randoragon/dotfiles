@@ -24,3 +24,17 @@ inoremap <buffer> <Leader>tr table.remove()<Left>
 inoremap <buffer> <Leader>tc table.concat()<Left>
 inoremap <buffer> <Leader>tm table.move()<Left>
 inoremap <buffer> <Leader>tp tprint()<Left>
+
+inoremap <buffer> ++ <Esc>v^ygi = <C-r>" + 1
+inoremap <buffer> -- <Esc>v^ygi = <C-r>" - 1
+inoremap <buffer> += <Esc>y^gi= <C-r>" + 
+inoremap <buffer> -= <Esc>y^gi= <C-r>" - 
+inoremap <buffer> *= <Esc>y^gi= <C-r>" * 
+inoremap <buffer> /= <Esc>y^gi= <C-r>" / 
+inoremap <buffer> //= <Esc>y^gi= <C-r>" // 
+inoremap <buffer> %= <Esc>y^gi= <C-r>" % 
+inoremap <buffer> ^= <Esc>y^gi= <C-r>"^ 
+inoremap <buffer> &= <Esc>y^gi= <C-r>" & 
+inoremap <buffer> \|= <Esc>y^gi= <C-r>" \| 
+inoremap <buffer> >>= <Esc>y^gi= <C-r>" >> 
+inoremap <buffer> <<= <Esc>y^gi= <C-r>" << 

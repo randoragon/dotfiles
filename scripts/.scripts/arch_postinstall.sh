@@ -385,6 +385,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     [ -n "$need_gui" ] && sstow gromit-mpx
     [ -n "$need_gui" ] && sstow gtk
     sstow less
+    sstow lua
     sstow lf
     ddetach mime
     [ -n "$need_music" ] && sstow mpd

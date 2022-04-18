@@ -76,6 +76,7 @@ export NNN_COLORS='6532'
 export NNN_TRASH=1
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export NVIM_SMOOTHIE_ENABLED=1
+export LUA_INIT="@$HOME/.config/lua/init.lua"
 
 # This makes markdown previews with tables bearable
 # to look at, just prepend the html file with it

@@ -143,7 +143,8 @@ for package in \
     stow \
     networkmanager net-tools udisks2 \
     iputils wpa_supplicant wireless_tools \
-    pipewire lib32-pipewire pipewire-pulse pipewire-jack pipewire-alsa pulsemixer \
+    pipewire lib32-pipewire pipewire-pulse pipewire-jack pipewire-alsa \
+    wireplumber carla pulsemixer \
     physlock \
     ntfs-3g dosfstools which \
     arch-install-scripts \
@@ -179,9 +180,9 @@ done
 [ -n "$need_gui" ] && for package in \
     xorg-xinit xorg-xkbcomp xorg-drivers \
     picom \
+    bspwm sxhkd \
     ttf-bitstream-vera ttf-dejavu ttf-font-awesome ttf-joypixels otf-ipafont \
     xwallpaper \
-    sxhkd \
     sxiv \
     xarchiver \
     firefox \
@@ -281,6 +282,7 @@ sectionend
 # Installs from AUR
 section "Installing AUR Packages"
 for package in \
+    polybar \
     pipewire-jack-dropin \
     xxd-standalone \
     pass-update \
@@ -330,7 +332,7 @@ fi
 printf "done.\n"
 sectionend
 
-for i in dwm dwmblocks st dmenu surf sent; do
+for i in st dmenu surf sent; do
     section "Installing $i"
     if [ -n "$need_gui" ]; then
         cd ~/Software
@@ -376,6 +378,8 @@ rm -f -- ~/.bashrc ~/.bash_profile
 if [ -n "$overwrite_dotfiles" ]; then
     cd ~/dotfiles
     [ -n "$need_music" ] && sstow beets
+    [ -n "$need_gui" ] && sstow bspwm
+    sstow carla
     ddetach cronie
     [ -n "$need_gui" ] && sstow dunst
     [ -n "$need_gui" ] && sstow dwm

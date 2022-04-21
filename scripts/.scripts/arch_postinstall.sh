@@ -8,7 +8,7 @@ set -e
 
 col1=2 # sections
 col2=4 # package names
-scount=19
+scount=16
 
 ask () {
     printf '%s [Y/n] ' "$*"
@@ -81,21 +81,24 @@ need_bluetooth=
 need_newsboat=
 need_funcmd=
 need_ytdl=
+need_obs=
 overwrite_dotfiles=
 overwrite_crontabs=
 snow=1
 
 printf "\n%sINSTALLATION WIZARD%s\n" "$(tput setaf 3)" "$(tput sgr0)"
-ask "(1/10) Install graphical session?"   && need_gui=1
-ask "(2/10) Install development tools?"   && need_devtools=1
-ask "(3/10) Install music library tools?" && need_music=1
-ask "(4/10) Install email client?"        && need_email=1
-ask "(5/10) Install bluetooth support?"   && need_bluetooth=1
-ask "(6/10) Install sync tools?"          && need_sync=1
-ask "(7/10) Install newsboat?"            && need_newsboat=1
-ask "(8/10) Install youtube-dl?"          && need_ytdl=1
-ask "(9/10) Overwrite local configs with dotfiles'?"   && overwrite_dotfiles=1
-ask "(10/10) Overwrite local crontabs with dotfiles'?" && overwrite_crontabs=1
+ask "(1/12) Install graphical session?"   && need_gui=1
+ask "(2/12) Install development tools?"   && need_devtools=1
+ask "(3/12) Install music library tools?" && need_music=1
+ask "(4/12) Install email client?"        && need_email=1
+ask "(5/12) Install bluetooth support?"   && need_bluetooth=1
+ask "(6/12) Install sync tools?"          && need_sync=1
+ask "(7/12) Install newsboat?"            && need_newsboat=1
+ask "(8/12) Install youtube-dl?"          && need_ytdl=1
+ask "(9/12) Install OBS?"                 && need_obs=1
+ask "(10/12) Install fun commands?"       && need_funcmd=1
+ask "(11/12) Overwrite local dotfiles?"   && overwrite_dotfiles=1
+ask "(12/12) Overwrite local crontabs with dotfiles'?" && overwrite_crontabs=1
 printf "\n"
 sleep 1
 if ask "Configuration Complete. Begin Installation?"; then
@@ -210,7 +213,7 @@ done
 [ -n "$need_music" ] && for package in \
     mpd ncmpcpp mpc \
     beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
-    atomicparsley
+    atomicparsley \
     mp3info
 do
     pacinstall "$package"
@@ -219,12 +222,9 @@ done
 [ -n "$need_email" ]     && pacinstall thunderbird
 [ -n "$need_sync" ]      && pacinstall syncthing
 [ -n "$need_newsboat" ]  && pacinstall newsboat
-
-[ -n "$need_bluetooth" ] && for package in \
-    bluez bluez-utils blueman
-do
-    pacinstall "$package"
-done
+[ -n "$need_bluetooth" ] && pacinstall bluez bluez-utils
+[ -n "$need_ytdl" ]      && pacinstall youtube-dl yt-dlp
+[ -n "$need_obs" ]       && pacinstall obs
 
 [ -n "$need_funcmd" ] && for package in \
     figlet sl asciiquarium neofetch
@@ -238,31 +238,6 @@ sectionend
 section "Setting ZSH as Default Shell"
 chsh -s /usr/bin/zsh
 printf "done.\n"
-sectionend
-
-# Install youtube-dl
-section "Installing youtube-dl"
-if [ -n "$need_ytdl" ]; then
-    if [ ! -f "/usr/local/bin/youtube-dl" ]; then
-        sudo curl -#L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-        sudo chmod a+rx /usr/local/bin/youtube-dl
-        printf "done.\n"
-    else
-        echo youtube-dl found, skipping.
-    fi
-else
-    echo "'youtube-dl'" disabled, skipping.
-fi
-sectionend
-
-# Install beets plugins
-section "Installing beets plugins"
-if [ -n "$need_music" ]; then
-    sudo python3 -m pip -q install beets\[fetchart,lyrics,lastgenre\] pyacoustid requests pylast pyxdg pathlib
-    printf "done.\n"
-else
-    echo "'music'" disabled, skipping.
-fi
 sectionend
 
 # Install yay
@@ -283,7 +258,6 @@ sectionend
 section "Installing AUR Packages"
 for package in \
     polybar \
-    pipewire-jack-dropin \
     xxd-standalone \
     pass-update \
     pass-extension-tail \
@@ -319,7 +293,32 @@ done
 
 [ -n "$need_sync" ]  && yayinstall onedrive-abraunegg
 [ -n "$need_music" ] && yayinstall mp3gain
+
+[ -n "$need_obs" ] && for package in \
+    obs-spectralizer \
+    obs-plugin-input-overlay
+do
+    yayinstall "$package"
+done
 printf "done.\n"
+sectionend
+
+# Install beets plugins
+section "Installing beets plugins"
+if [ -n "$need_music" ]; then
+    for package in \
+        python-pyacoustid \
+        python-requests \
+        python-pylast \
+        python-pyxdg
+    do
+        pacinstall "$package"
+    done
+    sudo python3 -m pip -q install beets\[fetchart,lyrics,lastgenre\] pathlib
+    printf "done.\n"
+else
+    echo "'music'" disabled, skipping.
+fi
 sectionend
 
 section "Installing Paq and Deoplete for Neovim"
@@ -382,15 +381,14 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow carla
     ddetach cronie
     [ -n "$need_gui" ] && sstow dunst
-    [ -n "$need_gui" ] && sstow dwm
     [ -n "$need_gui" ] && ddetach flameshot
     sstow git
     ddetach gpg
     [ -n "$need_gui" ] && sstow gromit-mpx
     [ -n "$need_gui" ] && sstow gtk
     sstow less
-    sstow lua
     sstow lf
+    sstow lua
     ddetach mime
     [ -n "$need_music" ] && sstow mpd
     [ -n "$need_music" ] && sstow ncmpcpp
@@ -398,15 +396,17 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow nvim
     [ -n "$need_gui" ] && sstow picom
     sstow pipewire
+    sstow polybar
     sstow python
-    #sstow redshift
+    sstow R
+    sstow redshift
     sstow scripts
     sstow shell
-    #ddetach speedcrunch
+    ddetach speedcrunch
+    [ -n "$need_gui" ] && ddetach sxhkd
     [ -n "$need_gui" ] && sstow sxiv
     sstow tmux
     sstow wget
-    [ -n "$need_gui" ] && ddetach sxhkd
     [ -n "$need_gui" ] && ddetach xkb
     [ -n "$need_gui" ] && sstow xorg
     [ -n "$need_gui" ] && sstow zathura

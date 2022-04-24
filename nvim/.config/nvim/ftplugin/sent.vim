@@ -1,1 +1,1 @@
-nnoremap <Leader>m :!sent %<CR><CR>
+nnoremap <Leader>m :write \| !sent %<CR><CR>

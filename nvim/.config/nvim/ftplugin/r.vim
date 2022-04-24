@@ -1,7 +1,7 @@
 inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
 set tw=80
 inoremap <Leader>= <- 
-nnoremap <Leader>m :!R -q -f %<CR>
+nnoremap <Leader>m :write \| !R -q -f %<CR>
 nnoremap <Leader>o :!xdg-open Rplots.pdf<CR><CR>
 inoremap <buffer> <M-n> <C-o>o
 inoremap <buffer> <Leader>r return()<Left>

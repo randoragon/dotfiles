@@ -183,7 +183,7 @@ done
 [ -n "$need_gui" ] && for package in \
     xorg-xinit xorg-xkbcomp xorg-drivers \
     picom \
-    bspwm sxhkd \
+    bspwm sxhkd polybar \
     ttf-bitstream-vera ttf-dejavu ttf-font-awesome ttf-joypixels otf-ipafont \
     xwallpaper \
     sxiv \
@@ -257,7 +257,6 @@ sectionend
 # Installs from AUR
 section "Installing AUR Packages"
 for package in \
-    polybar \
     xxd-standalone \
     pass-update \
     pass-extension-tail \

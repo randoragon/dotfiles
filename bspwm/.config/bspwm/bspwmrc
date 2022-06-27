@@ -31,6 +31,7 @@ bspc rule -a 'Carla2:carla' state=floating
 bspc rule -a 'Sxiv:sxiv'    state=floating
 bspc rule -a 'weka-gui-GUIChooser' state=floating
 bspc rule -a 'flameshot:flameshot' state=floating border=off
+bspc rule -a 'Surf:surf' state=tiled
 bspc config external_rules_command ~/.scripts/bspwm/external_rules.sh
 
 # Behavior Settings

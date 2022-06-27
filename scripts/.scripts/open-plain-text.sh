@@ -18,7 +18,7 @@
 # - md2html (md4c)
 # - surf
 # - env: TERMINAL, EDITOR, PDF_READER
-# - env (optional): HTML_TABLE_STYLE
+# - env (optional): HTML_MD_STYLE
 
 # Check for existence of necessary programs
 command -v "$TERMINAL" || { notify-send '$TERMINAL not found' "failed to open\n$f" && exit 1; }
@@ -38,7 +38,7 @@ for f in "$@"; do
     case "${fname##*.}" in
         md|MD) # markdown
             tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
-            printf "%s" "$HTML_TABLE_STYLE" >"$tmp"
+            printf "%s" "$HTML_MD_STYLE" >"$tmp"
             md2html --github -- "$f" >>"$tmp"
             surf -z 1.5 -- file://"$tmp"
             shred -u -- "$tmp"

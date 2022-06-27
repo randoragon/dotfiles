@@ -80,7 +80,7 @@ export LUA_INIT="@$HOME/.config/lua/init.lua"
 
 # This makes markdown previews with tables bearable
 # to look at, just prepend the html file with it
-export HTML_TABLE_STYLE="<style>
+export HTML_MD_STYLE="<style>
 table, th, td {
     padding: 5px;
     border: 1px solid black;

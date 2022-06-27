@@ -187,7 +187,7 @@ view () {
             ;;
         md)
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
-            printf "%s" "$HTML_TABLE_STYLE" >"$tmp"
+            printf "%s" "$HTML_MD_STYLE" >"$tmp"
             md2html --github "$target" >>"$tmp"
             [ -s "$tmp" ] && surf -z 1.5 -- file://"$tmp"
             ;;
@@ -283,10 +283,10 @@ output () {
             ;;
         md)
             if [ $stdout ]; then
-                printf "%s" "$HTML_TABLE_STYLE"
+                printf "%s" "$HTML_MD_STYLE"
                 md2html --github "$target"
             else
-                printf "%s" "$HTML_TABLE_STYLE" >"$output"
+                printf "%s" "$HTML_MD_STYLE" >"$output"
                 md2html --github "$target" >>"$output"
             fi
             ;;

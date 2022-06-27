@@ -40,8 +40,16 @@ for f in "$@"; do
             tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
             printf "%s" "$HTML_TABLE_STYLE" >"$tmp"
             md2html --github -- "$f" >>"$tmp"
-            surf -- "$tmp"
-            rm -- "$tmp"
+            surf -z 1.5 -- file://"$tmp"
+            shred -u -- "$tmp"
+            ;;
+        adoc) # Asciidoc
+            parser=asciidoctor
+            command -v "$parser" >/dev/null || parser=asciidoc
+            tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
+            $parser -o "$tmp" -- "$f"
+            surf -z 1.5 -- file://"$tmp"
+            shred -u -- "$tmp"
             ;;
         mom) # groff -mom
             pdfmom -ket -- "$f" | $PDF_READER -

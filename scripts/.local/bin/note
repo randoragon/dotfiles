@@ -60,6 +60,9 @@ NAME Extensions:
     *.md
         Markdown
 
+    *.adoc
+        Asciidoc. See https://asciidoc.org/
+
     *.rnd
         Neatroff + rnd macros
         See https://github.com/randoragon/tmac-rnd
@@ -126,6 +129,7 @@ edit () {
     # Determine filetype
     target="$tmpd/NOTE/NOTE.txt"
     [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.adoc"
     [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd"
     [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"
     [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"
@@ -160,11 +164,12 @@ view () {
     # Determine filetype
     target="$tmpd/NOTE/NOTE.txt"
     fmt=txt
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"  && fmt=md
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd" && fmt=rnd
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"  && fmt=ms
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"  && fmt=mm
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom" && fmt=mom
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"   && fmt=md
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.adoc" && fmt=adoc
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd"  && fmt=rnd
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"   && fmt=ms
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"   && fmt=mm
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom"  && fmt=mom
     [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
     [ -n "$textonly" ] && fmt=txt
 
@@ -184,7 +189,14 @@ view () {
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
             printf "%s" "$HTML_TABLE_STYLE" >"$tmp"
             md2html --github "$target" >>"$tmp"
-            [ -s "$tmp" ] && surf "file://$tmp"
+            [ -s "$tmp" ] && surf -z 1.5 -- file://"$tmp"
+            ;;
+        adoc)
+            tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
+            parser=asciidoctor
+            command -v "$parser" >/dev/null || parser=asciidoc
+            $parser -o "$tmp" -- "$target"
+            [ -s "$tmp" ] && surf -z 1.5 -- file://"$tmp"
             ;;
         rnd)
             read -r line
@@ -248,11 +260,12 @@ output () {
     # Determine filetype
     target="$tmpd/NOTE/NOTE.txt"
     fmt=txt
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"  && fmt=md
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd" && fmt=rnd
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"  && fmt=ms
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"  && fmt=mm
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom" && fmt=mom
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"   && fmt=md
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.adoc" && fmt=adoc
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd"  && fmt=rnd
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"   && fmt=ms
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"   && fmt=mm
+    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom"  && fmt=mom
     [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
     [ -n "$textonly" ] && fmt=txt
 
@@ -401,13 +414,14 @@ else
 
     ext=
     case "$fname" in
-        *.md)  ext=.md  ;;
-        *.rnd) ext=.rnd ;;
-        *.ms)  ext=.ms  ;;
-        *.mm)  ext=.mm  ;;
-        *.mom) ext=.mom ;;
-        *.txt) ext=.txt ;;
-        *)     ext=.txt fname="$fname$ext" ;;
+        *.md)   ext=.md  ;;
+        *.adoc) ext=.adoc  ;;
+        *.rnd)  ext=.rnd ;;
+        *.ms)   ext=.ms  ;;
+        *.mm)   ext=.mm  ;;
+        *.mom)  ext=.mom ;;
+        *.txt)  ext=.txt ;;
+        *)      ext=.txt fname="$fname$ext" ;;
     esac
     [ -e "$notedir/$fname" ] && echo "note: a note with the same name already exists" >&2 && exit
     create "$fname" "$ext"

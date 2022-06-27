@@ -112,7 +112,7 @@ strsub () {
     # Update modified time according to git data
     fpath="$(realpath --relative-to "$notedir" -- "$1")"
     epoch="$(git -C "$notedir" log -1 --format='%at' -- "$fpath")"
-    touch -mct "$(date -d "@$epoch" '+%Y%m%d%H%M.%S')" "$1"
+    touch -mct "$(date -d "@$epoch" '+%Y%m%d%H%M.%S')" -- "$1"
 
     mtime="$(date -d "@$(stat -c %Y -- "$1")" +'%a %Y-%m-%d %H:%M %Z')"
     sed -i -e "s/NOTE_MTIME/$mtime/g" "$2"
@@ -224,7 +224,7 @@ view () {
 create () {
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     fname="$(basename -- "$1")"
-    mkdir -p "$tmpd/NOTE"
+    mkdir -p -- "$tmpd/NOTE"
     target="$tmpd/NOTE/NOTE$2"
     :>"$target"
     sum=
@@ -237,7 +237,7 @@ create () {
     if [ "$(md5sum -- "$target")" = "$sum" ]; then
         echo "File unchanged, cancelling."
     else
-        mkdir -p "$notedir/$(dirname -- "$1")"
+        mkdir -p -- "$notedir/$(dirname -- "$1")"
         archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Create $1"
@@ -271,7 +271,7 @@ output () {
 
     # Perform string substitutions, update access time
     strsub "$notedir/$1" "$target"
-    touch -ac "$notedir/$1"
+    touch -ac -- "$notedir/$1"
 
     case "$fmt" in
         txt)
@@ -389,10 +389,10 @@ if [ $# -eq 0 ]; then
         # For interactive shells use fzf, otherwise use dmenu.
         if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
         if [ -n "$interactive" ]; then
-            note="$(cd "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
+            note="$(cd -- "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
                 | fzf --no-sort --no-multi --prompt "$prompt ")"
         else
-            note="$(cd "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
+            note="$(cd -- "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
                 | dmenu -F -l 5 -p "$prompt")"
         fi
 

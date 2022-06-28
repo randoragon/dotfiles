@@ -202,12 +202,12 @@ view () {
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
             printf "%s" "$HTML_MD_STYLE" >"$tmp"
             md2html --github -- "$target" >>"$tmp"
-            [ -s "$tmp" ] && surf -z 1.5 -- file://"$tmp"
+            [ -s "$tmp" ] && surf -- file://"$tmp"
             ;;
         adoc)
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
             asciidoctor -o "$tmp" -- "$target"
-            [ -s "$tmp" ] && surf -z 1.5 -- file://"$tmp"
+            [ -s "$tmp" ] && surf -- file://"$tmp"
             ;;
         rnd)
             ntmake "$target" -mrnd | "${PDF_READER:-zathura}" -

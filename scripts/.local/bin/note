@@ -20,7 +20,6 @@
 # CONFIG
 notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
 gpgid="$notedir/.gpg-id"
-adoc_css="$notedir/.asciidoc.css" # Path to the default asciidoc CSS stylesheet
 nl='
 '
 
@@ -148,7 +147,7 @@ edit () {
     # The files variable holds a string of filenames to open.
     files="$target"
     case ".${target##*.}" in
-        .adoc) files="$files${nl}$tmpd/NOTE/style.css" ;;
+        .adoc) files="$files${nl}$tmpd/NOTE/docinfo.html" ;;
     esac
 
     sum="$(dir_cksum "$tmpd/NOTE")"
@@ -202,15 +201,12 @@ view () {
         md)
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
             printf "%s" "$HTML_MD_STYLE" >"$tmp"
-            md2html --github "$target" >>"$tmp"
+            md2html --github -- "$target" >>"$tmp"
             [ -s "$tmp" ] && surf -z 1.5 -- file://"$tmp"
             ;;
         adoc)
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
-            ln -sf -- "$adoc_css" "$tmpd/NOTE/asciidoc.css"
-            parser=asciidoctor
-            command -v "$parser" >/dev/null || parser=asciidoc
-            $parser -o "$tmp" -- "$target"
+            asciidoctor -o "$tmp" -- "$target"
             [ -s "$tmp" ] && surf -z 1.5 -- file://"$tmp"
             ;;
         rnd)
@@ -247,11 +243,10 @@ create () {
     files="$target"
     case "$2" in
         .adoc)
-            stylesheet="$tmpd/NOTE/style.css"
-            ln -sf -- "$adoc_css" "$tmpd/NOTE/asciidoc.css"
-            printf '=\n:stylesheet: style.css\n' >"$target"
-            printf '@import "asciidoc.css";\n' >"$stylesheet"
-            files="$files$nl$stylesheet"
+            docinfo="$tmpd/NOTE/docinfo.html"
+            printf '=\n:docinfo: shared\n' >"$target"
+            printf '<style>\n</style>' >"$docinfo"
+            files="$files$nl$docinfo"
             ;;
     esac
 
@@ -311,10 +306,17 @@ output () {
         md)
             if [ $stdout ]; then
                 printf "%s" "$HTML_MD_STYLE"
-                md2html --github "$target"
+                md2html --github -- "$target"
             else
                 printf "%s" "$HTML_MD_STYLE" >"$output"
-                md2html --github "$target" >>"$output"
+                md2html --github -- "$target" >>"$output"
+            fi
+            ;;
+        adoc)
+            if [ $stdout ]; then
+                asciidoctor -o - -- "$target"
+            else
+                asciidoctor -o "$output" -- "$target"
             fi
             ;;
         rnd)

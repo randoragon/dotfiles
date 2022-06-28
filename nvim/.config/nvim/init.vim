@@ -282,33 +282,6 @@ nnoremap j gj
 nnoremap gj j
 " }}}
 
-" Documents preview config {{{1
-function Preview()
-    write
-    if &filetype == "markdown"
-        AsyncRun mdtopdf "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-    elseif &filetype == "groff"
-        " No macro package, pure groff
-        AsyncRun groff -kept -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-    elseif &filetype == "neat-rnd"
-        " Requires my handy ntmake script
-        AsyncRun ntmake "%:p" -mrnd > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-    elseif &filetype == "neat-ms"
-        " Requires my handy ntmake script
-        AsyncRun ntmake "%:p" -ms > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-    elseif &filetype == "neat-mm"
-        " Requires my handy ntmake script
-        AsyncRun ntmake "%:p" -mm > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-    elseif &filetype == "groff-mom"
-        AsyncRun pdfmom -kept "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-    elseif &filetype == "postscr"
-        AsyncRun ps2pdf "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"
-    endif
-endfunction
-nnoremap <Leader>pm :call Preview()<CR>
-nnoremap <Leader>po :AsyncRun setsid xdg-open "${XDG_CACHE_HOME:-~/.cache}/vim_preview.pdf"<CR>
-" }}}
-
 " Enable 256 color support, set colorscheme {{{1
 syntax enable
 let g:palenight_terminal_italics = 1

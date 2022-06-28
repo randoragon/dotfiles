@@ -4,3 +4,16 @@ nnoremap <buffer> <Leader>p :AsyncRun setsid surf -- file://"${XDG_CACHE_HOME:-~
 
 " Embed screenshots
 nnoremap <buffer> <Leader>is :call sshot#ImportScreenshot(function('sshot#AsciidocScreenshot'), '.png')<CR>
+
+inoremap <buffer> <Leader>ul [.underline]##<Left>
+inoremap <buffer> <Leader>ol [.overline]##<Left>
+inoremap <buffer> <Leader>lt [.line-through]##<Left>
+
+inoremap <buffer> <Leader>sb ****<CR>****<C-o>O
+inoremap <buffer> <Leader>eb ====<CR>====<C-o>O
+inoremap <buffer> <Leader>qb ----<CR>----<C-o>O
+inoremap <buffer> <Leader>ob --<CR>--<C-o>O
+inoremap <buffer> <Leader>pb ++++<CR>++++<C-o>O
+inoremap <buffer> <Leader>tt \|===<CR>\|===<C-o>O
+inoremap <buffer> <Leader>t, ,===<CR>,===<C-o>O
+inoremap <buffer> <Leader>t: :===<CR>:===<C-o>O

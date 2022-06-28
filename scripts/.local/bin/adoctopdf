@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# This script converts a utf-8 encoded asciidoc file to a pdf
+#
+# USAGE
+# adoctopdf INPUT OUTPUT
+#
+# DEPENDENCIES
+# - asciidoctor
+# - asciidoctor-pdf (gem install asciidoctor-pdf)
+
+in="$1"
+out="$2"
+
+asciidoctor -r asciidoctor-pdf -b pdf -o "$out" -- "$in"

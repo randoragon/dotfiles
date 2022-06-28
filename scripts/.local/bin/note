@@ -1,10 +1,10 @@
-#!/usr/bin/sh
+#!/bin/sh
 
-# Wrapper script for storing markup notes in pass.
+# Wrapper script for storing plain-text, markup, encrypted notes.
 # See "note -h" for more details.
 #
 # Dependencies:
-# - gpg, md5sum
+# - gpg, sha1sum
 # - dmenu, fzf
 # - md2html (md4c)
 # - groff (+mom macros)
@@ -20,6 +20,9 @@
 # CONFIG
 notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
 gpgid="$notedir/.gpg-id"
+adoc_css="$notedir/.asciidoc.css" # Path to the default asciidoc CSS stylesheet
+nl='
+'
 
 help () {
     printf "\
@@ -84,6 +87,11 @@ String Substitutions:
 "
 }
 
+# Credit: https://stackoverflow.com/a/545413/10792539
+dir_cksum () {
+    find "$1" -type f -print0 | sort -z | xargs -0 cat | sha1sum
+}
+
 # extract <archive> <dir>
 # Decrypts and extracts an archive into dir
 extract () {
@@ -136,14 +144,20 @@ edit () {
     [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom"
     [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
 
-    sum=
-    sum="$(md5sum -- "$target")"
+    # Customizable setup for every file type.
+    # The files variable holds a string of filenames to open.
+    files="$target"
+    case ".${target##*.}" in
+        .adoc) files="$files${nl}$tmpd/NOTE/style.css" ;;
+    esac
+
+    sum="$(dir_cksum "$tmpd/NOTE")"
     if [ -z "$interactive" ]; then
-        st -e "$EDITOR" "$target"
+        echo "$files" | xargs st -e "$EDITOR" "+cd $tmpd/NOTE" --
     else
-        "$EDITOR" "$target"
+        echo "$files " | xargs "$EDITOR" "+cd $tmpd/NOTE" --
     fi
-    if [ "$(md5sum -- "$target")" = "$sum" ]; then
+    if [ "$(dir_cksum "$tmpd/NOTE")" = "$sum" ]; then
         echo "No changes were made, skipping."
     else
         archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
@@ -193,13 +207,13 @@ view () {
             ;;
         adoc)
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
+            ln -sf -- "$adoc_css" "$tmpd/NOTE/asciidoc.css"
             parser=asciidoctor
             command -v "$parser" >/dev/null || parser=asciidoc
             $parser -o "$tmp" -- "$target"
             [ -s "$tmp" ] && surf -z 1.5 -- file://"$tmp"
             ;;
         rnd)
-            read -r line
             ntmake "$target" -mrnd | "${PDF_READER:-zathura}" -
             ;;
         ms)
@@ -226,16 +240,29 @@ create () {
     fname="$(basename -- "$1")"
     mkdir -p -- "$tmpd/NOTE"
     target="$tmpd/NOTE/NOTE$2"
+
+    # Customizable setup for every file type.
+    # The files variable holds a string of filenames to open.
     :>"$target"
-    sum=
-    sum="$(md5sum -- "$target")"
+    files="$target"
+    case "$2" in
+        .adoc)
+            stylesheet="$tmpd/NOTE/style.css"
+            ln -sf -- "$adoc_css" "$tmpd/NOTE/asciidoc.css"
+            printf '=\n:stylesheet: style.css\n' >"$target"
+            printf '@import "asciidoc.css";\n' >"$stylesheet"
+            files="$files$nl$stylesheet"
+            ;;
+    esac
+
+    sum="$(dir_cksum "$tmpd/NOTE")"
     if [ -z "$interactive" ]; then
-        st -e "$EDITOR" "$target"
+        echo "$files" | xargs st -e $EDITOR "+cd $tmpd/NOTE" --
     else
-        "$EDITOR" "$target"
+        echo "$files" | xargs $EDITOR "+cd $tmpd/NOTE" --
     fi
-    if [ "$(md5sum -- "$target")" = "$sum" ]; then
-        echo "File unchanged, cancelling."
+    if [ "$(dir_cksum "$tmpd/NOTE")" = "$sum" ]; then
+        echo "Note directory unchanged, cancelling."
     else
         mkdir -p -- "$notedir/$(dirname -- "$1")"
         archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
@@ -414,13 +441,13 @@ else
 
     ext=
     case "$fname" in
-        *.md)   ext=.md  ;;
-        *.adoc) ext=.adoc  ;;
-        *.rnd)  ext=.rnd ;;
-        *.ms)   ext=.ms  ;;
-        *.mm)   ext=.mm  ;;
-        *.mom)  ext=.mom ;;
-        *.txt)  ext=.txt ;;
+        *.md)   ext=.md   ;;
+        *.adoc) ext=.adoc ;;
+        *.rnd)  ext=.rnd  ;;
+        *.ms)   ext=.ms   ;;
+        *.mm)   ext=.mm   ;;
+        *.mom)  ext=.mom  ;;
+        *.txt)  ext=.txt  ;;
         *)      ext=.txt fname="$fname$ext" ;;
     esac
     [ -e "$notedir/$fname" ] && echo "note: a note with the same name already exists" >&2 && exit

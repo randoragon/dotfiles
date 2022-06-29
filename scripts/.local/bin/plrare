@@ -5,16 +5,18 @@
 # outputs the N least or most frequent ones to a .Rare playlist.
 #
 # Usage:
-#  plrare N
+#    plrare [N]
 # where N is the number of songs to output.
 # If N is positive, then the N least played songs will be output.
 # If N is negative, then the -N most played songs will be output.
+#
+# If N is omitted, the playcount file is opened in a pager instead.
 
 musicdir=~/Music
 countfile="$musicdir/playcount.tsv"
 playlist="$musicdir/Playlists/.Rare.m3u"
 
-[ $# -ne 1 ] && echo 'plrare: exactly 1 argument expected' >&2 && exit 1
+[ $# -lt 1 ] && ${PAGER:-less} -- "$countfile" && exit
 
 # Validate and store argument
 N=$(($1))

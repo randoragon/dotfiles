@@ -41,3 +41,34 @@ if [ -n "$switch_wallpaper" ]; then
         xwallpaper --zoom "${XDG_CONFIG_HOME:-~/.config}/wallpaper"
     fi
 fi
+
+
+# KEEP TRACK OF PER-SONG PLAY COUNT
+#
+# The script will only increment if a given track plays for >=20 seconds.
+# Due to the waiting, it is run in a subshell.
+#
+# Uncomment the line below to enable
+(
+    keep_count=1
+    if [ -n "$keep_count" ]; then
+        file=~/Music/playcount.tsv
+        [ ! -f "$file" ] && : >"$file"
+        key="$(mpc current --format %file%)"
+
+        # If the song changes in less than 20 seconds, don't increment
+        # Yes, this means songs that have a <20s duration will always
+        # be omitted, but I don't really care about enumerating such songs.
+        sleep 20
+        [ "$(mpc current --format %file%)" != "$key" ] && exit
+
+        val="$(grep -Fn -- "$key" "$file")"
+        if [ -z "$val" ]; then
+            printf '1\t%s\n' "$key" >>"$file"
+        else
+            lineno="${val%%:*}"
+            val="${val##*	}"
+            sed -i "${lineno}s/^[0-9]*\t/$((val + 1))\t/" -- "$file"
+        fi
+    fi
+) &

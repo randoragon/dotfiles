@@ -1,0 +1,58 @@
+#!/bin/sh
+
+# This script reads a TSV file which stores the play counts
+# for individual songs (this file is created by ncmpcpp) and
+# outputs the N least or most frequent ones to a .Rare playlist.
+#
+# Usage:
+#  plrare N
+# where N is the number of songs to output.
+# If N is positive, then the N least played songs will be output.
+# If N is negative, then the -N most played songs will be output.
+
+musicdir=~/Music
+countfile="$musicdir/playcount.tsv"
+playlist="$musicdir/Playlists/.Rare.m3u"
+
+[ $# -ne 1 ] && echo 'plrare: exactly 1 argument expected' >&2 && exit 1
+
+# Validate and store argument
+N=$(($1))
+
+# Populate a temporary ranking file
+tmp1="$(mktemp plrare.XXXXX)"
+tmp2="$(mktemp plrare.XXXXX)"
+
+# Reformat from "count\tsong" to "song\tcount"
+while read -r line; do
+    song="${line#*	}"
+    count="${line%%	*}"
+    printf '%s\t%s\n' "$song" "$count" >>"$tmp1"
+done <"$countfile"
+
+# Generate list of all songs with 0 counts (in "song\tcount" format),
+# THEN join with the reformatted legitimate list,
+# THEN sort to get the same songs next to each other in descending order,
+# THEN reformat everything from "song\tcount" to "count\tsong",
+# THEN pass it through `uniq -f1` to get rid of duplicates,
+# THEN sort by play count.
+# Whew. I should really rewrite this in a scripting language
+# that has native hashsets, this is terrible performance.
+mpc listall --format %file% | while read -r line; do
+    printf '%s\t0\n' "$line"
+done | cat "$tmp1" - | sort -nr | while read -r line; do
+    song="${line%	*}"
+    count="${line##*	}"
+    printf '%s\t%s\n' "$count" "$song"
+done | uniq -f1 | sort -no "$tmp2"
+rm -f -- "$tmp1"
+
+# Output first or last N lines, depending on N's sign
+if [ "$N" -ge 0 ]; then
+    lines="$(head -n$N -- "$tmp2")"
+else
+    lines="$(tail -n${N#-} -- "$tmp2" | tac)"
+fi
+rm -f -- "$tmp2"
+echo "$lines"
+echo "$lines" | cut -f2 >"$playlist"

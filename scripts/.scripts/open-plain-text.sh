@@ -47,7 +47,8 @@ for f in "$@"; do
             parser=asciidoctor
             command -v "$parser" >/dev/null || parser=asciidoc
             tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
-            $parser -o "$tmp" -- "$f"
+            dirname="$(dirname -- "$f")"
+            $parser -a imagesdir="$dirname" -a stylesdir="$dirname" -o "$tmp" -- "$f"
             surf -z 1.5 -- file://"$tmp"
             shred -u -- "$tmp"
             ;;

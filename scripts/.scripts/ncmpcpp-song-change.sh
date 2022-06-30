@@ -67,7 +67,8 @@ fi
             printf '1\t%s\n' "$key" >>"$file"
         else
             lineno="${val%%:*}"
-            val="${val##*	}"
+            val="${val%%	*}"
+            val="${val##*:}"
             sed -i "${lineno}s/^[0-9]*\t/$((val + 1))\t/" -- "$file"
         fi
     fi

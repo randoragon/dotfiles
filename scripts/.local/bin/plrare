@@ -12,9 +12,8 @@
 #
 # If N is omitted, the playcount file is opened in a pager instead.
 
-musicdir=~/Music
-countfile="$musicdir/playcount.tsv"
-playlist="$musicdir/Playlists/.Rare.m3u"
+countfile=~/.local/share/music-playcount.tsv
+playlist=~/Music/Playlists/.Rare.m3u
 
 [ $# -lt 1 ] && ${PAGER:-less} -- "$countfile" && exit
 

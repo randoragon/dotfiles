@@ -2,6 +2,7 @@
 
 # General
 alias ls='ls --color=auto'
+alias ll='ls -al --group-directories-first --color=auto'
 alias setkblayoutpl='setxkbmap -layout pl'
 alias setlangus='LANG=en_US.UTF-8 && LC_ALL="en_US.UTF-8"'
 alias rm="printf '%s\n' 'Please use \\rm for permanent deletion and tp for trash-cli'; false"

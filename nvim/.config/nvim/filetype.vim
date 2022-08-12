@@ -10,4 +10,5 @@ augroup filetypedetect
   au! BufNewFile,BufRead *.groff setfiletype groff | set syntax=groff
   au! BufNewFile,BufRead *.MD    setfiletype markdown
   au! BufNewFile,BufRead *.sent  setfiletype sent | set syntax=conf
+  au! BufNewFile,BufRead *.msc   setfiletype mscgen | set syntax=dot
 augroup END

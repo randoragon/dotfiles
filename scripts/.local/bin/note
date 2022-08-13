@@ -244,7 +244,7 @@ create () {
     case "$2" in
         .adoc)
             docinfo="$tmpd/NOTE/docinfo.html"
-            printf '=\n:docinfo: shared\n' >"$target"
+            printf '=\n:webfonts!:\n:docinfo: shared\n' >"$target"
             printf '<style>\n</style>' >"$docinfo"
             files="$files$nl$docinfo"
             ;;

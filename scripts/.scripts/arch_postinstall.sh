@@ -184,7 +184,7 @@ done
     xorg-xinit xorg-xkbcomp xorg-drivers \
     picom \
     bspwm sxhkd polybar \
-    ttf-bitstream-vera ttf-dejavu ttf-font-awesome ttf-joypixels otf-ipafont \
+    ttf-bitstream-vera ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
     xwallpaper \
     sxiv \
     xarchiver \
@@ -196,10 +196,21 @@ done
     libnotify dunst \
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
-    md4c wkhtmltopdf webkit2gtk gcr
+    md4c wkhtmltopdf webkit2gtk gcr \
+    asciidoctor mathjax
 do
     pacinstall "$package"
 done
+
+# Force asciidoctor to use local MathJax instance
+[ -n "$need_gui" ] && {
+    html5rb="$(pacman -Ql asciidoctor | grep '/html5\.rb')"
+    if [ -f "${html5rb##*/}" ]; then
+        sudo sed -i 's|#{cdn_base_url}/mathjax/#{MATHJAX_VERSION}|/usr/share/mathjax2|' "${html5rb##*/}"
+    else
+        eprint 'asciidoctor html.rb file not found, failed to configure MathJax'
+    fi
+}
 
 [ -n "$need_devtools" ] && for package in \
     gdb valgrind \

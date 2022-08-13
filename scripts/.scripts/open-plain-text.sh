@@ -49,7 +49,7 @@ for f in "$@"; do
             tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
             dirname="$(dirname -- "$f")"
             $parser -a imagesdir="$dirname" -a stylesdir="$dirname" -o "$tmp" -- "$f"
-            surf -z 1.5 -- file://"$tmp"
+            surf -S -- file://"$tmp"
             shred -u -- "$tmp"
             ;;
         mom) # groff -mom

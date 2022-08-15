@@ -31,3 +31,6 @@ ppull 'misc/snippetrc' ~/.config/snippetrc
 
 heading "Copying misc/rss..."
 ppull 'misc/rss' ~/.config/newsboat/urls
+
+heading "Copying misc/plcategorize-mappings.tsv..."
+ppull 'misc/plcategorize-mappings.tsv' ~/.config/plcategorize-mappings.tsv

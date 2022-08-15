@@ -31,6 +31,9 @@ ppush ~/.config/snippetrc 'misc/snippetrc'
 heading "Inserting misc/rss..."
 ppush ~/.config/newsboat/urls 'misc/rss' 
 
+heading "Inserting misc/plcategorize-mappings.tsv..."
+ppush ~/.config/plcategorize-mappings.tsv 'misc/plcategorize-mappings.tsv' 
+
 heading "Running git status..."
 [ -n "$PASSWORD_STORE_DIR" ] && {
     git -C "$PASSWORD_STORE_DIR" status

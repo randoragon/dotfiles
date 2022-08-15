@@ -1,0 +1,191 @@
+#!/bin/sh
+
+# Edit currently playing track's membership in playlists.
+# This script is an interactive alternative to pladd_select.
+#
+# Dependencies:
+# - mpd, mpc
+# - rg (ripgrep)
+
+musicdir=~/Music
+pldir="$musicdir"/Playlists
+mappings="${XDG_CONFIG_HOME:-$HOME/.config}/plcategorize-mappings.tsv"
+mpc_fmt='%file%%artist%%title%%album%%time%'
+tmp="$(mktemp plcategorize.XXXXX)" # aux buffer
+
+[ ! -r "$mappings" ] && {
+    printf 'Failed to read from %s\n' "$mappings" >&2
+    exit 1
+}
+
+playlists="$(find "$pldir" -maxdepth 1 -type f -regex '.*/[_!@#%][^/]*\.m3u' -writable \! -name '#Fair Use.m3u' -exec basename -- '{}' \; | sort -k1.1,1.1)"
+last_termw=
+last_change=
+
+cleanup () {
+    rm -f -- "$tmp"
+    exit 0
+}
+trap cleanup INT QUIT TERM EXIT
+
+eprint () {
+    tput sgr0 >&2
+    printf '  ' >&2
+    tput setaf 15 setab 1 >&2
+    printf "$@" >&2
+    tput sgr0 >&2
+}
+
+# Detect mapping collisions
+duplicates="$(cut -d'	' -f2 -- "$mappings" | sort | uniq -d)"
+[ -n "$duplicates" ] && {
+    eprint "Prefix collisions: "
+    for dupe in ${duplicates% *}; do
+        eprint "$dupe"
+    done
+    eprint '\n'
+    exit 2
+}
+
+getprefix () {
+    match="$(rg -F -- "$1	" "$mappings")"
+    echo "${match##*	}"
+}
+
+getplaylist () {
+    match="$(cut -d'	' -f2 -- "$mappings" | rg -Fn -- "$1")"
+    [ -z "$match" ] && return
+    sed -n "${match%:*}s/	.*//p" "$mappings"
+}
+
+main () {
+    # Exit on q
+    [ "$1" = q ] && echo Bye. && exit
+
+    # Print header
+    clear
+    tput setab 15 setaf 0 bold
+    printf ' plcategorize '
+    tput sgr0
+    printf " (type 'q' to exit)\n\n"
+
+    # Fetch current track info
+    data="$(mpc current -f "$mpc_fmt")"
+    file="$(echo "$data" | cut -d -f1)"
+    artist="$(echo "$data" | cut -d -f2)"
+    title="$(echo "$data" | cut -d -f3)"
+    album="$(echo "$data" | cut -d -f4)"
+    length="$(echo "$data" | cut -d -f5)"
+
+    # Print track information
+    if [ -z "$file" ]; then
+        printf '  Nothing is playing, press return to refresh.\n'
+        return
+    else
+        tput bold
+        printf '  "%s"' "$title"
+        tput setaf 6
+        printf ' [%s]\n' "$length"
+        tput setaf 2
+        printf '  by '
+        tput setaf 3
+        printf '%s\n' "$artist"
+        [ -n "$album" ] && {
+            tput setaf 2
+            printf '  in '
+            tput setaf 6
+            printf '%s\n' "$album"
+        }
+    fi
+
+    # Parse user input
+    [ -n "$1" ] && last_change="$1"
+    tput sgr0 setaf 7
+    printf '\n  %s\n' "$last_change"
+    [ -n "$1" ] && {
+        for prefix in $(printf '%s' "$1" | sed 's/\(.\)/\1 /g'); do
+            playlist="$(getplaylist "$prefix")"
+            [ -z "$playlist" ] && {
+                eprint 'Missing playlist for prefix: %s\n' "$prefix"
+                continue
+            }
+            plfile="$pldir/$playlist.m3u"
+            [ ! -f "$plfile" ] && {
+                eprint 'No such file: "%s"\n' "$plfile"
+                continue
+            }
+            :>"$tmp"
+            rg -Fn -- "$file" "$plfile" | cut -d: -f1 >"$tmp"
+            if [ -s "$tmp" ]; then
+                while read -r linenum; do
+                    sed -i "$linenum"d "$plfile"
+                done <"$tmp"
+            else
+                printf '%s\n' "$file" >>"$plfile"
+            fi
+            sed -i '/^$/d' "$plfile"
+        done
+    }
+
+    # Recalculate column layout
+    termw="$(tput cols)"
+    [ "$termw" != "$last_termw" ] && {
+        printf 0 >"$tmp"
+        echo "$playlists" | while read -r plname; do
+            w="$(printf '%s' "${plname%.m3u}" | wc -m)"
+            [ "$w" -gt "$(cat -- "$tmp")" ] && printf '%s' "$w" >"$tmp"
+        done
+        entryw="$(cat -- "$tmp")"
+        entrycols="$(( (termw - 2) / (entryw + 4) ))"
+        [ "$entrycols" -lt 1 ] && entrycols=1
+        [ "$entrycols" -gt 4 ] && entrycols=4
+        last_termw="$termw"
+    }
+
+    # Print playlists state
+    i=0
+    lastgroup=
+    :>"$tmp"
+    echo "$playlists" | while read -r plname; do
+        plfile="$pldir/$plname"
+        prefix="$(getprefix "${plname%.m3u}")"
+        group="${plname%"${plname#?}"}"
+        [ -z "$prefix" ] && eprint 'Missing prefix for playlist "%s"\n' "$plname"
+        [ "$group" != "$lastgroup" ] && {
+            cat -- "$tmp"
+            :>"$tmp"
+            if [ $i -eq 0 ]; then printf '\n'; else printf '\n\n'; fi
+            lastgroup="$group"
+            i=0
+        }
+        tput bold setaf 4 >>"$tmp"
+        printf '  %s ' "$prefix" >>"$tmp"
+        if rg -q -- "$file" "$plfile"; then
+            tput setaf 10 >>"$tmp"
+        else
+            tput sgr0 setaf 9 >>"$tmp"
+        fi
+        printf "%-${entryw}s" "${plname%.m3u}" >>"$tmp"
+        i=$((i + 1))
+        [ "$((i % entrycols))" -eq 0 ] || [ "$group" != "$lastgroup" ] && {
+            cat -- "$tmp"
+            :>"$tmp"
+            printf '\n'
+            i=0
+        }
+    done
+    [ -s "$tmp" ] && {
+        cat -- "$tmp"
+        printf '\n'
+    }
+
+    # Show prompt
+    tput sgr0
+    printf '\n> '
+}
+
+file=
+main
+while read -r line; do
+    main "$line"
+done

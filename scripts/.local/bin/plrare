@@ -10,12 +10,64 @@
 # If N is positive, then the N least played songs will be output.
 # If N is negative, then the -N most played songs will be output.
 #
+# Other usage:
+#    plrare bump PATH [N]
+#    plrare bump PLAYLIST [N]
+# where PATH is a path to either a song file, a directory or a
+# playlist, relative to musicdir.
+# This increases the playcount of PATH by N. In the case of a
+# directory or a playlist, all songs contained within get incremented.
+# If N is not provided, 1 is the default. If any song's playcount
+# drops below 0 as a result of applying N, it is removed from the
+# playcount file.
+#
 # If N is omitted, the playcount file is opened in a pager instead.
 
-countfile=~/.local/share/music-playcount.tsv
-playlist=~/Music/Playlists/.Rare.m3u
+musicdir=~/Music
+playlistdir="$musicdir"/Playlists
+countfile="$musicdir"/playcount.tsv
+playlist="$playlistdir"/.Rare.m3u
 
+[ ! -f "$countfile" ] && : >"$countfile"
 [ $# -lt 1 ] && ${PAGER:-less} -- "$countfile" && exit
+
+[ "$1" = bump ] && {
+    shift
+    file="$1"
+    [ -n "$2" ] && N=$(($2)) || N=1
+    if [ -f "$musicdir/$file" ]; then
+        if [ "${file##*.}" = m3u ] || [ "$(xdg-mime query filetype "$musicdir/$file")" = 'text/plain' ]; then
+            # Bump a playlist
+            while read -r line; do
+                $0 bump "$line" "$N"
+            done <"$musicdir/$file"
+        else
+            # Bump a file
+            val="$(grep -Fn -- "$file" "$countfile")"
+            if [ -z "$val" ]; then
+                [ "$N" -le 0 ] && exit
+                printf '%s\t%s\n' "$N" "$file" >>"$countfile"
+            else
+                lineno="${val%%:*}"
+                val="${val%%	*}"
+                val="${val##*:}"
+                val=$((val + N))
+                if [ "$val" -le 0 ]; then
+                    sed -i "${lineno}d" -- "$countfile"
+                else
+                    sed -i "${lineno}s/^[0-9]*\t/${val}\t/" -- "$countfile"
+                fi
+            fi
+        fi
+    elif [ -d "$musicdir/$file" ]; then
+        # Bump a directory
+        find "$musicdir/$file" -maxdepth 1 -type f | while read -r f; do
+            mime="$(xdg-mime query filetype "$f")"
+            [ "${mime%%/*}" = audio ] && $0 bump "$(realpath --relative-to "$musicdir" -- "$f")" "$N"
+        done
+    fi
+    exit
+}
 
 # Validate and store argument
 N=$(($1))

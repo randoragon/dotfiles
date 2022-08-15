@@ -50,26 +50,15 @@ fi
 # Uncomment the line below to enable
 keep_count=1
 if [ -n "$keep_count" ]; then
-    file=~/.local/share/music-playcount.tsv
-    [ ! -f "$file" ] && : >"$file"
-    key="$(mpc current --format %file%)"
+    file="$(mpc current --format %file%)"
 
     # If the song changes in less than 20 seconds, don't increment
     # Yes, this means songs that have a <20s duration will always
     # be omitted, but I don't really care about enumerating such songs.
     # Due to the waiting, run this part in a subshell.
     (
-    sleep 20
-    [ "$(mpc current --format %file%)" != "$key" ] && exit
-
-    val="$(grep -Fn -- "$key" "$file")"
-    if [ -z "$val" ]; then
-        printf '1\t%s\n' "$key" >>"$file"
-    else
-        lineno="${val%%:*}"
-        val="${val%%	*}"
-        val="${val##*:}"
-        sed -i "${lineno}s/^[0-9]*\t/$((val + 1))\t/" -- "$file"
-    fi
+        sleep 20
+        [ "$(mpc current --format %file%)" != "$file" ] && exit
+        plrare bump "$file"
     ) &
 fi

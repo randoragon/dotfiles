@@ -55,7 +55,7 @@ getprefix () {
 getplaylist () {
     match="$(cut -d'	' -f2 -- "$mappings" | rg -Fn -- "$1")"
     [ -z "$match" ] && return
-    sed -n "${match%:*}s/	.*//p" "$mappings"
+    sed -n "${match%%:*}s/	.*//p" "$mappings"
 }
 
 main () {
@@ -162,7 +162,7 @@ main () {
         }
         tput bold setaf 4 >>"$tmp"
         printf '  %s ' "$prefix" >>"$tmp"
-        if rg -q -- "$file" "$plfile"; then
+        if rg -Fq -- "$file" "$plfile"; then
             tput setaf 10 >>"$tmp"
         else
             tput sgr0 setaf 9 >>"$tmp"

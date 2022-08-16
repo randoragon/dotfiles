@@ -69,6 +69,32 @@ main () {
     tput sgr0
     printf " (type 'q' to exit)\n\n"
 
+    # Parse user input
+    [ -n "$1" ] && {
+        for prefix in $(printf '%s' "$1" | sed 's/\(.\)/\1 /g'); do
+            playlist="$(getplaylist "$prefix")"
+            [ -z "$playlist" ] && {
+                eprint 'Missing playlist for prefix: %s\n' "$prefix"
+                continue
+            }
+            plfile="$pldir/$playlist.m3u"
+            [ ! -f "$plfile" ] && {
+                eprint 'No such file: "%s"\n' "$plfile"
+                continue
+            }
+            :>"$tmp"
+            rg -Fn -- "$file" "$plfile" | cut -d: -f1 >"$tmp"
+            if [ -s "$tmp" ]; then
+                while read -r linenum; do
+                    sed -i "$linenum"d "$plfile"
+                done <"$tmp"
+            else
+                printf '%s\n' "$file" >>"$plfile"
+            fi
+            sed -i '/^$/d' "$plfile"
+        done
+    }
+
     # Fetch current track info
     data="$(mpc current -f "$mpc_fmt")"
     file="$(echo "$data" | cut -d -f1)"
@@ -98,34 +124,10 @@ main () {
         }
     fi
 
-    # Parse user input
+    # Print last non-empty line input by user
     [ -n "$1" ] && last_change="$1"
     tput sgr0 setaf 7
     printf '\n  %s\n' "$last_change"
-    [ -n "$1" ] && {
-        for prefix in $(printf '%s' "$1" | sed 's/\(.\)/\1 /g'); do
-            playlist="$(getplaylist "$prefix")"
-            [ -z "$playlist" ] && {
-                eprint 'Missing playlist for prefix: %s\n' "$prefix"
-                continue
-            }
-            plfile="$pldir/$playlist.m3u"
-            [ ! -f "$plfile" ] && {
-                eprint 'No such file: "%s"\n' "$plfile"
-                continue
-            }
-            :>"$tmp"
-            rg -Fn -- "$file" "$plfile" | cut -d: -f1 >"$tmp"
-            if [ -s "$tmp" ]; then
-                while read -r linenum; do
-                    sed -i "$linenum"d "$plfile"
-                done <"$tmp"
-            else
-                printf '%s\n' "$file" >>"$plfile"
-            fi
-            sed -i '/^$/d' "$plfile"
-        done
-    }
 
     # Recalculate column layout
     termw="$(tput cols)"

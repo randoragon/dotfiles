@@ -71,7 +71,9 @@ main () {
 
     # Parse user input
     [ -n "$1" ] && {
-        for prefix in $(printf '%s' "$1" | sed 's/\(.\)/\1 /g'); do
+        left="$1"
+        while [ -n "$left" ]; do
+            prefix="${left%"${left#?}"}"
             playlist="$(getplaylist "$prefix")"
             [ -z "$playlist" ] && {
                 eprint 'Missing playlist for prefix: %s\n' "$prefix"
@@ -92,6 +94,7 @@ main () {
                 printf '%s\n' "$file" >>"$plfile"
             fi
             sed -i '/^$/d' "$plfile"
+            left="${left#?}"
         done
     }
 

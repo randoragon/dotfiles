@@ -11,22 +11,22 @@ musicdir=~/Music
 pldir="$musicdir"/Playlists
 mappings="${XDG_CONFIG_HOME:-$HOME/.config}/plcategorize-mappings.tsv"
 mpc_fmt='%file%%artist%%title%%album%%time%'
-tmp="$(mktemp plcategorize.XXXXX)" # aux buffer
-
-[ ! -r "$mappings" ] && {
-    printf 'Failed to read from %s\n' "$mappings" >&2
-    exit 1
-}
-
-playlists="$(find "$pldir" -maxdepth 1 -type f -regex '.*/[_!@#%][^/]*\.m3u' -writable \! -name '#Fair Use.m3u' -exec basename -- '{}' \; | sort -k1.1,1.1)"
-last_termw=
-last_change=
+tmp="$(mktemp -t plcategorize.XXXXX)" # aux buffer
 
 cleanup () {
     rm -f -- "$tmp"
     exit 0
 }
 trap cleanup INT QUIT TERM EXIT
+
+[ ! -r "$mappings" ] && {
+    printf 'Failed to read %s.\n' "$mappings" >&2
+    exit 1
+}
+
+playlists="$(find "$pldir" -maxdepth 1 -type f -regex '.*/[_!@#%][^/]*\.m3u' -writable \! -name '#Fair Use.m3u' -exec basename -- '{}' \; | sort -k1.1,1.1)"
+last_termw=
+last_change=
 
 eprint () {
     tput sgr0 >&2

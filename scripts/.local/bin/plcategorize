@@ -24,7 +24,7 @@ trap cleanup INT QUIT TERM EXIT
     exit 1
 }
 
-playlists="$(find "$pldir" -maxdepth 1 -type f -regex '.*/[_!@#%][^/]*\.m3u' -writable \! -name '#Fair Use.m3u' -exec basename -- '{}' \; | sort -k1.1,1.1)"
+playlists="$(find "$pldir" -maxdepth 1 -type f -regex '.*/[_!@#%][^/]*\.m3u' -writable \! -name '#Fair Use.m3u' -exec basename -- '{}' \; | sort -k1.1,1.1r)"
 last_termw=
 last_change=
 

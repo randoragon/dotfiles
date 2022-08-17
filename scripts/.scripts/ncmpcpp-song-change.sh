@@ -50,14 +50,24 @@ fi
 # Uncomment the line below to enable
 keep_count=1
 if [ -n "$keep_count" ]; then
-    file="$(mpc current --format %file%)"
+    data="$(mpc current --format %file%%time%)"
+    file="${data%*}"
+    time="${data#*}"
 
-    # If the song changes in less than 20 seconds, don't increment
-    # Yes, this means songs that have a <20s duration will always
-    # be omitted, but I don't really care about enumerating such songs.
-    # Due to the waiting, run this part in a subshell.
+    # Convert time to seconds
+    seconds=0
+    multi=1
+    while [ -n "$time" ]; do
+        num="$(echo "$time" | sed 's/.*:0*//')"
+        seconds=$(( seconds + (multi * num) ))
+        _time="${time%:*}"
+        [ "$time" != "$_time" ] && time="$_time" || time=
+        multi=$(( multi * 60 ))
+    done
+
+    # If the song changes in less than 50% of the duration, don't increment
     (
-        sleep 20
+        sleep $(( seconds / 2 ))
         [ "$(mpc current --format %file%)" != "$file" ] && exit
         plrare bump "$file"
     ) &

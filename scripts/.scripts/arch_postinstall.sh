@@ -225,7 +225,8 @@ done
     mpd ncmpcpp mpc \
     beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     atomicparsley \
-    mp3info
+    mp3info \
+    ffmpeg sox
 do
     pacinstall "$package"
 done
@@ -302,7 +303,13 @@ done
 }
 
 [ -n "$need_sync" ]  && yayinstall onedrive-abraunegg
-[ -n "$need_music" ] && yayinstall mp3gain
+
+[ -n "$need_music" ] && for package in \
+    mp3gain \
+    taptempo
+do
+    yayinstall "$package"
+done
 
 [ -n "$need_obs" ] && for package in \
     obs-spectralizer \

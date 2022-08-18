@@ -6,6 +6,11 @@
 # Dependencies:
 # - mpd, mpc
 # - rg (ripgrep)
+# - taptempo (https://taptempo.tuxfamily.org)
+# - id3ted
+# - ffmpeg
+# - sox
+# - awk
 
 musicdir=~/Music
 pldir="$musicdir"/Playlists
@@ -59,21 +64,167 @@ getplaylist () {
 }
 
 main () {
-    # Exit on q
+    print_info () {
+        # Print track information
+        if [ -z "$file" ]; then
+            tput sgr0
+            printf '  Nothing is selected, press return to refresh.\n'
+            return 1
+        else
+            tput sgr0 bold
+            printf '  "%s"' "$title"
+            tput setaf 6
+            printf ' [%s]\n' "$length"
+            tput setaf 2
+            printf '  by '
+            tput setaf 3
+            printf '%s\n' "$artist"
+            [ -n "$album" ] && {
+                tput setaf 2
+                printf '  in '
+                tput setaf 6
+                printf '%s\n' "$album"
+            }
+            tput sgr0
+        fi
+    }
+
+    # Parse menu inputs
     [ "$1" = q ] && echo Bye. && exit
+    [ "$1" =  ] || [ -z "$data" ] && {
+        data="$(mpc current -f "$mpc_fmt")"
+        file="$(echo "$data" | cut -d -f1)"
+        artist="$(echo "$data" | cut -d -f2)"
+        title="$(echo "$data" | cut -d -f3)"
+        album="$(echo "$data" | cut -d -f4)"
+        length="$(echo "$data" | cut -d -f5)"
+        [ ! -f "$musicdir/$file" ] && eprint "'%s' not found.\n" "$musicdir/$file" && return
+        id3="$(id3ted -l "$musicdir/$file")"
+        set -- ''
+    }
+
+    # BPM tool
+    [ "$1" = , ] && {
+        [ -z "$file" ] && echo 'The bpm tool requires a track to be selected.' && return
+        print_header () {
+            clear
+            tput setab 15 setaf 0 bold
+            printf ' plcategorize > %s ' "$1"
+            tput sgr0
+            printf ' %sq%s skip'   "$(tput bold setaf 4)" "$(tput sgr0)"
+            printf '\n\n'
+            print_info || eprint 'error: no selection' && return
+        }
+        bpm_tool () {
+            tag="$1"
+            bpm=
+            print_header "$tag"
+            existing="$(echo "$id3" | sed -n "s/^TXXX: \[$tag\]: //p")"
+            [ -n "$existing" ] && printf '\n  Found tag: %s' "$existing"
+            printf '\n  Input %s or leave empty for taptempo...\n> ' "$tag"
+            read -r ans
+            [ "$ans" = q ] && return
+            [ -n "$ans" ] && bpm=$((ans))
+            [ -z "$bpm" ] && {
+                :>"$tmp"
+                taptempo | tee "$tmp"
+                bpm="$(rg -o '[0-9]+' "$tmp" | tail -n1)"
+                print_header "$tag"
+                printf '\n  Last reading: %s\n  Leave empty to accept or overwrite with input.\n> ' "$bpm"
+                read -r ans
+                [ "$ans" = q ] && return
+                [ -n "$ans" ] && bpm="$ans"
+                bpm=$((bpm))
+            }
+            id3ted --TXXX $bpm:"$tag" "$musicdir/$file"
+            printf '\n  Wrote %s as bpm_begin.\n' "$bpm"
+            sleep 1.25
+        }
+
+        bpm_tool bpm_begin 1/2
+        bpm_tool bpm_end 2/2
+        set -- ''
+    }
+
+    # Gain tool
+    [ "$1" = . ] && {
+        [ -z "$file" ] && echo 'The gain tool requires a track to be selected.' && return
+        print_header () {
+            clear
+            tput setab 15 setaf 0 bold
+            printf ' plcategorize > gain '
+            tput sgr0
+            printf ' %sq%s back'   "$(tput bold setaf 4)" "$(tput sgr0)"
+            printf '\n\n'
+            print_info || eprint 'error: no selection' && return
+        }
+        print_header
+
+        # Convert length to seconds and get 10%
+        length_="$length"
+        seconds=0
+        multi=1
+        while [ -n "$length_" ]; do
+            num="$(echo "$length_" | sed 's/.*:0*//')"
+            seconds=$(( seconds + (multi * num) ))
+            _length_="${length_%:*}"
+            [ "$length_" != "$_length_" ] && length_="$_length_" || length_=
+            multi=$(( multi * 60 ))
+        done
+        s10="$(echo | awk '{ printf "%g", '$seconds' / 10 }')"
+        printf '\n  Duration:  %s = %ss (relevant: %ss)\n\n' "$length" $seconds "$s10"
+
+        gain_tool () {
+            ffmpeg_flag="$1"
+            ffmpeg_time="$2"
+            tag="$3"
+            printf '  %s\n' "$tag"
+            existing="$(echo "$id3" | sed -n "s/^TXXX: \[$tag\]: //p")"
+            [ -n "$existing" ] && printf '    Found tag: %s\n' "$existing"
+            ffmpeg -loglevel fatal -y "$ffmpeg_flag" "$ffmpeg_time" -i "$musicdir/$file" -f "${file##*.}" -c copy "$tmp" || {
+                eprint '    ffmpeg failed with status %s.\n' $?
+                return
+            }
+            loudness="$(sox -t "${file##*.}" "$tmp" -n stat 2>&1 | sed -n 's/^Volume adjustment:\s*//p')"
+            [ "$loudness" != "${loudness#-}" ] && loudness="${loudness#-}" || loudness="-$loudness"
+            printf '    Computed loudness: %s\n' "$loudness"
+            [ "$loudness" = "$existing" ] && printf '    No difference, skip.\n\n' && return
+            printf '    Proceed? [Y/n] '
+            read -r ans
+            [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
+                id3ted --TXXX "$loudness":"$tag" "$musicdir/$file"
+                printf '    Wrote %s as %s.\n\n' "$loudness" "$tag"
+            }
+        }
+
+        gain_tool -t "$s10" gain_begin
+        gain_tool -sseof "-$s10" gain_end
+        printf '  All done. Press return to go back.\n> '
+        read -r _
+        set -- ''
+    }
 
     # Print header
     clear
     tput setab 15 setaf 0 bold
     printf ' plcategorize '
     tput sgr0
-    printf " (type 'q' to exit)\n\n"
+    printf ' %sq%s exit  '   "$(tput bold setaf 4)" "$(tput sgr0)"
+    printf '%sESC%s fetch  ' "$(tput bold setaf 4)" "$(tput sgr0)"
+    echo "$id3" | rg -Fq 'TXXX: [bpm_begin]: ' && \
+        echo "$id3" | rg -Fq 'TXXX: [bpm_end]: ' && col=2 || col=1
+    printf '%s,%s bpm  '     "$(tput bold setaf 4)" "$(tput setaf "$col")"
+    echo "$id3" | rg -Fq 'TXXX: [gain_begin]: ' && \
+        echo "$id3" | rg -Fq 'TXXX: [gain_end]: ' && col=2 || col=1
+    printf '%s.%s gain\n\n'  "$(tput bold setaf 4)" "$(tput setaf "$col")"
+    tput sgr0
 
     # Parse user input
     [ -n "$1" ] && {
         left="$1"
         while [ -n "$left" ]; do
             prefix="${left%"${left#?}"}"
+            left="${left#?}"
             playlist="$(getplaylist "$prefix")"
             [ -z "$playlist" ] && {
                 eprint 'Missing playlist for prefix: %s\n' "$prefix"
@@ -94,38 +245,10 @@ main () {
                 printf '%s\n' "$file" >>"$plfile"
             fi
             sed -i '/^$/d' "$plfile"
-            left="${left#?}"
         done
     }
 
-    # Fetch current track info
-    data="$(mpc current -f "$mpc_fmt")"
-    file="$(echo "$data" | cut -d -f1)"
-    artist="$(echo "$data" | cut -d -f2)"
-    title="$(echo "$data" | cut -d -f3)"
-    album="$(echo "$data" | cut -d -f4)"
-    length="$(echo "$data" | cut -d -f5)"
-
-    # Print track information
-    if [ -z "$file" ]; then
-        printf '  Nothing is playing, press return to refresh.\n'
-        return
-    else
-        tput bold
-        printf '  "%s"' "$title"
-        tput setaf 6
-        printf ' [%s]\n' "$length"
-        tput setaf 2
-        printf '  by '
-        tput setaf 3
-        printf '%s\n' "$artist"
-        [ -n "$album" ] && {
-            tput setaf 2
-            printf '  in '
-            tput setaf 6
-            printf '%s\n' "$album"
-        }
-    fi
+    print_info || return
 
     # Print last non-empty line input by user
     [ -n "$1" ] && last_change="$1"
@@ -190,6 +313,7 @@ main () {
 }
 
 file=
+data=
 main
 while read -r line; do
     main "$line"

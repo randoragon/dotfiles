@@ -99,66 +99,65 @@ main () {
         album="$(echo "$data" | cut -d -f4)"
         length="$(echo "$data" | cut -d -f5)"
         [ ! -f "$musicdir/$file" ] && eprint "'%s' not found.\n" "$musicdir/$file" && return
-        id3="$(id3ted -l "$musicdir/$file")"
         set -- ''
     }
 
     # BPM tool
     [ "$1" = , ] && {
         [ -z "$file" ] && echo 'The bpm tool requires a track to be selected.' && return
-        print_header () {
-            clear
-            tput setab 15 setaf 0 bold
-            printf ' plcategorize > %s ' "$1"
-            tput sgr0
-            printf ' %sq%s skip'   "$(tput bold setaf 4)" "$(tput sgr0)"
-            printf '\n\n'
-            print_info || eprint 'error: no selection' && return
-        }
+        # Print header
+        clear
+        tput setab 15 setaf 0 bold
+        printf ' plcategorize > bpm '
+        tput sgr0
+        printf ' %sq%s skip'   "$(tput bold setaf 4)" "$(tput sgr0)"
+        printf '\n\n'
+        print_info || { eprint 'error: no selection' && return; }
+
         bpm_tool () {
             tag="$1"
             bpm=
-            print_header "$tag"
+            printf '\n  %s %s %s\n' "$(tput bold setab 24)" "$tag" "$(tput sgr0)"
             existing="$(echo "$id3" | sed -n "s/^TXXX: \[$tag\]: //p")"
-            [ -n "$existing" ] && printf '\n  Found tag: %s' "$existing"
-            printf '\n  Input %s or leave empty for taptempo...\n> ' "$tag"
+            [ -n "$existing" ] && printf '    Found tag: %s\n' "$(tput bold)$existing$(tput sgr0)"
+            printf '    Input %s or leave empty for taptempo...\n  > ' "$tag"
             read -r ans
             [ "$ans" = q ] && return
             [ -n "$ans" ] && bpm=$((ans))
             [ -z "$bpm" ] && {
                 :>"$tmp"
-                taptempo | tee "$tmp"
+                tput setaf 7
+                taptempo -r 3 -s 16 | tee "$tmp"
+                tput sgr0
                 bpm="$(rg -o '[0-9]+' "$tmp" | tail -n1)"
-                print_header "$tag"
-                printf '\n  Last reading: %s\n  Leave empty to accept or overwrite with input.\n> ' "$bpm"
+                printf '    Last reading: %s\n    Leave empty to accept or overwrite with input.\n  > ' "$(tput bold)$bpm$(tput sgr0)"
                 read -r ans
                 [ "$ans" = q ] && return
                 [ -n "$ans" ] && bpm="$ans"
                 bpm=$((bpm))
             }
             id3ted --TXXX $bpm:"$tag" "$musicdir/$file"
-            printf '\n  Wrote %s as bpm_begin.\n' "$bpm"
-            sleep 1.25
+            printf '    Wrote %s as %s.\n' "$(tput bold)$bpm$(tput sgr0)" "$tag"
         }
 
-        bpm_tool bpm_begin 1/2
-        bpm_tool bpm_end 2/2
+        bpm_tool bpm_begin
+        bpm_tool bpm_end
+        printf '\n  All done. Press return to continue.\n> '
+        read -r _
         set -- ''
     }
 
     # Gain tool
     [ "$1" = . ] && {
         [ -z "$file" ] && echo 'The gain tool requires a track to be selected.' && return
-        print_header () {
-            clear
-            tput setab 15 setaf 0 bold
-            printf ' plcategorize > gain '
-            tput sgr0
-            printf ' %sq%s back'   "$(tput bold setaf 4)" "$(tput sgr0)"
-            printf '\n\n'
-            print_info || eprint 'error: no selection' && return
-        }
-        print_header
+        # Print header
+        clear
+        tput setab 15 setaf 0 bold
+        printf ' plcategorize > gain '
+        tput sgr0
+        printf ' %sq%s back'   "$(tput bold setaf 4)" "$(tput sgr0)"
+        printf '\n\n'
+        print_info || { eprint 'error: no selection' && return; }
 
         # Convert length to seconds and get 10%
         length_="$length"
@@ -171,35 +170,35 @@ main () {
             [ "$length_" != "$_length_" ] && length_="$_length_" || length_=
             multi=$(( multi * 60 ))
         done
-        s10="$(echo | awk '{ printf "%g", '$seconds' / 10 }')"
-        printf '\n  Duration:  %s = %ss (relevant: %ss)\n\n' "$length" $seconds "$s10"
+        s20="$(echo | awk '{ printf "%g", '$seconds' / 5 }')"
+        printf '\n  Duration:  %s = %ss (relevant: %ss)\n\n' "$length" $seconds "$(tput bold)$s20$(tput sgr0)"
 
         gain_tool () {
             ffmpeg_flag="$1"
             ffmpeg_time="$2"
             tag="$3"
-            printf '  %s\n' "$tag"
+            printf '  %s %s %s\n' "$(tput bold setab 90)" "$tag" "$(tput sgr0)"
             existing="$(echo "$id3" | sed -n "s/^TXXX: \[$tag\]: //p")"
-            [ -n "$existing" ] && printf '    Found tag: %s\n' "$existing"
+            [ -n "$existing" ] && printf '    Found tag:     %s\n' "$(tput bold setaf 3)$existing$(tput sgr0)"
             ffmpeg -loglevel fatal -y "$ffmpeg_flag" "$ffmpeg_time" -i "$musicdir/$file" -f "${file##*.}" -c copy "$tmp" || {
                 eprint '    ffmpeg failed with status %s.\n' $?
                 return
             }
-            loudness="$(sox -t "${file##*.}" "$tmp" -n stat 2>&1 | sed -n 's/^Volume adjustment:\s*//p')"
-            [ "$loudness" != "${loudness#-}" ] && loudness="${loudness#-}" || loudness="-$loudness"
-            printf '    Computed loudness: %s\n' "$loudness"
-            [ "$loudness" = "$existing" ] && printf '    No difference, skip.\n\n' && return
+            gain="$(sox -t "${file##*.}" "$tmp" -n stat 2>&1 | sed -n 's/^Volume adjustment:\s*//p')"
+            [ "$gain" != "${gain#-}" ] && gain="${gain#-}" || gain="-$gain"
+            printf '    Computed gain: %s\n' "$(tput bold setaf 3)$gain$(tput sgr0)"
+            [ "$gain" = "$existing" ] && printf '    No difference, skip.\n\n' && return
             printf '    Proceed? [Y/n] '
             read -r ans
             [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
-                id3ted --TXXX "$loudness":"$tag" "$musicdir/$file"
-                printf '    Wrote %s as %s.\n\n' "$loudness" "$tag"
+                id3ted --TXXX "$gain":"$tag" "$musicdir/$file"
+                printf '    Wrote %s as %s.\n\n' "$(tput bold setaf 3)$gain$(tput sgr0)" "$tag"
             }
         }
 
-        gain_tool -t "$s10" gain_begin
-        gain_tool -sseof "-$s10" gain_end
-        printf '  All done. Press return to go back.\n> '
+        gain_tool -t "$s20" gain_begin
+        gain_tool -sseof "-$s20" gain_end
+        printf '  All done. Press return to continue.\n> '
         read -r _
         set -- ''
     }
@@ -211,6 +210,7 @@ main () {
     tput sgr0
     printf ' %sq%s exit  '   "$(tput bold setaf 4)" "$(tput sgr0)"
     printf '%sESC%s fetch  ' "$(tput bold setaf 4)" "$(tput sgr0)"
+    id3="$(id3ted -l "$musicdir/$file")"
     echo "$id3" | rg -Fq 'TXXX: [bpm_begin]: ' && \
         echo "$id3" | rg -Fq 'TXXX: [bpm_end]: ' && col=2 || col=1
     printf '%s,%s bpm  '     "$(tput bold setaf 4)" "$(tput setaf "$col")"

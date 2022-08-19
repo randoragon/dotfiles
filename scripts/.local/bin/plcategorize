@@ -98,7 +98,7 @@ main () {
         title="$(echo "$data" | cut -d -f3)"
         album="$(echo "$data" | cut -d -f4)"
         length="$(echo "$data" | cut -d -f5)"
-        [ ! -f "$musicdir/$file" ] && eprint "'%s' not found.\n" "$musicdir/$file" && return
+        [ -n "$file" ] && [ ! -f "$musicdir/$file" ] && eprint "'%s' not found.\n" "$musicdir/$file" && return
         set -- ''
     }
 
@@ -210,7 +210,7 @@ main () {
     tput sgr0
     printf ' %sq%s exit  '   "$(tput bold setaf 4)" "$(tput sgr0)"
     printf '%sESC%s fetch  ' "$(tput bold setaf 4)" "$(tput sgr0)"
-    id3="$(id3ted -l "$musicdir/$file")"
+    id3="$(id3ted -l "$musicdir/$file" 2>/dev/null)"
     echo "$id3" | rg -Fq 'TXXX: [bpm_begin]: ' && \
         echo "$id3" | rg -Fq 'TXXX: [bpm_end]: ' && col=2 || col=1
     printf '%s,%s bpm  '     "$(tput bold setaf 4)" "$(tput setaf "$col")"

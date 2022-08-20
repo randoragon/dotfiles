@@ -8,8 +8,6 @@
 # - rg (ripgrep)
 # - taptempo (https://taptempo.tuxfamily.org)
 # - id3ted
-# - ffmpeg
-# - sox
 # - awk
 
 musicdir=~/Music
@@ -136,7 +134,7 @@ main () {
                 [ -n "$ans" ] && bpm="$ans"
                 bpm=$((bpm))
             }
-            id3ted --TXXX $bpm:"$tag" "$musicdir/$file"
+            id3ted --TXXX $bpm:"$tag" "$musicdir/$file" 2>/dev/null
             printf '    Wrote %s as %s.\n' "$(tput bold)$bpm$(tput sgr0)" "$tag"
         }
 
@@ -147,58 +145,46 @@ main () {
         set -- ''
     }
 
-    # Gain tool
+    # Mood tool
     [ "$1" = . ] && {
-        [ -z "$file" ] && echo 'The gain tool requires a track to be selected.' && return
+        [ -z "$file" ] && echo 'The mood tool requires a track to be selected.' && return
         # Print header
         clear
         tput setab 15 setaf 0 bold
-        printf ' plcategorize > gain '
+        printf ' plcategorize > mood '
         tput sgr0
         printf ' %sq%s back'   "$(tput bold setaf 4)" "$(tput sgr0)"
         printf '\n\n'
         print_info || { eprint 'error: no selection' && return; }
 
-        # Convert length to seconds and get 10%
-        length_="$length"
-        seconds=0
-        multi=1
-        while [ -n "$length_" ]; do
-            num="$(echo "$length_" | sed 's/.*:0*//')"
-            seconds=$(( seconds + (multi * num) ))
-            _length_="${length_%:*}"
-            [ "$length_" != "$_length_" ] && length_="$_length_" || length_=
-            multi=$(( multi * 60 ))
-        done
-        s20="$(echo | awk '{ printf "%g", '$seconds' / 5 }')"
-        printf '\n  Duration:  %s = %ss (relevant: %ss)\n\n' "$length" $seconds "$(tput bold)$s20$(tput sgr0)"
+        printf '\n  %s1%s Calm, Peaceful\n'   "$(tput bold setaf 4)" "$(tput sgr0 setaf 6)"
+        printf '  %s2%s Moderate, Lax\n'   "$(tput bold setaf 4)" "$(tput sgr0 setaf 2)"
+        printf '  %s3%s Upbeat, Energetic\n'   "$(tput bold setaf 4)" "$(tput sgr0 setaf 3)"
+        printf '  %s4%s Explosive, Wild\n'   "$(tput bold setaf 4)" "$(tput sgr0 setaf 9)"
+        tput sgr0
 
-        gain_tool () {
-            ffmpeg_flag="$1"
-            ffmpeg_time="$2"
-            tag="$3"
-            printf '  %s %s %s\n' "$(tput bold setab 90)" "$tag" "$(tput sgr0)"
+        mood_tool () {
+            tag="$1"
+            printf '\n  %s %s %s\n' "$(tput bold setab 90)" "$tag" "$(tput sgr0)"
             existing="$(echo "$id3" | sed -n "s/^TXXX: \[$tag\]: //p")"
-            [ -n "$existing" ] && printf '    Found tag:     %s\n' "$(tput bold setaf 3)$existing$(tput sgr0)"
-            ffmpeg -loglevel fatal -y "$ffmpeg_flag" "$ffmpeg_time" -i "$musicdir/$file" -f "${file##*.}" -c copy "$tmp" || {
-                eprint '    ffmpeg failed with status %s.\n' $?
-                return
-            }
-            gain="$(sox -t "${file##*.}" "$tmp" -n stat 2>&1 | sed -n 's/^Volume adjustment:\s*//p')"
-            [ "$gain" != "${gain#-}" ] && gain="${gain#-}" || gain="-$gain"
-            printf '    Computed gain: %s\n' "$(tput bold setaf 3)$gain$(tput sgr0)"
-            [ "$gain" = "$existing" ] && printf '    No difference, skip.\n\n' && return
-            printf '    Proceed? [Y/n] '
+            case "$existing" in
+                1) col=6 ;; 2) col=2 ;; 3) col=3 ;; 4) col=9 ;; *) col=15 ;;
+            esac
+            [ -n "$existing" ] && printf '    Found tag: %s\n' "$(tput bold setaf $col)$existing$(tput sgr0)"
+            printf '    Input mood rating...\n  > '
             read -r ans
-            [ -z "$ans" ] || [ "$ans" = y ] || [ "$ans" = Y ] && {
-                id3ted --TXXX "$gain":"$tag" "$musicdir/$file"
-                printf '    Wrote %s as %s.\n\n' "$(tput bold setaf 3)$gain$(tput sgr0)" "$tag"
-            }
+            case "$ans" in
+                q) return ;;
+                1) col=6 ;; 2) col=2 ;; 3) col=3 ;; 4) col=9 ;;
+                *) printf '    Invalid input, skipping.\n'; return ;;
+            esac
+            id3ted --TXXX "$ans":"$tag" "$musicdir/$file" 2>/dev/null
+            printf '    Wrote %s as %s.\n' "$(tput bold setaf $col)$ans$(tput sgr0)" "$tag"
         }
 
-        gain_tool -t "$s20" gain_begin
-        gain_tool -sseof "-$s20" gain_end
-        printf '  All done. Press return to continue.\n> '
+        mood_tool mood_begin
+        mood_tool mood_end
+        printf '\n  All done. Press return to continue.\n> '
         read -r _
         set -- ''
     }
@@ -211,12 +197,14 @@ main () {
     printf ' %sq%s exit  '   "$(tput bold setaf 4)" "$(tput sgr0)"
     printf '%sESC%s fetch  ' "$(tput bold setaf 4)" "$(tput sgr0)"
     id3="$(id3ted -l "$musicdir/$file" 2>/dev/null)"
-    echo "$id3" | rg -Fq 'TXXX: [bpm_begin]: ' && \
-        echo "$id3" | rg -Fq 'TXXX: [bpm_end]: ' && col=2 || col=1
-    printf '%s,%s bpm  '     "$(tput bold setaf 4)" "$(tput setaf "$col")"
-    echo "$id3" | rg -Fq 'TXXX: [gain_begin]: ' && \
-        echo "$id3" | rg -Fq 'TXXX: [gain_end]: ' && col=2 || col=1
-    printf '%s.%s gain\n\n'  "$(tput bold setaf 4)" "$(tput setaf "$col")"
+    bpm_begin="$(echo "$id3" | sed -n 's/^TXXX: \[bpm_begin\]: //p')"
+    bpm_end="$(echo "$id3" | sed -n 's/^TXXX: \[bpm_end\]: //p')"
+    [ -n "$bpm_begin" ] && [ -n "$bpm_end" ] && col=2 || col=1
+    printf '%s,%s bpm%s[%s,%s]  '     "$(tput bold setaf 4)" "$(tput setaf "$col")" "$(tput sgr0 setaf "$col")" "$bpm_begin" "$bpm_end"
+    mood_begin="$(echo "$id3" | sed -n 's/^TXXX: \[mood_begin\]: //p')"
+    mood_end="$(echo "$id3" | sed -n 's/^TXXX: \[mood_end\]: //p')"
+    [ -n "$mood_begin" ] && [ -n "$mood_end" ] && col=2 || col=1
+    printf '%s.%s mood%s[%s,%s]\n\n'  "$(tput bold setaf 4)" "$(tput setaf "$col")" "$(tput sgr0 setaf "$col")" "$mood_begin" "$mood_end"
     tput sgr0
 
     # Parse user input

@@ -34,6 +34,7 @@ alias cdls='cd ~/.local/share && ls'
 alias cdmn='cd /mnt && ls'
 alias cdmt="cd /run/media/$(whoami) && ls"
 alias cdmu='cd ~/Music && ls'
+alias cdpl='cd ~/Music/Playlists && ls'
 alias cdoc='cd ~/Documents && ls'
 alias cdsy='cd ~/Sync && ls'
 alias cdot='cd ~/dotfiles && ls'

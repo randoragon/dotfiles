@@ -19,7 +19,8 @@
 # directory or a playlist, all songs contained within get incremented.
 # If N is not provided, 1 is the default. If any song's playcount
 # drops below 0 as a result of applying N, it is removed from the
-# playcount file.
+# playcount file. "/" can be used instead of PLAYLIST to bump all songs in
+# MPD's current playlist.
 #
 # If N is omitted, the playcount file is opened in a pager instead.
 
@@ -35,6 +36,12 @@ playlist="$playlistdir"/.Rare.m3u
     shift
     file="$1"
     [ -n "$2" ] && N=$(($2)) || N=1
+    [ "$file" = ^ ] && {
+        mpc playlist -f %file% | while read -r line; do
+            $0 bump "$line" "$N"
+        done
+        exit
+    }
     if [ -f "$musicdir/$file" ]; then
         if [ "${file##*.}" = m3u ] || [ "$(xdg-mime query filetype "$musicdir/$file")" = 'text/plain' ]; then
             # Bump a playlist

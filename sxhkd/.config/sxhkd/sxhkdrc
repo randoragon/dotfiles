@@ -78,7 +78,7 @@ shift + {XF86MonBrightnessUp,XF86MonBrightnessDown}
 
 # Shortcuts Help
 super+shift + slash
-	groff -ms -t -T pdf -dpaper=a3l -P-pa3 -P-l ~/dotfiles/.other/shortcuts.ms | zathura --mode=fullscreen -
+	st -e man -l -- ~/dotfiles/.other/keybinds.1
 
 # Randomize wallpaper
 super+ctrl{_,+shift} + w
@@ -130,11 +130,9 @@ super+shift + {Left,Down,Up,Right}
 super{+shift,+ctrl} + m
 	~/.scripts/bspwm/{_,un}minimize.sh
 
-# Send on presel / receptacle
+# Send to presel
 super{_,+shift} + y
 	bspc node {_,newest.marked} -n newest.!automatic.local
-super{+ctrl,+shift+ctrl} + y
-	bspc node {_,newest.marked} -n "$(bspc query -N -n .leaf.\!window.local | head -n1)"
 
 # Swap biggest / flip
 super + s
@@ -178,11 +176,9 @@ super+ctrl + {Left,Down,Up,Right}
 	~/.scripts/bspwm/smooth_resize.sh h +30 right\
 	}
 
-# Insert receptacle / toggle presel / throw floating window
+# Toggle presel / throw floating window
 super+shift+ctrl + n
-	bspc query -N -n focused.floating >/dev/null \
-	&& ~/.scripts/bspwm/throw_window.sh c \
-	|| bspc node focused -i
+	~/.scripts/bspwm/throw_window.sh c
 super+shift+ctrl + {h,j,k,l}
 	{\
 	bspc node -p \~west  || ~/.scripts/bspwm/throw_window.sh w,\

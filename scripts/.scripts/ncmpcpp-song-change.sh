@@ -45,10 +45,11 @@ fi
 
 # KEEP TRACK OF PER-SONG PLAY COUNT
 #
-# The script will only increment if a given track plays for >=20 seconds.
+# The script will only increment if a given track plays for at least 50% of its
+# duration.
 #
 # Uncomment the line below to enable
-keep_count=1
+#keep_count=1
 if [ -n "$keep_count" ]; then
     data="$(mpc current --format %file%%time%)"
     file="${data%*}"

@@ -221,11 +221,13 @@ do
     pacinstall "$package"
 done
 
+# lua for plfilter script
 [ -n "$need_music" ] && for package in \
     mpd ncmpcpp mpc \
     beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     atomicparsley \
-    mp3info
+    mp3info \
+    lua
 do
     pacinstall "$package"
 done

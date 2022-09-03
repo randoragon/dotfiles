@@ -15,21 +15,27 @@ mpdpl="$(mktemp -t plfilter.XXXXX)"
 mpc -f %file% playlist >"$mpdpl"
 setting="$(mktemp -t plfilter.XXXXX)"
 tmp="$(mktemp -t plfilter.XXXXX)" # aux buffer
-lua_script='
+lua_script="
 hashset = {}
 isfirst = true
 for playlist in io.lines(arg[1]) do
     if isfirst then
-        if playlist:sub(1, 1) == "+" then
+        if playlist:sub(1, 1) == '+' then
             for song in io.lines(playlist:sub(2)) do
                 hashset[song] = true
             end
         else
-            os.exit()
+            local f = io.popen('cd \\'$musicdir\\' && find . -type f -name \\'*.mp3\\'', 'r')
+            local output = f:read('*a')
+            f:close()
+            for song in output:gmatch("'"[^\\n]*"'") do
+                local song = song:sub(3)
+                if #song ~= 0 then hashset[song] = true end
+            end
         end
         isfirst = false
     else
-        if playlist:sub(1, 1) == "+" then
+        if playlist:sub(1, 1) == '+' then
             local to_unify = {}
             for song in io.lines(playlist:sub(2)) do
                 to_unify[song] = true
@@ -39,7 +45,7 @@ for playlist in io.lines(arg[1]) do
                     hashset[k] = nil
                 end
             end
-        elseif playlist:sub(1, 1) == "-" then
+        elseif playlist:sub(1, 1) == '-' then
             for song in io.lines(playlist:sub(2)) do
                 hashset[song] = nil
             end
@@ -49,7 +55,7 @@ end
 for k, _ in pairs(hashset) do
     print(k)
 end
-'
+"
 
 cleanup () {
     rm -f -- "$tmp" "$setting" "$mpdpl"

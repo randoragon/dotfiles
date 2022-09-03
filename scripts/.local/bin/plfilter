@@ -11,7 +11,8 @@ musicdir=~/Music
 pldir="$musicdir"/Playlists
 plout="$pldir/.Filtered.m3u"
 mappings="${XDG_CONFIG_HOME:-$HOME/.config}/playlist-mappings.tsv"
-mpc_fmt='%file%%artist%%title%%album%%time%'
+mpdpl="$(mktemp -t plfilter.XXXXX)"
+mpc -f %file% playlist >"$mpdpl"
 setting="$(mktemp -t plfilter.XXXXX)"
 tmp="$(mktemp -t plfilter.XXXXX)" # aux buffer
 lua_script='
@@ -51,7 +52,7 @@ end
 '
 
 cleanup () {
-    rm -f -- "$tmp" "$setting"
+    rm -f -- "$tmp" "$setting" "$mpdpl"
     exit 0
 }
 trap cleanup INT QUIT TERM EXIT
@@ -100,9 +101,11 @@ getprefix () {
 }
 
 getplaylist () {
+    [ "$1" = '.' ] && echo "$mpdpl" && return
     match="$(cut -d'	' -f2 -- "$mappings" | rg -Fn -- "$1")"
     [ -z "$match" ] && return
-    sed -n "${match%%:*}s/	.*//p" "$mappings"
+    fname="$(sed -n "${match%%:*}s/	.*//p" "$mappings")"
+    printf "%s/%s.m3u" "$pldir" "$fname"
 }
 
 main () {
@@ -113,30 +116,17 @@ main () {
         set -- ''
     }
 
-    # Print header
-    clear
-    tput setab 15 setaf 0 bold
-    printf ' plfilter '
-    tput sgr0
-    printf ' %sq%s exit  '   "$(tput bold setaf 4)" "$(tput sgr0)"
-    printf '%sESC%s apply  ' "$(tput bold setaf 4)" "$(tput sgr0)"
-    nlines="$(wc -l -- "$plout")"
-    nlines="${nlines%% *}"
-    printf '%s(%s result%s)\n' "$(tput setaf 8)" "$nlines" "$([ "$nlines" -eq 1 ] || printf 's')"
-    tput sgr0
-
     # Parse user input
     [ -n "$1" ] && {
         left="$1"
         while [ -n "$left" ]; do
             prefix="${left%"${left#?}"}"
             left="${left#?}"
-            playlist="$(getplaylist "$prefix")"
-            [ -z "$playlist" ] && {
+            plfile="$(getplaylist "$prefix")"
+            [ -z "$plfile" ] && {
                 eprint 'Missing playlist for prefix: %s\n' "$prefix"
                 continue
             }
-            plfile="$pldir/$playlist.m3u"
             [ ! -f "$plfile" ] && {
                 eprint 'No such file: "%s"\n' "$plfile"
                 continue
@@ -161,6 +151,24 @@ main () {
         done
     }
 
+    # Print header
+    clear
+    tput setab 15 setaf 0 bold
+    printf ' plfilter '
+    tput sgr0
+    printf ' %sq%s exit  '   "$(tput bold setaf 4)" "$(tput sgr0)"
+    printf '%sESC%s apply  ' "$(tput bold setaf 4)" "$(tput sgr0)"
+    col="$(tput setaf 7)"
+    if rg -Fq -- "+$mpdpl" "$setting"; then
+        col="$(tput bold setaf 10)"
+    elif rg -Fq -- "-$mpdpl" "$setting"; then
+        col="$(tput setaf 9)"
+    fi
+    printf '%s.%s mpd  '     "$(tput setaf 4)" "$col"
+    nlines="$(wc -l -- "$plout")"
+    nlines="${nlines%% *}"
+    printf '%s(%s result%s)\n' "$(tput setaf 5)" "$nlines" "$([ "$nlines" -eq 1 ] || printf 's')"
+    tput sgr0
     # Print last non-empty line input by user
     [ -n "$1" ] && last_change="$1"
     tput sgr0 setaf 7
@@ -223,7 +231,6 @@ main () {
     printf '\n> '
 }
 
-data=
 main
 while read -r line; do
     main "$line"

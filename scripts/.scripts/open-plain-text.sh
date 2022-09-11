@@ -44,7 +44,7 @@ for f in "$@"; do
             shred -u -- "$tmp"
             ;;
         adoc) # Asciidoc
-            parser=asciidoctor
+            parser=asciidoctor -r asciidoctor-diagram
             command -v "$parser" >/dev/null || parser=asciidoc
             tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
             dirname="$(dirname -- "$f")"

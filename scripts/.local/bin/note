@@ -206,7 +206,7 @@ view () {
             ;;
         adoc)
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
-            asciidoctor -o "$tmp" -- "$target"
+            asciidoctor -r asciidoctor-diagram -o "$tmp" -- "$target"
             [ -s "$tmp" ] && surf -- file://"$tmp"
             ;;
         rnd)
@@ -314,9 +314,9 @@ output () {
             ;;
         adoc)
             if [ $stdout ]; then
-                asciidoctor -o - -- "$target"
+                asciidoctor -r asciidoctor-diagram -o - -- "$target"
             else
-                asciidoctor -o "$output" -- "$target"
+                asciidoctor -r asciidoctor-diagram -o "$output" -- "$target"
             fi
             ;;
         rnd)

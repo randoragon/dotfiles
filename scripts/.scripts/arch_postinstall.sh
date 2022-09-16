@@ -32,7 +32,7 @@ sectionend() {
 }
 
 eprint () {
-    fprint "arch_postinstall.sh: %s\n" "$*" >&2;
+    printf "arch_postinstall.sh: %s\n" "$*" >&2;
 }
 
 pacinstall () {
@@ -138,6 +138,7 @@ sectionend
 section "Installing Official Packages"
 # pkg-config needed by several AUR packages later
 # binutils needed for yay (provide "strip")
+# ripgrep needed for some scripts and for general use
 for package in \
     make cmake gcc \
     neovim python-pynvim \
@@ -167,7 +168,8 @@ for package in \
     trash-cli \
     bc libqalculate \
     rsync \
-    pkg-config binutils
+    pkg-config binutils \
+    ripgrep
 do
     pacinstall "$package"
 done

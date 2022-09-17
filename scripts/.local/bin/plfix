@@ -4,6 +4,9 @@
 # and removes all lines that don't contain real paths.
 # Info about the last run gets saved to a log file.
 #
+# If not in pretend mode, also runs lua scripts to remove
+# duplicate paths from playcount.tsv and transitions.tsv files.
+#
 # USAGE
 # plfix [-p, --pretend]
 #
@@ -59,3 +62,7 @@ else
     printf "No duplicate paths found\n"
 fi
 
+[ -z "$pretend" ] && {
+    lua -- ~/.scripts/plfix_playcount.lua
+    lua -- ~/.scripts/plfix_transitions.lua
+}

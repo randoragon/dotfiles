@@ -6,13 +6,15 @@
 # Dependencies:
 # - mpd, mpc
 # - rg (ripgrep)
+# - awk
 # - taptempo (https://taptempo.tuxfamily.org)
-# - id3ted
 
 musicdir=~/Music
 pldir="$musicdir"/Playlists
 mappings="${XDG_CONFIG_HOME:-$HOME/.config}/playlist-mappings.tsv"
+output="$musicdir"/transitions.tsv
 mpc_fmt='%file%%artist%%title%%album%%time%'
+awk_begin='BEGIN{FS="	";OFS="	"}'
 tmp="$(mktemp -t plcategorize.XXXXX)" # aux buffer
 
 cleanup () {
@@ -59,6 +61,8 @@ duplicates="$(cut -d'	' -f2 -- "$mappings" | sort | uniq -d)"
     exit 2
 }
 
+[ ! -f "$output" ] && :>"$output"
+
 getprefix () {
     match="$(rg -F -- "$1	" "$mappings")"
     echo "${match##*	}"
@@ -68,6 +72,27 @@ getplaylist () {
     match="$(cut -d'	' -f2 -- "$mappings" | rg -Fn -- "$1")"
     [ -z "$match" ] && return
     sed -n "${match%%:*}s/	.*//p" "$mappings"
+}
+
+tsv_read () {
+    file="$1"
+    column="$2"
+    existing_lineno="$(rg -Fn "$file" "$output")"
+    existing_lineno="${existing_lineno%%:*}"
+    [ -n "$existing_lineno" ] && awk "$awk_begin NR==$existing_lineno{print \$$column}" "$output"
+}
+
+tsv_write () {
+    line="$1"
+    column="$2"
+    value="$3"
+    fields="$(echo '$1,$2,$3,$4,$5' | sed "s/\\\$$column/$value/")"
+    if [ -n "$line" ]; then
+        awk "$awk_begin {if (NR==$line) {print $fields} else {print \$0}}" "$output" >"$tmp"
+        cp -- "$tmp" "$output"
+    else
+        printf '%s\t\t\t\t\n' "$file" | awk "$awk_begin {print $fields}" >>"$output"
+    fi
 }
 
 main () {
@@ -122,12 +147,23 @@ main () {
         print_info || { eprint 'error: no selection' && return; }
 
         bpm_tool () {
-            tag="$1"
+            if [ "$1" = begin ]; then
+                column=2
+            elif [ "$1" = end ]; then
+                column=3
+            else
+                eprint 'internal error: invalid argument to bpm_tool: %s' "$1"
+                return
+            fi
             bpm=
-            printf '\n  %s %s %s\n' "$(tput bold setab 24)" "$tag" "$(tput sgr0)"
-            existing="$(echo "$id3" | sed -n "s/^TXXX: \[$tag\]: //p")"
-            [ -n "$existing" ] && printf '    Found tag: %s\n' "$(tput bold)$existing$(tput sgr0)"
-            printf '    Input %s or leave empty for taptempo...\n  > ' "$tag"
+            printf '\n  %s bpm_%s %s\n' "$(tput bold setab 24)" "$1" "$(tput sgr0)"
+            existing_lineno="$(rg -Fn "$file" "$output")"
+            existing_lineno="${existing_lineno%%:*}"
+            [ -n "$existing_lineno" ] && {
+                existing="$(awk "$awk_begin NR==$existing_lineno{print \$$column}" "$output")"
+                [ -n "$existing" ] && printf '    Found value: %s\n' "$(tput bold)$existing$(tput sgr0)"
+            }
+            printf '    Input bpm_%s or leave empty for taptempo...\n  > ' "$1"
             read -r ans
             [ "$ans" = q ] && return
             [ -n "$ans" ] && bpm=$((ans))
@@ -143,12 +179,12 @@ main () {
                 [ -n "$ans" ] && bpm="$ans"
                 bpm=$((bpm))
             }
-            id3ted --TXXX $bpm:"$tag" "$musicdir/$file" 2>/dev/null
-            printf '    Wrote %s as %s.\n' "$(tput bold)$bpm$(tput sgr0)" "$tag"
+            tsv_write "$existing_lineno" "$column" "$bpm"
+            printf '    Wrote %s as bpm_%s.\n' "$(tput bold)$bpm$(tput sgr0)" "$1"
         }
 
-        bpm_tool bpm_begin
-        bpm_tool bpm_end
+        bpm_tool begin
+        bpm_tool end
         printf '\n  All done. Press return to continue.\n> '
         read -r _
         set -- ''
@@ -173,26 +209,39 @@ main () {
         tput sgr0
 
         mood_tool () {
-            tag="$1"
-            printf '\n  %s %s %s\n' "$(tput bold setab 90)" "$tag" "$(tput sgr0)"
-            existing="$(echo "$id3" | sed -n "s/^TXXX: \[$tag\]: //p")"
-            case "$existing" in
-                1) col=6 ;; 2) col=2 ;; 3) col=3 ;; 4) col=9 ;; *) col=15 ;;
-            esac
-            [ -n "$existing" ] && printf '    Found tag: %s\n' "$(tput bold setaf $col)$existing$(tput sgr0)"
-            printf '    Input mood rating...\n  > '
+            if [ "$1" = begin ]; then
+                column=4
+            elif [ "$1" = end ]; then
+                column=5
+            else
+                eprint 'internal error: invalid argument to mood_tool: %s' "$1"
+                return
+            fi
+            printf '\n  %s mood_%s %s\n' "$(tput bold setab 90)" "$1" "$(tput sgr0)"
+            existing_lineno="$(rg -Fn "$file" "$output")"
+            existing_lineno="${existing_lineno%%:*}"
+            [ -n "$existing_lineno" ] && {
+                existing="$(awk "$awk_begin NR==$existing_lineno{print \$$column}" "$output")"
+                [ -n "$existing" ] && {
+                    case "$existing" in
+                        1) col=6 ;; 2) col=2 ;; 3) col=3 ;; 4) col=9 ;; *) col=15 ;;
+                    esac
+                    printf '    Found value: %s\n' "$(tput bold setaf $col)$existing$(tput sgr0)"
+                }
+            }
+            printf '    Input mood_%s rating...\n  > ' "$1"
             read -r ans
             case "$ans" in
                 q) return ;;
                 1) col=6 ;; 2) col=2 ;; 3) col=3 ;; 4) col=9 ;;
                 *) printf '    Invalid input, skipping.\n'; return ;;
             esac
-            id3ted --TXXX "$ans":"$tag" "$musicdir/$file" 2>/dev/null
-            printf '    Wrote %s as %s.\n' "$(tput bold setaf $col)$ans$(tput sgr0)" "$tag"
+            tsv_write "$existing_lineno" "$column" "$ans"
+            printf '    Wrote %s as mood_%s.\n' "$(tput bold setaf $col)$ans$(tput sgr0)" "$1"
         }
 
-        mood_tool mood_begin
-        mood_tool mood_end
+        mood_tool begin
+        mood_tool end
         printf '\n  All done. Press return to continue.\n> '
         read -r _
         set -- ''
@@ -205,13 +254,12 @@ main () {
     tput sgr0
     printf ' %sq%s exit  '   "$(tput bold setaf 4)" "$(tput sgr0)"
     printf '%sESC%s fetch  ' "$(tput bold setaf 4)" "$(tput sgr0)"
-    id3="$(id3ted -l "$musicdir/$file" 2>/dev/null)"
-    bpm_begin="$(echo "$id3" | sed -n 's/^TXXX: \[bpm_begin\]: //p')"
-    bpm_end="$(echo "$id3" | sed -n 's/^TXXX: \[bpm_end\]: //p')"
+    bpm_begin="$(tsv_read "$file" 2)"
+    bpm_end="$(tsv_read "$file" 3)"
     [ -n "$bpm_begin" ] && [ -n "$bpm_end" ] && col=2 || col=1
     printf '%s,%s bpm%s[%s,%s]  '     "$(tput bold setaf 4)" "$(tput setaf "$col")" "$(tput sgr0 setaf "$col")" "$bpm_begin" "$bpm_end"
-    mood_begin="$(echo "$id3" | sed -n 's/^TXXX: \[mood_begin\]: //p')"
-    mood_end="$(echo "$id3" | sed -n 's/^TXXX: \[mood_end\]: //p')"
+    mood_begin="$(tsv_read "$file" 4)"
+    mood_end="$(tsv_read "$file" 5)"
     [ -n "$mood_begin" ] && [ -n "$mood_end" ] && col=2 || col=1
     printf '%s.%s mood%s[%s,%s]\n\n'  "$(tput bold setaf 4)" "$(tput setaf "$col")" "$(tput sgr0 setaf "$col")" "$mood_begin" "$mood_end"
     tput sgr0

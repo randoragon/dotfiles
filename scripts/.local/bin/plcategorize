@@ -77,6 +77,7 @@ getplaylist () {
 tsv_read () {
     file="$1"
     column="$2"
+    [ -z "$file" ] || [ -z "$column" ] && return
     existing_lineno="$(rg -Fn "$file" "$output")"
     existing_lineno="${existing_lineno%%:*}"
     [ -n "$existing_lineno" ] && awk "$awk_begin NR==$existing_lineno{print \$$column}" "$output"
@@ -86,6 +87,7 @@ tsv_write () {
     line="$1"
     column="$2"
     value="$3"
+    [ -z "$column" ] || [ -z "$value" ] && return
     fields="$(echo '$1,$2,$3,$4,$5' | sed "s/\\\$$column/$value/")"
     if [ -n "$line" ]; then
         awk "$awk_begin {if (NR==$line) {print $fields} else {print \$0}}" "$output" >"$tmp"

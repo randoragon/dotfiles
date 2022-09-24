@@ -223,13 +223,13 @@ do
     pacinstall "$package"
 done
 
-# lua for plfilter script
+# lua for music scripts
 [ -n "$need_music" ] && for package in \
     mpd ncmpcpp mpc \
     beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     atomicparsley \
     mp3info \
-    lua
+    lua luarocks
 do
     pacinstall "$package"
 done
@@ -248,6 +248,9 @@ do
 done
 printf "done.\n"
 sectionend
+
+# Install lua rocks
+sudo luarocks install luafilesystem
 
 # Set zsh as the default shell (requires fresh login)
 section "Setting ZSH as Default Shell"

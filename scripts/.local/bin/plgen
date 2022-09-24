@@ -1,0 +1,204 @@
+#!/usr/bin/env lua
+
+-- Generate a new, random, parameterized playlist.
+
+require 'lfs'
+
+--------------------------
+-- GLOBAL CONFIGURATION --
+--------------------------
+MUSIC_DIR = os.getenv('HOME') .. '/Music/'
+PLAYLIST_DIR = MUSIC_DIR .. 'Playlists/'
+BPM_TOLERANCE = 0.05
+CANDIDATE_STRICTNESS = 0.5
+
+-- Aside from '_', '@' and '!'-prefixed playlists, this hashset
+-- can include other ones that will be used for comparing songs
+PLAYLIST_WHITELIST = {
+	['#Fast'] = true,
+	['#Slow'] = true,
+	['#Lo-Fi'] = true,
+}
+
+-- By convention the '.' playlists entry contains all usable songs
+songs, playlists = {}, {['.'] = {}}
+
+function load_data()
+	-- Read song transitions
+	for line in io.lines(MUSIC_DIR .. 'transitions.tsv') do
+		local song, bpm, mood, iter = nil, {}, {}, line:gmatch('[^\t]*')
+		song = iter()
+		bpm[1] = tonumber(iter())
+		bpm[2] = tonumber(iter())
+		mood[1] = tonumber(iter())
+		mood[2] = tonumber(iter())
+		if (song and bpm[1] and bpm[2] and mood[1] and mood[2]) == nil then
+			goto continue
+		end
+		songs[song] = {bpm = bpm, mood = mood, playcount = 0, playlists = {}}
+		playlists['.'][#playlists['.'] + 1] = song
+		::continue::
+	end
+
+	-- Read song playcounts
+	for line in io.lines(MUSIC_DIR .. 'playcount.tsv') do
+		local song, playcount, iter
+		iter = line:gmatch('[^\t]*')
+		playcount = iter()
+		song = iter()
+		if (song and playcount) == nil or songs[song] == nil then
+			goto continue
+		end
+		songs[song].playcount = playcount
+		::continue::
+	end
+
+	-- Read playlists
+	for file in lfs.dir(PLAYLIST_DIR) do
+		local prefix, attr = file:sub(1, 1), nil
+		if PLAYLIST_WHITELIST[file] == nil then
+			if prefix ~= '_' and prefix ~= '@' and prefix ~= '!' then
+				goto continue
+			end
+			attr = lfs.attributes(PLAYLIST_DIR .. file)
+			if attr.mode == 'directory' then
+				goto continue
+			end
+		end
+		playlists[file] = {}
+		for song in io.lines(PLAYLIST_DIR .. file) do
+			if songs[song] ~= nil then
+				songs[song].playlists[#songs[song].playlists + 1] = file
+				playlists[file][song] = true
+			end
+		end
+		::continue::
+	end
+end
+
+function generate_playlist()
+	local playlist = {}
+
+	-- Pick random starting point
+	local index = math.random(#playlists['.'])
+	playlist[1] = playlists['.'][index]
+	table.remove(playlists['.'], index)
+
+	for i = 2, 10 do
+		local candidates = {}
+
+		-- Compile a list of candidates
+		for index, song in ipairs(playlists['.']) do
+			local s0, s1 = songs[playlist[#playlist]], songs[song]
+
+			-- Filter out by BPM
+			local ratio = s0.bpm[2] >= s1.bpm[1]
+				and s0.bpm[2] / s1.bpm[1] % 1
+				or s1.bpm[1] / s0.bpm[2] % 1
+			if ratio > BPM_TOLERANCE and 1 - ratio > BPM_TOLERANCE then
+				goto continue
+			end
+
+			-- Filter out by mood
+			if math.abs(s0.mood[2] - s1.mood[1]) > 1 then
+				goto continue
+			end
+
+			candidates[#candidates + 1] = {index, song}
+			::continue::
+		end
+
+		-- Pick a candidate
+		if #candidates ~= 0 then
+			-- Sort candidates based on playlists similarity
+			function comp(a, b)
+				local a_dist, b_dist
+				a, b = a[2], b[2]
+				local a_pls, b_pls = songs[a].playlists, songs[b].playlists
+
+				-- Count how many playlists a and b have in common with the
+				-- previous song.
+				local hashset, a_common, b_common = {}, 0, 0
+				for _, v in ipairs(songs[playlist[#playlist]].playlists) do
+					hashset[v] = true
+				end
+				for _, v in ipairs(a_pls) do
+					a_common = a_common + (hashset[v] and 1 or 0)
+				end
+				for _, v in ipairs(b_pls) do
+					b_common = b_common + (hashset[v] and 1 or 0)
+				end
+
+				-- Use sine function to quantify the fit - too many playlists
+				-- in common is not good, because it leads to poor diversity.
+				-- Too few playlists in common is also not good, because it
+				-- leads to weird transitions. The sine range [0, pi] is
+				-- stretched over the domain [0, n], where n is the number of
+				-- playlists the song is in (the smaller of the two). As such,
+				-- the function maximum lies at x == n/2. To convert similarity
+				-- to distance, the result is subtracted from 1.
+				local n = #a_pls <= #b_pls and #a_pls or #b_pls
+				if n ~= 0 then
+					a_dist = 1 - math.sin(a_common * math.pi / n)
+					b_dist = 1 - math.sin(b_common * math.pi / n)
+				else
+					a_dist = 1
+					b_dist = 1
+				end
+
+				-- Break ties: if a and b are equally similar to the previous
+				-- song, prioritize the one which does not come from the same
+				-- directory (i.e. different artist), if possible. If that
+				-- doesn't clarify a winner, pick whichever has less plays.
+				if a_dist == b_dist then
+					local prev, adir, bdir = playlist[#playlist], a, b
+					prev = prev:sub(1, prev:find('/') - 1)
+					adir = adir:sub(1, adir:find('/') - 1)
+					bdir = bdir:sub(1, bdir:find('/') - 1)
+					if adir ~= prev and bdir == prev then
+						return true
+					end
+					return songs[a].playcount < songs[b].playcount
+				end
+				return a_dist < b_dist
+			end
+			table.sort(candidates, comp)
+
+			-- Select winner (top candidates have higher chance)
+			local index = 1
+			while math.random() < CANDIDATE_STRICTNESS do
+				index = index + 1
+				if index == #candidates then
+					break
+				end
+			end
+			local winner = candidates[index]
+			playlist[#playlist + 1] = winner[2]
+			table.remove(playlists['.'], winner[1])
+		else
+			local index = math.random(#playlists['.'])
+			playlist[1] = playlists['.'][index]
+			table.remove(playlists['.'], index)
+			print('No candidates after ' .. playlist[#playlist - 1] .. ', picked ' .. playlist[#playlist] .. ' at random.')
+		end
+	end
+	return playlist
+end
+
+function export_playlist(playlist, path)
+	local fout = io.open(path, 'w')
+	if fout == nil then
+		return false
+	end
+	for _, v in ipairs(playlist) do
+		fout:write(v, '\n')
+	end
+	fout:close()
+	return true
+end
+
+load_data()
+local pl = generate_playlist()
+if not export_playlist(pl, PLAYLIST_DIR .. '.Generated.m3u') then
+	print('Failed to open ' .. PLAYLIST_DIR .. '.Generated.m3u file')
+end

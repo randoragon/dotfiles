@@ -9,7 +9,7 @@
 
 musicdir=~/Music
 pldir="$musicdir"/Playlists
-plout="$pldir/.Filtered.m3u"
+plout="${1:-$pldir/.Filtered.m3u}"
 mappings="${XDG_CONFIG_HOME:-$HOME/.config}/playlist-mappings.tsv"
 mpdpl="$(mktemp -t plfilter.XXXXX)"
 mpc -f %file% playlist >"$mpdpl"
@@ -171,7 +171,7 @@ main () {
         col="$(tput setaf 9)"
     fi
     printf '%s.%s mpd  '     "$(tput setaf 4)" "$col"
-    nlines="$(wc -l -- "$plout")"
+    nlines="$(wc -l -- "$plout" 2>/dev/null || echo 0)"
     nlines="${nlines%% *}"
     printf '%s(%s result%s)\n' "$(tput setaf 5)" "$nlines" "$([ "$nlines" -eq 1 ] || printf 's')"
     tput sgr0

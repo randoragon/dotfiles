@@ -44,7 +44,7 @@ function load_data()
 	for line in io.lines(MUSIC_DIR .. 'playcount.tsv') do
 		local song, playcount, iter
 		iter = line:gmatch('[^\t]*')
-		playcount = iter()
+		playcount = tonumber(iter())
 		song = iter()
 		if (song and playcount) == nil or songs[song] == nil then
 			goto continue
@@ -155,10 +155,14 @@ function generate_playlist()
 					prev = prev:sub(1, prev:find('/') - 1)
 					adir = adir:sub(1, adir:find('/') - 1)
 					bdir = bdir:sub(1, bdir:find('/') - 1)
-					if adir ~= prev and bdir == prev then
-						return true
+					if bdir == prev then
+						if adir ~= prev then
+							return true
+						else
+							return songs[a].playcount < songs[b].playcount
+						end
 					end
-					return songs[a].playcount < songs[b].playcount
+					return false
 				end
 				return a_dist < b_dist
 			end

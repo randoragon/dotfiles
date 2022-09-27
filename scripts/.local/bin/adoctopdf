@@ -13,4 +13,4 @@
 in="$1"
 out="$2"
 
-asciidoctor -r asciidoctor-pdf -r asciidoctor-diagram -a webfonts\! -b pdf -o "$out" -- "$in"
+asciidoctor -r asciidoctor-pdf $ASCIIDOCTOR_OPTS -b pdf -o "$out" -- "$in"

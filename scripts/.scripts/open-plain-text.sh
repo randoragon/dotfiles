@@ -46,7 +46,7 @@ for f in "$@"; do
         adoc) # Asciidoc
             tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
             dirname="$(dirname -- "$f")"
-            asciidoctor -r asciidoctor-diagram -a webfonts\! -a imagesdir="$dirname" -a stylesdir="$dirname" -o "$tmp" -- "$f"
+            asciidoctor $ASCIIDOCTOR_OPTS -a imagesdir="$dirname" -a stylesdir="$dirname" -o "$tmp" -- "$f"
             surf -S -- file://"$tmp"
             shred -u -- "$tmp"
             ;;

@@ -14,6 +14,7 @@
 # - ntmake (my script for quick neatroff compilation)
 # - git
 # - tar
+# - asciidoctor, asciidoctor-diagram (for adoc support)
 #
 # For neatroff rnd macros see https://github.com/randoragon/tmac-rnd
 
@@ -206,7 +207,7 @@ view () {
             ;;
         adoc)
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
-            asciidoctor -r asciidoctor-diagram -a webfonts\! -o "$tmp" -- "$target"
+            asciidoctor $ASCIIDOCTOR_OPTS -o "$tmp" -- "$target"
             [ -s "$tmp" ] && surf -- file://"$tmp"
             ;;
         rnd)
@@ -244,7 +245,7 @@ create () {
     case "$2" in
         .adoc)
             docinfo="$tmpd/NOTE/docinfo.html"
-            printf '=\n:webfonts!:\n:docinfo: shared\n' >"$target"
+            printf '=\n:docinfo: shared\n' >"$target"
             printf '<style>\n</style>' >"$docinfo"
             files="$files$nl$docinfo"
             ;;
@@ -314,9 +315,9 @@ output () {
             ;;
         adoc)
             if [ $stdout ]; then
-                asciidoctor -r asciidoctor-diagram -o - -- "$target"
+                asciidoctor $ASCIIDOCTOR_OPTS -o - -- "$target"
             else
-                asciidoctor -r asciidoctor-diagram -o "$output" -- "$target"
+                asciidoctor $ASCIIDOCTOR_OPTS -o "$output" -- "$target"
             fi
             ;;
         rnd)

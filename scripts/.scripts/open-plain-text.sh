@@ -44,11 +44,9 @@ for f in "$@"; do
             shred -u -- "$tmp"
             ;;
         adoc) # Asciidoc
-            parser=asciidoctor -r asciidoctor-diagram
-            command -v "$parser" >/dev/null || parser=asciidoc
             tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
             dirname="$(dirname -- "$f")"
-            $parser -a imagesdir="$dirname" -a stylesdir="$dirname" -o "$tmp" -- "$f"
+            asciidoctor -r asciidoctor-diagram -a imagesdir="$dirname" -a stylesdir="$dirname" -o "$tmp" -- "$f"
             surf -S -- file://"$tmp"
             shred -u -- "$tmp"
             ;;

@@ -7,6 +7,7 @@ set tw=80
 inoremap <buffer> <Leader>l local 
 inoremap <buffer> <Leader>r return 
 inoremap <buffer> <Leader>i if 
+inoremap <buffer> <Leader>T then<CR>end<Esc>O
 inoremap <buffer> <Leader>e else
 inoremap <buffer> <Leader>o elseif 
 inoremap <buffer> <Leader>f for 
@@ -15,6 +16,9 @@ inoremap <buffer> <Leader>F function
 inoremap <buffer> <Leader>c <const> 
 
 inoremap <buffer> <Leader>p print()<Left>
+inoremap <buffer> <Leader>I ipairs()<Left>
+inoremap <buffer> <Leader>P pairs()<Left>
+inoremap <buffer> <Leader>b do<CR>end<Esc>O
 inoremap <buffer> <Leader>ss string.
 inoremap <buffer> <Leader>sf string.format()<Left>
 
@@ -23,16 +27,16 @@ inoremap <buffer> <Leader>ti table.insert()<Left>
 inoremap <buffer> <Leader>tr table.remove()<Left>
 inoremap <buffer> <Leader>tc table.concat()<Left>
 inoremap <buffer> <Leader>tm table.move()<Left>
-inoremap <buffer> <Leader>tp tprint()<Left>
+inoremap <buffer> <Leader>t[ <Esc>^y$A[#<C-r>" + 1] = 
 
-inoremap <buffer> += <Esc>y^gi= <C-r>" + 
-inoremap <buffer> -= <Esc>y^gi= <C-r>" - 
-inoremap <buffer> *= <Esc>y^gi= <C-r>" * 
-inoremap <buffer> /= <Esc>y^gi= <C-r>" / 
-inoremap <buffer> //= <Esc>y^gi= <C-r>" // 
-inoremap <buffer> %= <Esc>y^gi= <C-r>" % 
+inoremap <buffer> += <Esc>y^gi= <C-r>" +
+inoremap <buffer> -= <Esc>y^gi= <C-r>" -
+inoremap <buffer> *= <Esc>y^gi= <C-r>" *
+inoremap <buffer> /= <Esc>y^gi= <C-r>" /
+inoremap <buffer> //= <Esc>y^gi= <C-r>" //
+inoremap <buffer> %= <Esc>y^gi= <C-r>" %
 inoremap <buffer> ^= <Esc>y^gi= <C-r>"^
-inoremap <buffer> &= <Esc>y^gi= <C-r>" & 
-inoremap <buffer> \|= <Esc>y^gi= <C-r>" \| 
-inoremap <buffer> >>= <Esc>y^gi= <C-r>" >> 
-inoremap <buffer> <<= <Esc>y^gi= <C-r>" << 
+inoremap <buffer> &= <Esc>y^gi= <C-r>" &
+inoremap <buffer> \|= <Esc>y^gi= <C-r>" \|
+inoremap <buffer> >>= <Esc>y^gi= <C-r>" >>
+inoremap <buffer> <<= <Esc>y^gi= <C-r>" <<

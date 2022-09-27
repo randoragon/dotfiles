@@ -199,16 +199,20 @@ done
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
     md4c wkhtmltopdf webkit2gtk gcr \
-    asciidoctor mathjax
+    asciidoctor rubygems mathjax2
 do
     pacinstall "$package"
 done
 
-# Force asciidoctor to use local MathJax instance
 [ -n "$need_gui" ] && {
+    # Install asciidoctor gems
+    gem install asciidoctor-diagram
+    gem install asciidoctor-pdf
+
+    # Force asciidoctor to use local MathJax instance
     html5rb="$(pacman -Ql asciidoctor | grep '/html5\.rb')"
-    if [ -f "${html5rb##*/}" ]; then
-        sudo sed -i 's|#{cdn_base_url}/mathjax/#{MATHJAX_VERSION}|/usr/share/mathjax2|' "${html5rb##*/}"
+    if [ -f "${html5rb#* }" ]; then
+        sudo sed -i 's|#{cdn_base_url}/mathjax/#{MATHJAX_VERSION}|/usr/share/mathjax2|' "${html5rb#* }"
     else
         eprint 'asciidoctor html.rb file not found, failed to configure MathJax'
     fi

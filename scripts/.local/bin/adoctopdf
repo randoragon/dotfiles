@@ -8,8 +8,9 @@
 # DEPENDENCIES
 # - asciidoctor
 # - asciidoctor-pdf (gem install asciidoctor-pdf)
+# - asciidoctor-diagram (gem install asciidoctor-diagram)
 
 in="$1"
 out="$2"
 
-asciidoctor -r asciidoctor-pdf -b pdf -o "$out" -- "$in"
+asciidoctor -r asciidoctor-pdf -r asciidoctor-diagram -a webfonts\! -b pdf -o "$out" -- "$in"

@@ -206,7 +206,7 @@ view () {
             ;;
         adoc)
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
-            asciidoctor -r asciidoctor-diagram -o "$tmp" -- "$target"
+            asciidoctor -r asciidoctor-diagram -a webfonts\! -o "$tmp" -- "$target"
             [ -s "$tmp" ] && surf -- file://"$tmp"
             ;;
         rnd)

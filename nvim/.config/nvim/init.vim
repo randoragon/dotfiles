@@ -131,7 +131,7 @@ set statusline+=%#WarningMsg#%h%m%r                        " {help, modified, re
 set statusline+=%#CursorColumn#%=                          " Align the rest to the right
 set statusline+=%#Conceal#%y\                              " File type
 set statusline+=%{&fileencoding?&fileencoding:&encoding}\  " File encoding
-set statusline+=%#MsgArea#\ \ %c:%l/%L\ (%p%%)\            " Position in file
+set statusline+=%#MsgArea#\ \ %v:%l/%L\ (%p%%)\            " Position in file
 set statusline+=\ 
 
 " }}}

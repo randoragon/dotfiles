@@ -184,7 +184,7 @@ function MarkdownLevel()
     if empty(h)
         return "="
     else
-        return ">" .  len(h)
+        return ">" . len(h)
     endif
 endfunction
 

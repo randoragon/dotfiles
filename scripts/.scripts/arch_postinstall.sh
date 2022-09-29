@@ -199,7 +199,7 @@ done
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
     md4c wkhtmltopdf webkit2gtk gcr \
-    asciidoctor rubygems mathjax2 graphviz
+    asciidoctor rubygems mathjax2 graphviz gnuplot
 do
     pacinstall "$package"
 done

@@ -199,7 +199,7 @@ done
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
     md4c wkhtmltopdf webkit2gtk gcr \
-    asciidoctor rubygems mathjax2
+    asciidoctor rubygems mathjax2 graphviz
 do
     pacinstall "$package"
 done
@@ -299,7 +299,8 @@ done
     xidlehook \
     farbfeld-git \
     fsearch-git \
-    ttf-unifont
+    ttf-unifont \
+    mscgen
 do
     yayinstall "$package"
 done

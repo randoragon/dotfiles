@@ -338,3 +338,13 @@ if has('nvim')
     autocmd TermOpen term://* startinsert
 endif
 "}}}
+
+"{{{1 Provide EnterFileMode function for scripts
+function! EnterFileMode(filetype)
+    let &filetype = a:filetype
+    nnoremap <buffer> <Leader><Leader> :set filetype=asciidoc<CR>
+                \:nunmap <buffer> <Leader><Leader><CR>
+                \:echo<CR>
+    echo "Entered ".a:filetype." mode. Press <Leader> twice to exit."
+endfunction
+"}}}

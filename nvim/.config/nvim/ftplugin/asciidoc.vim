@@ -13,7 +13,7 @@ inoremap <buffer> <Leader>ol [.overline]##<Left>
 inoremap <buffer> <Leader>lt [.line-through]##<Left>
 
 inoremap <buffer> <Leader>h [horizontal]
-inoremap <buffer> <Leader>gg [graphviz, target=, align=center]<CR>--<CR>--<C-o>Ograph {<CR>}<C-o>O<Tab>rankdir=LR;<CR><,,><Esc>4k0f=:call EnterFileMode("dot")<CR>a
+inoremap <buffer> <Leader>gg [gnuplot, target=, align=center]<CR>--<CR>--<C-o>Oset title<CR>set xlabel<CR>set ylabel<CR>set key off<CR>set autoscale<CR>set samples 200<CR>plot <,,><Esc>8k0f=:call EnterFileMode("gnuplot")<CR>a
 inoremap <buffer> <Leader>gd [graphviz, target=, align=center]<CR>--<CR>--<C-o>Odigraph {<CR>}<C-o>O<Tab>rankdir=LR;<CR><,,><Esc>4k0f=:call EnterFileMode("dot")<CR>a
 inoremap <buffer> <Leader>gm [msc, target=, align=center]<CR>--<CR>--<C-o>Omsc {<CR>}<C-o>O<Tab>hscale="1";<CR><,,><Esc>4k0f=:call EnterFileMode("mscgen")<CR>a
 inoremap <buffer> <Leader>.s stem:[]<Left>

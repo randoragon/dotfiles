@@ -32,6 +32,10 @@ super+{shift,ctrl} + n
 {_,ctrl} + Print
 	{flameshot gui,flameshot full -c}
 
+# Dunst
+{super,ctrl,alt} + grave
+	dunstctl {history-pop,close-all,context}
+
 # Music and Volume Control
 {XF86AudioPlay,super + p}
 	mpc --port=$MPD_PORT toggle

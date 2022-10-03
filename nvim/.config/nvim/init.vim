@@ -22,7 +22,7 @@ set list
 " Plugins {{{1
 lua << EOF
 
-require "paq" {
+require 'paq' {
     'airblade/vim-gitgutter';
     'junegunn/fzf.vim';
     'tpope/vim-surround';
@@ -41,7 +41,6 @@ require "paq" {
     'Shougo/deoplete.nvim';
     'Shougo/deoplete-clangx';
     'ap/vim-css-color';
-    'junegunn/goyo.vim';
     'psliwka/vim-smoothie';
 }
 
@@ -62,9 +61,12 @@ let g:AutoPairsShortcutBackInsert = '<Leader><Backspace>'
 " }}}
 
 " GitGutter {{{2
-nnoremap ]h :GitGutterNextHunk<CR>
-nnoremap [h :GitGutterPrevHunk<CR>
-nnoremap <Leader>h :GitGutterPreviewHunk<CR>
+let g:gitgutter_map_keys = 0
+nnoremap ]g :GitGutterNextHunk<CR>
+nnoremap [g :GitGutterPrevHunk<CR>
+nnoremap <Leader>gp :GitGutterPreviewHunk<CR>
+nnoremap <Leader>gl :GitGutterLineHighlightsToggle<CR>
+nnoremap <Leader>gu :GitGutterUndoHunk<CR>
 " }}}
 
 " Tabular keyboard shortcuts {{{2
@@ -99,10 +101,6 @@ nnoremap <Leader>fm :Marks<CR>
 nnoremap <Leader>fh :Helptags<CR>
 nnoremap <Leader>fa :Ag<CR>
 nnoremap <Leader>fb :Buffers<CR>
-" }}}
-
-" {{{2 Goyo
-nnoremap <Leader>g :Goyo<CR>
 " }}}
 
 " {{{2 Smoothie

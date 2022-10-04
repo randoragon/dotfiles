@@ -25,6 +25,6 @@ inoremap <buffer> <Leader>eb ====<CR>====<C-o>O
 inoremap <buffer> <Leader>qb ----<CR>----<C-o>O
 inoremap <buffer> <Leader>ob --<CR>--<C-o>O
 inoremap <buffer> <Leader>pb ++++<CR>++++<C-o>O
-inoremap <buffer> <Leader>tt [.left, cols="", width=100, frame=sides, grid=cols, stripes=none]<CR>\|===<CR><,,><CR>\|===<Esc>3k0f"a
+inoremap <buffer> <Leader>tt [.left, cols="", width=100, frame=all, grid=all, stripes=none]<CR>\|===<CR><,,><CR>\|===<Esc>3k0f"a
 inoremap <buffer> <Leader>t, [.left, cols="", width=100, frame=sides, grid=cols, stripes=none]<CR>,===<CR><,,><CR>,===<Esc>3k0f"a
 inoremap <buffer> <Leader>t: [.left, cols="", width=100, frame=sides, grid=cols, stripes=none]<CR>:===<CR><,,><CR>:===<Esc>3k0f"a

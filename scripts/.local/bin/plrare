@@ -23,6 +23,11 @@
 # MPD's current playlist.
 #
 # If N is omitted, the playcount file is opened in a pager instead.
+#
+# Other usage:
+#    plrare stats
+# Tallies up the total listening time and prints it out. Requires mp3info.
+#
 
 musicdir=~/Music
 playlistdir="$musicdir"/Playlists
@@ -72,6 +77,35 @@ playlist="$playlistdir"/.Rare.m3u
             $0 bump "$(realpath --relative-to "$musicdir" -- "$f")" "$N"
         done
     fi
+    exit
+}
+
+[ "$1" = stats ] && {
+    total=0
+    plays=0
+    unique=0
+    nlines="$(wc -l <"$countfile")"
+    i=1
+    while read -r line; do
+        printf '\rReading %d/%d... (%dh:%d)' "$i" "$nlines" "$((total / 3600))" "$plays"
+        i=$((i + 1))
+        fpath="$musicdir/${line#*	}"
+        [ ! -f "$fpath" ] && continue
+        duration="$(mp3info -p %S -- "$fpath")"
+        count="${line%%	*}"
+        total=$((total + (duration * count)))
+        plays=$((plays + count))
+        unique=$((unique + 1))
+    done <"$countfile"
+    days="$((total / 86400))"
+    hours="$(((total % 86400) / 3600))"
+    minutes="$(((total % 3600) / 60))"
+    seconds="$((total % 60))"
+    printf ' done.\n'
+    printf 'Total listen time:   %dd, %dh, %dm, %ds\n' "$days" "$hours" "$minutes" "$seconds"
+    printf 'Total no. plays:     %d\n' "$plays"
+    printf 'No. unique plays:    %d (%d%%)\n' "$unique" $((unique * 100 / plays))
+    printf 'Avg track duration:  %02d:%02d\n' $(((total / plays) / 60)) $(((total / plays) % 60))
     exit
 }
 

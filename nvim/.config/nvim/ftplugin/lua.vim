@@ -18,7 +18,7 @@ inoremap <buffer> <Leader>c <const>
 inoremap <buffer> <Leader>p print()<Left>
 inoremap <buffer> <Leader>I ipairs()<Left>
 inoremap <buffer> <Leader>P pairs()<Left>
-inoremap <buffer> <Leader>b do<CR>end<Esc>O
+inoremap <buffer> <Leader>d do<CR>end<Esc>O
 inoremap <buffer> <Leader>ss string.
 inoremap <buffer> <Leader>sf string.format()<Left>
 

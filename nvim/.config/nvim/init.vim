@@ -174,7 +174,6 @@ nnoremap <Leader>T :call ToggleIndentStyle()<CR>
 
 set expandtab
 call ToggleIndentStyle()
-" }}}
 
 " For markdown folding, src: https://stackoverflow.com/a/4677454 (comments) {{{2
 function MarkdownLevel()
@@ -201,6 +200,32 @@ augroup fold_switch
     autocmd! BufNewFile,BufRead *.md,*.MD setlocal foldmethod=expr foldexpr=MarkdownLevel() foldnestmax=3 foldlevel=1
 augroup END
 
+" }}}
+
+" New file templates {{{1
+function TryLoadTemplate()
+    let fpath = $HOME."/.config/nvim/templates/".&filetype
+    echo l:fpath
+    if filereadable(fpath)
+        call setline(1, readfile(l:fpath))
+
+        let datestr = strftime('%a %Y-%m-%d')
+        let l = 1
+        for line in getline(1, '$')
+            " Substitute <DATE> with the current date
+            call setline(l:l, substitute(l:line, '\C<DATE>', l:datestr, 'g'))
+            let l = l:l + 1
+        endfor
+
+        " Place cursor in the spot indicated by <START>
+        call searchpos('\C<START>')
+        norm "_df>
+    endif
+endfunction
+augroup new_file_templates
+    autocmd!
+    autocmd! BufNewFile * call TryLoadTemplate()
+augroup END
 " }}}
 
 " FSwitch settings {{{1

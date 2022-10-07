@@ -286,7 +286,7 @@ inoremap <C-y> <C-o>P
 
 " Paste current date
 inoremap <C-d> <C-r>=strftime('%a %Y-%m-%d')<CR>
-inoremap g<C-d> <C-r>=strftime('%Y-%m-%d')<CR>
+inoremap <Leader><C-d> <C-r>=strftime('%Y-%m-%d')<CR>
 " }}}
 
 " Backup directories {{{1

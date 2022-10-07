@@ -1,0 +1,27 @@
+\documentclass[14pt]{article}
+\nofiles
+\pagenumbering{gobble}
+
+\usepackage{extsizes}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{siunitx}
+\usepackage[outputdir={\detokenize{%OUTDIR%}}]{minted}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue}
+\renewcommand{\theFancyVerbLine}{\sffamily
+\textcolor[rgb]{0.4,0.4,0.4}{\small \arabic{FancyVerbLine}}}
+\setminted{linenos,autogobble,obeytabs,frame=single,highlightcolor=yellow}
+\renewcommand{\listingscaption}{Code}
+
+\title{}
+\author{}
+\date{<DATE>}
+
+\begin{document}
+<START>
+\end{document}

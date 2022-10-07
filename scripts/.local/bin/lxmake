@@ -1,0 +1,91 @@
+#!/bin/sh
+
+# LaTeX make - a script for converting a LaTeX document to PDF in a contained
+# way, without any of the aux files junk. The document is compiled twice,
+# unless a "\nofiles" line is found within.
+#
+# As a convention to circumvent some troubles with paths, the latex source may
+# use the "%OUTDIR%" placeholder anywhere, and it will be substituted for the
+# full path to the output directory before compiling.
+#
+# Usage:
+#   lxmake [-d DIR] INPUT [OUTPUT]
+#
+# If either INPUT or OUTPUT are '-', they are interpreted as stdin/stdout
+# respectively. If INPUT is '-' and OUTPUT is not specified, '-' is assumed.
+#
+# The -d DIR option can be set to use DIR as the build directory, instead of
+# creating a temporary one. This is helpful if you want the files to remain and
+# potentially speed up the next build. This option is mutually exclusive with
+# printing OUTPUT to stdout.
+
+# Parse command-line arguments
+d_dir=
+[ "$1" = -d ] && {
+    [ $# -lt 2 ] && echo 'lxmake: not enough arguments' >&2 && exit 3
+    [ ! -d "$2" ] && printf "lxmake: '%s' is not a directory\n" "$2" >&2 && exit 4
+    d_dir="$2"
+    shift 2
+}
+[ $# -lt 1 ] && echo 'lxmake: not enough arguments' >&2 && exit 3
+input="$1"
+output="$2"
+
+# Validate input and output, store input in a temporary file
+[ "$input" != - ] && [ ! -r "$input" ] && echo 'lxmake: failed to read input file' >&2 && exit 1
+tinput="$(mktemp --tmpdir lxmake.XXXXX)"
+if [ "$input" = - ]; then
+    [ -z "$output" ] && output=-
+    cat - >"$tinput"
+else
+    [ -z "$output" ] && output="${input%.*}.pdf"
+    cp -- "$input" "$tinput"
+fi
+unset input # no longer needed
+[ ! -s "$tinput" ] && {
+    echo 'lxmake: no input provided' >&2
+    shred -u -- "$tinput"
+    exit 2
+}
+[ "$output" = - ] && [ -n "$d_dir" ] && {
+    echo 'lxmake: specify output filename or drop -d (mutually exclusive)' >&2
+    shred -u -- "$tinput"
+    exit 5
+}
+
+# compile <dir> <jobname> (jobname is extensionless output filename)
+compile () {
+    pdflatex -interaction batchmode -shell-escape -output-directory "$1" -jobname "$2" -- "$tinput" >&2
+}
+
+if [ -z "$d_dir" ]; then
+    dir="$(mktemp --tmpdir -d lxmake.XXXXX.d)"
+    jobname=lxmake
+else
+    dir="$d_dir"
+    jobname="${output##*/}"
+    jobname="${jobname%.*}"
+fi
+
+sed -i "s%OUTDIR%$dirg" "$tinput"
+printf '%sCOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
+compile "$dir" "$jobname"
+grep -q '^\\nofiles\b' "$tinput" || {
+    printf '\n%sRECOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
+    compile "$dir" "$jobname"
+}
+
+# Export the result PDF file
+if [ "$output" = - ]; then
+    cat -- "$dir/lxmake.pdf"
+    shred -u -- "$dir/lxmake.pdf"
+elif [ "$output" != "$dir/$jobname.pdf" ]; then
+    mv -- "$dir/$jobname.pdf" "$output"
+fi
+
+# Cleanup
+if [ -z "$d_dir" ]; then
+    find "$dir" -type f -exec shred -u '{}' \;
+    rm -rf -- "$dir"
+fi
+shred -u -- "$tinput"

@@ -25,6 +25,9 @@ inoremap <buffer> <Leader>h \href{}{<,,>} <,,><C-o>2F}
 inoremap <buffer> <Leader>i \emph{}<Left>
 inoremap <buffer> <Leader>b \textbf{}<Left>
 inoremap <buffer> <Leader>u \underline{}<Left>
+inoremap <buffer> <Leader>~ \textasciitilde
+inoremap <buffer> <Leader>^ \textasciicircum
+inoremap <buffer> <Leader>\ \textbackslash
 nmap <buffer> <Leader>B o<C-g>S\
 imap <buffer> <Leader>B <C-g>S\
 

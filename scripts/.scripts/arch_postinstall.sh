@@ -233,7 +233,7 @@ done
     beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     atomicparsley \
     mp3info \
-    lua luarocks
+    lua lua-filesystem
 do
     pacinstall "$package"
 done
@@ -252,9 +252,6 @@ do
 done
 printf "done.\n"
 sectionend
-
-# Install lua rocks
-sudo luarocks install luafilesystem
 
 # Set zsh as the default shell (requires fresh login)
 section "Setting ZSH as Default Shell"

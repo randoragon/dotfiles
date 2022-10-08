@@ -42,6 +42,7 @@ require 'paq' {
     'Shougo/deoplete-clangx';
     'ap/vim-css-color';
     'psliwka/vim-smoothie';
+    'lervag/vimtex';
 }
 
 EOF
@@ -103,7 +104,7 @@ nnoremap <Leader>fa :Ag<CR>
 nnoremap <Leader>fb :Buffers<CR>
 " }}}
 
-" {{{2 Smoothie
+" Smoothie {{{2
 let g:smoothie_enabled = getenv("NVIM_SMOOTHIE_ENABLED")
 if g:smoothie_enabled == v:null | let g:smoothie_enabled = 1 | endif
 function! ToggleVimSmoothie()
@@ -114,6 +115,21 @@ function! ToggleVimSmoothie()
     endif
 endfunction
 nnoremap <Leader>S :call ToggleVimSmoothie()<CR>
+" }}}
+
+" VimTex {{{2
+" I use this plugin mostly for its motions and surround.vim-like support,
+" so the majority of everything else can go.
+let g:vimtex_enabled = 0
+let g:vimtex_compiler_enabled = 0
+let g:vimtex_complete_enabled = 0
+let g:vimtex_disable_recursive_main_file_detection = 1
+let g:vimtex_format_enables = 1
+let g:vimtex_quickfix_enabled = 0
+let g:vimtex_quickfix_blgparser = {'disable': 1}
+let g:vimtex_syntax_conceal_disable = 1
+let g:vimtex_view_enabled = 0
+let g:vimtex_toc_config = {'layers': ['content', 'todo']}
 " }}}
 
 " }}}

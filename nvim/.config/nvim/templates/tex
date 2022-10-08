@@ -1,6 +1,5 @@
 \documentclass[14pt]{article}
 \nofiles
-\pagenumbering{gobble}
 
 \usepackage{extsizes}
 \usepackage[margin=2cm]{geometry}
@@ -10,13 +9,22 @@
 \usepackage{multirow}
 \usepackage{longtable}
 \usepackage{siunitx}
+\usepackage{fancyhdr, lastpage}
+\usepackage{bm}
+\usepackage{float}
 \usepackage[outputdir={\detokenize{%OUTDIR%}}]{minted}
 \usepackage{hyperref}
+
+\pagestyle{fancy}
+\lhead{\thetitle}
+\cfoot{Page \thepage\ of \pageref{LastPage}}
 \hypersetup{colorlinks=true, urlcolor=blue}
 \renewcommand{\theFancyVerbLine}{\sffamily
 \textcolor[rgb]{0.4,0.4,0.4}{\small \arabic{FancyVerbLine}}}
 \setminted{linenos,autogobble,obeytabs,frame=single,highlightcolor=yellow}
-\renewcommand{\listingscaption}{Code}
+\renewcommand{\listingscaption}{Source}
+\let\OLDTITLE\title
+\renewcommand{\title}[1]{\OLDTITLE{#1}\newcommand{\thetitle}{#1}}
 
 \title{}
 \author{}

@@ -11,6 +11,15 @@ function! sshot#MarkdownScreenshot(imgpath)
     endif
 endfunction
 
+" LaTeX
+function! sshot#LaTeXScreenshot(imgpath)
+    if strlen(getline('.')) > 0
+        call append('.', '\includegraphics[width=\linewidth]{'.a:imgpath.'}')
+    else
+        call setline('.', '\includegraphics[width=\linewidth]{'.a:imgpath.'}')
+    endif
+endfunction
+
 " Asciidoc
 function! sshot#AsciidocScreenshot(imgpath)
     if strlen(getline('.')) > 0

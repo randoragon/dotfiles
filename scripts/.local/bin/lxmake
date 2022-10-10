@@ -5,8 +5,8 @@
 # unless a "\nofiles" line is found within.
 #
 # As a convention to circumvent some troubles with paths, the latex source may
-# use the "%OUTDIR%" placeholder anywhere, and it will be substituted for the
-# full path to the output directory before compiling.
+# use the "\x13OUTDIR\x13" placeholder anywhere, and it will be substituted for
+# the full path to the output directory before compiling.
 #
 # Usage:
 #   lxmake [-d DIR] INPUT [OUTPUT]
@@ -67,7 +67,7 @@ else
     jobname="${jobname%.*}"
 fi
 
-sed -i "s%OUTDIR%$dirg" "$tinput"
+sed -i "s\x13OUTDIR\x13$dirg" "$tinput"
 printf '%sCOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
 compile "$dir" "$jobname"
 grep -q '^\\nofiles\b' "$tinput" || {

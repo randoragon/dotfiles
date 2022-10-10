@@ -12,7 +12,7 @@
 \usepackage{fancyhdr, lastpage}
 \usepackage{bm}
 \usepackage{float}
-\usepackage[outputdir={\detokenize{%OUTDIR%}}]{minted}
+\usepackage[outputdir={\detokenize{OUTDIR}}]{minted}
 \usepackage{hyperref}
 \usepackage[standard]{ntheorem}
 
@@ -35,10 +35,10 @@
 \let\OLDTITLE\title
 \renewcommand{\title}[1]{\OLDTITLE{#1}\newcommand{\thetitle}{#1}}
 
-\title{}
-\author{}
+\title{<START>}
+\author{<,,>}
 \date{<DATE>}
 
 \begin{document}
-<START>
+<,,>
 \end{document}

@@ -17,6 +17,7 @@ filetype plugin indent on
 set encoding=utf-8
 set listchars=tab:\ \ ┊,trail:·,nbsp:·
 set list
+set timeoutlen=500
 " }}}
 
 " Plugins {{{1

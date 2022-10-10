@@ -76,6 +76,8 @@ playlist="$playlistdir"/.Rare.m3u
         find "$musicdir/$file" -maxdepth 1 -type f -name '*.mp3' | while read -r f; do
             $0 bump "$(realpath --relative-to "$musicdir" -- "$f")" "$N"
         done
+    else
+        printf 'No such file or directory: %s\n' "$musicdir/$file" >&2
     fi
     exit
 }

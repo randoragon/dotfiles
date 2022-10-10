@@ -62,6 +62,9 @@ inoremap <buffer> <Leader>.p \subparagraph{} <,,><C-o>F}
 inoremap <buffer> <Leader>s \section{}<Left>
 inoremap <buffer> <Leader>.s \subsection{}<Left>
 inoremap <buffer> <Leader>./s \subsubsection{}<Left>
+inoremap <buffer> <Leader>a \section*{}<Left>
+inoremap <buffer> <Leader>.a \subsection*{}<Left>
+inoremap <buffer> <Leader>./a \subsubsection*{}<Left>
 inoremap <buffer> <Leader>P \newpage
 inoremap <buffer> <Leader>U \usepackage{}<Left>
 inoremap <buffer> <Leader>.c \caption{}<Left>
@@ -96,7 +99,6 @@ inoremap <buffer> <Leader>.A \begin{align}<CR>\end{align}<C-o>O
 inoremap <buffer> <Leader>f \frac{}{<,,>} <,,><C-o>2F}
 inoremap <buffer> <Leader>q \sqrt{} <,,><C-o>F}
 inoremap <buffer> <Leader>.q \sqrt[]{<,,>} <,,><C-o>F]
-inoremap <buffer> <Leader>.q \sqrt[]{<,,>} <,,><C-o>F]
 inoremap <buffer> <Leader>* \cdot
 inoremap <buffer> <Leader>M \begin{matrix}<CR>\end{matrix}<C-o>O
 inoremap <buffer> <Leader>l \left
@@ -116,13 +118,27 @@ inoremap <buffer> <Leader>tt \begin{longtable}[c]{\|\|}<CR>\hline<CR><,,><CR>\hl
 inoremap <buffer> <Leader>th \hline
 inoremap <buffer> <Leader>tc \multicolumn{}{\|c\|}{<,,>}<,,><C-o>3F}
 inoremap <buffer> <Leader>tr \multirow{}*{<,,>}<,,><C-o>2F}
+inoremap <buffer> <M-Space> <Space>& 
 
 " Lists
 inoremap <buffer> <Leader>L \begin{itemize}<CR>\item <CR>\end{itemize}<Esc>kA
 inoremap <buffer> <Leader>.L \begin{enumerate}<CR>\item <CR>\end{enumerate}<Esc>kA
-inoremap <buffer> <Leader>I \item 
+inoremap <buffer> <Leader>D \begin{description}<CR>\item []<CR>\end{description}<Esc>k$i
+inoremap <buffer> <Leader>.D \item []<CR>\begin{itemize}\item []<CR>\item <,,><CR>\end{itemize}<Esc>3ki
+inoremap <buffer> <Leader>o \item 
 
 " Code
 inoremap <buffer> <Leader>C \begin{listing}[!ht]<CR>\begin{minted}[highlightlines={}]{}<CR><Tab><,,><CR>\end{minted}<CR>\end{listing}<Esc>3k$i
 inoremap <buffer> <Leader>c \mintinline{}{<,,>}<C-o>2F}
 inoremap <buffer> <Leader>v \texttt{}<Left>
+inoremap <buffer> <Leader>.v \verb``<Left>
+
+" Admonitions (ntheorem)
+inoremap <buffer> <Leader>nn \begin{Note}<CR>\end{Note}<C-o>O
+inoremap <buffer> <Leader>nw \begin{Warning}<CR>\end{Warning}<C-o>O
+inoremap <buffer> <Leader>nc \begin{Caution}<CR>\end{Caution}<C-o>O
+inoremap <buffer> <Leader>ni \begin{Important}<CR>\end{Important}<C-o>O
+inoremap <buffer> <Leader>nt \begin{Theorem}<CR>\end{Theorem}<C-o>O
+inoremap <buffer> <Leader>np \begin{Proof}<CR>\end{Proof}<C-o>O
+inoremap <buffer> <Leader>nd \begin{Definition}<CR>\end{Definition}<C-o>O
+inoremap <buffer> <Leader>nr \begin{Remark}<CR>\end{Remark}<C-o>O

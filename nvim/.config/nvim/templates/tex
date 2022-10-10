@@ -14,6 +14,15 @@
 \usepackage{float}
 \usepackage[outputdir={\detokenize{%OUTDIR%}}]{minted}
 \usepackage{hyperref}
+\usepackage[standard]{ntheorem}
+
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremstyle{nonumberbreak}
+\newtheorem{Note}{Note}
+\newtheorem{Important}{Important}
+\newtheorem{Warning}{Warning!}
+\newtheorem{Caution}{Caution!}
 
 \pagestyle{fancy}
 \lhead{\thetitle}

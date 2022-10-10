@@ -120,7 +120,6 @@ nnoremap <Leader>S :call ToggleVimSmoothie()<CR>
 " VimTex {{{2
 " I use this plugin mostly for its motions and surround.vim-like support,
 " so the majority of everything else can go.
-let g:vimtex_enabled = 0
 let g:vimtex_compiler_enabled = 0
 let g:vimtex_complete_enabled = 0
 let g:vimtex_disable_recursive_main_file_detection = 1
@@ -130,6 +129,17 @@ let g:vimtex_quickfix_blgparser = {'disable': 1}
 let g:vimtex_syntax_conceal_disable = 1
 let g:vimtex_view_enabled = 0
 let g:vimtex_toc_config = {'layers': ['content', 'todo']}
+
+" surround.vim custom commands
+augroup latex_surround_cmds
+    autocmd!
+    autocmd FileType tex let b:surround_105 = "\\emph{\r}"
+    autocmd FileType tex let b:surround_98 = "\\textbf{\r}"
+    autocmd FileType tex let b:surround_117 = "\\underline{\r}"
+    autocmd FileType tex let b:surround_99 = "\\mintinline{\1syntax: \1}{\r}"
+    autocmd FileType tex let b:surround_118 = "\\texttt{\r}"
+    autocmd FileType tex let b:surround_120 = "\\\1command: \1{\r}"
+augroup END
 " }}}
 
 " }}}
@@ -225,7 +235,7 @@ function TryLoadTemplate()
     if filereadable(fpath)
         call setline(1, readfile(l:fpath))
 
-        let datestr = strftime('%a %Y-%m-%d')
+        let datestr = strftime('%A, %B %e, %Y')
         let l = 1
         for line in getline(1, '$')
             " Substitute <DATE> with the current date
@@ -303,6 +313,7 @@ inoremap <C-y> <C-o>P
 " Paste current date
 inoremap <C-d> <C-r>=strftime('%a %Y-%m-%d')<CR>
 inoremap <Leader><C-d> <C-r>=strftime('%Y-%m-%d')<CR>
+inoremap <Leader>.<C-d> <C-r>=strftime('%A, %B %e, %Y')<CR>
 " }}}
 
 " Backup directories {{{1

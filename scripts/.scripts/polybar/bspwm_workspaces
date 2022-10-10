@@ -47,7 +47,7 @@ bspc subscribe $EVENTS | while read -r _; do
             *) continue ;;
         esac
         dt="${i#?}"
-        out="$out$col%{A1:bspc desktop -f $dt:} $dt %{A1}%{B- F-}%{O1}"
+        out="$out$col%{A1:bspc desktop -f $dt:}%{O5}$dt%{O5}%{A1}%{B- F-}%{O1}"
     done
     unset IFS
 

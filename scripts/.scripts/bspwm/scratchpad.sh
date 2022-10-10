@@ -28,7 +28,7 @@ action="$2"
 shift 2
 
 SPDT=_sp
-SPDIR="${TMPDIR:-/tmp}/bspwm_sp"
+SPDIR="${TMPDIR:-/tmp}/bspwm_sp.$USER"
 # shellcheck disable=SC2174
 mkdir -m 700 -p -- "$SPDIR" || exit 1
 

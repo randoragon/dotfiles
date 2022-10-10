@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # Color definitions
-LAYOUT_COL='%{F#FF9F00}'
 STATE_COL='%{F#6B7}'
 FLAGS_COL='%{F#97F}'
 
@@ -10,36 +9,16 @@ EVENTS=node_focus node_state node_flag node_remove desktop_layout desktop_focus
 bspc subscribe $EVENTS | while read -r _; do
     mon="$(bspc query -M -m --names)"
     report="L$(bspc wm -g | perl -pe "s/.*[Mm]$mon:.*?:L//")"
-    out="$LAYOUT_COL"
 
-    unset flags
     IFS=:
+    unset state flags
     for i in ${report%%:[Mm]*}; do
         case "$i" in
-            LT) out="$out %{F-}%{T0}" ;;
-            LM) out="$out %{F-}%{T0}" ;;
-            L*) out="$out ?%{F-}%{T0}" ;;
-            T*) state="${i#T}" ;;
-            G*) flags="${i#G}" ;;
-            *)  break ;;
+            T*) state="${i#T}"; [ -n "$flags" ] && break ;;
+            G*) flags="${i#G}"; [ -n "$state" ] && break ;;
         esac
     done
     unset IFS
 
-    windows="$(bspc query -N -d -n .window.!hidden)"
-    focused="$(bspc query -N -n)"
-    wcount="$(echo "$windows" | wc -w)"
-    widx=1
-    for wid in $windows; do
-        [ "$wid" = "$focused" ] && break
-        widx=$((widx + 1))
-    done
-
-    if [ "$wcount" -gt 0 ]; then
-        out="$out $widx/$wcount"
-    else
-        out="$out -"
-    fi
-
-    printf "%s\n" "$out $STATE_COL$state$FLAGS_COL$flags"
+    printf "%s\n" "$STATE_COL$state$FLAGS_COL$flags"
 done

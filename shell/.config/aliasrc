@@ -29,6 +29,7 @@ alias fd='cd -- "$(find . -type d | fzf)"'
 alias ff='als_tmp="$(find . -type f | fzf)"; [ -n "$als_tmp" ] && cd "$(dirname -- "$als_tmp")"'
 alias R='R --no-save'
 alias bt='bluetoothctl'
+alias tl='tllocalmgr'
 
 # Git
 alias gs="git status"

@@ -130,6 +130,7 @@ let g:vimtex_quickfix_blgparser = {'disable': 1}
 let g:vimtex_syntax_conceal_disable = 1
 let g:vimtex_view_enabled = 0
 let g:vimtex_toc_config = {'layers': ['content', 'todo']}
+let g:vimtex_indent_on_ampersands = 0
 
 " surround.vim custom commands
 augroup latex_surround_cmds

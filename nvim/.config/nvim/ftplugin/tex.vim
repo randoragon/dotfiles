@@ -75,7 +75,7 @@ inoremap <buffer> <Leader>h \href{}{<,,>} <,,><C-o>2F}
 inoremap <buffer> <Leader>i \emph{}<Left>
 inoremap <buffer> <Leader>b \textbf{}<Left>
 inoremap <buffer> <Leader>u \underline{}<Left>
-inoremap <buffer> <Leader>~ \textasciitilde
+inoremap <buffer> <Leader>~ \sim
 inoremap <buffer> <Leader>^ \textasciicircum
 inoremap <buffer> <Leader>\ \textbackslash
 nmap <buffer> <Leader>B o<C-g>S\
@@ -103,10 +103,14 @@ inoremap <buffer> <Leader>* \cdot
 inoremap <buffer> <Leader>M \begin{matrix}<CR>\end{matrix}<C-o>O
 inoremap <buffer> <Leader>l \left
 inoremap <buffer> <Leader>r \right
-inoremap <buffer> <Leader>( \left(<CR>\right)<C-o>O
-inoremap <buffer> <Leader>{ \left\{<CR>\right\}<C-o>O
-inoremap <buffer> <Leader>[ \left[<CR>\right]<C-o>O
-inoremap <buffer> <Leader>< \left<<CR>\right><C-o>O
+inoremap <buffer> <Leader>( \left(\right)<C-o>F\<CR><C-o>O
+inoremap <buffer> <Leader>{ \left\{\right\}<C-o>2F\<CR><C-o>O
+inoremap <buffer> <Leader>[ \left[\right]<C-o>F\<CR><C-o>O
+inoremap <buffer> <Leader>< \left<\right><C-o>F\<CR><C-o>O<Tab>
+inoremap <buffer> <Leader>\| \left\|\right\|<C-o>F\<CR><C-o>O<Tab>
+inoremap <buffer> <Leader>x \text{}<Left>
+inoremap <buffer> <Leader>gr \nabla 
+inoremap <buffer> <Leader>S \mathbb{}<Left>
 
 " Figures
 inoremap <buffer> <Leader>F \begin{figure}[!ht]<CR>\centering<CR>\includegraphics[width=\linewidth]{<,,>}<CR>\caption{<,,>}<CR>\end{figure}<Esc>2k$F\i
@@ -142,3 +146,5 @@ inoremap <buffer> <Leader>nt \begin{Theorem}<CR>\end{Theorem}<C-o>O
 inoremap <buffer> <Leader>np \begin{Proof}<CR>\end{Proof}<C-o>O
 inoremap <buffer> <Leader>nd \begin{Definition}<CR>\end{Definition}<C-o>O
 inoremap <buffer> <Leader>nr \begin{Remark}<CR>\end{Remark}<C-o>O
+inoremap <buffer> <Leader>nh \begin{Homework}<CR>\end{Homework}<C-o>O
+inoremap <buffer> <Leader>ne \begin{Example}<CR>\end{Example}<C-o>O

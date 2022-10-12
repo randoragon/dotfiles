@@ -6,7 +6,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{subcaption}
-\usepackage{multirow}
+\usepackage{multirow, multicol}
 \usepackage{longtable}
 \usepackage{siunitx}
 \usepackage{fancyhdr, lastpage}
@@ -23,6 +23,7 @@
 \newtheorem{Important}{Important}
 \newtheorem{Warning}{Warning!}
 \newtheorem{Caution}{Caution!}
+\newtheorem{Homework}{Homework}
 
 \pagestyle{fancy}
 \lhead{\thetitle}

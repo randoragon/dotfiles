@@ -199,7 +199,8 @@ done
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
     md4c wkhtmltopdf webkit2gtk gcr \
-    asciidoctor rubygems mathjax2 graphviz gnuplot
+    asciidoctor rubygems mathjax2 graphviz gnuplot \
+    texlive-core texlive-latexextra texlive-science
 do
     pacinstall "$package"
 done
@@ -297,7 +298,8 @@ done
     farbfeld-git \
     fsearch-git \
     ttf-unifont \
-    mscgen
+    mscgen \
+    tllocalmgr-git
 do
     yayinstall "$package"
 done
@@ -344,6 +346,11 @@ if [ -n "$need_music" ]; then
 else
     echo "'music'" disabled, skipping.
 fi
+sectionend
+
+section "Installing singular LaTeX CRANs"
+if [ -n "$need_gui" ]; then
+    tllocalmgr install graphviz
 sectionend
 
 section "Installing Paq and Deoplete for Neovim"

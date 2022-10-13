@@ -15,6 +15,7 @@
 \usepackage[outputdir={\detokenize{OUTDIR}}]{minted}
 \usepackage{hyperref}
 \usepackage[standard]{ntheorem}
+\usepackage[singlefile, pdf]{graphviz}
 
 \theoremheaderfont{\bfseries}
 \theorembodyfont{\normalfont}
@@ -24,6 +25,7 @@
 \newtheorem{Warning}{Warning!}
 \newtheorem{Caution}{Caution!}
 \newtheorem{Homework}{Homework}
+\newtheorem{Exercise}{Exercise}
 
 \pagestyle{fancy}
 \lhead{\thetitle}

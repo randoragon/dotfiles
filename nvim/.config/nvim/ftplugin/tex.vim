@@ -113,9 +113,12 @@ inoremap <buffer> <Leader>gr \nabla
 inoremap <buffer> <Leader>S \mathbb{}<Left>
 
 " Figures
-inoremap <buffer> <Leader>F \begin{figure}[!ht]<CR>\centering<CR>\includegraphics[width=\linewidth]{<,,>}<CR>\caption{<,,>}<CR>\end{figure}<Esc>2k$F\i
-inoremap <buffer> <Leader>.F \begin{subfigure}[b]{\linewidth}<CR>\includegraphics[width=\linewidth]{<,,>}<CR>\caption{<,,>}<CR>\end{subfigure}<Esc>3k$F\i
+inoremap <buffer> <Leader>F \begin{figure}[H]<CR>\centering<CR>\includegraphics[width=\linewidth]{<,,>}<CR>\end{figure}<Esc>k$F\i
+inoremap <buffer> <Leader>.F \begin{subfigure}[b]{\linewidth}<CR>\includegraphics[width=\linewidth]{<,,>}<CR>\end{subfigure}<Esc>2k$F\i
 nnoremap <buffer> <Leader>is :call sshot#ImportScreenshot(function('sshot#LaTeXScreenshot'), '.png')<CR>
+inoremap <buffer> <Leader>G \begin{figure}[H]<CR>\centering<CR>\digraph[scale=1.0]{}{<CR><,,><CR>}<CR>\end{figure}<Esc>3k$F}i
+inoremap <buffer> <Leader>gl [label=<>];<Left><Left><Left>
+inoremap <buffer> <Leader>g<CR> <BR/>
 
 " Tables
 inoremap <buffer> <Leader>tt \begin{longtable}[c]{\|\|}<CR>\hline<CR><,,><CR>\hline<CR>\endfirsthead<CR>\hline<CR><,,><CR>\hline<CR>\endhead<CR><,,><CR>\hline<CR>\end{longtable}<Esc>11k$hi
@@ -132,7 +135,7 @@ inoremap <buffer> <Leader>.D \item []<CR>\begin{itemize}\item []<CR>\item <,,><C
 inoremap <buffer> <Leader>o \item 
 
 " Code
-inoremap <buffer> <Leader>C \begin{listing}[!ht]<CR>\begin{minted}[highlightlines={}]{}<CR><Tab><,,><CR>\end{minted}<CR>\end{listing}<Esc>3k$i
+inoremap <buffer> <Leader>C \begin{listing}[H]<CR>\begin{minted}[highlightlines={}]{}<CR><Tab><,,><CR>\end{minted}<CR>\end{listing}<Esc>3k$i
 inoremap <buffer> <Leader>c \mintinline{}{<,,>}<C-o>2F}
 inoremap <buffer> <Leader>v \texttt{}<Left>
 inoremap <buffer> <Leader>.v \verb``<Left>
@@ -148,3 +151,4 @@ inoremap <buffer> <Leader>nd \begin{Definition}<CR>\end{Definition}<C-o>O
 inoremap <buffer> <Leader>nr \begin{Remark}<CR>\end{Remark}<C-o>O
 inoremap <buffer> <Leader>nh \begin{Homework}<CR>\end{Homework}<C-o>O
 inoremap <buffer> <Leader>ne \begin{Example}<CR>\end{Example}<C-o>O
+inoremap <buffer> <Leader>nx \begin{Exercise}<CR>\end{Exercise}<C-o>O

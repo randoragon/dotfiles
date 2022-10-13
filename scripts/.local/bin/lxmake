@@ -19,6 +19,17 @@
 # potentially speed up the next build. This option is mutually exclusive with
 # printing OUTPUT to stdout.
 
+cleanup () {
+    [ -f "$tinput" ] && shred -u -- "$tinput"
+    [ -f "$graphnames" ] && shred -u -- "$graphnames"
+    [ -z "$d_dir" ] && [ -d "$dir" ] && {
+        find "$dir" -type f -exec shred -u '{}' \;
+        rm -rf -- "$dir"
+    }
+}
+unset tinput dir d_dir graphnames
+trap cleanup EXIT INT TERM
+
 # Parse command-line arguments
 d_dir=
 [ "$1" = -d ] && {
@@ -42,22 +53,60 @@ else
     cp -- "$input" "$tinput"
 fi
 unset input # no longer needed
-[ ! -s "$tinput" ] && {
-    echo 'lxmake: no input provided' >&2
-    shred -u -- "$tinput"
-    exit 2
-}
+[ ! -s "$tinput" ] && echo 'lxmake: no input provided' >&2 && exit 2
 [ "$output" = - ] && [ -n "$d_dir" ] && {
     echo 'lxmake: specify output filename or drop -d (mutually exclusive)' >&2
-    shred -u -- "$tinput"
     exit 5
 }
 
 # compile <dir> <jobname> (jobname is extensionless output filename)
 compile () {
+    [ ! -d "$1" ] && printf 'not a directory: %s\n' "$1" >&2 && exit 6
     pdflatex -interaction batchmode -shell-escape -output-directory "$1" -jobname "$2" -- "$tinput" >&2
 }
 
+# The graphviz package correctly creates *.dot files in '-output-dir',
+# but for some reason it does not respect '-output-dir' on the second
+# run when embedding the graphs in the document. Instead, it always
+# expects those *.dot files to reside in the current working directory.
+# I found no workaround, so we must comply with this restriction.
+# Fortunately, the 'singlefile' package option lets us interact with
+# a gvpr script that generates those *.dot files, which makes it easy
+# to ensure their proper location, run safety checks (to ensure that no
+# third-party files are carelessly overwritten) and clean everything
+# up after compilation.
+# THE GRAPHVIZ PACKAGE MUST BE LOADED WITH 'singlefile' ENABLED!
+graphviz_setup() {
+    [ ! -f "$1/tmpmaster.gvpr" ] || [ ! -f "$1/tmpmaster.graphviz" ] && {
+        notify-send lxmake 'tmpmaster.* files not found - did you forget the <u>singlefile</u> option?'
+        exit 9
+    }
+    while read -r graph; do
+        graph="${graph#*\"}"
+        graph="${graph%%\"*}"
+        grep -qF "$graph" "$graphnames" && continue
+
+        # Ensure no pre-existing files are overwritten
+        for culprit in "$PWD/$graph".dot "$PWD/$graph".pdf; do
+            [ -e "$culprit" ] && {
+                notify-send -u critical lxmake "Graph name collision: $culprit"
+                exit 8
+            }
+        done
+
+        echo "$graph" >>"$graphnames"
+    done <"$1/tmpmaster.gvpr"
+    gvpr -f "$1/tmpmaster.gvpr" "$1/tmpmaster.graphviz"
+}
+graphviz_cleanup() {
+    while read -r fname; do
+        rm -f -- "$fname.dot" "$fname.pdf"
+    done <"$graphnames"
+    rm -f -- "$dir/tmpmaster.gvpr" "$dir/tmpmaster.graphviz"
+    :>"$graphnames"
+}
+
+# Determine build output directory and jobname
 if [ -z "$d_dir" ]; then
     dir="$(mktemp --tmpdir -d lxmake.XXXXX.d)"
     jobname=lxmake
@@ -67,25 +116,30 @@ else
     jobname="${jobname%.*}"
 fi
 
+# Ensure the tmpmaster files won't overwrite pre-existing files
+for culprit in "$dir/tmpmaster.gvpr" "$dir/tmpmaster.graphviz"; do
+    [ -e "$culprit" ] && {
+        notify-send -u critical lxmake "tmpmaster file collision: $culprit"
+        exit 7
+    }
+done
+
+# Compile
 sed -i "s\x13OUTDIR\x13$dirg" "$tinput"
 printf '%sCOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
 compile "$dir" "$jobname"
 grep -q '^\\nofiles\b' "$tinput" || {
+    graphnames="$(mktemp --tmpdir lxmake.graphs.XXXXX)"
+    graphviz_setup "$dir"
     printf '\n%sRECOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
     compile "$dir" "$jobname"
+    graphviz_cleanup
 }
 
 # Export the result PDF file
 if [ "$output" = - ]; then
     cat -- "$dir/lxmake.pdf"
     shred -u -- "$dir/lxmake.pdf"
-elif [ "$output" != "$dir/$jobname.pdf" ]; then
+elif [ -f "$dir/$jobname.pdf" ] && [ "$output" != "$dir/$jobname.pdf" ]; then
     mv -- "$dir/$jobname.pdf" "$output"
 fi
-
-# Cleanup
-if [ -z "$d_dir" ]; then
-    find "$dir" -type f -exec shred -u '{}' \;
-    rm -rf -- "$dir"
-fi
-shred -u -- "$tinput"

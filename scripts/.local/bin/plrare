@@ -89,7 +89,8 @@ playlist="$playlistdir"/.Rare.m3u
     nlines="$(wc -l <"$countfile")"
     i=1
     while read -r line; do
-        printf '\rReading %d/%d... (%dh:%d)' "$i" "$nlines" "$((total / 3600))" "$plays"
+        frac=$((i * 1000 / nlines))
+        printf '\rReading %s/%s %s.%s%%... (%dh:%d)' "$i" "$nlines" "${frac%?}" "${frac#${frac%?}}" "$((total / 3600))" "$plays"
         i=$((i + 1))
         fpath="$musicdir/${line#*	}"
         [ ! -f "$fpath" ] && continue

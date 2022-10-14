@@ -351,6 +351,7 @@ sectionend
 section "Installing singular LaTeX CRANs"
 if [ -n "$need_gui" ]; then
     tllocalmgr install graphviz
+    sudo texhash
 sectionend
 
 section "Installing Paq and Deoplete for Neovim"

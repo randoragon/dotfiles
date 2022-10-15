@@ -78,8 +78,10 @@ compile () {
 # THE GRAPHVIZ PACKAGE MUST BE LOADED WITH 'singlefile' ENABLED!
 graphviz_setup() {
     [ ! -f "$1/tmpmaster.gvpr" ] || [ ! -f "$1/tmpmaster.graphviz" ] && {
-        notify-send lxmake 'tmpmaster.* files not found - did you forget the <u>singlefile</u> option?'
-        exit 9
+        # No graphs were output -- either the package is improperly loaded
+        # (user might've forgotten the 'singlefile' option), or simply there
+        # are no graphs to display.
+        return
     }
     while read -r graph; do
         graph="${graph#*\"}"

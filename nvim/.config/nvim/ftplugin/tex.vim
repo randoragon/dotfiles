@@ -111,6 +111,11 @@ inoremap <buffer> <Leader>\| \left\|\right\|<C-o>F\<CR><C-o>O<Tab>
 inoremap <buffer> <Leader>x \text{}<Left>
 inoremap <buffer> <Leader>gr \nabla 
 inoremap <buffer> <Leader>S \mathbb{}<Left>
+inoremap <buffer> <Leader>.. \ldots 
+inoremap <buffer> <Leader>.+ \cup 
+inoremap <buffer> <Leader>.* \cap 
+inoremap <buffer> <Leader>& \land 
+inoremap <buffer> <Leader>\| \lor 
 
 " Figures
 inoremap <buffer> <Leader>F \begin{figure}[H]<CR>\centering<CR>\includegraphics[width=\linewidth]{<,,>}<CR>\end{figure}<Esc>k$F\i

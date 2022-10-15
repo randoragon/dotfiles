@@ -140,7 +140,8 @@ augroup latex_surround_cmds
     autocmd FileType tex let b:surround_117 = "\\underline{\r}"
     autocmd FileType tex let b:surround_99 = "\\mintinline{\1syntax: \1}{\r}"
     autocmd FileType tex let b:surround_118 = "\\texttt{\r}"
-    autocmd FileType tex let b:surround_120 = "\\\1command: \1{\r}"
+    autocmd FileType tex let b:surround_120 = "\\text{\r}"
+    autocmd FileType tex let b:surround_88 = "\\\1command: \1{\r}"
 augroup END
 " }}}
 

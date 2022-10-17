@@ -131,8 +131,20 @@ for culprit in "$dir/tmpmaster.gvpr" "$dir/tmpmaster.graphviz"; do
     }
 done
 
-# Compile
+# Substitute \x13OUTDIR\x13 into output dir path.
+# If input is a subfile, this also has to be run on the main file!
+# THIS IS A DIRTY HACK, it will break if you e.g. run two concurrent
+# compilations which reference the same main file.
 sed -i "s\x13OUTDIR\x13$dirg" "$tinput"
+maintex="$(grep -o '^\\documentclass\[.*\]{subfiles}' "$tinput")"
+[ -n "$maintex" ] && {
+    maintex="${maintex##*[}"
+    maintex="${maintex%]*}"
+    maintex_orig="$(cat -- "$maintex")"
+    sed -i "s\x13OUTDIR\x13$dirg" "$maintex"
+}
+
+# Compile
 printf '%sCOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
 compile "$dir" "$jobname"
 grep -q '^\\nofiles\b' "$tinput" || {
@@ -141,6 +153,11 @@ grep -q '^\\nofiles\b' "$tinput" || {
     printf '\n%sRECOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
     compile "$dir" "$jobname"
     graphviz_cleanup
+}
+
+# Restore main tex file to its original form, if necessary
+[ -n "$maintex" ] && [ -n "$maintex_orig" ] && {
+    printf '%s' "$maintex_orig" >"$maintex"
 }
 
 # Export the result PDF file

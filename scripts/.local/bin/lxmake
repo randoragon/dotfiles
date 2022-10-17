@@ -49,8 +49,13 @@ if [ "$input" = - ]; then
     [ -z "$output" ] && output=-
     cat - >"$tinput"
 else
+    [ -n "$output" ] && [ "$output" != - ] && output="$(realpath -- "$output")"
+    inputdir="$(dirname -- "$input")"
+    cd -- "$inputdir" || { printf 'lxmake: failed to cd into "%s"' "$inputdir" >&2 && exit 9; }
+    input="$(basename -- "$input")"
     [ -z "$output" ] && output="${input%.*}.pdf"
     cp -- "$input" "$tinput"
+    unset inputdir
 fi
 unset input # no longer needed
 [ ! -s "$tinput" ] && echo 'lxmake: no input provided' >&2 && exit 2

@@ -62,7 +62,7 @@ unset input # no longer needed
 # compile <dir> <jobname> (jobname is extensionless output filename)
 compile () {
     [ ! -d "$1" ] && printf 'not a directory: %s\n' "$1" >&2 && exit 6
-    pdflatex -interaction batchmode -shell-escape -output-directory "$1" -jobname "$2" -- "$tinput" >&2
+    xelatex -interaction batchmode -8bit -shell-escape -output-directory "$1" -jobname "$2" -- "$tinput" >&2
 }
 
 # The graphviz package correctly creates *.dot files in '-output-dir',

@@ -187,6 +187,7 @@ done
     picom \
     bspwm sxhkd polybar \
     ttf-bitstream-vera ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
+    ttf-libertine libertinus-font \
     xwallpaper \
     sxiv \
     xarchiver \

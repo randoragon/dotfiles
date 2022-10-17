@@ -121,7 +121,7 @@ inoremap <buffer> <Leader>\| \lor
 inoremap <buffer> <Leader>F \begin{figure}[H]<CR>\centering<CR>\includegraphics[width=\linewidth]{<,,>}<CR>\end{figure}<Esc>k$F\i
 inoremap <buffer> <Leader>.F \begin{subfigure}[b]{\linewidth}<CR>\includegraphics[width=\linewidth]{<,,>}<CR>\end{subfigure}<Esc>2k$F\i
 nnoremap <buffer> <Leader>is :call sshot#ImportScreenshot(function('sshot#LaTeXScreenshot'), '.png')<CR>
-inoremap <buffer> <Leader>G \begin{figure}[H]<CR>\centering<CR>\digraph[scale=1.0]{}{<CR><,,><CR>}<CR>\end{figure}<Esc>3k$F}i
+inoremap <buffer> <Leader>G \begin{figure}[H]<CR>\centering<CR>\digraph[scale=1.0]{}{<CR>rankdir=LR;<CR><,,><CR>}<CR>\end{figure}<Esc>4k$F}i
 inoremap <buffer> <Leader>gl [label=<>];<Left><Left><Left>
 inoremap <buffer> <Leader>g<CR> <BR/>
 

@@ -22,12 +22,13 @@
 cleanup () {
     [ -f "$tinput" ] && shred -u -- "$tinput"
     [ -f "$graphnames" ] && shred -u -- "$graphnames"
+    [ -f "$mockmain" ] && shred -u -- "$mockmain"
     [ -z "$d_dir" ] && [ -d "$dir" ] && {
         find "$dir" -type f -exec shred -u '{}' \;
         rm -rf -- "$dir"
     }
 }
-unset tinput dir d_dir graphnames compile_main
+unset tinput dir d_dir graphnames mockmain compile_main
 trap cleanup EXIT INT TERM
 
 # Parse command-line arguments
@@ -153,15 +154,18 @@ done
 
 # Substitute \x13OUTDIR\x13 into output dir path.
 # If input is a subfile, this also has to be run on the main file!
-# THIS IS A DIRTY HACK, it will break if you e.g. run two concurrent
-# compilations which reference the same main file.
 sed -i "s\x13OUTDIR\x13$dirg" "$tinput"
 maintex="$(grep -o '^\\documentclass\[.*\]{subfiles}' "$tinput")"
 [ -n "$maintex" ] && {
+    # Create a mock copy of the main file, run substitutions on it and relink
+    # the input file to treat the mock file as the main. This should work for
+    # arbitrarily nested subfiles, because all subfiles, regardless of their
+    # nesting level, always point to the same root document.
     maintex="${maintex##*[}"
     maintex="${maintex%]*}"
-    maintex_orig="$(cat -- "$maintex")"
-    sed -i "s\x13OUTDIR\x13$dirg" "$maintex"
+    mockmain="$(mktemp --tmpdir lxmake.main.XXXXX)"
+    sed "s\x13OUTDIR\x13$dirg" "$maintex" >"$mockmain"
+    sed -i 's^\(\\documentclass\[\).*\(\]{subfiles}.*\)\1'"$mockmain"'\2' "$tinput"
 }
 
 # Compile

@@ -53,6 +53,7 @@ nnoremap } :call NextEmptyLine()<CR>
 
 " Preview
 nnoremap <buffer> <Leader>m :write \| AsyncRun lxmake -d "${XDG_CACHE_HOME:-~/.cache}" "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
+nnoremap <buffer> <Leader>M :write \| AsyncRun lxmake -md "${XDG_CACHE_HOME:-~/.cache}" "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
 nnoremap <buffer> <Leader>.m :view $HOME/.cache/vim-preview.log"<CR>:syn match Error '^\!.*'<CR>:syn match Boolean 'line [0-9]\+'<CR>:syn match Boolean 'l\.[0-9]\+'<CR>:syn match DbgBreakPt '.*[Ww]arning[^:]*:'<CR>GM
 nnoremap <buffer> <Leader>p :AsyncRun setsid xdg-open "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
 

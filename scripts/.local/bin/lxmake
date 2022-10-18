@@ -27,20 +27,40 @@ cleanup () {
         rm -rf -- "$dir"
     }
 }
-unset tinput dir d_dir graphnames
+unset tinput dir d_dir graphnames compile_main
 trap cleanup EXIT INT TERM
 
 # Parse command-line arguments
 d_dir=
-[ "$1" = -d ] && {
-    [ $# -lt 2 ] && echo 'lxmake: not enough arguments' >&2 && exit 3
-    [ ! -d "$2" ] && printf "lxmake: '%s' is not a directory\n" "$2" >&2 && exit 4
-    d_dir="$2"
-    shift 2
-}
+OPTS="$(getopt -n lxmake -s sh -o md: -- "$@")"
+eval set -- "$OPTS"
+while true; do
+    echo getopt "$@"
+    case "$1" in
+        -d)
+            [ ! -d "$2" ] && printf "lxmake: '%s' is not a directory\n" "$2" >&2 && exit 4
+            d_dir="$2"
+            shift 2 ;;
+        -m) compile_main=1 ; shift ;;
+        --) shift ; break ;;
+        *) break ;;
+    esac
+done
 [ $# -lt 1 ] && echo 'lxmake: not enough arguments' >&2 && exit 3
 input="$1"
 output="$2"
+
+# If -m was passed, assume input is a subfile and compile the main document
+[ -n "$compile_main" ] && {
+    maintex="$(grep -o '^\\documentclass\[.*\]{subfiles}' "$input")"
+    maintex="${maintex##*[}"
+    maintex="${maintex%]*}"
+    [ -z "$maintex" ] || [ ! -f "$maintex" ] && {
+        notify-send lxmake "Main file not found: '%maintex'"
+        exit 10
+    }
+    input="$maintex"
+}
 
 # Validate input and output, store input in a temporary file
 [ "$input" != - ] && [ ! -r "$input" ] && echo 'lxmake: failed to read input file' >&2 && exit 1

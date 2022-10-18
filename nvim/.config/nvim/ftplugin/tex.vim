@@ -35,22 +35,6 @@ nnoremap <buffer> <M-CR> :call AppendDoubleBackslash()<CR>o
 inoremap <buffer> <M-CR> <Esc>:call AppendDoubleBackslash()<CR>o
 nnoremap <buffer> <M-Space> :call AppendDoubleBackslash()<CR>
 
-" Make { and } stop at lines containing just '%'
-function PrevEmptyLine()
-    if !search('^%\?$', 'bsW')
-        call cursor(1, 1)
-    endif
-    echo
-endfunction
-function NextEmptyLine()
-    if !search('^%\?$', 'sW')
-        call cursor('$', 1)
-    endif
-    echo
-endfunction
-nnoremap { :call PrevEmptyLine()<CR>
-nnoremap } :call NextEmptyLine()<CR>
-
 " Preview
 nnoremap <buffer> <Leader>m :write \| AsyncRun lxmake -d "${XDG_CACHE_HOME:-~/.cache}" "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
 nnoremap <buffer> <Leader>M :write \| AsyncRun lxmake -md "${XDG_CACHE_HOME:-~/.cache}" "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>

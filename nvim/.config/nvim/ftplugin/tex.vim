@@ -142,3 +142,41 @@ inoremap <buffer> <Leader>nr \begin{Remark}<CR>\end{Remark}<C-o>O
 inoremap <buffer> <Leader>nh \begin{Homework}<CR>\end{Homework}<C-o>O
 inoremap <buffer> <Leader>ne \begin{Example}<CR>\end{Example}<C-o>O
 inoremap <buffer> <Leader>nx \begin{Exercise}<CR>\end{Exercise}<C-o>O
+
+" Shortcut for inserting a new subfile
+function NewSubfile()
+    let filepath = expand('<cfile>')
+    if empty(filepath)
+        let filepath = input('NewSubfile: ')
+        if empty(filepath)
+            return 0
+        endif
+    endif
+    let filepath = filepath.'.tex'
+
+    if filepath[0] == '/'
+        let mainpath = expand('%:p')
+        let bufnr = bufadd(filepath)
+    else
+        let filedir = system(['dirname', '--', filepath])[0:-2]
+        let mainpath = system([
+            \'realpath', '--relative-to', expand('%:p:h').'/'.filedir,
+            \'--', expand('%:p')])[0:-2]
+        let bufnr = bufadd(expand('%:p:h').'/'.filepath)
+    endif
+    call setline('.', '\subfile{'.filepath.'}')
+
+    let lines = filereadable(filepath) ? [] : [
+        \'%\def\UseGraphviz{}',
+        \'%\def\UseMinted{}',
+        \'\documentclass['.mainpath.']{subfiles}',
+        \'',
+        \'\begin{document}',
+        \'',
+        \'\end{document}']
+    return [bufnr, lines]
+endfunction
+nnoremap <silent> <buffer> <Leader>if :silent let _newsubfile = NewSubfile()<CR>
+    \:silent if type(_newsubfile) == v:t_list \| call bufload(_newsubfile[0]) \|
+    \ call setbufline(_newsubfile[0], 1, _newsubfile[1]) \|
+    \ exec 'buf +6 '._newsubfile[0] \| endif<CR>

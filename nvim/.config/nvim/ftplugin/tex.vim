@@ -147,10 +147,7 @@ inoremap <buffer> <Leader>nx \begin{Exercise}<CR>\end{Exercise}<C-o>O
 function NewSubfile()
     let filepath = expand('<cfile>')
     if empty(filepath)
-        let filepath = input('NewSubfile: ')
-        if empty(filepath)
-            return 0
-        endif
+        return 0
     endif
     let filepath = filepath.'.tex'
 
@@ -165,6 +162,7 @@ function NewSubfile()
         let bufnr = bufadd(expand('%:p:h').'/'.filepath)
     endif
     call setline('.', '\subfile{'.filepath.'}')
+    write
 
     let lines = filereadable(filepath) ? [] : [
         \'%\def\UseGraphviz{}',

@@ -36,7 +36,6 @@ d_dir=
 OPTS="$(getopt -n lxmake -s sh -o md: -- "$@")"
 eval set -- "$OPTS"
 while true; do
-    echo getopt "$@"
     case "$1" in
         -d)
             [ ! -d "$2" ] && printf "lxmake: '%s' is not a directory\n" "$2" >&2 && exit 4
@@ -56,11 +55,12 @@ output="$2"
     maintex="$(grep -o '^\\documentclass\[.*\]{subfiles}' "$input")"
     maintex="${maintex##*[}"
     maintex="${maintex%]*}"
-    [ -z "$maintex" ] || [ ! -f "$maintex" ] && {
-        notify-send lxmake "Main file not found: '%maintex'"
+    inputdir="$(dirname -- "$input")"
+    [ -z "$maintex" ] || [ ! -f "$inputdir/$maintex" ] && {
+        notify-send lxmake "Main file not found: '$maintex'"
         exit 10
     }
-    input="$maintex"
+    input="$inputdir/$maintex"
 }
 
 # Validate input and output, store input in a temporary file

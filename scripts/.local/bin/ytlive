@@ -39,5 +39,5 @@ esac
 
 username="$1"
 
-[ -n "$video" ] && setsid mpv "https://www.youtube.com/watch?v=$username" >/dev/null 2>&1 &
+[ -n "$video" ] && setsid mpv --force-window=immediate "https://www.youtube.com/watch?v=$username" >/dev/null 2>&1 &
 [ -n "$chat" ] && setsid surf -S "https://www.youtube.com/live_chat?is_popout=1&v=$username" >/dev/null 2>&1 &

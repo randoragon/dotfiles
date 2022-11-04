@@ -1,14 +1,24 @@
 #!/bin/sh
 
-# This script reads a TSV file which stores the play counts
-# for individual songs (this file is created by ncmpcpp) and
-# outputs the N least or most frequent ones to a .Rare playlist.
+# This script is used to manage, parse and display playcounts from my music
+# library. To be precise, it can:
+#   (1) increase/decrease the play count of songs
+#   (2) output playlists of least/most played songs
+#   (3) calculate and print some data about the played songs
 #
 # Usage:
-#    plrare [N]
+#    plrare [+N|-N]
 # where N is the number of songs to output.
-# If N is positive, then the N least played songs will be output.
-# If N is negative, then the -N most played songs will be output.
+# If prefixed with '+', the N least played songs will be output.
+# If prefixed with '-', the N most played songs will be output.
+#
+# Other usage:
+#     plrare [N]
+#     plrare .
+# If run with no arguments, the playcount file is opened in a pager.
+# If a number N is given, the last N playcount files are merged and opened in
+# the pager.
+# If run with '.', all playcount files are merged and opened in the pager.
 #
 # Other usage:
 #    plrare bump PATH [N]
@@ -19,23 +29,50 @@
 # directory or a playlist, all songs contained within get incremented.
 # If N is not provided, 1 is the default. If any song's playcount
 # drops below 0 as a result of applying N, it is removed from the
-# playcount file. "/" can be used instead of PLAYLIST to bump all songs in
+# playcount file. "^" can be used instead of PLAYLIST to bump all songs in
 # MPD's current playlist.
 #
-# If N is omitted, the playcount file is opened in a pager instead.
-#
 # Other usage:
-#    plrare stats
+#    plrare stats [FILE...]
+#    plrare stats N
+#    plrare stats .
 # Tallies up the total listening time and prints it out. Requires mp3info.
-#
+# If FILEs are given, tallies up only the data from those files.
+# If an integer N is given, tallies up only the data from the last N months.
+# If . is passed, the stats for all files are read.
+# With no arguments, the most recent month is read (equiv. to N=1).
 
 musicdir=~/Music
 playlistdir="$musicdir"/Playlists
-countfile="$musicdir"/playcount.tsv
+countdir="$musicdir"/.playcount
+countfile="$countdir/$(date +%Y-%m).tsv"
 playlist="$playlistdir"/.Rare.m3u
 
+# External lua script for quick merging of playcount files
+lua_merge=~/.scripts/plrare_merge.lua
+
+# External lua script for generating playlist order
+lua_order=~/.scripts/plrare_order.lua
+
+mkdir -p -- "$countdir"
 [ ! -f "$countfile" ] && : >"$countfile"
 [ $# -lt 1 ] && ${PAGER:-less} -- "$countfile" && exit
+
+[ "$1" = . ] && {
+    tmp="$(mktemp --tmpdir plrare.XXXXX)"
+    find "$countdir" -type f -print0 | xargs -0 $lua_merge | sort -nr >"$tmp"
+    ${PAGER:-less} -- "$tmp"
+    rm -f -- "$tmp"
+    exit
+}
+
+[ "$(expr "$1" : '[0-9]\+' 2>/dev/null)" -ne 0 ] && {
+    tmp="$(mktemp --tmpdir plrare.XXXXX)"
+    find "$countdir" -type f | sort | tail -n"$1" | xargs $lua_merge | sort -nr >"$tmp"
+    ${PAGER:-less} -- "$tmp"
+    rm -f -- "$tmp"
+    exit
+}
 
 [ "$1" = bump ] && {
     shift
@@ -83,14 +120,29 @@ playlist="$playlistdir"/.Rare.m3u
 }
 
 [ "$1" = stats ] && {
+    tmp="$(mktemp --tmpdir plrare.XXXXX)"
+    if [ "$2" = . ]; then
+        find "$countdir" -type f -print0 | xargs -0 $lua_merge >"$tmp"
+        echo '-- GLOBAL STATS --'
+    elif [ "$(expr "$2" : '[1-9]\+' 2>/dev/null)" -ne 0 ]; then
+        find "$countdir" -type f | sort | tail -n"$2" | xargs $lua_merge >"$tmp"
+        printf -- '-- %d-MONTHLY STATS --\n' "$2"
+    elif [ $# -gt 1 ]; then
+        shift
+        $lua_merge "$@" >"$tmp"
+        echo '-- SELECTED STATS --'
+    else
+        echo '-- MONTHLY STATS --'
+        $lua_merge "$countfile" >"$tmp"
+    fi
     total=0
     plays=0
     unique=0
-    nlines="$(wc -l <"$countfile")"
+    nlines="$(wc -l <"$tmp")"
     i=1
     while read -r line; do
         frac=$((i * 1000 / nlines))
-        printf '\rReading %s/%s %s.%s%%... (%dh:%d)' "$i" "$nlines" "${frac%?}" "${frac#${frac%?}}" "$((total / 3600))" "$plays"
+        printf '\rReading %s/%s %01d.%s%%... (%dh:%d)' "$i" "$nlines" "${frac%?}" "${frac#"${frac%?}"}" "$((total / 3600))" "$plays"
         i=$((i + 1))
         fpath="$musicdir/${line#*	}"
         [ ! -f "$fpath" ] && continue
@@ -99,56 +151,34 @@ playlist="$playlistdir"/.Rare.m3u
         total=$((total + (duration * count)))
         plays=$((plays + count))
         unique=$((unique + 1))
-    done <"$countfile"
+    done <"$tmp"
     days="$((total / 86400))"
     hours="$(((total % 86400) / 3600))"
     minutes="$(((total % 3600) / 60))"
     seconds="$((total % 60))"
+    library_size="$(mpc listall --format %file% | wc -l)"
     printf ' done.\n'
     printf 'Total listen time:   %dd, %dh, %dm, %ds\n' "$days" "$hours" "$minutes" "$seconds"
     printf 'Total no. plays:     %d\n' "$plays"
-    printf 'No. unique plays:    %d (%d%%)\n' "$unique" $((unique * 100 / plays))
+    printf 'No. unique plays:    %d (%d%% of played, %d%% of all)\n' "$unique" $((unique * 100 / plays)) $((unique * 100 / library_size))
     printf 'Avg track duration:  %02d:%02d\n' $(((total / plays) / 60)) $(((total / plays) % 60))
+    rm -f -- "$tmp"
     exit
 }
 
 # Validate and store argument
 N=$(($1))
 
-# Populate a temporary ranking file
-tmp1="$(mktemp plrare.XXXXX)"
-tmp2="$(mktemp plrare.XXXXX)"
-
-# Reformat from "count\tsong" to "song\tcount"
-while read -r line; do
-    song="${line#*	}"
-    count="${line%%	*}"
-    printf '%s\t%s\n' "$song" "$count" >>"$tmp1"
-done <"$countfile"
-
-# Generate list of all songs with 0 counts (in "song\tcount" format),
-# THEN join with the reformatted legitimate list,
-# THEN sort to get the same songs next to each other in descending order,
-# THEN reformat everything from "song\tcount" to "count\tsong",
-# THEN pass it through `uniq -f1` to get rid of duplicates,
-# THEN sort by play count.
-# Whew. I should really rewrite this in a scripting language
-# that has native hashsets, this is terrible performance.
-mpc listall --format %file% | while read -r line; do
-    printf '%s\t0\n' "$line"
-done | cat "$tmp1" - | sort -nr | while read -r line; do
-    song="${line%	*}"
-    count="${line##*	}"
-    printf '%s\t%s\n' "$count" "$song"
-done | uniq -f1 | sort -no "$tmp2"
-rm -f -- "$tmp1"
+# Merge all playcounts into one
+tmp="$(mktemp --tmpdir plrare.XXXXX)"
+find "$countdir" -type f -print0 | xargs -0 $lua_merge >"$tmp"
 
 # Output first or last N lines, depending on N's sign
 if [ "$N" -ge 0 ]; then
-    lines="$(head -n$N -- "$tmp2")"
+    lines="$(mpc listall --format %file% | $lua_order "$tmp" | head -n$N)"
 else
-    lines="$(tail -n${N#-} -- "$tmp2" | tac)"
+    lines="$(mpc listall --format %file% | $lua_order "$tmp" | tail -n${N#-} | tac)"
 fi
-rm -f -- "$tmp2"
+rm -f -- "$tmp"
 echo "$lines"
 echo "$lines" | cut -f2 >"$playlist"

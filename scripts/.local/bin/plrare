@@ -142,7 +142,7 @@ mkdir -p -- "$countdir"
     i=1
     while read -r line; do
         frac=$((i * 1000 / nlines))
-        printf '\rReading %s/%s %01d.%s%%... (%dh:%d)' "$i" "$nlines" "${frac%?}" "${frac#"${frac%?}"}" "$((total / 3600))" "$plays"
+        printf '\rReading %s/%s %01d.%s%%... (%dh)' "$i" "$nlines" "${frac%?}" "${frac#"${frac%?}"}" "$((total / 3600))"
         i=$((i + 1))
         fpath="$musicdir/${line#*	}"
         [ ! -f "$fpath" ] && continue

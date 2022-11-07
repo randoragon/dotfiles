@@ -5,7 +5,7 @@
 # Info about the last run gets saved to a log file.
 #
 # If not in pretend mode, also runs lua scripts to remove
-# duplicate paths from playcount.tsv and transitions.tsv files.
+# duplicate paths from playcount files and transitions.tsv files.
 #
 # USAGE
 # plfix [-p, --pretend]
@@ -35,11 +35,12 @@ find "$pldir" -maxdepth 1 -type f -name '*.m3u' | while read -r f; do
         [ -z "$pretend" ] && mv -- "$dupes" "$f"
     }
     i=1
-    printf "%s\n" "$f" >>"$log"
+    header=
     cat -- "$f" | while read -r l; do
         [ ! -f "$music/$l" ] && [ "${l#\#}" = "$l" ] && {
             [ -z "$pretend" ] && sed -i "$i""d" "$f"
             i=$((i - 1))
+            [ -z "$header" ] && printf "%s\n" "$f" >>"$log" && header=1
             printf "\t%s\n" "$l" >>"$log"
             printf "%s\n%s" "$(($(head -n1 -- "$counter") + 1))" "$(sed -n 2p "$counter")" >"$counter"
         }
@@ -47,12 +48,12 @@ find "$pldir" -maxdepth 1 -type f -name '*.m3u' | while read -r f; do
     done
 done
 
+echo '-- PLAYLISTS --'
 count1="$(head -n1 -- "$counter")"
 count2="$(sed -n 2p "$counter")"
 rm -f -- "$counter" "$dupes"
 if [ "$count1" -gt 0 ]; then
     printf "%s %s invalid path%s\n" "$(if [ -z "$pretend" ]; then printf "Removed"; else printf "Detected"; fi)" "$count1" "$([ "$count1" -eq 1 ] || printf s)"
-    "$PAGER" "$log"
 else
     printf "No invalid paths found\n"
 fi
@@ -62,7 +63,12 @@ else
     printf "No duplicate paths found\n"
 fi
 
-[ -z "$pretend" ] && {
-    lua -- ~/.scripts/plfix_playcount.lua
-    lua -- ~/.scripts/plfix_transitions.lua
-}
+printf '\n-- METAFILES --\n'
+logsize="$(stat -c %s -- "$log")"
+find "$music/.playcount/" -type f | while read -r f; do
+    lua -- ~/.scripts/plfix_playcount.lua "$f" "${pretend:-0}" >>"$log"
+done
+[ "$logsize" -eq "$(stat -c %s -- "$log")" ] && echo 'No invalid paths in playcount files'
+lua -- ~/.scripts/plfix_transitions.lua "${pretend:-0}" >>"$log"
+
+[ -s "$log" ] && "${PAGER:-less}" -- "$log"

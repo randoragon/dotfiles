@@ -143,7 +143,7 @@ mkdir -p -- "$countdir"
         echo '-- MONTHLY STATS --'
         $lua_merge "$countfile" >"$tmp"
     fi
-    lua -- ~/.scripts/plrare_stats.lua <"$tmp"
+    lua -- ~/.scripts/plrare_stats.lua "$(library | wc -l)" <"$tmp"
     rm -f -- "$tmp"
     exit
 }

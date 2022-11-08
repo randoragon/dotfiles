@@ -7,6 +7,7 @@ CACHE_DIR = os.getenv('XDG_CACHE_HOME')..'/' or (os.getenv('HOME')..'/.cache/')
 CACHE_FILE = CACHE_DIR..'plrare-stats-cache.tsv'
 CACHE_WRITE_THRES = 100
 TOP_N = 10 -- how many top listened artists/albums to display
+LIBRARY_SIZE = tonumber(arg[1])
 cache_change_counter = 0
 skipped = {}
 
@@ -123,7 +124,7 @@ function parse_input()
 		no_plays = no_plays + item.count
 		no_seconds = no_seconds + (item.count * duration)
 	end
-	print(' done.')
+	print(' done.\n')
 
 	local d = no_seconds // 86400
 	local h = (no_seconds % 86400) // 3600
@@ -131,8 +132,8 @@ function parse_input()
 	local s = no_seconds % 60
 	print(string.format('Total listen time:   %dd, %dh, %dm, %ds', d, h, m, s))
 	print(string.format('Total no. plays:     %d', no_plays))
-	print()
-	print(string.format('No. tracks:          %d', no_tracks))
+	print(string.format('No. tracks:          %d (%.0f%% of plays, %.0f%% of all)',
+		no_tracks, no_tracks / no_plays * 100, no_tracks / LIBRARY_SIZE * 100))
 	print(string.format('Avg track duration:  %02d:%02d',
 		no_seconds // no_plays // 60, no_seconds // no_plays % 60))
 	print()

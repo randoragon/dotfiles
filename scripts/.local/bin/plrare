@@ -143,33 +143,7 @@ mkdir -p -- "$countdir"
         echo '-- MONTHLY STATS --'
         $lua_merge "$countfile" >"$tmp"
     fi
-    total=0
-    plays=0
-    unique=0
-    nlines="$(wc -l <"$tmp")"
-    i=1
-    while read -r line; do
-        frac=$((i * 1000 / nlines))
-        printf '\rReading %s/%s %01d.%s%%... (%dh)' "$i" "$nlines" "${frac%?}" "${frac#"${frac%?}"}" "$((total / 3600))"
-        i=$((i + 1))
-        fpath="$musicdir/${line#*	}"
-        [ ! -f "$fpath" ] && continue
-        duration="$(mp3info -p %S -- "$fpath")"
-        count="${line%%	*}"
-        total=$((total + (duration * count)))
-        plays=$((plays + count))
-        unique=$((unique + 1))
-    done <"$tmp"
-    days="$((total / 86400))"
-    hours="$(((total % 86400) / 3600))"
-    minutes="$(((total % 3600) / 60))"
-    seconds="$((total % 60))"
-    library_size="$(library | wc -l)"
-    printf ' done.\n'
-    printf 'Total listen time:   %dd, %dh, %dm, %ds\n' "$days" "$hours" "$minutes" "$seconds"
-    printf 'Total no. plays:     %d\n' "$plays"
-    printf 'No. unique plays:    %d (%d%% of played, %d%% of all)\n' "$unique" $((unique * 100 / plays)) $((unique * 100 / library_size))
-    printf 'Avg track duration:  %02d:%02d\n' $(((total / plays) / 60)) $(((total / plays) % 60))
+    lua -- ~/.scripts/plrare_stats.lua <"$tmp"
     rm -f -- "$tmp"
     exit
 }

@@ -54,6 +54,14 @@ lua_merge=~/.scripts/plrare_merge.lua
 # External lua script for generating playlist order
 lua_order=~/.scripts/plrare_order.lua
 
+library () {
+    if mpc status >/dev/null 2>&1; then
+        mpc listall --format %file%
+    else
+        find "$musicdir" -type f -name '*.mp3' -print0 | xargs -0 realpath --relative-to "$musicdir" --
+    fi
+}
+
 mkdir -p -- "$countdir"
 [ ! -f "$countfile" ] && : >"$countfile"
 [ $# -lt 1 ] && ${PAGER:-less} -- "$countfile" && exit
@@ -156,7 +164,7 @@ mkdir -p -- "$countdir"
     hours="$(((total % 86400) / 3600))"
     minutes="$(((total % 3600) / 60))"
     seconds="$((total % 60))"
-    library_size="$(mpc listall --format %file% | wc -l)"
+    library_size="$(library | wc -l)"
     printf ' done.\n'
     printf 'Total listen time:   %dd, %dh, %dm, %ds\n' "$days" "$hours" "$minutes" "$seconds"
     printf 'Total no. plays:     %d\n' "$plays"
@@ -175,9 +183,9 @@ find "$countdir" -type f -print0 | xargs -0 $lua_merge >"$tmp"
 
 # Output first or last N lines, depending on N's sign
 if [ "$N" -ge 0 ]; then
-    lines="$(mpc listall --format %file% | $lua_order "$tmp" | head -n$N)"
+    lines="$(library | $lua_order "$tmp" | head -n$N)"
 else
-    lines="$(mpc listall --format %file% | $lua_order "$tmp" | tail -n${N#-} | tac)"
+    lines="$(library | $lua_order "$tmp" | tail -n${N#-} | tac)"
 fi
 rm -f -- "$tmp"
 echo "$lines"

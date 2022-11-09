@@ -40,7 +40,7 @@ find "$pldir" -maxdepth 1 -type f -name '*.m3u' | while read -r f; do
         [ ! -f "$music/$l" ] && [ "${l#\#}" = "$l" ] && {
             [ -z "$pretend" ] && sed -i "$i""d" "$f"
             i=$((i - 1))
-            [ -z "$header" ] && printf "%s\n" "$f" >>"$log" && header=1
+            [ -z "$header" ] && printf "%s\n" "$(realpath --relative-to "$music" -- "$f")" >>"$log" && header=1
             printf "\t%s\n" "$l" >>"$log"
             printf "%s\n%s" "$(($(head -n1 -- "$counter") + 1))" "$(sed -n 2p "$counter")" >"$counter"
         }

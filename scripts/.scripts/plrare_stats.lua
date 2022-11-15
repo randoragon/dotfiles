@@ -108,12 +108,15 @@ function parse_input()
 			i, #data, i / #data * 100, no_seconds // 3600))
 		local duration = get_duration(item.fname)
 		local artist = item.fname:match('^[^/]*')
-		local album = item.fname:match('^[^/]*/([^/]*)/')
-		if albums[album] == nil then
-			albums[album] = duration
-			no_albums = no_albums + 1
-		else
-			albums[album] = albums[album] + duration
+		local album_path = item.fname:match('^([^/]*/[^/]*)/')
+		local album = album_path:match('^[^/]*/([^/]*)$')
+		if album ~= 'no album' then
+			if albums[album_path] == nil then
+				albums[album_path] = duration
+				no_albums = no_albums + 1
+			else
+				albums[album_path] = albums[album_path] + duration
+			end
 		end
 		if artists[artist] == nil then
 			artists[artist] = duration
@@ -142,35 +145,32 @@ function parse_input()
 	artists['Various Artists'] = nil
 	local artists_list = {}
 	for k, v in pairs(artists) do
-		artists_list[#artists_list + 1] = {
-			string.format('  %02d:%02d:%02d',
-				v // 3600,
-				v % 3600 // 60,
-				v % 60),
-			k
-		}
+		artists_list[#artists_list + 1] = {k, v}
 	end
-	table.sort(artists_list, function(x, y) return x[1] > y[1] end)
+	table.sort(artists_list, function(x, y) return x[2] > y[2] end)
 	for i = 1, math.min(TOP_N, #artists_list) do
-		print(artists_list[i][1], artists_list[i][2])
+		local s = artists_list[i][2]
+		print(string.format('  %02d:%02d:%02d',
+				s // 3600,
+				s % 3600 // 60,
+				s % 60),
+			artists_list[i][1])
 	end
 	print()
 	print(string.format('No. albums:          %d', no_albums))
 	print('Top listened albums:')
-	albums['no album'] = nil
 	local albums_list = {}
 	for k, v in pairs(albums) do
-		albums_list[#albums_list + 1] = {
-			string.format('  %02d:%02d:%02d',
-				v // 3600,
-				v % 3600 // 60,
-				v % 60),
-			k
-		}
+		albums_list[#albums_list + 1] = {k, v}
 	end
-	table.sort(albums_list, function(x, y) return x[1] > y[1] end)
+	table.sort(albums_list, function(x, y) return x[2] > y[2] end)
 	for i = 1, math.min(TOP_N, #albums_list) do
-		print(albums_list[i][1], albums_list[i][2])
+		local s = albums_list[i][2]
+		print(string.format('  %02d:%02d:%02d',
+				s // 3600,
+				s % 3600 // 60,
+				s % 60),
+			albums_list[i][1]:match('/([^/]*)$'))
 	end
 end
 

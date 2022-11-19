@@ -78,7 +78,8 @@ function load_data()
 	unavailable_songs = nil
 
 	-- Read song playcounts
-	for line in io.lines(MUSIC_DIR .. 'playcount.tsv') do
+	local cmd = io.popen('plrare .', 'r')
+	for line in cmd:lines() do
 		local song, playcount, iter
 		iter = line:gmatch('[^\t]*')
 		playcount = tonumber(iter())
@@ -89,6 +90,7 @@ function load_data()
 		songs[song].playcount = playcount
 		::continue::
 	end
+	cmd:close()
 
 	-- Read playlists
 	for file in lfs.dir(PLAYLIST_DIR) do

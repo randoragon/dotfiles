@@ -15,10 +15,11 @@
 # Other usage:
 #     plrare [N]
 #     plrare .
-# If run with no arguments, the playcount file is opened in a pager.
+# If run with no arguments, the current playcount file is opened in the pager.
 # If a number N is given, the last N playcount files are merged and opened in
-# the pager.
-# If run with '.', all playcount files are merged and opened in the pager.
+# the pager, including files with 0 plays.
+# If run with '.', all playcount files are merged and opened in the pager,
+# including files with 0 plays. This is equivalent to choosing a high enough N.
 #
 # Other usage:
 #    plrare bump PATH [N]
@@ -68,7 +69,9 @@ mkdir -p -- "$countdir"
 
 [ "$1" = . ] && {
     tmp="$(mktemp --tmpdir plrare.XXXXX)"
-    find "$countdir" -type f -print0 | xargs -0 $lua_merge | sort -nr >"$tmp"
+    library | sed 's/^/0\t/' >"$tmp"
+    lines="$(find "$countdir" -type f -print0 | xargs -0 $lua_merge "$tmp" | sort -k 1nr,2)"
+    echo "$lines" >"$tmp"
     ${PAGER:-less} -- "$tmp"
     rm -f -- "$tmp"
     exit
@@ -76,7 +79,9 @@ mkdir -p -- "$countdir"
 
 [ "$(expr "$1" : '[0-9]\+' 2>/dev/null)" -ne 0 ] && {
     tmp="$(mktemp --tmpdir plrare.XXXXX)"
-    find "$countdir" -type f | sort | tail -n"$1" | xargs $lua_merge | sort -nr >"$tmp"
+    library | sed 's/^/0\t/' >"$tmp"
+    lines="$(find "$countdir" -type f | sort | tail -n"$1" | xargs $lua_merge "$tmp" | sort -k 1nr,2)"
+    echo "$lines" >"$tmp"
     ${PAGER:-less} -- "$tmp"
     rm -f -- "$tmp"
     exit

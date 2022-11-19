@@ -27,6 +27,8 @@ PLAYLIST_WHITELIST = {
 	['#Fast'] = true,
 	['#Slow'] = true,
 	['#Lo-Fi'] = true,
+	['#Bass'] = true,
+	['#Rap'] = true,
 }
 
 -- By convention the '.' playlists entry contains all usable songs

@@ -140,14 +140,20 @@ function parse_input()
 	print(string.format('Avg track duration:  %02d:%02d',
 		no_seconds // no_plays // 60, no_seconds // no_plays % 60))
 	print()
+
 	print(string.format('No. artists:         %d', no_artists))
-	print('Top listened artists:')
 	artists['Various Artists'] = nil
 	local artists_list = {}
 	for k, v in pairs(artists) do
 		artists_list[#artists_list + 1] = {k, v}
 	end
 	table.sort(artists_list, function(x, y) return x[2] > y[2] end)
+	local artists_coverage = 0
+	for i = 1, math.min(TOP_N, #artists_list) do
+		artists_coverage = artists_coverage + artists_list[i][2]
+	end
+	print(string.format('Top listened artists (%.1f%% of all listen time):',
+		artists_coverage / no_seconds * 100))
 	for i = 1, math.min(TOP_N, #artists_list) do
 		local s = artists_list[i][2]
 		print(string.format('  %02d:%02d:%02d',
@@ -157,13 +163,19 @@ function parse_input()
 			artists_list[i][1])
 	end
 	print()
+
 	print(string.format('No. albums:          %d', no_albums))
-	print('Top listened albums:')
 	local albums_list = {}
 	for k, v in pairs(albums) do
 		albums_list[#albums_list + 1] = {k, v}
 	end
 	table.sort(albums_list, function(x, y) return x[2] > y[2] end)
+	local albums_coverage = 0
+	for i = 1, math.min(TOP_N, #albums_list) do
+		albums_coverage = albums_coverage + albums_list[i][2]
+	end
+	print(string.format('Top listened albums (%.1f%% of all listen time):',
+		albums_coverage / no_seconds * 100))
 	for i = 1, math.min(TOP_N, #albums_list) do
 		local s = albums_list[i][2]
 		print(string.format('  %02d:%02d:%02d',

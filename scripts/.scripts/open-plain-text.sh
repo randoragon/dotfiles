@@ -29,7 +29,7 @@ for f in "$@"; do
 
     # Skip if file doesn't exist or has no read permission
     [ ! -r "$f" ] && {
-        printf "open-plain-text.sh: cannot read file \"$f\"\n" >&2
+        printf 'open-plain-text.sh: cannot read file "%s"\n' "$f" >&2
         continue
     }
 

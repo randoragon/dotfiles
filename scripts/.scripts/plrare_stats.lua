@@ -112,17 +112,17 @@ function parse_input()
 		local album = album_path:match('^[^/]*/([^/]*)$')
 		if album ~= 'no album' then
 			if albums[album_path] == nil then
-				albums[album_path] = duration
+				albums[album_path] = item.count * duration
 				no_albums = no_albums + 1
 			else
-				albums[album_path] = albums[album_path] + duration
+				albums[album_path] = albums[album_path] + (item.count * duration)
 			end
 		end
 		if artists[artist] == nil then
-			artists[artist] = duration
+			artists[artist] = item.count * duration
 			no_artists = no_artists + 1
 		else
-			artists[artist] = artists[artist] + duration
+			artists[artist] = artists[artist] + (item.count * duration)
 		end
 		no_plays = no_plays + item.count
 		no_seconds = no_seconds + (item.count * duration)

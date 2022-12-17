@@ -63,7 +63,7 @@ done
 # Distribute copies
 if [ -z "$delete" ]; then
     for i in "$@"; do
-        find "$i/" -type f -print0 | xargs -0 -l -I _path -- sh -c '
+        find "$i/" -type f -print0 | xargs -0 -I _path -- sh -c '
             trimmed="$(realpath -s --relative-to "$(printf "%s" "_path" | sed "s:/.*::")" -- "_path")"
             mkdir -p -- "$(dirname -- "$root/$trimmed")"
             if [ -z "$pretend" ]; then
@@ -74,7 +74,7 @@ if [ -z "$delete" ]; then
     done
 else
     for i in "$@"; do
-        find "$i/" -type f -print0 | xargs -0 -l -I _path -- sh -c '
+        find "$i/" -type f -print0 | xargs -0 -I _path -- sh -c '
             trimmed="$(realpath -s --relative-to "$(printf "%s" "_path" | sed "s:/.*::")" -- "_path")"
             [ -L "$root/$trimmed" ] && echo "detach: target is a symlink, skipping." && exit
             if [ -z "$pretend" ]; then

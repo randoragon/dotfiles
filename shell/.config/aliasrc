@@ -30,6 +30,7 @@ alias ff='als_tmp="$(find . -type f | fzf)"; [ -n "$als_tmp" ] && cd "$(dirname 
 alias R='R --no-save'
 alias bt='bluetoothctl'
 alias tl='tllocalmgr'
+alias dmpd='mpd_discord_richpresence -p=6601 --fork --no-idle --dont-broadcast-the-paused-state'
 
 # Git
 alias gs="git status"

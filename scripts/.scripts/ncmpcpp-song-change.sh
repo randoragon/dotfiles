@@ -68,6 +68,11 @@ if [ -n "$keep_count" ]; then
 
     # If the song changes in less than 50% of the duration, don't increment
     (
+        # Kill the last subshell
+        pidfile="${XDG_CACHE_HOME:-$HOME/.cache}/ncmpcpp-playcount.pid"
+        [ -s "$pidfile" ] && kill "$(cat -- "$pidfile")"
+        echo $$ >"$pidfile"
+
         sleep $(( seconds / 2 ))
         [ "$(mpc current --format %file%)" != "$file" ] && exit
         plrare bump "$file"

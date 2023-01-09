@@ -330,6 +330,8 @@ def_key "V"
     select_range
 def_key "ctrl-v"
     reverse_selection
+def_key "escape"
+    remove_selection
 def_key "ctrl-c"
     remove_selection
 def_key "B"

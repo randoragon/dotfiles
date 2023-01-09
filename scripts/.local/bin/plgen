@@ -28,6 +28,7 @@ PLAYLIST_WHITELIST = {
 	['#Slow'] = true,
 	['#Lo-Fi'] = true,
 	['#Bass'] = true,
+	['#Keys'] = true,
 	['#Rap'] = true,
 }
 

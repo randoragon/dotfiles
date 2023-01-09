@@ -52,17 +52,17 @@ map <c-v> :invert
 
 # Fuzzy Find
 cmd fuzzy-find ${{
-    match="$(find . -maxdepth 1 | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
+    match="$(find . -maxdepth 1 | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up | sed -E 's/(.)/\\\1/g')"
     [ -n "$match" ] && {
         [ "$(expr "$(basename -- "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
-        lf -remote "send $id select '$match'"
+        lf -remote "send $id select $match"
     }
 }}
 cmd fuzzy-find-recursive ${{
-    match="$(find . | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up)"
+    match="$(find . | fzf --bind=ctrl-d:half-page-down,ctrl-u:half-page-up | sed -E 's/(.)/\\\1/g')"
     [ -n "$match" ] && {
         [ "$(expr "$(basename -- "$match")" : "^\..*")" -ne 0 ] && lf -remote "send $id set hidden"
-        lf -remote "send $id select '$match'"
+        lf -remote "send $id select $match"
     }
 }}
 map o :fuzzy-find

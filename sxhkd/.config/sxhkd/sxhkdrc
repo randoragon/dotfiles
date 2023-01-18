@@ -247,7 +247,7 @@ super + {space,m,n,slash}
 	~/.scripts/bspwm/scratchpad.sh {\
 	sp_term  toggle st -n sp -t scratchpad,\
 	sp_music toggle st -n sp ncmpcpp,\
-	sp_news  toggle st -n sp dualboat,\
+	sp_news  toggle st -n sp newsboat,\
 	sp_calc  toggle st -n sp -t qalc qalc\
 	}
 

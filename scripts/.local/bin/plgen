@@ -82,6 +82,7 @@ function load_data()
 
 	-- Read song playcounts
 	local cmd = io.popen('plrare .', 'r')
+	assert(cmd)
 	for line in cmd:lines() do
 		local song, playcount, iter
 		iter = line:gmatch('[^\t]*')
@@ -152,7 +153,7 @@ end
 function generate_playlist(params)
 	local playlist = {}
 
-	function add_song()
+	local function add_song()
 		local candidates = {}
 
 		-- Compile a list of candidates
@@ -179,7 +180,7 @@ function generate_playlist(params)
 		-- Pick a candidate
 		if #candidates ~= 0 then
 			-- Sort candidates based on playlists similarity
-			function comp(a, b)
+			local function comp(a, b)
 				local a_dist, b_dist
 				a, b = a[2], b[2]
 				local a_pls, b_pls = songs[a].playlists, songs[b].playlists
@@ -263,10 +264,11 @@ function generate_playlist(params)
 	duration = tonumber(duration:read('*a'))
 
 	if params.ntracks ~= nil then
-		for i = 2, params.ntracks do
+		for _ = 2, params.ntracks do
 			last_duration = duration
 			add_song()
 			local tmp = io.popen(string.format("mp3info -p %%S '%s'", MUSIC_DIR .. playlist[#playlist]:gsub("'", "'\"'\"'")))
+			assert(tmp)
 			duration = duration + tonumber(tmp:read('*a'))
 		end
 	elseif params.seconds ~= nil then
@@ -274,6 +276,7 @@ function generate_playlist(params)
 			last_duration = duration
 			add_song()
 			local tmp = io.popen(string.format("mp3info -p %%S '%s'", MUSIC_DIR .. playlist[#playlist]:gsub("'", "'\"'\"'")))
+			assert(tmp)
 			duration = duration + tonumber(tmp:read('*a'))
 		end
 		-- Remove the last track if it will make it closer to the goal

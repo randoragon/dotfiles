@@ -22,7 +22,6 @@ set timeoutlen=500
 
 " Plugins {{{1
 lua << EOF
-
 require 'paq' {
     'airblade/vim-gitgutter';
     'junegunn/fzf.vim';
@@ -33,19 +32,16 @@ require 'paq' {
     'tpope/vim-commentary';
     'glts/vim-radical';
     'glts/vim-magnum';
-    'dense-analysis/ale';
     'nanotech/jellybeans.vim';
     'jiangmiao/auto-pairs';
     'godlygeek/tabular';
     'skywind3000/asyncrun.vim';
     'derekwyatt/vim-fswitch';
-    'Shougo/deoplete.nvim';
-    'Shougo/deoplete-clangx';
     'ap/vim-css-color';
     'psliwka/vim-smoothie';
     'lervag/vimtex';
+    'ray-x/lsp_signature.nvim';
 }
-
 EOF
 
 " netrw (tree view) settings {{{2
@@ -81,18 +77,6 @@ vnoremap <Leader>t, :Tabular/,/l0r1<CR>
 vnoremap <Leader>t; :Tabular/;/l0r1<CR>
 " }}}
 
-" ALE & Deoplete {{{2
-let g:ale_enabled = 0
-let g:deoplete#enable_at_startup = 0
-" Close Deoplete preview window after completion
-" https://github.com/Shougo/deoplete.nvim/issues/115
-autocmd InsertLeave * if pumvisible() == 0 | silent! pclose | endif
-nnoremap <Leader>a :ALEToggle<CR>:call deoplete#toggle()<CR>
-nnoremap <Leader>e :ALEDetail<CR>
-nnoremap ]a :ALENextWrap<CR>
-nnoremap [a :ALEPreviousWrap<CR>
-" }}} 
-
 " FZF {{{2
 nnoremap <C-Space>  :GFiles<CR>
 nnoremap <Leader>ff :Files<CR>
@@ -123,7 +107,6 @@ nnoremap <Leader>S :call ToggleVimSmoothie()<CR>
 " so the majority of everything else can go.
 let g:vimtex_compiler_enabled = 0
 let g:vimtex_complete_enabled = 0
-let g:vimtex_disable_recursive_main_file_detection = 1
 let g:vimtex_format_enables = 1
 let g:vimtex_quickfix_enabled = 0
 let g:vimtex_quickfix_blgparser = {'disable': 1}
@@ -146,6 +129,82 @@ augroup END
 " }}}
 
 " }}}
+
+"{{{1 QuickFix/Location List
+" https://vi.stackexchange.com/a/8535
+command! Cnext try | cnext | catch | cfirst | catch | endtry
+command! Cprev try | cprev | catch | clast  | catch | endtry
+command! Lnext try | lnext | catch | lfirst | catch | endtry
+command! Lprev try | lprev | catch | llast  | catch | endtry
+nnoremap [q :Cprev<CR>
+nnoremap ]q :Cnext<CR>
+nnoremap [d :Lprev<CR>
+nnoremap ]d :Lnext<CR>
+
+" https://rafaelleru.github.io/blog/quickfix-autocomands/
+let g:clist_isopen = 0
+let g:llist_isopen = 0
+function! ToggleCList()
+    if g:clist_isopen
+        cclose
+        let g:clist_isopen = 0
+    else
+        copen
+        let g:clist_isopen = 1
+    endif
+endfunction
+function! ToggleLList()
+    if g:llist_isopen
+        lclose
+        let g:llist_isopen = 0
+    else
+        lopen
+        let g:llist_isopen = 1
+    endif
+endfunction
+function! QFListSetState()
+    if getwininfo(win_getid())[0]['loclist']
+        let g:llist_isopen = 1
+    else
+        let g:lcist_isopen = 1
+    endif
+endfunction
+function! QFListUnsetState()
+    if getwininfo(win_getid())[0]['loclist']
+        let g:llist_isopen = 0
+    else
+        let g:lcist_isopen = 0
+    endif
+endfunction
+augroup qffixstates
+    autocmd!
+    autocmd BufWinEnter quickfix call QFListSetState()
+    autocmd BufWinLeave quickfix call QFListUnsetState()
+augroup END
+nnoremap <Leader>q :call ToggleCList()<CR>
+nnoremap <Leader>d :call ToggleLList()<CR>
+"}}}
+
+"{{{1 LSP Configuration
+function! ConfigureLSP()
+    set omnifunc=v:lua.vim.lsp.omnifunc
+    lua require "lsp_signature".on_attach({hint_prefix=''})
+    nnoremap <Leader>e :call v:lua.vim.diagnostic.open_float()<CR>
+    nnoremap <Leader>[e :call v:lua.vim.diagnostic.goto_prev()<CR>
+    nnoremap <Leader>]e :call v:lua.vim.diagnostic.goto_next()<CR>
+    nnoremap <Leader>D :call v:lua.vim.diagnostic.setloclist()<CR>
+    nnoremap gd :call v:lua.vim.lsp.buf.definition()<CR>
+    nnoremap gD :call v:lua.vim.lsp.buf.declaration()<CR>
+    nnoremap <Space> :call v:lua.vim.lsp.buf.hover()<CR>
+    nnoremap <Leader>r :call v:lua.vim.lsp.buf.references()<CR>
+    nnoremap <Leader>R :call v:lua.vim.lsp.buf.rename()<CR>
+endfunction
+augroup lsp
+    autocmd!
+    autocmd LspAttach * call ConfigureLSP()
+    autocmd DiagnosticChanged * lua vim.diagnostic.setloclist({open=false})
+augroup END
+"}}}
 
 " Status Bar{{{1
 " https://jdhao.github.io/2019/11/03/vim_custom_statusline/
@@ -274,8 +333,8 @@ set smartcase
 " requires xxd, on Arch install xxd-standalone from AUR
 
 " Convert to and from hexdump
-nnoremap <Leader>d :%!xxd<CR>:set filetype=xxd<CR>
-nnoremap <Leader>D :%!xxd -r<CR>:filetype detect<CR>
+nnoremap <Leader>x :%!xxd<CR>:set filetype=xxd<CR>
+nnoremap <Leader>X :%!xxd -r<CR>:filetype detect<CR>
 " }}}
 
 " Window Shortcuts {{{1
@@ -325,10 +384,6 @@ set writebackup
 set backupdir=~/.local/share/nvim/backup/
 " }}}
 
-" Force redraw shortcut {{{1
-nnoremap <Leader>l :redraw!<CR>
-" }}}
-
 " Make motions more wrap-friendly {{{1
 nnoremap k gk
 nnoremap gk k
@@ -375,10 +430,6 @@ set wildignorecase
 set wildignore=*.git/*,*.tags,*.o
 cnoremap <expr> / wildmenumode() ? "\<C-E>" : "/"
 set path+=** " Enables recursive :find
-" }}}
-
-" Reload vimrc {{{1
-nnoremap <Leader>r :source $XDG_CONFIG_HOME/nvim/init.vim<CR>
 " }}}
 
 "{{{1 Center screen after search

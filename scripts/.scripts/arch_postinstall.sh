@@ -232,13 +232,15 @@ do
     pacinstall "$package"
 done
 
-# lua for music scripts
+# lua for music scripts,
+# rust and openssl-1.1 for mpd-discord-rpc
 [ -n "$need_music" ] && for package in \
     mpd ncmpcpp mpc \
     beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     atomicparsley \
     mp3info \
-    lua lua-filesystem
+    lua lua-filesystem \
+    rust openssl-1.1
 do
     pacinstall "$package"
 done
@@ -337,8 +339,8 @@ done
 printf "done.\n"
 sectionend
 
-# Install beets plugins
-section "Installing beets plugins"
+# Install beets plugins and mpd-discord-rpc
+section "Installing beets plugins and mpd-discord-rpc"
 if [ -n "$need_music" ]; then
     for package in \
         python-pyacoustid \
@@ -349,6 +351,7 @@ if [ -n "$need_music" ]; then
         pacinstall "$package"
     done
     sudo python3 -m pip -q install beets\[fetchart,lyrics,lastgenre\] pathlib
+    cargo install mpd-discord-rpc
     printf "done.\n"
 else
     echo "'music'" disabled, skipping.
@@ -362,7 +365,7 @@ if [ -n "$need_gui" ]; then
 fi
 sectionend
 
-section "Installing Paq and Deoplete for Neovim"
+section "Installing Paq for Neovim"
 if [ -d "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim ]; then
     printf "Paq already installed, skipping.\n"
 else

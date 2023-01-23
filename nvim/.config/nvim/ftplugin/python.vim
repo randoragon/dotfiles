@@ -14,8 +14,8 @@ inoremap <buffer> <Leader>.f filter(, <,,>)<C-o>F(<Right>
 inoremap <buffer> <Leader>m map(, <,,>)<C-o>F(<Right>
 inoremap <buffer> <Leader>s split()<Left>
 
-command LSPFileTogglePy    lua require('lsptools').toggle('pylsp', {'pylsp', '--tcp'})
-command LSPProjectTogglePy lua require('lsptools').toggle('pylsp', {'pylsp', '--tcp'},
+command LSPFileTogglePy    lua require('lsptools').toggle('pylsp', {'pylsp'})
+command LSPProjectTogglePy lua require('lsptools').toggle('pylsp', {'pylsp'},
             \ {
             \  '.git',
             \  'setup.py',

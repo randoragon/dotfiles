@@ -178,3 +178,14 @@ nnoremap <silent> <buffer> <Leader>if :silent let _newsubfile = NewSubfile()<CR>
     \:silent if type(_newsubfile) == v:t_list \| call bufload(_newsubfile[0]) \|
     \ call setbufline(_newsubfile[0], 1, _newsubfile[1]) \|
     \ exec 'buf +6 '._newsubfile[0] \| endif<CR>
+
+command LSPFileToggleTex    lua require('lsptools').toggle('texlsp', {'texlab'})
+command LSPProjectToggleTex lua require('lsptools').toggle('texlsp', {'texlab'},
+            \ {
+            \  '.git',
+            \  'main.tex', 'document.tex',
+            \  'Makefile', 'makefile', 'GNUmakefile',
+            \  'CMakeLists.txt'
+            \ })
+nnoremap <buffer> <silent> <Leader>l :LSPFileToggleTex<CR>
+nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleTex<CR>

@@ -1,7 +1,6 @@
 inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
 
 nnoremap <buffer> <Leader>m :split \| terminal javac %<CR>
-nnoremap <buffer> <C-]> :ALEGoToDefinition<CR>
 inoremap <buffer> <M-n> <C-o>o
 set tw=80
 inoremap <buffer> <Leader>k package 

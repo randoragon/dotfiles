@@ -1,7 +1,6 @@
 inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
 
 nnoremap <buffer> <Leader>m :write \| split \| terminal lua -i %<CR>
-nnoremap <buffer> <C-]> :ALEGoToDefinition<CR>
 inoremap <buffer> <M-n> <C-o>o
 set tw=80
 inoremap <buffer> <Leader>l local 
@@ -40,3 +39,14 @@ inoremap <buffer> &= <Esc>y^gi= <C-r>" &
 inoremap <buffer> \|= <Esc>y^gi= <C-r>" \|
 inoremap <buffer> >>= <Esc>y^gi= <C-r>" >>
 inoremap <buffer> <<= <Esc>y^gi= <C-r>" <<
+
+command LSPFileToggleLua    lua require('lsptools').toggle('lualsp', {'lua-language-server'})
+command LSPProjectToggleLua lua require('lsptools').toggle('lualsp', {'lua-language-server'},
+            \ {
+            \  '.git',
+            \  'init.lua',
+            \  'Makefile', 'makefile', 'GNUmakefile',
+            \  'CMakeLists.txt'
+            \ })
+nnoremap <buffer> <silent> <Leader>l :LSPFileToggleLua<CR>
+nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleLua<CR>

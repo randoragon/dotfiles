@@ -6,9 +6,6 @@ inoremap <buffer> <Leader>t static
 inoremap <buffer> <Leader>c const 
 inoremap <buffer> <Leader>.c /*  */<Left><Left><Left>
 inoremap <buffer> <Leader>s struct 
-inoremap <buffer> <Leader>u unsigned 
-inoremap <buffer> <Leader>z size_t 
-inoremap <buffer> <Leader>.z sizeof()<Left>
 inoremap <buffer> <Leader>.s switch () <,,><C-o>F)
 inoremap <buffer> <Leader>r return 
 inoremap <buffer> <Leader>i if () <,,><C-o>F)
@@ -16,17 +13,14 @@ inoremap <buffer> <Leader>e else
 inoremap <buffer> <Leader>o else if () <,,><C-o>F)
 inoremap <buffer> <Leader>f for () <,,><C-o>F)
 inoremap <buffer> <Leader>w while () <,,><C-o>F)
-inoremap <buffer> <Leader>mm malloc()<Left>
-inoremap <buffer> <Leader>mc calloc()<Left>
-inoremap <buffer> <Leader>mr realloc()<Left>
-inoremap <buffer> <Leader>mf free();<Left><Left>
 
-command LSPFileToggleC    lua require('lsptools').toggle('clsp', {'ccls'})
-command LSPProjectToggleC lua require('lsptools').toggle('clsp', {'ccls'},
+command LSPFileToggleZig    lua require('lsptools').toggle('ziglsp', {'zls'})
+command LSPProjectToggleZig lua require('lsptools').toggle('ziglsp', {'zls'},
             \ {
             \  '.git',
+            \  'build.zig',
             \  'Makefile', 'makefile', 'GNUmakefile',
             \  'CMakeLists.txt'
             \ })
-nnoremap <buffer> <silent> <Leader>l :LSPFileToggleC<CR>
-nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleC<CR>
+nnoremap <buffer> <silent> <Leader>l :LSPFileToggleZig<CR>
+nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleZig<CR>

@@ -1,6 +1,5 @@
 inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
 
-nnoremap <buffer> <C-]> :ALEGoToDefinition<CR>
 inoremap <buffer> <M-n> <C-o>o
 set tw=80
 inoremap <buffer> <Leader>t static 

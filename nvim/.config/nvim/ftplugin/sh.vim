@@ -1,7 +1,6 @@
 call ToggleIndentStyle()
 
 nnoremap <buffer> <Leader>m :write \| split \| terminal sh -i %<CR>
-nnoremap <buffer> <C-]> :ALEGoToDefinition<CR>
 inoremap <buffer> <M-n> <C-o>o
 inoremap <buffer> <Leader>r return 
 inoremap <buffer> <Leader>i if 

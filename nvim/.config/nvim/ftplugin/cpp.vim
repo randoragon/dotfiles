@@ -21,12 +21,12 @@ inoremap <buffer> <Leader>mc calloc()<Left>
 inoremap <buffer> <Leader>mr realloc()<Left>
 inoremap <buffer> <Leader>mf free();<Left><Left>
 
-command LSPFileToggleC    lua require('lsptools').toggle('clsp', {'ccls'})
-command LSPProjectToggleC lua require('lsptools').toggle('clsp', {'ccls'},
+command LSPFileToggleCPP    lua require('lsptools').toggle('clsp', {'ccls'})
+command LSPProjectToggleCPP lua require('lsptools').toggle('clsp', {'ccls'},
             \ {
             \  '.git',
             \  'Makefile', 'makefile', 'GNUmakefile',
             \  'CMakeLists.txt'
             \ })
-nnoremap <buffer> <silent> <Leader>l :LSPFileToggleC<CR>
-nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleC<CR>
+nnoremap <buffer> <silent> <Leader>l :LSPFileToggleCPP<CR>
+nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleCPP<CR>

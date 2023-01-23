@@ -221,7 +221,8 @@ done
 }
 
 [ -n "$need_devtools" ] && for package in \
-    ccls python-lsp-server lua-language-server texlab gopls \
+    ccls lua-language-server texlab gopls \
+    python-lsp-server python-rope python-pyflakes python-pycodestyle \
     gdb valgrind \
     patch lazygit \
     tokei ctags highlight \

@@ -221,10 +221,12 @@ done
 }
 
 [ -n "$need_devtools" ] && for package in \
+    ccls python-lsp-server lua-language-server texlab gopls \
     gdb valgrind \
     patch lazygit \
     tokei ctags highlight \
-    shellcheck
+    shellcheck \
+    lua lua-filesystem
 do
     pacinstall "$package"
 done
@@ -288,6 +290,9 @@ for package in \
 do
     yayinstall "$package"
 done
+
+# Zig Language Server
+[ -n "$need_devtools" ] && yayinstall zls
 
 [ -n "$need_gui" ] && for package in \
     numix-icon-theme-git \

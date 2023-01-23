@@ -10,18 +10,6 @@
 # and whenever I switch login shells I just symlink their respective
 # profile files to this one (e.g. 'ln -s ~/.profile ~/.zprofile').
 
-# Add custom PATH entries
-# user-specific paths take precedence over defaults, that's why
-# the function prepends PATH with arguments instead of appending.
-addpath () {
-    if ! printf "%s" "$PATH" | grep -Pq "\(^\|:\)$1\(\$\|:\)"; then
-        PATH="$1:$PATH"
-    fi
-}
-addpath "$HOME/.local/bin"
-unset addpath
-export PATH
-
 # Locale settings
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -78,6 +66,19 @@ export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export NVIM_SMOOTHIE_ENABLED=1
 export LUA_INIT="@$HOME/.config/lua/init.lua"
 export ASCIIDOCTOR_OPTS='-r asciidoctor-diagram -a nofooter -a last-update-label! -a webfonts!'
+
+# Add custom PATH entries
+# user-specific paths take precedence over defaults, that's why
+# the function prepends PATH with arguments instead of appending.
+addpath () {
+    if ! printf "%s" "$PATH" | grep -Pq "\(^\|:\)$1\(\$\|:\)"; then
+        PATH="$1:$PATH"
+    fi
+}
+addpath "$HOME/.local/bin"
+addpath "$CARGO_HOME/bin"
+unset addpath
+export PATH
 
 # This makes markdown previews with tables bearable
 # to look at, just prepend the html file with it

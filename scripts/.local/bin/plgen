@@ -53,7 +53,7 @@ function load_data()
 	for line in io.lines(MUSIC_DIR .. 'transitions.tsv') do
 		local song, bpm, mood, iter = nil, {}, {}, line:gmatch('[^\t]*')
 		song = iter()
-		if unavailable_songs[song] then
+		if was_stdin_empty and unavailable_songs[song] then
 			goto continue
 		end
 		bpm[1] = tonumber(iter())
@@ -77,6 +77,15 @@ function load_data()
 		for song, _ in pairs(unavailable_songs) do
 			io.stderr:write('plgen: file "' .. song .. '" missing metadata, skipping\n')
 		end
+
+		-- Filter unavailable songs out of the available list
+		local playlists_new = {}
+		for _, song in ipairs(playlists['.']) do
+			if not unavailable_songs[song] then
+				playlists_new[#playlists_new + 1] = song
+			end
+		end
+		playlists['.'] = playlists_new
 	end
 	unavailable_songs = nil
 

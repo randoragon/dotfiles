@@ -249,19 +249,19 @@ function generate_playlist(params)
 			-- Select winner (top candidates have higher chance)
 			local index = 1
 			while math.random() < CANDIDATE_STRICTNESS do
-				index = index + 1
 				if index == #candidates then
 					break
 				end
+				index = index + 1
 			end
 			local winner = candidates[index]
 			playlist[#playlist + 1] = winner[2]
 			table.remove(playlists['.'], winner[1])
 		else
 			local index = math.random(#playlists['.'])
-			playlist[1] = playlists['.'][index]
+			playlist[#playlist + 1] = playlists['.'][index]
 			table.remove(playlists['.'], index)
-			print('No candidates after ' .. playlist[#playlist - 1] .. ', picked ' .. playlist[#playlist] .. ' at random.')
+			io.stderr:write('No candidates after ' .. playlist[#playlist - 1] .. ', picked ' .. playlist[#playlist] .. ' at random.\n')
 		end
 	end
 

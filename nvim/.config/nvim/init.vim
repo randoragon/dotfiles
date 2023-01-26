@@ -41,6 +41,7 @@ require 'paq' {
     'psliwka/vim-smoothie';
     'lervag/vimtex';
     'ray-x/lsp_signature.nvim';
+    'ziglang/zig.vim';
 }
 EOF
 
@@ -126,6 +127,11 @@ augroup latex_surround_cmds
     autocmd FileType tex let b:surround_120 = "\\text{\r}"
     autocmd FileType tex let b:surround_88 = "\\\1command: \1{\r}"
 augroup END
+" }}}
+
+" Zig {{{2
+" Disable automatic code formatting on write
+let g:zig_fmt_autosave = 0
 " }}}
 
 " }}}

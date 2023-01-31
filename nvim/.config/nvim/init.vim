@@ -11,8 +11,8 @@ nnoremap <Leader>w :set wrap! linebreak!<CR>
 map Y y$
 set hidden
 nnoremap c "_c
-vnoremap . :normal .<CR>
-nnoremap <Leader>/ :nohlsearch<CR>
+vnoremap <silent> . :normal .<CR>
+nnoremap <silent> <Leader>/ :nohlsearch<CR>
 filetype plugin indent on
 set encoding=utf-8
 set listchars=tab:\ \ ┊,trail:·,nbsp:·
@@ -79,15 +79,15 @@ vnoremap <Leader>t; :Tabular/;/l0r1<CR>
 " }}}
 
 " FZF {{{2
-nnoremap <C-Space>  :GFiles<CR>
-nnoremap <Leader>ff :Files<CR>
-nnoremap <Leader>fl :Lines<CR>
-nnoremap <Leader>fc :Commands<CR>
-nnoremap <Leader>ft :Tags<CR>
-nnoremap <Leader>fm :Marks<CR>
-nnoremap <Leader>fh :Helptags<CR>
-nnoremap <Leader>fa :Ag<CR>
-nnoremap <Leader>fb :Buffers<CR>
+nnoremap <silent> <C-Space>  :GFiles<CR>
+nnoremap <silent> <Leader>ff :Files<CR>
+nnoremap <silent> <Leader>fl :Lines<CR>
+nnoremap <silent> <Leader>fc :Commands<CR>
+nnoremap <silent> <Leader>ft :Tags<CR>
+nnoremap <silent> <Leader>fm :Marks<CR>
+nnoremap <silent> <Leader>fh :Helptags<CR>
+nnoremap <silent> <Leader>fa :Ag<CR>
+nnoremap <silent> <Leader>fb :Buffers<CR>
 " }}}
 
 " Smoothie {{{2
@@ -187,23 +187,24 @@ augroup qffixstates
     autocmd BufWinEnter quickfix call QFListSetState()
     autocmd BufWinLeave quickfix call QFListUnsetState()
 augroup END
-nnoremap <Leader>q :call ToggleCList()<CR>
-nnoremap <Leader>d :call ToggleLList()<CR>
+nnoremap <silent> <Leader>q :call ToggleCList()<CR>
+nnoremap <silent> <Leader>d :try \| call ToggleLList() \| catch \| echo "No location list" \| endtry<CR>
 "}}}
 
 "{{{1 LSP Configuration
+nnoremap <Space> <Nop>
 function! ConfigureLSP()
     set omnifunc=v:lua.vim.lsp.omnifunc
     lua require "lsp_signature".on_attach({hint_prefix=''})
-    nnoremap <Leader>e :call v:lua.vim.diagnostic.open_float()<CR>
-    nnoremap <Leader>[e :call v:lua.vim.diagnostic.goto_prev()<CR>
-    nnoremap <Leader>]e :call v:lua.vim.diagnostic.goto_next()<CR>
-    nnoremap <Leader>D :call v:lua.vim.diagnostic.setloclist()<CR>
-    nnoremap gd :call v:lua.vim.lsp.buf.definition()<CR>
-    nnoremap gD :call v:lua.vim.lsp.buf.declaration()<CR>
-    nnoremap <Space> :call v:lua.vim.lsp.buf.hover()<CR>
-    nnoremap <Leader>r :call v:lua.vim.lsp.buf.references()<CR>
-    nnoremap <Leader>R :call v:lua.vim.lsp.buf.rename()<CR>
+    nnoremap <silent> <Leader>e :call v:lua.vim.diagnostic.open_float()<CR>
+    nnoremap <silent> <Leader>[e :call v:lua.vim.diagnostic.goto_prev()<CR>
+    nnoremap <silent> <Leader>]e :call v:lua.vim.diagnostic.goto_next()<CR>
+    nnoremap <silent> <Leader>D :call v:lua.vim.diagnostic.setloclist()<CR>
+    nnoremap <silent> gd :call v:lua.vim.lsp.buf.definition()<CR>
+    nnoremap <silent> gD :call v:lua.vim.lsp.buf.declaration()<CR>
+    nnoremap <silent> <Space> :call v:lua.vim.lsp.buf.hover()<CR>
+    nnoremap <silent> <Leader>r :call v:lua.vim.lsp.buf.references()<CR>
+    nnoremap <silent> <Leader>R :call v:lua.vim.lsp.buf.rename()<CR>
 endfunction
 augroup lsp
     autocmd!
@@ -327,7 +328,7 @@ augroup file_switch
     autocmd! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '.'
     autocmd! BufEnter *.c   let b:fswitchdst = 'h'     | let b:fswitchlocs = '.'
 augroup END
-nnoremap <C-s> :FSHere<CR>
+nnoremap <silent> <C-s> :FSHere<CR>
 " }}}
 
 " Searching {{{1
@@ -339,8 +340,8 @@ set smartcase
 " requires xxd, on Arch install xxd-standalone from AUR
 
 " Convert to and from hexdump
-nnoremap <Leader>x :%!xxd<CR>:set filetype=xxd<CR>
-nnoremap <Leader>X :%!xxd -r<CR>:filetype detect<CR>
+nnoremap <silent> <Leader>x :%!xxd<CR>:set filetype=xxd<CR>
+nnoremap <silent> <Leader>X :%!xxd -r<CR>:filetype detect<CR>
 " }}}
 
 " Window Shortcuts {{{1
@@ -354,17 +355,17 @@ nnoremap <C-w>x :Bclose<CR>
 set splitbelow
 set splitright
 
-nnoremap <C-n> :bnext<CR>
-nnoremap <C-p> :bNext<CR>
+nnoremap <silent> <C-n> :bnext<CR>
+nnoremap <silent> <C-p> :bNext<CR>
 
-nnoremap [t :tabprevious<CR>
-nnoremap ]t :tabnext<CR>
-nnoremap g[t :-tabmove<CR>
-nnoremap g]t :+tabmove<CR>
+nnoremap <silent> [t :tabprevious<CR>
+nnoremap <silent> ]t :tabnext<CR>
+nnoremap <silent> g[t :-tabmove<CR>
+nnoremap <silent> g]t :+tabmove<CR>
 " }}}
 
 " Copy shortcuts {{{1
-nnoremap <M-a> :%y+<CR>
+nnoremap <silent> <M-a> :%y+<CR>
 vnoremap <M-a> "+y
 inoremap <M-a> <ESC>:%y+<CR>a
 " }}}

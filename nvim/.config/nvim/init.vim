@@ -218,7 +218,8 @@ augroup END
 " https://shapeshed.com/vim-statuslines/
 
 set statusline=
-set statusline+=%#PmenuSel#\ %n\                           " Buffer number
+" Display a marker if an LSP server is running
+set statusline+=%#TabLineSel#%{exists(\"b:active_lsp_client\")?\"\ \ !\ \":\"\"}
 set statusline+=%#Visual#\ %F\                             " File path
 set statusline+=%#WarningMsg#%h%m%r                        " {help, modified, readonly} flags
 set statusline+=%#CursorColumn#%=                          " Align the rest to the right

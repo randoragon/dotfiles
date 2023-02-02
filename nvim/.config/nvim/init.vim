@@ -218,11 +218,10 @@ augroup END
 " Status Bar{{{1
 " https://jdhao.github.io/2019/11/03/vim_custom_statusline/
 " https://shapeshed.com/vim-statuslines/
-
 set statusline=
 " Display a marker if an LSP server is running
-set statusline+=%#TabLineSel#%{exists(\"b:active_lsp_client\")?\"\ \ !\ \":\"\"}
-set statusline+=%#Visual#\ %F\                             " File path
+set statusline+=%{%luaeval(\"require('lsptools').status()\")%}
+set statusline+=%#Visual#\ %f\                             " File path
 set statusline+=%#WarningMsg#%h%m%r                        " {help, modified, readonly} flags
 set statusline+=%#CursorColumn#%=                          " Align the rest to the right
 set statusline+=%#Conceal#%y\                              " File type

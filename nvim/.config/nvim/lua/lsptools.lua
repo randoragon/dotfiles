@@ -42,4 +42,13 @@ function M.toggle(name, cmd, query_list)
 	end
 end
 
+function M.status()
+	if vim.b.active_lsp_client == nil then
+		return ''
+	end
+	local warnings = #vim.diagnostic.get(0, {severity=vim.diagnostic.severity.WARN})
+	local errors   = #vim.diagnostic.get(0, {severity=vim.diagnostic.severity.ERROR})
+	return '%#DiffChange# '..warnings..' %#ErrorMsg# '..errors..' '
+end
+
 return M

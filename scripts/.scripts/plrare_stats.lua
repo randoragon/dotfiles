@@ -103,6 +103,10 @@ function parse_input()
 	local no_plays = 0
 	local artists = {}
 	local albums = {}
+	if #data == 0 then
+		print('No playcount data found.')
+		return
+	end
 	for i, item in ipairs(data) do
 		io.write(string.format('\rReading %d/%d %.2f%%... (%dh)',
 			i, #data, i / #data * 100, no_seconds // 3600))

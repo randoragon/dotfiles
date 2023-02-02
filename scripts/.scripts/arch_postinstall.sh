@@ -87,18 +87,19 @@ overwrite_crontabs=
 snow=1
 
 printf "\n%sINSTALLATION WIZARD%s\n" "$(tput setaf 3)" "$(tput sgr0)"
-ask "(1/12) Install graphical session?"   && need_gui=1
-ask "(2/12) Install development tools?"   && need_devtools=1
-ask "(3/12) Install music library tools?" && need_music=1
-ask "(4/12) Install email client?"        && need_email=1
-ask "(5/12) Install bluetooth support?"   && need_bluetooth=1
-ask "(6/12) Install sync tools?"          && need_sync=1
-ask "(7/12) Install newsboat?"            && need_newsboat=1
-ask "(8/12) Install youtube-dl?"          && need_ytdl=1
-ask "(9/12) Install OBS?"                 && need_obs=1
-ask "(10/12) Install fun commands?"       && need_funcmd=1
-ask "(11/12) Overwrite local dotfiles?"   && overwrite_dotfiles=1
-ask "(12/12) Overwrite local crontabs with dotfiles'?" && overwrite_crontabs=1
+ask "(1/13) Install graphical session?"      && need_gui=1
+ask "(2/13) Install development tools?"      && need_devtools=1
+ask "(3/13) Install music library tools?"    && need_music=1
+ask "(4/13) Install music production tools?" && need_makemusic=1
+ask "(5/13) Install email client?"           && need_email=1
+ask "(6/13) Install bluetooth support?"      && need_bluetooth=1
+ask "(7/13) Install sync tools?"             && need_sync=1
+ask "(8/13) Install newsboat?"               && need_newsboat=1
+ask "(9/13) Install youtube-dl?"             && need_ytdl=1
+ask "(10/13) Install OBS?"                   && need_obs=1
+ask "(11/13) Install fun commands?"          && need_funcmd=1
+ask "(12/13) Overwrite local dotfiles?"      && overwrite_dotfiles=1
+ask "(13/13) Overwrite local crontabs with dotfiles'?" && overwrite_crontabs=1
 printf "\n"
 sleep 1
 if ask "Configuration Complete. Begin Installation?"; then
@@ -156,7 +157,7 @@ for package in \
     curl wget reflector \
     htop \
     ntp \
-    the_silver_searcher fzf \
+    ripgrep fzf \
     pkgfile \
     dash \
     python python-pip \
@@ -168,8 +169,7 @@ for package in \
     trash-cli \
     bc libqalculate \
     rsync \
-    pkg-config binutils \
-    ripgrep
+    pkg-config binutils
 do
     pacinstall "$package"
 done
@@ -241,6 +241,18 @@ done
     mp3info \
     lua lua-filesystem \
     rust openssl-1.1
+do
+    pacinstall "$package"
+done
+
+[ -n "$need_makemusic" ] && for package in \
+    alsa-utils \
+    helm-synth \
+    geonkick \
+    x42-plugins \
+    sfizz \
+    vmpk \
+    ardour
 do
     pacinstall "$package"
 done

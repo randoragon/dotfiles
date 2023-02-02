@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # Search all notes for a substring. For more details
 # on notes read comments inside the note script.
@@ -8,14 +8,14 @@
 # when you actually need to perform a serious search.
 #
 # Dependencies:
-# - ag (the_silver_searcher)
+# - ripgrep
 # - gpg
 # - tar
 
 notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
-[ ! -d "$notedir" ] && echo "agnote: notes dir not found" >&2 && exit 1
+[ ! -d "$notedir" ] && echo "rgnote: notes dir not found" >&2 && exit 1
 
-dir="$(mktemp --tmpdir -d agnote.XXXXX)"
+dir="$(mktemp --tmpdir -d rgnote.XXXXX)"
 
 # Recreate directory structure
 cd "$notedir" && find . -type d \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
@@ -24,7 +24,7 @@ cd "$notedir" && find . -type d \! -path '\./\.*' -exec realpath --relative-to "
 done
 
 # Decrypt & copy over all notes
-tmp="$(mktemp --tmpdir agnote.XXXXX)"
+tmp="$(mktemp --tmpdir rgnote.XXXXX)"
 export dir
 cd "$notedir" && find . -type f \! -path '\./\.*' | while read -r f; do
     relpath="$(realpath --relative-to "$notedir" -- "$f")"
@@ -33,7 +33,7 @@ cd "$notedir" && find . -type f \! -path '\./\.*' | while read -r f; do
 done
 
 # Store query results
-ag -H --color "$@" "$dir" >"$tmp"
+rg -H --color always "$@" "$dir" >"$tmp"
 
 # Shred sensitive data
 find "$dir" -type f -exec shred -x '{}' \;

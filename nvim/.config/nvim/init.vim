@@ -138,14 +138,14 @@ let g:zig_fmt_autosave = 0
 
 "{{{1 QuickFix/Location List
 " https://vi.stackexchange.com/a/8535
-command! Cnext try | cnext | catch | cfirst | catch | endtry
-command! Cprev try | cprev | catch | clast  | catch | endtry
-command! Lnext try | lnext | catch | lfirst | catch | endtry
-command! Lprev try | lprev | catch | llast  | catch | endtry
-nnoremap [q :Cprev<CR>
-nnoremap ]q :Cnext<CR>
-nnoremap [d :Lprev<CR>
-nnoremap ]d :Lnext<CR>
+command! Cnext try | cnext | catch /^Vim\%((\a\+)\)\=:E553:/ | cfirst | catch | echo "No quickfix list" | endtry
+command! Cprev try | cprev | catch /^Vim\%((\a\+)\)\=:E553:/ | clast  | catch | echo "No quickfix list" | endtry
+command! Lnext try | lnext | catch /^Vim\%((\a\+)\)\=:E553:/ | lfirst | catch | echo "No location list" | endtry
+command! Lprev try | lprev | catch /^Vim\%((\a\+)\)\=:E553:/ | llast  | catch | echo "No location list" | endtry
+nnoremap <silent> [q :Cprev<CR>
+nnoremap <silent> ]q :Cnext<CR>
+nnoremap <silent> [d :Lprev<CR>
+nnoremap <silent> ]d :Lnext<CR>
 
 " https://rafaelleru.github.io/blog/quickfix-autocomands/
 let g:clist_isopen = 0
@@ -195,7 +195,9 @@ nnoremap <silent> <Leader>d :try \| call ToggleLList() \| catch \| echo "No loca
 nnoremap <Space> <Nop>
 function! ConfigureLSP()
     set omnifunc=v:lua.vim.lsp.omnifunc
+    lua vim.diagnostic.config({virtual_text=false})
     lua require "lsp_signature".on_attach({hint_prefix=''})
+    nnoremap <silent> <Leader><C-l> :call v:lua.vim.diagnostic.reset()<CR>
     nnoremap <silent> <Leader>e :call v:lua.vim.diagnostic.open_float()<CR>
     nnoremap <silent> <Leader>[e :call v:lua.vim.diagnostic.goto_prev()<CR>
     nnoremap <silent> <Leader>]e :call v:lua.vim.diagnostic.goto_next()<CR>

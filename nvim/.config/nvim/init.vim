@@ -18,6 +18,7 @@ set encoding=utf-8
 set listchars=tab:\ \ ┊,trail:·,nbsp:·
 set list
 set timeoutlen=500
+set history=1000
 " }}}
 
 " Plugins {{{1
@@ -461,4 +462,15 @@ function! EnterFileMode(filetype)
                 \:echo<CR>
     echo "Entered ".a:filetype." mode. Press <Leader> twice to exit."
 endfunction
+"}}}
+
+"{{{1 ShaDa configuration
+set shada="!,'0,/100,<100,s10,h"
+
+" Read and write ShaDa automatically to share state between instances
+augroup shada
+    autocmd!
+    autocmd FocusGained,CursorHold * rshada
+    autocmd FocusLost,TextYankPost,RecordingLeave * wshada
+augroup END
 "}}}

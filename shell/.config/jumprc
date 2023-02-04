@@ -31,6 +31,7 @@ alias cdwm='cd ~/Software/dwm && ls'
 alias cdwmb='cd ~/Software/dwmblocks && ls'
 alias cdlb='cd ~/.local/bin && ls'
 alias cdls='cd ~/.local/share && ls'
+alias cdlt='cd ~/.local/state && ls'
 alias cdmn='cd /mnt && ls'
 alias cdmt="cd /run/media/$(whoami) && ls"
 alias cdmu='cd ~/Music && ls'

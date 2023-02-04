@@ -25,6 +25,7 @@ export PDF_READER=zathura
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop:$HOME/.local/share/
 export TRASH="${XDG_DATA_HOME:-$HOME/.local/share}/Trash/files"
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"

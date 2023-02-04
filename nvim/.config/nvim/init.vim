@@ -193,7 +193,10 @@ nnoremap <silent> <Leader>d :try \| call ToggleLList() \| catch \| echo "No loca
 "}}}
 
 "{{{1 LSP Configuration
+let g:project_mode = 0
+nnoremap <silent> <Leader>p :let g:project_mode = !g:project_mode<CR>
 nnoremap <Space> <Nop>
+
 function! ConfigureLSP()
     set omnifunc=v:lua.vim.lsp.omnifunc
     lua vim.diagnostic.config({virtual_text=false})
@@ -211,8 +214,13 @@ function! ConfigureLSP()
 endfunction
 augroup lsp
     autocmd!
+    autocmd BufEnter * if g:project_mode && exists('g:active_lsp_config') | let b:active_lsp_client = v:lua.vim.lsp.start(g:active_lsp_config) | endif
     autocmd LspAttach * call ConfigureLSP()
     autocmd DiagnosticChanged * lua vim.diagnostic.setloclist({open=false})
+    autocmd ColorScheme *
+                \  highlight MyProjectMode ctermfg=7 ctermbg=6 cterm=bold guifg=White guibg=DarkCyan
+                \| highlight MyStatusBarWarn ctermfg=3 ctermbg=3 cterm=bold guifg=Orange guibg=#4b2800 gui=bold
+                \| highlight MyStatusBarError ctermfg=1 ctermbg=1 cterm=bold guifg=Red guibg=#4b0000 gui=bold
 augroup END
 "}}}
 
@@ -220,14 +228,14 @@ augroup END
 " https://jdhao.github.io/2019/11/03/vim_custom_statusline/
 " https://shapeshed.com/vim-statuslines/
 set statusline=
-" Display a marker if an LSP server is running
-set statusline+=%{%luaeval(\"require('lsptools').status()\")%}
-set statusline+=%#Visual#\ %f\                             " File path
-set statusline+=%#WarningMsg#%h%m%r                        " {help, modified, readonly} flags
-set statusline+=%#CursorColumn#%=                          " Align the rest to the right
-set statusline+=%#Conceal#%y\                              " File type
-set statusline+=%{&fileencoding?&fileencoding:&encoding}\  " File encoding
-set statusline+=%#MsgArea#\ \ %v:%l/%L\ (%p%%)\            " Position in file
+set statusline+=%#MyProjectMode#%{g:project_mode?'·':''}       " Project Mode indicator
+set statusline+=%{%luaeval(\"require('lsptools').status()\")%} " LSP warnings/errors
+set statusline+=%#Visual#\ %f\                                 " File path
+set statusline+=%#WarningMsg#%h%m%r                            " {help, modified, readonly} flags
+set statusline+=%#CursorColumn#%=                              " Align the rest to the right
+set statusline+=%#Conceal#%y\                                  " File type
+set statusline+=%{&fileencoding?&fileencoding:&encoding}\      " File encoding
+set statusline+=%#MsgArea#\ \ %v:%l/%L\ (%p%%)\                " Position in file
 set statusline+=\ 
 
 " }}}

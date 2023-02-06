@@ -57,7 +57,7 @@ command LSPFileToggleVue    lua require('lsptools').toggle('vuelsp', {'vls'})
 command LSPProjectToggleVue lua require('lsptools').toggle('vuelsp', {'vls'},
             \ {
             \  '.git',
-            \  'tsconfig.json', 'jsconfig.json', 'package.json'
+            \  'tsconfig.json', 'jsconfig.json', 'package.json',
             \  'Makefile', 'makefile', 'GNUmakefile',
             \  'CMakeLists.txt'
             \ })

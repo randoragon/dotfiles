@@ -41,7 +41,6 @@ require 'paq' {
     'ap/vim-css-color';
     'psliwka/vim-smoothie';
     'lervag/vimtex';
-    'ray-x/lsp_signature.nvim';
     'ziglang/zig.vim';
 }
 EOF
@@ -200,7 +199,6 @@ nnoremap <Space> <Nop>
 function! ConfigureLSP()
     set omnifunc=v:lua.vim.lsp.omnifunc
     lua vim.diagnostic.config({virtual_text=false})
-    lua require "lsp_signature".on_attach({hint_prefix=''})
     nnoremap <silent> <Leader><C-l> :call v:lua.vim.diagnostic.reset()<CR>
     nnoremap <silent> <Leader>e :call v:lua.vim.diagnostic.open_float()<CR>
     nnoremap <silent> <Leader>[e :call v:lua.vim.diagnostic.goto_prev()<CR>
@@ -209,6 +207,7 @@ function! ConfigureLSP()
     nnoremap <silent> gd :call v:lua.vim.lsp.buf.definition()<CR>
     nnoremap <silent> gD :call v:lua.vim.lsp.buf.declaration()<CR>
     nnoremap <silent> <Space> :call v:lua.vim.lsp.buf.hover()<CR>
+    nnoremap <silent> <Leader><Space> :call v:lua.vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> <Leader>r :call v:lua.vim.lsp.buf.references()<CR>
     nnoremap <silent> <Leader>R :call v:lua.vim.lsp.buf.rename()<CR>
 endfunction
@@ -218,7 +217,7 @@ augroup lsp
     autocmd LspAttach * call ConfigureLSP()
     autocmd DiagnosticChanged * lua vim.diagnostic.setloclist({open=false})
     autocmd ColorScheme *
-                \  highlight MyProjectMode ctermfg=7 ctermbg=6 cterm=bold guifg=White guibg=DarkCyan
+                \  highlight MyProjectMode ctermfg=7 ctermbg=6 cterm=bold guifg=White guibg=DarkCyan gui=bold
                 \| highlight MyStatusBarWarn ctermfg=3 ctermbg=3 cterm=bold guifg=Orange guibg=#4b2800 gui=bold
                 \| highlight MyStatusBarError ctermfg=1 ctermbg=1 cterm=bold guifg=Red guibg=#4b0000 gui=bold
 augroup END

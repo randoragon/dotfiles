@@ -477,7 +477,7 @@ set shada="!,'0,/100,<100,s10,h"
 " Read and write ShaDa automatically to share state between instances
 augroup shada
     autocmd!
-    autocmd FocusGained,CursorHold * rshada
-    autocmd FocusLost,TextYankPost,RecordingLeave * wshada
+    autocmd FocusGained,CursorHold * silent! rshada
+    autocmd FocusLost,TextYankPost,RecordingLeave * silent! wshada
 augroup END
 "}}}

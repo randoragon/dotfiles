@@ -44,9 +44,9 @@ inoremap <buffer> <Leader>td <td></td><C-o>F<
 inoremap <buffer> <Leader>tR rowspan=""<Left>
 inoremap <buffer> <Leader>tC colspan=""<Left>
 
-inoremap <buffer> <Leader>ff <form action=""><CR><,,><CR><BS></form><Esc>2k$F"i
-inoremap <buffer> <Leader>fi <input type="" name="<,,>"><C-o>5F"
-inoremap <buffer> <Leader>fl <label for=""><,,></label><C-o>"
+inoremap <buffer> <Leader>ff <form action=""><CR><Tab><,,><CR></form><Esc>2k$F"i
+inoremap <buffer> <Leader>fi <input type="" name="<,,>"><C-o>3F"
+inoremap <buffer> <Leader>fl <label for=""><,,></label><C-o>F"
 inoremap <buffer> <Leader>fs <input type="submit" value="<,,>"><C-o>3F"
 
 inoremap <buffer> <Leader>.i id=""<Left>

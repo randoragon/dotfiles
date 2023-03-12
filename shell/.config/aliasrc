@@ -31,6 +31,7 @@ alias R='R --no-save'
 alias bt='bluetoothctl'
 alias tl='tllocalmgr'
 alias dmpd='setsid mpd-discord-rpc >/dev/null 2>&1 &'
+alias plhist='$PAGER +G ~/Music/Playlists/.History.m3u'
 
 # Git
 alias gs="git status"

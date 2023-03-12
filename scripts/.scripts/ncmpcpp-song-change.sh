@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script is run every time ncmpcpp registers a song change.
 
@@ -43,14 +43,14 @@ if [ -n "$switch_wallpaper" ]; then
 fi
 
 
-# KEEP TRACK OF PER-SONG PLAY COUNT
+# KEEP TRACK OF PER-SONG PLAY COUNT AND HISTORY
 #
-# The script will only increment if a given track plays for at least 50% of its
-# duration.
+# A track is only considered if it plays for at least 50% of its duration.
 #
-# Uncomment the line below to enable
+# Uncomment the line(s) below to enable
 #keep_count=1
-if [ -n "$keep_count" ]; then
+keep_hist=1
+if [ -n "$keep_count" ] || [ -n "$keep_hist" ]; then
     data="$(mpc current --format %file%%time%)"
     file="${data%*}"
     time="${data#*}"
@@ -66,7 +66,7 @@ if [ -n "$keep_count" ]; then
         multi=$(( multi * 60 ))
     done
 
-    # If the song changes in less than 50% of the duration, don't increment
+    # If the song changes in less than 50% of the duration, do nothing
     (
         # Kill the last subshell
         pidfile="${XDG_CACHE_HOME:-$HOME/.cache}/ncmpcpp-playcount.pid"
@@ -75,6 +75,11 @@ if [ -n "$keep_count" ]; then
 
         sleep $(( seconds / 2 ))
         [ "$(mpc current --format %file%)" != "$file" ] && exit
-        plrare bump "$file"
+
+        [ -n "$keep_count" ] && plrare bump "$file"
+        [ -n "$keep_hist" ] && {
+            mkdir -p -- ~/Music/Playlists
+            echo "$file" >>~/Music/Playlists/.History.m3u
+        }
     ) &
 fi

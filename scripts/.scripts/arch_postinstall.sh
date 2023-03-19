@@ -263,7 +263,7 @@ done
 [ -n "$need_newsboat" ]  && pacinstall newsboat
 [ -n "$need_bluetooth" ] && pacinstall bluez bluez-utils
 [ -n "$need_ytdl" ]      && pacinstall youtube-dl yt-dlp
-[ -n "$need_obs" ]       && pacinstall obs
+[ -n "$need_obs" ]       && pacinstall obs-studio
 
 [ -n "$need_funcmd" ] && for package in \
     figlet sl asciiquarium neofetch

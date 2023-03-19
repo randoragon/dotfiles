@@ -79,7 +79,7 @@ if [ -n "$keep_count" ] || [ -n "$keep_hist" ]; then
         [ -n "$keep_count" ] && plrare bump "$file"
         [ -n "$keep_hist" ] && {
             mkdir -p -- ~/Music/Playlists
-            echo "$file" >>~/Music/Playlists/.History.m3u
+            echo "$file" >>~/Music/Playlists/history."$HOST".m3u
         }
     ) &
 fi

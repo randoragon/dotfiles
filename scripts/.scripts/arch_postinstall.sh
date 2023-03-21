@@ -148,11 +148,12 @@ for package in \
     stow \
     networkmanager net-tools udisks2 \
     iputils wpa_supplicant wireless_tools \
-    pipewire lib32-pipewire pipewire-pulse pipewire-jack pipewire-alsa \
+    pipewire pipewire-pulse pipewire-jack pipewire-alsa \
     wireplumber carla pulsemixer \
     physlock \
     ntfs-3g dosfstools which \
     arch-install-scripts \
+    lf \
     tmux mpv \
     curl wget reflector \
     htop \
@@ -187,7 +188,7 @@ done
     picom \
     bspwm sxhkd polybar \
     ttf-bitstream-vera ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
-    ttf-libertine libertinus-font \
+    ttf-linux-libertine libertinus-font \
     xwallpaper \
     sxiv \
     xarchiver \
@@ -300,7 +301,6 @@ for package in \
     pass-update \
     pass-extension-tail \
     rar \
-    lf \
     sparklines-git \
     dashbinsh
 do

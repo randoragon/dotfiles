@@ -188,7 +188,7 @@ done
     picom \
     bspwm sxhkd polybar \
     ttf-bitstream-vera ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
-    ttf-linux-libertine libertinus-font \
+    ttf-liberation ttf-carlito libertinus-font \
     xwallpaper \
     sxiv \
     xarchiver \
@@ -200,7 +200,7 @@ done
     libnotify dunst \
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
-    md4c wkhtmltopdf webkit2gtk gcr \
+    md4c webkit2gtk gcr \
     asciidoctor rubygems mathjax2 graphviz gnuplot \
     texlive-core texlive-latexextra texlive-science
 do

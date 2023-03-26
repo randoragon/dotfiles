@@ -1,15 +1,16 @@
 #!/bin/sh
 
 # LaTeX make - a script for converting a LaTeX document to PDF in a contained
-# way, without any of the aux files junk. The document is compiled twice,
-# unless a "\nofiles" line is found within.
+# way, without any of the aux files junk. The document is compiled once if a
+# "\nofiles" line is found, otherwise it is compiled thrice if a
+# "\bibliography{}" line is found, otherwise it is compiled two times.
 #
 # As a convention to circumvent some troubles with paths, the latex source may
 # use the "\x13OUTDIR\x13" placeholder anywhere, and it will be substituted for
 # the full path to the output directory before compiling.
 #
 # Usage:
-#   lxmake [-d DIR] INPUT [OUTPUT]
+#   lxmake [-d DIR] [-m] INPUT [OUTPUT]
 #
 # If either INPUT or OUTPUT are '-', they are interpreted as stdin/stdout
 # respectively. If INPUT is '-' and OUTPUT is not specified, '-' is assumed.
@@ -18,6 +19,9 @@
 # creating a temporary one. This is helpful if you want the files to remain and
 # potentially speed up the next build. This option is mutually exclusive with
 # printing OUTPUT to stdout.
+#
+# The -m option can be passed when INPUT is a subfile of a main document,
+# and it will cause the script to compile that main document instead.
 
 cleanup () {
     [ -f "$tinput" ] && shred -u -- "$tinput"
@@ -28,7 +32,7 @@ cleanup () {
         rm -rf -- "$dir"
     }
 }
-unset tinput dir d_dir graphnames mockmain compile_main
+unset tinput dir d_dir graphnames mockmain compile_main use_biblatex
 trap cleanup EXIT INT TERM
 
 # Parse command-line arguments
@@ -63,12 +67,14 @@ output="$2"
     input="$inputdir/$maintex"
 }
 
-# Validate input and output, store input in a temporary file
+
+# Validate input and output, store input in a temporary file, set inputdir
 [ "$input" != - ] && [ ! -r "$input" ] && echo 'lxmake: failed to read input file' >&2 && exit 1
 tinput="$(mktemp --tmpdir lxmake.XXXXX)"
 if [ "$input" = - ]; then
     [ -z "$output" ] && output=-
     cat - >"$tinput"
+    inputdir="$PWD"
 else
     [ -n "$output" ] && [ "$output" != - ] && output="$(realpath -- "$output")"
     inputdir="$(dirname -- "$input")"
@@ -76,7 +82,7 @@ else
     input="$(basename -- "$input")"
     [ -z "$output" ] && output="${input%.*}.pdf"
     cp -- "$input" "$tinput"
-    unset inputdir
+
 fi
 unset input # no longer needed
 [ ! -s "$tinput" ] && echo 'lxmake: no input provided' >&2 && exit 2
@@ -84,6 +90,15 @@ unset input # no longer needed
     echo 'lxmake: specify output filename or drop -d (mutually exclusive)' >&2
     exit 5
 }
+
+# Check if biblatex is enabled
+grep -q '^\\usepackage\(\[.*\]\)\?{biblatex}' "$tinput" && {
+    use_biblatex=1
+
+    # Rewrite addbibresource paths to be absolute
+    sed -i "s^\\\\addbibresource{\([^/].*\)}\\\\addbibresource{$(realpath -- "$inputdir")/\1}" "$tinput"
+}
+unset inputdir # no longer needed
 
 # compile <dir> <jobname> (jobname is extensionless output filename)
 compile () {
@@ -134,7 +149,7 @@ graphviz_cleanup() {
     :>"$graphnames"
 }
 
-# Determine build output directory and jobname
+# Determine output directory and jobname
 if [ -z "$d_dir" ]; then
     dir="$(mktemp --tmpdir -d lxmake.XXXXX.d)"
     jobname=lxmake
@@ -151,6 +166,9 @@ for culprit in "$dir/tmpmaster.gvpr" "$dir/tmpmaster.graphviz"; do
         exit 7
     }
 done
+
+# Copy bibtex file to the output directory
+[ -n "$use_biblatex" ] && [ -f "$bibfile" ] && cp -- "$bibfile" "$dir/$jobname.bib"
 
 # Substitute \x13OUTDIR\x13 into output dir path.
 # If input is a subfile, this also has to be run on the main file!
@@ -172,6 +190,13 @@ maintex="$(grep -o '^\\documentclass\[.*\]{subfiles}' "$tinput")"
 printf '%sCOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
 compile "$dir" "$jobname"
 grep -q '^\\nofiles\b' "$tinput" || {
+    [ -n "$use_biblatex" ] && {
+        ls -a -- "$dir"
+        printf '%sRUNNING BIBER%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
+        biber  --output-directory "$dir" -- "$jobname"
+        printf '\n%sRECOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
+        compile "$dir" "$jobname"
+    }
     graphnames="$(mktemp --tmpdir lxmake.graphs.XXXXX)"
     graphviz_setup "$dir"
     printf '\n%sRECOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2

@@ -202,7 +202,7 @@ done
     imagemagick graphicsmagick \
     md4c webkit2gtk gcr \
     asciidoctor rubygems mathjax2 graphviz gnuplot \
-    texlive-core texlive-latexextra texlive-science
+    texlive-core texlive-latexextra texlive-science texlive-bibtexextra biber
 do
     pacinstall "$package"
 done

@@ -252,6 +252,7 @@ done
     helm-synth \
     geonkick \
     x42-plugins \
+    distrho-ports-lv2 \
     sfizz \
     vmpk \
     ardour

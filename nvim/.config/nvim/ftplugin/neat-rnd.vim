@@ -2,7 +2,7 @@
 source ~/.config/nvim/ftplugin/groff.vim
 
 " Preview
-nnoremap <buffer> <Leader>m :write \| AsyncRun ntmake "%:p" -mrnd > "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
+nnoremap <buffer> <Leader>m :write \| AsyncRun ntmake "%:p" -mrnd > "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
 
 " Embed screenshots
 nnoremap <buffer> <Leader>is :call sshot#ImportScreenshot(function('sshot#NeatRoffScreenshot'), '.pdf')<CR>

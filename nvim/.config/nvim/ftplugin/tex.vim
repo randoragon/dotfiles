@@ -36,10 +36,10 @@ inoremap <buffer> <M-CR> <Esc>:call AppendDoubleBackslash()<CR>o
 nnoremap <buffer> <M-Space> :call AppendDoubleBackslash()<CR>
 
 " Preview
-nnoremap <buffer> <Leader>m :write \| AsyncRun lxmake -d "${XDG_CACHE_HOME:-~/.cache}" "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
-nnoremap <buffer> <Leader>M :write \| AsyncRun lxmake -md "${XDG_CACHE_HOME:-~/.cache}" "%:p" "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
-nnoremap <buffer> <Leader>.m :view $HOME/.cache/vim-preview.log"<CR>:syn match Error '^\!.*'<CR>:syn match Boolean 'line [0-9]\+'<CR>:syn match Boolean 'l\.[0-9]\+'<CR>:syn match DbgBreakPt '.*[Ww]arning[^:]*:'<CR>GM
-nnoremap <buffer> <Leader>p :AsyncRun setsid xdg-open "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
+nnoremap <buffer> <Leader>m :write \| AsyncRun lxmake -d "$VIM_PREVIEW_HOME" "%:p" "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
+nnoremap <buffer> <Leader>M :write \| AsyncRun lxmake -md "$VIM_PREVIEW_HOME" "%:p" "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
+nnoremap <buffer> <Leader>.m :view $VIM_PREVIEW_HOME/vim-preview.log"<CR>:syn match Error '^\!.*'<CR>:syn match Boolean 'line [0-9]\+'<CR>:syn match Boolean 'l\.[0-9]\+'<CR>:syn match DbgBreakPt '.*[Ww]arning[^:]*:'<CR>GM
+nnoremap <buffer> <Leader>p :AsyncRun setsid xdg-open "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
 
 " General snippets
 inoremap <buffer> <Leader>p \paragraph{} <,,><C-o>F}

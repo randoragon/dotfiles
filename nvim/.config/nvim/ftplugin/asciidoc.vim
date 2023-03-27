@@ -2,9 +2,9 @@ set tw=80
 inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
 
 " Preview
-nnoremap <buffer> <Leader>m :write \| AsyncRun echo $ASCIIDOCTOR_OPTS -a 'imagesdir=%:p:h' -o "${XDG_CACHE_HOME:-~/.cache}/vim-preview.html" -- "%:p" \| xargs asciidoctor && pkill -HUP surf<CR>
-nnoremap <buffer> <Leader>p :AsyncRun setsid surf -S -- file://"${XDG_CACHE_HOME:-~/.cache}/vim-preview.html"<CR>
-nnoremap <buffer> <Leader>P :AsyncRun xdg-open file://"${XDG_CACHE_HOME:-~/.cache}/vim-preview.html"<CR>
+nnoremap <buffer> <Leader>m :write \| AsyncRun echo $ASCIIDOCTOR_OPTS -a 'imagesdir=%:p:h' -o "$VIM_PREVIEW_HOME/vim-preview.html" -- "%:p" \| xargs asciidoctor && pkill -HUP surf<CR>
+nnoremap <buffer> <Leader>p :AsyncRun setsid surf -S -- file://"$VIM_PREVIEW_HOME/vim-preview.html"<CR>
+nnoremap <buffer> <Leader>P :AsyncRun xdg-open file://"$VIM_PREVIEW_HOME/vim-preview.html"<CR>
 
 " Embed screenshots
 nnoremap <buffer> <Leader>is :call sshot#ImportScreenshot(function('sshot#AsciidocScreenshot'), '.png')<CR>

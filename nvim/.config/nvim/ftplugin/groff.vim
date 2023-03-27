@@ -1,6 +1,6 @@
 " Preview
-nnoremap <buffer> <Leader>m :write \| AsyncRun groff -kept -Tpdf "%:p" > "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
-nnoremap <buffer> <Leader>p :AsyncRun setsid xdg-open "${XDG_CACHE_HOME:-~/.cache}/vim-preview.pdf"<CR>
+nnoremap <buffer> <Leader>m :write \| AsyncRun groff -kept -Tpdf "%:p" > "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
+nnoremap <buffer> <Leader>p :AsyncRun setsid xdg-open "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
 
 " Smart trick for jumping to/out of input field
 inoremap <buffer> <C-L> <Esc>/<,,><CR>"_cf>

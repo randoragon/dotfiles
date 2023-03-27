@@ -1,5 +1,5 @@
-nnoremap <Leader>m :write \| AsyncRun mscgen -Tpng -i % -o "${XDG_CACHE_HOME:-~/.cache}/vim-preview.png"<CR>
-nnoremap <Leader>p :AsyncRun setsid sxiv -bps f "${XDG_CACHE_HOME:-~/.cache}/vim-preview.png"<CR>
+nnoremap <Leader>m :write \| AsyncRun mscgen -Tpng -i % -o "$VIM_PREVIEW_HOME/vim-preview.png"<CR>
+nnoremap <Leader>p :AsyncRun setsid sxiv -bps f "$VIM_PREVIEW_HOME/vim-preview.png"<CR>
 
 inoremap <Leader>l label=""<Left>
 inoremap <Leader>i \|\|\|;<CR>

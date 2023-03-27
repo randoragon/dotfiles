@@ -319,7 +319,6 @@ done
     xrectsel \
     xidlehook \
     farbfeld-git \
-    fsearch-git \
     ttf-unifont \
     mscgen \
     tllocalmgr-git

@@ -3,12 +3,11 @@ super+ctrl + r
 	pkill -USR1 -x sxhkd && notify-send -u low 'sxhkd' 'reloaded config'
 
 # Generic Launchers
-ctrl+alt + {i,w,d,f,b,h}
+ctrl+alt + {i,w,d,b,h}
 	{\
 	st -e lf,\
 	~/.scripts/surfbm,\
 	discord,\
-	fsearch,\
 	~/.scripts/book,\
 	st -n floatme -e htop\
 	}

@@ -1,12 +1,11 @@
 # FOR XORG:       DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
 # FOR PULSEAUDIO: XDG_RUNTIME_DIR=/run/user/1000
 
-# Update dwmblocks updates module
-*/30 * * * * ~/.scripts/dwmblocks/updates
-
-# Update search databases
+# Update search database
 0 12 * * * ~/.local/bin/updatedb
-0 12 * * * /usr/bin/fsearch --update-database
+
+# Sync up history playlists
+*/30 * * * * ~/.scripts/history-playlists-sync.sh
 
 # Run user anacron jobs
 0 * * * * /usr/sbin/anacron -s -t ${XDG_CONFIG_HOME:-$HOME/.config}/anacron/etc/anacrontab -S ${XDG_CONFIG_HOME:-$HOME/.config}/anacron/spool

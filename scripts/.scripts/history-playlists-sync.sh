@@ -15,6 +15,9 @@ PLSYNCDIR=~/Sync/Music/Playlists
 host="$(cat /etc/hostname)"
 myhist="hist.$host.m3u"
 
+# My phone app export m3u with some metadata and absolute paths - clean it up
+sed -i -e '/^#/d' -e "s|^Sync/Music/||" "$PLSYNCDIR/hist.phone.m3u"
+
 find "$PLSYNCDIR" -maxdepth 1 -type f -name 'hist.*.m3u' \! -name "$myhist" \
     -exec cp -- '{}' "$PLMUSICDIR/" \;
 

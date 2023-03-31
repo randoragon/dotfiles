@@ -79,7 +79,8 @@ if [ -n "$keep_count" ] || [ -n "$keep_hist" ]; then
         [ -n "$keep_count" ] && plrare bump "$file"
         [ -n "$keep_hist" ] && {
             mkdir -p -- ~/Music/Playlists
-            echo "$file" >>"$HOME/Music/Playlists/hist.$(cat /etc/hostname).m3u"
+            host="$(cat /etc/hostname)"
+            sed -i "1i$file" "$HOME/Music/Playlists/hist.$host.m3u"
         }
     ) &
 fi

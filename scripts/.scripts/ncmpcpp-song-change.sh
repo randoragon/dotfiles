@@ -69,9 +69,9 @@ if [ -n "$keep_count" ] || [ -n "$keep_hist" ]; then
     # If the song changes in less than 50% of the duration, do nothing
     (
         # Kill the last subshell
-        pidfile="${XDG_CACHE_HOME:-$HOME/.cache}/ncmpcpp-playcount.pid"
+        pidfile="${TMPDIR:-/tmp}/ncmpcpp-playcount.$(whoami).pid"
         [ -s "$pidfile" ] && kill "$(cat -- "$pidfile")"
-        echo $$ >"$pidfile"
+        sh -c "echo \$PPID >'$pidfile'"
 
         sleep $(( seconds / 2 ))
         [ "$(mpc current --format %file%)" != "$file" ] && exit

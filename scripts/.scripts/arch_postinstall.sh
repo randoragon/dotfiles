@@ -228,7 +228,7 @@ done
     gdb valgrind \
     patch lazygit \
     tokei ctags highlight \
-    shellcheck \
+    bash-language-server shellcheck \
     lua lua-filesystem
 do
     pacinstall "$package"

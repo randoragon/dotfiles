@@ -18,10 +18,11 @@ myhist="hist.$host.m3u"
 # Export own history to Sync first
 [ -f "$PLMUSICDIR/$myhist" ] && cp -- "$PLMUSICDIR/$myhist" "$PLSYNCDIR/"
 
-# Sleep for a minute -- if there are Sync devices present in the network,
-# they will have posted their histories at the same time, so before pulling
-# it's a good idea to wait for the synchronization to happen.
-sleep 60
+# Sleep for some time -- if there are Sync devices present in the
+# network, they will have posted their histories at the same time, so
+# before pulling it's a good idea to wait for the synchronization to
+# happen.
+[ $# -ge 1 ] && sleep "$1"
 
 # Import other devices' histories from Sync
 # Preprocess: my phone app export m3u with some metadata and absolute paths - clean it up

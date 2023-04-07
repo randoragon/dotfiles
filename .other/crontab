@@ -5,7 +5,7 @@
 0 12 * * * ~/.local/bin/updatedb
 
 # Sync up history playlists
-*/30 * * * * ~/.scripts/history-playlists-sync.sh
+*/30 * * * * ~/.scripts/history-playlists-sync.sh 30
 
 # Run user anacron jobs
 0 * * * * /usr/sbin/anacron -s -t ${XDG_CONFIG_HOME:-$HOME/.config}/anacron/etc/anacrontab -S ${XDG_CONFIG_HOME:-$HOME/.config}/anacron/spool

@@ -223,7 +223,7 @@ done
 
 [ -n "$need_devtools" ] && for package in \
     ccls lua-language-server texlab gopls \
-    python-lsp-server python-rope python-pyflakes \
+    python-lsp-server flake8 \
     vscode-html-languageserver vscode-css-languageserver typescript-language-server \
     gdb valgrind \
     patch lazygit \
@@ -308,8 +308,12 @@ do
     yayinstall "$package"
 done
 
-# Zig Language Server
-[ -n "$need_devtools" ] && yayinstall zls
+[ -n "$need_devtools" ] && for package in \
+    zls \
+    python-pylsp-mypy
+do
+    yayinstall "$package"
+done
 
 [ -n "$need_gui" ] && for package in \
     numix-icon-theme-git \

@@ -37,20 +37,20 @@ eprint () {
 
 pacinstall () {
     printf "installing $(tput setaf $col2)%s$(tput sgr0)... " "$*"
-    if pacman -Qsq "^$@$" >/dev/null; then
+    if pacman -Qsq "^$1$" >/dev/null; then
         printf "found.\n"
     else
-        sudo pacman -Sq --needed --noconfirm "$@" >/dev/null || printf "failed.\n"
+        sudo pacman -Sq --needed --noconfirm "$1" >/dev/null || printf "failed.\n"
         printf "done.\n"
     fi
 }
 
 yayinstall () {
     printf "installing $(tput setaf $col2)%s$(tput sgr0)... " "$*"
-    if pacman -Qsq "^$@$" >/dev/null; then
+    if pacman -Qsq "^$1$" >/dev/null; then
         printf "found.\n"
     else
-        yay -Sqa --needed --noconfirm "$@" >/dev/null || printf "failed.\n"
+        yay -Sqa --needed --noconfirm "$1" >/dev/null || printf "failed.\n"
         printf "done.\n"
     fi
 }

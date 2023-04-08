@@ -14,8 +14,16 @@ inoremap <buffer> <Leader>.f filter(, <,,>)<C-o>F(<Right>
 inoremap <buffer> <Leader>m map(, <,,>)<C-o>F(<Right>
 inoremap <buffer> <Leader>s split()<Left>
 
-command LSPFileTogglePy    lua require('lsptools').toggle('pylsp', {'pylsp'})
-command LSPProjectTogglePy lua require('lsptools').toggle('pylsp', {'pylsp'},
+command LSPFileTogglePy    lua require('lsp').toggle({
+            \   name = 'pylsp',
+            \   cmd  = {'pylsp'},
+            \   settings = require('lsp.settings.pylsp'),
+            \ })
+command LSPProjectTogglePy lua require('lsp').toggle({
+            \   name = 'pylsp',
+            \   cmd  = {'pylsp'},
+            \   settings = require('lsp.settings.pylsp'),
+            \ },
             \ {
             \  '.git',
             \  'setup.py',

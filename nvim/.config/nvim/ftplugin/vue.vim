@@ -53,8 +53,16 @@ inoremap <buffer> <Leader>.i id=""<Left>
 inoremap <buffer> <Leader>.c class=""<Left>
 inoremap <buffer> <Leader>.s src=""<Left>
 
-command LSPFileToggleVue    lua require('lsptools').toggle('vuelsp', {'vls'})
-command LSPProjectToggleVue lua require('lsptools').toggle('vuelsp', {'vls'},
+command LSPFileToggleVue    lua require('lsp').toggle({
+            \   name = 'vls',
+            \   cmd  = {'vls'},
+            \   settings = require('lsp.settings.vls'),
+            \ })
+command LSPProjectToggleVue lua require('lsp').toggle({
+            \   name = 'vls',
+            \   cmd  = {'vls'},
+            \   settings = require('lsp.settings.vls'),
+            \ },
             \ {
             \  '.git',
             \  'tsconfig.json', 'jsconfig.json', 'package.json',

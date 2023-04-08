@@ -228,7 +228,7 @@ augroup END
 " https://shapeshed.com/vim-statuslines/
 set statusline=
 set statusline+=%#MyProjectMode#%{g:project_mode?'·':''}       " Project Mode indicator
-set statusline+=%{%luaeval(\"require('lsptools').status()\")%} " LSP warnings/errors
+set statusline+=%{%luaeval(\"require('lsp').status()\")%}      " LSP warnings/errors
 set statusline+=%#Visual#\ %f\                                 " File path
 set statusline+=%#WarningMsg#%h%m%r                            " {help, modified, readonly} flags
 set statusline+=%#CursorColumn#%=                              " Align the rest to the right

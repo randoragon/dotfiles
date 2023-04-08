@@ -12,8 +12,16 @@ inoremap <buffer> <Leader>R read -r
 inoremap <buffer> <Leader>p printf 
 inoremap <buffer> <Leader>x exit
 
-command LSPFileToggleBash    lua require('lsptools').toggle('bashlsp', {'bash-language-server', 'start'})
-command LSPProjectToggleBash lua require('lsptools').toggle('bashlsp', {'bash-language-server', 'start'},
+command LSPFileToggleBash    lua require('lsp').toggle({
+            \   name = 'bash-language-server',
+            \   cmd  = {'bash-language-server', 'start'},
+            \   settings = require('lsp.settings.bash-language-server'),
+            \ })
+command LSPProjectToggleBash lua require('lsp').toggle({
+            \   name = 'bash-language-server',
+            \   cmd  = {'bash-language-server', 'start'},
+            \   settings = require('lsp.settings.bash-language-server'),
+            \ },
             \ {
             \  '.git',
             \  'Makefile', 'makefile', 'GNUmakefile',

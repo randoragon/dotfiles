@@ -16,13 +16,21 @@ inoremap <buffer> <Leader>E if err != nil {}<Left><CR>
 inoremap <buffer> <Leader>o else if 
 inoremap <buffer> <Leader>f for 
 
-command LSPFileToggleC    lua require('lsptools').toggle('golsp', {'gopls'})
-command LSPProjectToggleC lua require('lsptools').toggle('golsp', {'gopls'},
+command LSPFileToggleGo    lua require('lsp').toggle({
+            \   name = 'gopls',
+            \   cmd  = {'gopls'},
+            \   settings = require('lsp.settings.gopls'),
+            \ })
+command LSPProjectToggleGo lua require('lsp').toggle({
+            \   name = 'gopls',
+            \   cmd  = {'gopls'},
+            \   settings = require('lsp.settings.gopls'),
+            \ },
             \ {
             \  '.git',
             \  'go.mod', 'go.sum', 'main.go',
             \  'Makefile', 'makefile', 'GNUmakefile',
             \  'CMakeLists.txt'
             \ })
-nnoremap <buffer> <silent> <Leader>l :LSPFileToggleC<CR>
-nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleC<CR>
+nnoremap <buffer> <silent> <Leader>l :LSPFileToggleGo<CR>
+nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleGo<CR>

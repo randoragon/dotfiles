@@ -40,13 +40,21 @@ inoremap <buffer> \|= <Esc>y^gi= <C-r>" \|
 inoremap <buffer> >>= <Esc>y^gi= <C-r>" >>
 inoremap <buffer> <<= <Esc>y^gi= <C-r>" <<
 
-command LSPFileToggleLua    lua require('lsptools').toggle('lualsp', {'lua-language-server'})
-command LSPProjectToggleLua lua require('lsptools').toggle('lualsp', {'lua-language-server'},
+command LSPFileToggleLua    lua require('lsp').toggle({
+            \   name = 'lua-language-server',
+            \   cmd  = {'lua-language-server'},
+            \   settings = require('lsp.settings.lua-language-server'),
+            \ })
+command LSPProjectToggleLua lua require('lsp').toggle({
+            \   name = 'lua-language-server',
+            \   cmd  = {'lua-language-server'},
+            \   settings = require('lsp.settings.lua-language-server'),
+            \ },
             \ {
-            \  '.git',
-            \  'init.lua',
-            \  'Makefile', 'makefile', 'GNUmakefile',
-            \  'CMakeLists.txt'
+            \   '.git',
+            \   'init.lua',
+            \   'Makefile', 'makefile', 'GNUmakefile',
+            \   'CMakeLists.txt'
             \ })
 nnoremap <buffer> <silent> <Leader>l :LSPFileToggleLua<CR>
 nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleLua<CR>

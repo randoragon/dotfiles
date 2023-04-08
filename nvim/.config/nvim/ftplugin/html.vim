@@ -58,8 +58,16 @@ inoremap <buffer> <Leader>.i id=""<Left>
 inoremap <buffer> <Leader>.c class=""<Left>
 inoremap <buffer> <Leader>.s src=""<Left>
 
-command LSPFileToggleHTML    lua require('lsptools').toggle('htmllsp', {'vscode-html-languageserver', '--stdio'})
-command LSPProjectToggleHTML lua require('lsptools').toggle('htmllsp', {'vscode-html-languageserver', '--stdio'},
+command LSPFileToggleHTML    lua require('lsp').toggle({
+            \   name = 'vscode-html-languageserver',
+            \   cmd  = {'vscode-html-languageserver', '--stdio'},
+            \   settings = require('lsp.settings.vscode-html-languageserver'),
+            \ })
+command LSPProjectToggleHTML lua require('lsp').toggle({
+            \   name = 'vscode-html-languageserver',
+            \   cmd  = {'vscode-html-languageserver', '--stdio'},
+            \   settings = require('lsp.settings.vscode-html-languageserver'),
+            \ },
             \ {
             \  '.git',
             \  'index.html',

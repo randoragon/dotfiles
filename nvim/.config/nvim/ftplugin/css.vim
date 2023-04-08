@@ -6,8 +6,16 @@ set softtabstop=0
 inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
 inoremap <buffer> <M-n> <C-o>o
 
-command LSPFileToggleCSS    lua require('lsptools').toggle('csslsp', {'vscode-css-languageserver', '--stdio'})
-command LSPProjectToggleCSS lua require('lsptools').toggle('csslsp', {'vscode-css-languageserver', '--stdio'},
+command LSPFileToggleCSS    lua require('lsp').toggle({
+            \   name = 'vscode-css-languageserver',
+            \   cmd  = {'vscode-css-languageserver', '--stdio'},
+            \   settings = require('lsp.settings.vscode-css-languageserver'),
+            \ })
+command LSPProjectToggleCSS lua require('lsp').toggle({
+            \   name = 'vscode-css-languageserver',
+            \   cmd  = {'vscode-css-languageserver', '--stdio'},
+            \   settings = require('lsp.settings.vscode-css-languageserver'),
+            \ },
             \ {
             \  '.git',
             \  'index.html',

@@ -1,0 +1,5 @@
+# https://mypy.readthedocs.io/en/stable/config_file.html#config-file
+# vim: ft=dosini
+
+[mypy]
+ignore_missing_imports = true

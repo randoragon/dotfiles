@@ -12,8 +12,13 @@ return {
 		},
 
 		workspace = {
-			checkThirdParty = true,
-			library = { '${3rd}/lfs/library' },
+			checkThirdParty = false,
+			library = {
+				'~/.config/lua/init.lua',
+				'~/Software/LLS-Addons/addons/luafilesystem/module/library',
+				'~/Software/LLS-Addons/addons/lpeg/module/library',
+				'~/Software/LLS-Addons/addons/penlight//module/library',
+			},
 		},
 	},
 }

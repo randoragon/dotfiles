@@ -8,7 +8,7 @@ set -e
 
 col1=2 # sections
 col2=4 # package names
-scount=16
+scount=17
 
 ask () {
     printf '%s [Y/n] ' "$*"
@@ -372,6 +372,20 @@ if [ -n "$need_music" ]; then
     printf "done.\n"
 else
     echo "'music'" disabled, skipping.
+fi
+sectionend
+
+section "Cloning LLS-Addons"
+if [ -n "$need_devtools" ]; then
+    if [ -d ~/Software/LLS-Addons ]; then
+        printf 'LLS-Addons already installed, skipping\n'
+    else
+        cd ~/Software
+        git clone "https://github.com/LuaLS/LLS-Addons"
+        cd ~/Software/LLS-Addons
+        git submodule update --init --recursive
+        printf "done.\n"
+    fi
 fi
 sectionend
 

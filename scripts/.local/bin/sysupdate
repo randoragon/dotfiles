@@ -2,7 +2,7 @@
 
 col1=2
 col2=11
-scount=3
+scount=4
 
 section () {
     printf "$(tput setaf $col1)$(tput bold)(%s/%s) %s $(tput setaf $col2)%s$(tput setaf $col1)...$(tput sgr0)\n" "$snow" "$scount" "$1" "$2"
@@ -28,3 +28,16 @@ sectionend
 
 section "RUNNING" "nvim +PaqUpdate +qall"
 nvim +PlugUpdate +qall
+
+section "PULLING" "latest LLS-Addons"
+if [ ! -d ~/Software/LLS-Addons ]; then
+    echo 'LLS-Addons not installed, skipping'
+else
+    pullmsg="$(git -C ~/Software/LLS-Addons pull)"
+    if [ "$pullmsg" = 'Already up to date.' ]; then
+        echo "$pullmsg"
+    else
+        git -C ~/Software/LLS-Addons submodule update --init --recursive
+    fi
+fi
+sectionend

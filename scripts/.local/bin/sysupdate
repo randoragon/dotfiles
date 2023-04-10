@@ -18,18 +18,20 @@ sudo true
 
 snow=1
 
-section "RUNNING" "pacman -Syu"
+section RUNNING 'pacman -Syu'
 sudo pacman -Syu
 sectionend
 
-section "RUNNING" "yay -Syua"
+section RUNNING 'yay -Syua'
 yay -Syua
 sectionend
 
-section "RUNNING" "nvim +PaqUpdate +qall"
-nvim +PlugUpdate +qall
+section UPDATING 'neovim plugins'
+nvim --headless +'autocmd User PaqDoneSync qall' +PaqSync
+echo
+sectionend
 
-section "PULLING" "latest LLS-Addons"
+section PULLING 'latest LLS-Addons'
 if [ ! -d ~/Software/LLS-Addons ]; then
     echo 'LLS-Addons not installed, skipping'
 else

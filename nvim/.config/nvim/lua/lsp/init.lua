@@ -9,30 +9,25 @@ vim.b.active_lsp_config = nil
 vim.g.active_lsp_config = nil
 
 -- Toggle a LSP for the current buffer.
--- If query_list is not passed, root directory will be set to the current
--- buffer's directory.
+-- If query_list is not passed, root directory will be set to null.
 function M.toggle(config, query_list)
 	if vim.b.active_lsp_client == nil then
-		if not config.root_dir then
-			if query_list then
-				local found = vim.fs.find(query_list, {
-					upward=true,
-					stop=os.getenv('HOME'),
-					})[1]
-				if found then
-					found = vim.fs.dirname(found)
-				else
-					found = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
-				end
-				local root = vim.api.nvim_exec(string.format('echo input("lsp root: ", "%s", "dir")', found:gsub('^'..os.getenv('HOME'), '~')), true)
-				vim.cmd.echo()
-				if #root == 0 then
-					return
-				end
-				config.root_dir = vim.fs.normalize(root)
+		if not config.root_dir and query_list then
+			local found = vim.fs.find(query_list, {
+				upward=true,
+				stop=os.getenv('HOME'),
+			})[1]
+			if found then
+				found = vim.fs.dirname(found)
 			else
-				config.root_dir = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
+				found = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
 			end
+			local root = vim.api.nvim_exec(string.format('echo input("lsp root: ", "%s", "dir")', found:gsub('^'..os.getenv('HOME'), '~')), true)
+			vim.cmd.echo()
+			if #root == 0 then
+				return
+			end
+			config.root_dir = vim.fs.normalize(root)
 		end
 
 		vim.b.active_lsp_config = config

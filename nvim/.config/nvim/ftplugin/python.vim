@@ -1,8 +1,6 @@
-inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
-
 nnoremap <buffer> <Leader>m :write \| split \| terminal python3 -i %<CR>
-inoremap <buffer> <M-n> <C-o>o
-set tw=80
+nnoremap <buffer> <Leader>M :write \| split \| terminal bpython -i %<CR>
+
 inoremap <buffer> <Leader>r return 
 inoremap <buffer> <Leader>i if 
 inoremap <buffer> <Leader>e else:

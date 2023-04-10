@@ -1,9 +1,10 @@
-call ToggleIndentStyle()
+set expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
 nnoremap <buffer> <Leader>m :write \| split \| terminal sh -i %<CR>
-inoremap <buffer> <M-n> <C-o>o
+
 inoremap <buffer> <Leader>r return 
 inoremap <buffer> <Leader>i if 
+inoremap <buffer> <Leader>T then<CR>fi<Esc>O
 inoremap <buffer> <Leader>e else
 inoremap <buffer> <Leader>o elif 
 inoremap <buffer> <Leader>f for 

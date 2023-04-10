@@ -481,3 +481,35 @@ augroup shada
     autocmd FocusLost,TextYankPost,RecordingLeave * silent! wshada
 augroup END
 "}}}
+
+"{{{1 <,,> marker configuration
+function! NextInsMarker()
+    if search("<,,>", "cswz") == 0
+        throw "No markers present."
+    endif
+endfunction
+
+function GetLastSelection()
+    let [line1, ncol1] = getpos("'<")[1:2]
+    let [line2, ncol2] = getpos("'>")[1:2]
+    let lines = getline(line1, line2)
+    if len(lines) == 0
+        return ''
+    endif
+    let lines[-1] = lines[-1][:ncol2 - (&selection == 'inclusive' ? 1 : 2)]
+    let lines[0] = lines[0][ncol1 - 1:]
+    while lines[0][0] == "\t"
+        let lines[0] = lines[0][1:]
+    endwhile
+    return join(lines, "\n")
+endfunction
+
+" Jump to next marker and enter insert mode
+nnoremap <buffer> <M-p> :call NextInsMarker()<CR>"_cf>
+inoremap <buffer> <M-p> <Esc>:call NextInsMarker()<CR>"_cf>
+
+" Get current line/selection and paste at the next marker
+nnoremap <buffer> <M-P> ^"py$:call NextInsMarker()<CR>"pPl"_df>
+inoremap <buffer> <M-P> <Esc>^"py$:call NextInsMarker()<CR>"pPl"_df>
+vnoremap <buffer> <M-P> <Esc>:call NextInsMarker()<CR>"=GetLastSelection()<CR>Pl"_df>
+"}}}

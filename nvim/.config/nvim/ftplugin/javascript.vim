@@ -1,8 +1,4 @@
-set tw=80
-set noexpandtab
-set shiftwidth=2
-set tabstop=2
-set softtabstop=0
+set shiftwidth=2 tabstop=2
 
 command LSPFileToggleJS    lua require('lsp').toggle({
             \   name = 'typescript-language-server',

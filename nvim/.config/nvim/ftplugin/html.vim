@@ -1,16 +1,10 @@
-set tw=80
-set noexpandtab
-set shiftwidth=2
-set tabstop=2
-set softtabstop=0
-inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
+set shiftwidth=2 tabstop=2
 
 " Preview
 nnoremap <buffer> <Leader>m :write \| AsyncRun pkill -HUP surf<CR>
 nnoremap <buffer> <Leader>p :AsyncRun setsid surf -S -- file://"%:p"<CR>
 nnoremap <buffer> <Leader>P :AsyncRun xdg-open file://%:p"<CR>
 
-inoremap <buffer> <M-n> <C-o>o
 inoremap <buffer> <Leader>c <!--  --><C-o>F 
 
 inoremap <buffer> <Leader>p <p></p><C-o>F<

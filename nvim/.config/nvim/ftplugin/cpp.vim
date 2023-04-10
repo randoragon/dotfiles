@@ -1,7 +1,4 @@
-inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
-
-inoremap <buffer> <M-n> <C-o>o
-set tw=80
+inoremap <buffer> <Leader>I #include 
 inoremap <buffer> <Leader>t static 
 inoremap <buffer> <Leader>c const 
 inoremap <buffer> <Leader>.c /*  */<Left><Left><Left>

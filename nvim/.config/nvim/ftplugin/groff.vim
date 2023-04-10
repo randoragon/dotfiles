@@ -2,9 +2,6 @@
 nnoremap <buffer> <Leader>m :write \| AsyncRun groff -kept -Tpdf "%:p" > "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
 nnoremap <buffer> <Leader>p :AsyncRun setsid xdg-open "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
 
-" Smart trick for jumping to/out of input field
-inoremap <buffer> <C-L> <Esc>/<,,><CR>"_cf>
-
 " Inline font type
 inoremap <buffer> <Leader>ii \fI\fP<,,><C-O>F\
 inoremap <buffer> <Leader>ib \fB\fP<,,><C-O>F\

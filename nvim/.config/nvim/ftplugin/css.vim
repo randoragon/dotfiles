@@ -1,10 +1,4 @@
-set tw=80
-set noexpandtab
-set shiftwidth=4
-set tabstop=4
-set softtabstop=0
-inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
-inoremap <buffer> <M-n> <C-o>o
+set shiftwidth=4 tabstop=4
 
 command LSPFileToggleCSS    lua require('lsp').toggle({
             \   name = 'vscode-css-languageserver',

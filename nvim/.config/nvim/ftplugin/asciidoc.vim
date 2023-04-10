@@ -1,5 +1,4 @@
 set tw=80
-inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
 
 " Preview
 nnoremap <buffer> <Leader>m :write \| AsyncRun echo $ASCIIDOCTOR_OPTS -a 'imagesdir=%:p:h' -o "$VIM_PREVIEW_HOME/vim-preview.html" -- "%:p" \| xargs asciidoctor && pkill -HUP surf<CR>

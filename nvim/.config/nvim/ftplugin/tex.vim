@@ -1,27 +1,5 @@
-set textwidth=80
 set tabstop=4 shiftwidth=4
 nnoremap <Leader>.t :VimtexTocOpen<CR>
-
-" Jump to/write selection to next '<,,>' marker
-nnoremap <buffer> <M-p> /<,,><CR>"_cf>
-inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
-function WriteLastSelection()
-    let [line1, ncol1] = getpos("'<")[1:2]
-    let [line2, ncol2] = getpos("'>")[1:2]
-    let lines = getline(line1, line2)
-    if len(lines) == 0
-        return ''
-    endif
-    let lines[-1] = lines[-1][:ncol2 - (&selection == 'inclusive' ? 1 : 2)]
-    let lines[0] = lines[0][ncol1 - 1:]
-    while lines[0][0] == "\t"
-        let lines[0] = lines[0][1:]
-    endwhile
-    return join(lines, "\n")
-endfunction
-nnoremap <buffer> <M-P> ^"py$/<,,><CR>"pPn"_df>
-inoremap <buffer> <M-P> <Esc>^"py$/<,,><CR>"pPn"_df>
-vnoremap <buffer> <M-P> <Esc>/<,,><CR>"=WriteLastSelection()<CR>Pn"_df>
 
 " Helper binds for inserting \\ at the end of a line
 function AppendDoubleBackslash()

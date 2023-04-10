@@ -1,8 +1,5 @@
-inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
-
 nnoremap <buffer> <Leader>m :split \| terminal javac %<CR>
-inoremap <buffer> <M-n> <C-o>o
-set tw=80
+
 inoremap <buffer> <Leader>k package 
 inoremap <buffer> <Leader>m import 
 inoremap <buffer> <Leader>t static 

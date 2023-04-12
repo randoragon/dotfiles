@@ -13,6 +13,8 @@ set hidden
 nnoremap c "_c
 vnoremap <silent> . :normal .<CR>
 nnoremap <silent> <Leader>/ :nohlsearch<CR>
+nmap <PageUp> <C-u>
+nmap <PageDown> <C-d>
 filetype plugin indent on
 set encoding=utf-8
 set listchars=tab:\ \ ┊,trail:·,nbsp:·

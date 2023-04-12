@@ -1,0 +1,35 @@
+inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
+
+inoremap <buffer> <M-n> <C-o>o
+set tw=80
+inoremap <buffer> <Leader>t static 
+inoremap <buffer> <Leader>c const 
+inoremap <buffer> <Leader>.c /*  */<Left><Left><Left>
+inoremap <buffer> <Leader>s struct 
+inoremap <buffer> <Leader>.z sizeof()<Left>
+inoremap <buffer> <Leader>.s switch () <,,><C-o>F)
+inoremap <buffer> <Leader>r return 
+inoremap <buffer> <Leader>i if () <,,><C-o>F)
+inoremap <buffer> <Leader>e else 
+inoremap <buffer> <Leader>o else if () <,,><C-o>F)
+inoremap <buffer> <Leader>f for () <,,><C-o>F)
+inoremap <buffer> <Leader>w while () <,,><C-o>F)
+
+command LSPFileToggleCSharp    lua require('lsp').toggle({
+            \   name = 'omnisharp',
+            \   cmd  = {'omnisharp', '-lsp'},
+            \   settings = require('lsp.settings.omnisharp'),
+            \ })
+command LSPProjectToggleCSharp lua require('lsp').toggle({
+            \   name = 'omnisharp',
+            \   cmd  = {'omnisharp', '-lsp'},
+            \   settings = require('lsp.settings.omnisharp'),
+            \ },
+            \ {
+            \  '.git',
+            \  '*.csproj',
+            \  'Makefile', 'makefile', 'GNUmakefile',
+            \  'CMakeLists.txt'
+            \ })
+nnoremap <buffer> <silent> <Leader>l :LSPFileToggleCSharp<CR>
+nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleCSharp<CR>

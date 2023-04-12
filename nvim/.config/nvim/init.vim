@@ -44,6 +44,7 @@ require 'paq' {
     'psliwka/vim-smoothie';
     'lervag/vimtex';
     'ziglang/zig.vim';
+    'Vigemus/iron.nvim';
 }
 EOF
 
@@ -136,6 +137,16 @@ augroup END
 let g:zig_fmt_autosave = 0
 " }}}
 
+" iron.nvim {{{2
+lua require('plugins.iron')
+
+nnoremap <Leader>i<Space> :IronRepl<CR><Esc>
+nnoremap <Leader>ir :IronRestart<CR><Esc>
+nnoremap <Leader>ii :IronFocus<CR>
+nnoremap <M-CR> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>
+nnoremap <M-]> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>}j
+" }}}
+
 " }}}
 
 "{{{1 QuickFix/Location List
@@ -210,7 +221,7 @@ function! ConfigureLSP()
     nnoremap <silent> gD :call v:lua.vim.lsp.buf.declaration()<CR>
     nnoremap <silent> <Space> :call v:lua.vim.lsp.buf.hover()<CR>
     nnoremap <silent> <Leader><Space> :call v:lua.vim.lsp.buf.signature_help()<CR>
-    nnoremap <silent> <Leader>r :call v:lua.vim.lsp.buf.references()<CR>
+    nnoremap <silent> <Leader>.R :call v:lua.vim.lsp.buf.references()<CR>
     nnoremap <silent> <Leader>R :call v:lua.vim.lsp.buf.rename()<CR>
 endfunction
 augroup lsp

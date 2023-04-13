@@ -21,16 +21,16 @@ iron.setup {
    },
 
    keymaps = {
-      send_motion = '<Nop>', -- hacked together below
-      visual_send = '<M-CR>',
+      send_motion = '<Leader>is',
+      visual_send = '<M-[>',
       send_file = '<Leader>if',
-      send_line = '<Leader>il',
-      send_mark = '<M-.>',
+      send_line = '<Nop>',
+      send_mark = '<Nop>',
       mark_motion = '<Nop>',
       mark_visual = '<Nop>',
-      remove_mark = '<Nop>',
+      remove_mark = '<Leader>id',
       cr = '<Nop>',
-      interrupt = '<Leader>i<C-c>',
+      interrupt = '<Leader>ii',
       exit = '<Leader>iq',
       clear = '<Leader>i<C-l>',
    },

@@ -140,11 +140,13 @@ let g:zig_fmt_autosave = 0
 " iron.nvim {{{2
 lua require('plugins.iron')
 
-nnoremap <Leader>i<Space> :IronRepl<CR><Esc>
-nnoremap <Leader>ir :IronRestart<CR><Esc>
-nnoremap <Leader>ii :IronFocus<CR>
-nnoremap <M-CR> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>
-nnoremap <M-]> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>}j
+nnoremap <silent> <Leader>i<Space> :IronRepl<CR><Esc>
+nnoremap <silent> <Leader>ir :IronRestart<CR><Esc>
+nnoremap <silent> <Leader>ie :IronFocus<CR>
+nnoremap <silent> <M-{> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>
+nnoremap <silent> <M-}> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>}j
+nnoremap <silent> <M-[> :lua require('iron.core').send_line()<CR><Esc>
+nnoremap <silent> <M-]> :lua require('iron.core').send_line()<CR><Esc>j
 " }}}
 
 " }}}

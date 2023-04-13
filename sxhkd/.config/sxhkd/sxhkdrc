@@ -244,10 +244,10 @@ super{_,+shift,+ctrl} + b
 # SCRATCHPADS
 super + {space,m,n,slash}
 	~/.scripts/bspwm/scratchpad.sh {\
-	sp_term  toggle alacritty --class Alacritty\,sp -t scratchpad,\
-	sp_music toggle alacritty --class Alacritty\,sp ncmpcpp,\
-	sp_news  toggle alacritty --class Alacritty\,sp newsboat,\
-	sp_calc  toggle alacritty --class Alacritty\,sp -t qalc qalc\
+	sp_term  toggle alacritty --class Alacritty\,sp -T scratchpad,\
+	sp_music toggle alacritty --class Alacritty\,sp -e ncmpcpp,\
+	sp_news  toggle alacritty --class Alacritty\,sp -e newsboat,\
+	sp_calc  toggle alacritty --class Alacritty\,sp -T qalc -e qalc\
 	}
 
 # TOGGLE GAPS

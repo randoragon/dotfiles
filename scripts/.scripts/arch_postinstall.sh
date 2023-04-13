@@ -229,7 +229,7 @@ done
     patch lazygit \
     tokei ctags highlight \
     bash-language-server shellcheck \
-    lua lua-filesystem
+    lua lua-filesystem lua-penlight lua-lpeg
 do
     pacinstall "$package"
 done

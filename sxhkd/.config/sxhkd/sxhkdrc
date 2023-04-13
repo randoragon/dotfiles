@@ -5,16 +5,16 @@ super+ctrl + r
 # Generic Launchers
 ctrl+alt + {i,w,d,b,h}
 	{\
-	st -e lf,\
+	alacritty -e lf,\
 	~/.scripts/surfbm,\
 	discord,\
 	~/.scripts/book,\
-	st -n floatme -e htop\
+	alacritty --class Alacritty\,floatme -e htop\
 	}
 
 super + {Return,o,g,c}
 	{\
-	st,\
+	alacritty,\
 	dmenu_run,\
 	~/.scripts/mousemode-run,\
 	snippet\
@@ -82,7 +82,7 @@ shift + {XF86MonBrightnessUp,XF86MonBrightnessDown}
 
 # Shortcuts Help
 super+shift + slash
-	st -e man -l -- ~/dotfiles/.other/keybinds.1
+	alacritty -e man -l -- ~/dotfiles/.other/keybinds.1
 
 # Randomize wallpaper
 super+ctrl{_,+shift} + w
@@ -244,10 +244,10 @@ super{_,+shift,+ctrl} + b
 # SCRATCHPADS
 super + {space,m,n,slash}
 	~/.scripts/bspwm/scratchpad.sh {\
-	sp_term  toggle st -n sp -t scratchpad,\
-	sp_music toggle st -n sp ncmpcpp,\
-	sp_news  toggle st -n sp newsboat,\
-	sp_calc  toggle st -n sp -t qalc qalc\
+	sp_term  toggle alacritty --class Alacritty\,sp -t scratchpad,\
+	sp_music toggle alacritty --class Alacritty\,sp ncmpcpp,\
+	sp_news  toggle alacritty --class Alacritty\,sp newsboat,\
+	sp_calc  toggle alacritty --class Alacritty\,sp -t qalc qalc\
 	}
 
 # TOGGLE GAPS

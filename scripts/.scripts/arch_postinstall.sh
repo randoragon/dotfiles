@@ -187,6 +187,7 @@ done
     xorg-xinit xorg-xkbcomp xorg-drivers \
     picom \
     bspwm sxhkd polybar \
+    alacritty \
     ttf-bitstream-vera ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
     ttf-liberation ttf-carlito libertinus-font \
     xwallpaper \
@@ -406,7 +407,7 @@ fi
 printf "done.\n"
 sectionend
 
-for i in st dmenu surf sent; do
+for i in dmenu surf sent; do
     section "Installing $i"
     if [ -n "$need_gui" ]; then
         cd ~/Software

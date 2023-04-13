@@ -376,17 +376,26 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <Bar> <C-w><Bar>
 nnoremap _ <C-w>_
-nnoremap <C-w>x :Bclose<CR>
+nnoremap <silent> <M-s> :vsplit<CR>
+nnoremap <silent> <M-S> :split<CR>
 set splitbelow
 set splitright
 
-nnoremap <silent> <C-n> :bnext<CR>
-nnoremap <silent> <C-p> :bNext<CR>
+nnoremap <silent> <M-w> :w<CR>
+nnoremap <silent> <M-W> :w!<CR>
+nnoremap <silent> <M-q> :q<CR>
+nnoremap <silent> <M-Q> :q!<CR>
+nnoremap <silent> <M-c> :Bclose<CR>
+nnoremap <silent> <M-C> :Bclose!<CR>
 
-nnoremap <silent> [t :tabprevious<CR>
-nnoremap <silent> ]t :tabnext<CR>
-nnoremap <silent> g[t :-tabmove<CR>
-nnoremap <silent> g]t :+tabmove<CR>
+nnoremap <silent> <M-,> :bnext<CR>
+nnoremap <silent> <M-.> :bNext<CR>
+
+nnoremap <silent> <M-t> :tab split<CR>
+nnoremap <silent> <M-9> :tabprevious<CR>
+nnoremap <silent> <M-0> :tabnext<CR>
+nnoremap <silent> <M-(> :-tabmove<CR>
+nnoremap <silent> <M-)> :+tabmove<CR>
 " }}}
 
 " Copy shortcuts {{{1

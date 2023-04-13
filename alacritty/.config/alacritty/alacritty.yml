@@ -28,15 +28,15 @@ scrolling:
 font:
   size: 11.0
   normal:
-    family: Bitstream Vera Sans Mono
+    family: JetBrains Mono
   bold:
-    family: Bitstream Vera Sans Mono
+    family: JetBrains Mono
     style: Bold
   italic:
-    family: Bitstream Vera Sans Mono
+    family: JetBrains Mono
     style: Italic
   bold_italic:
-    family: Bitstream Vera Sans Mono
+    family: JetBrains Mono
     style: Bold Italic
   builtin_box_drawing: true  # Use Alacritty's built-in font for box drawing
 

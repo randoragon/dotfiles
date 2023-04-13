@@ -188,7 +188,7 @@ done
     picom \
     bspwm sxhkd polybar \
     alacritty \
-    ttf-bitstream-vera ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
+    ttf-jetbrains-mono ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
     ttf-liberation ttf-carlito libertinus-font \
     xwallpaper \
     sxiv \

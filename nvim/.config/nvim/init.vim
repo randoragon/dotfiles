@@ -45,6 +45,7 @@ require 'paq' {
     'lervag/vimtex';
     'ziglang/zig.vim';
     'Vigemus/iron.nvim';
+    'famiu/bufdelete.nvim';
 }
 EOF
 
@@ -388,10 +389,10 @@ set splitright
 
 nnoremap <silent> <M-CR> :w<CR>
 nnoremap <silent> <M-q> :q<CR>
-nnoremap <silent> <M-w> :Bclose<CR>
+nnoremap <silent> <M-w> :Bdelete<CR>
 nnoremap <silent> <Leader><M-CR> :w!<CR>
 nnoremap <silent> <Leader><M-q> :q!<CR>
-nnoremap <silent> <Leader><M-w> :Bclose!<CR>
+nnoremap <silent> <Leader><M-w> :Bdelete!<CR>
 
 nnoremap <silent> <M-n> :bnext<CR>
 nnoremap <silent> <M-p> :bNext<CR>

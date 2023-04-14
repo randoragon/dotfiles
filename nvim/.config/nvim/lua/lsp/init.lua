@@ -30,6 +30,13 @@ function M.toggle(config, query_list)
 			config.root_dir = vim.fs.normalize(root)
 		end
 
+		-- Disable semantic highlighting by default (I'm not a fan)
+		local on_attach = config.on_attach or function(_, _) end
+		config.on_attach = function(client, bufnr)
+			client.server_capabilities.semanticTokensProvider = nil
+			on_attach(client, bufnr)
+		end
+
 		vim.b.active_lsp_config = config
 		vim.g.active_lsp_config = vim.b.active_lsp_config
 		vim.b.active_lsp_client = vim.lsp.start(vim.b.active_lsp_config)

@@ -47,6 +47,10 @@ require 'paq' {
     'Vigemus/iron.nvim';
     'famiu/bufdelete.nvim';
     'tiagovla/scope.nvim';
+    {
+        'nvim-treesitter/nvim-treesitter',
+        run = function() vim.cmd('TSUpdate') end,
+    };
 }
 EOF
 
@@ -158,6 +162,10 @@ lua require('scope').setup()
 
 " kanagawa.nvim {{{2
 lua require('plugins.kanagawa')
+" }}}
+
+" nvim-treesitter {{{2
+lua require('plugins.treesitter')
 " }}}
 
 " }}}

@@ -132,7 +132,7 @@ hints:
        mods: None
      binding:
        key: L
-       mods: Alt
+       mods: Control|Shift
    - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
              [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
      hyperlinks: true
@@ -142,7 +142,7 @@ hints:
        enabled: false
      binding:
        key: Y
-       mods: Alt
+       mods: Control|Shift
 
 # KEY BINDINGS
 # A full list with available key codes can be found here:
@@ -340,15 +340,13 @@ hints:
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
 key_bindings:
-  - { key: K,      mods: Alt,           mode: ~Search,     action: ScrollLineUp       }
-  - { key: J,      mods: Alt,           mode: ~Search,     action: ScrollLineDown     }
-  - { key: U,      mods: Alt,           mode: ~Search,     action: ScrollHalfPageUp   }
-  - { key: D,      mods: Alt,           mode: ~Search,     action: ScrollHalfPageDown }
-  - { key: B,      mods: Alt,           mode: ~Search,     action: ScrollPageUp       }
-  - { key: F,      mods: Alt,           mode: ~Search,     action: ScrollPageDown     }
-  - { key: Equals, mods: Alt,           mode: ~Search,     action: IncreaseFontSize   }
-  - { key: Minus,  mods: Alt,           mode: ~Search,     action: DecreaseFontSize   }
-  - { key: Plus,   mods: Alt|Shift,     mode: ~Search,     action: ResetFontSize      }
+  - { key: K,      mods: Control|Shift, mode: ~Search,     action: ScrollLineUp       }
+  - { key: J,      mods: Control|Shift, mode: ~Search,     action: ScrollLineDown     }
+  - { key: U,      mods: Control|Shift, mode: ~Search,     action: ScrollHalfPageUp   }
+  - { key: D,      mods: Control|Shift, mode: ~Search,     action: ScrollHalfPageDown }
+  - { key: B,      mods: Control|Shift, mode: ~Search,     action: ScrollPageUp       }
+  - { key: F,      mods: Control|Shift, mode: ~Search,     action: ScrollPageDown     }
+  - { key: Plus,   mods: Control|Shift, mode: ~Search,     action: ResetFontSize      }
   - { key: Return, mods: Control|Shift, mode: ~Search,     action: SpawnNewInstance   }
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }

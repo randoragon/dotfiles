@@ -59,6 +59,8 @@ nmap <silent> <Leader>t :Lex!<CR>
 " AutoPairs {{{2
 let g:AutoPairsFlyMode = 1
 let g:AutoPairsShortcutToggle = '<Leader>)'
+let g:AutoPairsShortcutFastWrap = '<M-e>'
+let g:AutoPairsShortcutJump = '<Nop>'
 let g:AutoPairsShortcutBackInsert = '<Leader><Backspace>'
 " }}}
 
@@ -83,13 +85,12 @@ vnoremap <Leader>t; :Tabular/;/l0r1<CR>
 
 " FZF {{{2
 nnoremap <silent> <C-Space>  :GFiles<CR>
+nnoremap <silent> <M-Space>  :Rg<CR>
 nnoremap <silent> <Leader>ff :Files<CR>
 nnoremap <silent> <Leader>fl :Lines<CR>
 nnoremap <silent> <Leader>fc :Commands<CR>
-nnoremap <silent> <Leader>ft :Tags<CR>
 nnoremap <silent> <Leader>fm :Marks<CR>
 nnoremap <silent> <Leader>fh :Helptags<CR>
-nnoremap <silent> <Leader>fa :Ag<CR>
 nnoremap <silent> <Leader>fb :Buffers<CR>
 " }}}
 
@@ -144,9 +145,9 @@ nnoremap <silent> <Leader>i<Space> :IronRepl<CR><Esc>
 nnoremap <silent> <Leader>ir :IronRestart<CR><Esc>
 nnoremap <silent> <Leader>ie :IronFocus<CR>
 nnoremap <silent> <M-{> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>
-nnoremap <silent> <M-}> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>}j
+nnoremap <silent> <M-}> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>}+
 nnoremap <silent> <M-[> :lua require('iron.core').send_line()<CR><Esc>
-nnoremap <silent> <M-]> :lua require('iron.core').send_line()<CR><Esc>j
+nnoremap <silent> <M-]> :lua require('iron.core').send_line()<CR><Esc>+
 " }}}
 
 " }}}
@@ -370,32 +371,46 @@ nnoremap <silent> <Leader>X :%!xxd -r<CR>:filetype detect<CR>
 " }}}
 
 " Window Shortcuts {{{1
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+nnoremap <M-h> <C-w>h
+nnoremap <M-j> <C-w>j
+nnoremap <M-k> <C-w>k
+nnoremap <M-l> <C-w>l
 nnoremap <Bar> <C-w><Bar>
 nnoremap _ <C-w>_
 nnoremap <silent> <M-s> :vsplit<CR>
-nnoremap <silent> <M-S> :split<CR>
+nnoremap <silent> <Leader><M-s> :split<CR>
 set splitbelow
 set splitright
 
-nnoremap <silent> <M-w> :w<CR>
-nnoremap <silent> <M-W> :w!<CR>
+nnoremap <silent> <M-CR> :w<CR>
 nnoremap <silent> <M-q> :q<CR>
-nnoremap <silent> <M-Q> :q!<CR>
-nnoremap <silent> <M-c> :Bclose<CR>
-nnoremap <silent> <M-C> :Bclose!<CR>
+nnoremap <silent> <M-w> :Bclose<CR>
+nnoremap <silent> <Leader><M-CR> :w!<CR>
+nnoremap <silent> <Leader><M-q> :q!<CR>
+nnoremap <silent> <Leader><M-w> :Bclose!<CR>
 
-nnoremap <silent> <M-,> :bnext<CR>
-nnoremap <silent> <M-.> :bNext<CR>
+nnoremap <silent> <M-n> :bnext<CR>
+nnoremap <silent> <M-p> :bNext<CR>
 
 nnoremap <silent> <M-t> :tab split<CR>
 nnoremap <silent> <M-9> :tabprevious<CR>
 nnoremap <silent> <M-0> :tabnext<CR>
 nnoremap <silent> <M-(> :-tabmove<CR>
 nnoremap <silent> <M-)> :+tabmove<CR>
+" }}}
+
+" Map common motions to alt (Meta) modifier {{{1
+" I use these motions all the time and pressing control causes strain on my
+" pinkie finger. Alt can be pressed with the thumb which is easier.
+inoremap <M-h> <Left>
+inoremap <M-j> <Down>
+inoremap <M-k> <Up>
+inoremap <M-l> <Right>
+
+nmap <M-d> <C-d>
+nmap <M-u> <C-u>
+nmap <M-f> <C-f>
+nmap <M-b> <C-b>
 " }}}
 
 " Copy shortcuts {{{1
@@ -529,11 +544,11 @@ function GetLastSelection()
 endfunction
 
 " Jump to next marker and enter insert mode
-nnoremap <buffer> <M-p> :call NextInsMarker()<CR>"_cf>
-inoremap <buffer> <M-p> <Esc>:call NextInsMarker()<CR>"_cf>
+nnoremap <silent> <M-o> :call NextInsMarker()<CR>"_cf>
+inoremap <silent> <M-o> <Esc>:call NextInsMarker()<CR>"_cf>
 
 " Get current line/selection and paste at the next marker
-nnoremap <buffer> <M-P> ^"py$:call NextInsMarker()<CR>"pPl"_df>
-inoremap <buffer> <M-P> <Esc>^"py$:call NextInsMarker()<CR>"pPl"_df>
-vnoremap <buffer> <M-P> <Esc>:call NextInsMarker()<CR>"=GetLastSelection()<CR>Pl"_df>
+nnoremap <silent> <M-O> ^"py$:call NextInsMarker()<CR>"pPl"_df>
+inoremap <silent> <M-O> <Esc>^"py$:call NextInsMarker()<CR>"pPl"_df>
+vnoremap <silent> <M-O> <Esc>:call NextInsMarker()<CR>"=GetLastSelection()<CR>Pl"_df>
 "}}}

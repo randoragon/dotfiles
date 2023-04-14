@@ -1,3 +1,4 @@
+-- https://github.com/kdheepak/tabline.nvim
 kanagawa = require('kanagawa')
 
 kanagawa.setup {

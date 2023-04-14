@@ -35,7 +35,7 @@ require 'paq' {
     'tpope/vim-commentary';
     'glts/vim-radical';
     'glts/vim-magnum';
-    'nanotech/jellybeans.vim';
+    'rebelot/kanagawa.nvim';
     'jiangmiao/auto-pairs';
     'godlygeek/tabular';
     'skywind3000/asyncrun.vim';
@@ -148,6 +148,10 @@ nnoremap <silent> <M-{> :lua require('iron.core').run_motion('send_motion')<CR>i
 nnoremap <silent> <M-}> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>}+
 nnoremap <silent> <M-[> :lua require('iron.core').send_line()<CR><Esc>
 nnoremap <silent> <M-]> :lua require('iron.core').send_line()<CR><Esc>+
+" }}}
+
+" kanagawa.nvim {{{2
+lua require('plugins.kanagawa')
 " }}}
 
 " }}}
@@ -449,13 +453,10 @@ nnoremap gj j
 
 " Enable 256 color support, set colorscheme {{{1
 syntax enable
-let g:palenight_terminal_italics = 1
-let g:jellybeans_use_term_italics = 1
-let g:badwolf_darkgutter = 1
 if $DISPLAY != ""
     set termguicolors
     set background=dark
-    colorscheme jellybeans
+    colorscheme kanagawa
     if &term =~ '256color'
         " Disable background color erase (BCE) so that color schemes
         " work properly when Vim is used inside tmux and GNU screen
@@ -465,16 +466,18 @@ else
     " fallback colorscheme for TTY
     colorscheme ron
 endif
+
 " Make background transparent on any colorscheme, embolden current line number
 function TransparentBG()
-    highlight Normal     guibg=NONE ctermbg=NONE
-    highlight Title      guibg=NONE ctermbg=NONE
-    highlight LineNr     guibg=NONE ctermbg=NONE
-    highlight Folded     guibg=NONE ctermbg=NONE
-    highlight NonText    guibg=NONE ctermbg=NONE
-    highlight FoldColumn guibg=NONE ctermbg=NONE
-    highlight SignColumn guibg=NONE ctermbg=NONE
-    highlight CursorLine guibg=NONE ctermbg=NONE
+    highlight Normal       guibg=NONE ctermbg=NONE
+    highlight Title        guibg=NONE ctermbg=NONE
+    highlight LineNr       guibg=NONE ctermbg=NONE
+    highlight Folded       guibg=NONE ctermbg=NONE
+    highlight NonText      guibg=NONE ctermbg=NONE
+    highlight FoldColumn   guibg=NONE ctermbg=NONE
+    highlight SignColumn   guibg=NONE ctermbg=NONE
+    highlight CursorLine   guibg=NONE ctermbg=NONE
+    highlight CursorLineNr guibg=NONE ctermbg=NONE
 endfunction
 autocmd VimEnter,ColorScheme * call TransparentBG()
 " }}}

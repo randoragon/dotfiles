@@ -46,6 +46,7 @@ require 'paq' {
     'ziglang/zig.vim';
     'Vigemus/iron.nvim';
     'famiu/bufdelete.nvim';
+    'tiagovla/scope.nvim';
 }
 EOF
 
@@ -149,6 +150,10 @@ nnoremap <silent> <M-(> :lua require('iron.core').run_motion('send_motion')<CR>i
 nnoremap <silent> <M-)> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>}+
 nnoremap <silent> <M-9> :lua require('iron.core').send_line()<CR><Esc>
 nnoremap <silent> <M-0> :lua require('iron.core').send_line()<CR><Esc>+
+" }}}
+
+" scope.nvim {{{2
+lua require('scope').setup()
 " }}}
 
 " kanagawa.nvim {{{2
@@ -397,7 +402,7 @@ nnoremap <silent> <Leader><M-w> :Bdelete!<CR>
 nnoremap <silent> <M-n> :bnext<CR>
 nnoremap <silent> <M-p> :bNext<CR>
 
-nnoremap <silent> <M-t> :tab split<CR>
+nnoremap <silent> <M-t> :tabnew<CR>
 nnoremap <silent> <M-[> :tabprevious<CR>
 nnoremap <silent> <M-]> :tabnext<CR>
 nnoremap <silent> <M-{> :-tabmove<CR>

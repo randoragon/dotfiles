@@ -144,10 +144,10 @@ lua require('plugins.iron')
 nnoremap <silent> <Leader>i<Space> :IronRepl<CR><Esc>
 nnoremap <silent> <Leader>ir :IronRestart<CR><Esc>
 nnoremap <silent> <Leader>ie :IronFocus<CR>
-nnoremap <silent> <M-{> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>
-nnoremap <silent> <M-}> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>}+
-nnoremap <silent> <M-[> :lua require('iron.core').send_line()<CR><Esc>
-nnoremap <silent> <M-]> :lua require('iron.core').send_line()<CR><Esc>+
+nnoremap <silent> <M-(> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>
+nnoremap <silent> <M-)> :lua require('iron.core').run_motion('send_motion')<CR>ip<Esc>}+
+nnoremap <silent> <M-9> :lua require('iron.core').send_line()<CR><Esc>
+nnoremap <silent> <M-0> :lua require('iron.core').send_line()<CR><Esc>+
 " }}}
 
 " kanagawa.nvim {{{2
@@ -397,10 +397,10 @@ nnoremap <silent> <M-n> :bnext<CR>
 nnoremap <silent> <M-p> :bNext<CR>
 
 nnoremap <silent> <M-t> :tab split<CR>
-nnoremap <silent> <M-9> :tabprevious<CR>
-nnoremap <silent> <M-0> :tabnext<CR>
-nnoremap <silent> <M-(> :-tabmove<CR>
-nnoremap <silent> <M-)> :+tabmove<CR>
+nnoremap <silent> <M-[> :tabprevious<CR>
+nnoremap <silent> <M-]> :tabnext<CR>
+nnoremap <silent> <M-{> :-tabmove<CR>
+nnoremap <silent> <M-}> :+tabmove<CR>
 " }}}
 
 " Map common motions to alt (Meta) modifier {{{1

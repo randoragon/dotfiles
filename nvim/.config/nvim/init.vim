@@ -242,7 +242,7 @@ function! ConfigureLSP()
     nnoremap <silent> gD :call v:lua.vim.lsp.buf.declaration()<CR>
     nnoremap <silent> <Space> :call v:lua.vim.lsp.buf.hover()<CR>
     nnoremap <silent> <Leader><Space> :call v:lua.vim.lsp.buf.signature_help()<CR>
-    nnoremap <silent> <Leader>.R :call v:lua.vim.lsp.buf.references()<CR>
+    nnoremap <silent> <Leader>r :call v:lua.vim.lsp.buf.references()<CR>
     nnoremap <silent> <Leader>R :call v:lua.vim.lsp.buf.rename()<CR>
 endfunction
 augroup lsp

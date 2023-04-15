@@ -25,11 +25,11 @@ if [ "$1" = 'a' ]; then
     title='ytmp3'
     dunstify -u low -i "$icon" "$0" "downloading audio from <u>$1</u>..."
     [ -n "$(command -v termtit)" ] && title="${title}: $($cmd -e "$1" 2>/dev/null)"
-    $TERMINAL -t "$title" -e ytmp3 "$@" >/dev/null 2>&1 &
+    alacritty -T "$title" -e ytmp3 "$@" >/dev/null 2>&1 &
 elif [ "$1" = 'v' ]; then
     shift
     title='ytmp4'
     dunstify -u low -i "$icon" "$0" "downloading video from <u>$1</u>..."
     [ -n "$(command -v termtit)" ] && title="${title}: $($cmd -e "$1" 2>/dev/null)"
-    $TERMINAL -t "$title" -e ytmp4 "$@" >/dev/null 2>&1 &
+    alacritty -T "$title" -e ytmp4 "$@" >/dev/null 2>&1 &
 fi

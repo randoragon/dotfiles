@@ -16,7 +16,7 @@ export LC_ALL=en_US.UTF-8
 
 # Default applications
 export EDITOR=nvim
-export TERMINAL=st
+export TERMINAL=alacritty
 export BROWSER=firefox
 export PAGER=less
 export PDF_READER=zathura

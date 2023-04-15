@@ -153,7 +153,7 @@ edit () {
 
     sum="$(dir_cksum "$tmpd/NOTE")"
     if [ -z "$interactive" ]; then
-        echo "$files" | xargs st -e "$EDITOR" "+cd $tmpd/NOTE" --
+        echo "$files" | xargs alacritty -e "$EDITOR" "+cd $tmpd/NOTE" --
     else
         echo "$files " | xargs "$EDITOR" "+cd $tmpd/NOTE" --
     fi
@@ -194,7 +194,7 @@ view () {
     case "$fmt" in
         txt)
             if [ -z "$interactive" ]; then
-                st -e "$PAGER" -- "$target"
+                alacritty -e "$PAGER" -- "$target"
             else
                 "$PAGER" -- "$target"
             fi
@@ -253,7 +253,7 @@ create () {
 
     sum="$(dir_cksum "$tmpd/NOTE")"
     if [ -z "$interactive" ]; then
-        echo "$files" | xargs st -e $EDITOR "+cd $tmpd/NOTE" --
+        echo "$files" | xargs alacritty -e $EDITOR "+cd $tmpd/NOTE" --
     else
         echo "$files" | xargs $EDITOR "+cd $tmpd/NOTE" --
     fi

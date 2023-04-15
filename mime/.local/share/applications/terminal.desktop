@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
-Name=st (suckless terminal)
-Exec=/usr/local/bin/st
+Name=Alacritty
+Exec=/usr/local/bin/alacritty

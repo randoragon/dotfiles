@@ -25,7 +25,7 @@ set history=1000
 " Plugins {{{1
 lua << EOF
 require 'paq' {
-    'airblade/vim-gitgutter';
+    'lewis6991/gitsigns.nvim';
     'junegunn/fzf.vim';
     'tpope/vim-surround';
     'tpope/vim-speeddating';
@@ -70,13 +70,15 @@ let g:AutoPairsShortcutJump = '<Nop>'
 let g:AutoPairsShortcutBackInsert = '<Leader><Backspace>'
 " }}}
 
-" GitGutter {{{2
-let g:gitgutter_map_keys = 0
-nnoremap ]g :GitGutterNextHunk<CR>
-nnoremap [g :GitGutterPrevHunk<CR>
-nnoremap <Leader>gp :GitGutterPreviewHunk<CR>
-nnoremap <Leader>gl :GitGutterLineHighlightsToggle<CR>
-nnoremap <Leader>gu :GitGutterUndoHunk<CR>
+" GitSigns {{{2
+lua require('gitsigns').setup()
+nnoremap <silent> ]g :Gitsigns next_hunk<CR>
+nnoremap <silent> [g :Gitsigns prev_hunk<CR>
+nnoremap <silent> <Leader>gp :Gitsigns preview_hunk<CR>
+nnoremap <silent> <Leader>gr :Gitsigns reset_hunk<CR>
+nnoremap <silent> <Leader>gl :Gitsigns toggle_signs<CR>
+nnoremap <silent> <Leader>gb :lua require('gitsigns').blame_line({full=true})<CR>
+nnoremap <silent> <Leader>gq :Gitsigns setqflist<CR>
 " }}}
 
 " Tabular keyboard shortcuts {{{2

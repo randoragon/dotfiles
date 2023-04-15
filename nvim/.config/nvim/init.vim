@@ -283,7 +283,6 @@ set statusline+=%#Conceal#%y\                                  " File type
 set statusline+=%{&fileencoding?&fileencoding:&encoding}\      " File encoding
 set statusline+=%#MsgArea#\ \ %v:%l/%L\ (%p%%)\                " Position in file
 set statusline+=\ 
-
 " }}}
 
 " Clipboard Integration {{{1

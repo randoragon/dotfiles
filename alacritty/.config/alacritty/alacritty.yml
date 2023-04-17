@@ -348,6 +348,12 @@ key_bindings:
   - { key: F,      mods: Control|Shift, mode: ~Search,     action: ScrollPageDown     }
   - { key: Plus,   mods: Control|Shift, mode: ~Search,     action: ResetFontSize      }
   - { key: Return, mods: Control|Shift, mode: ~Search,     action: SpawnNewInstance   }
+
+  - { key: U,                           mode: Vi|~Search,  action: ScrollHalfPageUp   }
+  - { key: D,                           mode: Vi|~Search,  action: ScrollHalfPageDown }
+  - { key: B,                           mode: Vi|~Search,  action: ScrollPageUp   }
+  - { key: F,                           mode: Vi|~Search,  action: ScrollPageDown }
+  - { key: Q,                           mode: Vi|~Search,  action: ToggleViMode }
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }

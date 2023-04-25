@@ -437,10 +437,12 @@ inoremap <M-j> <Down>
 inoremap <M-k> <Up>
 inoremap <M-l> <Right>
 
-nmap <M-d> <C-d>
-nmap <M-u> <C-u>
-nmap <M-f> <C-f>
-nmap <M-b> <C-b>
+map <M-e> <C-e>
+map <M-y> <C-y>
+map <M-d> <C-d>
+map <M-u> <C-u>
+map <M-f> <C-f>
+map <M-b> <C-b>
 " }}}
 
 " Copy shortcuts {{{1

@@ -3,3 +3,4 @@
 
 [mypy]
 ignore_missing_imports = true
+allow_redefinition = true

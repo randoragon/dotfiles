@@ -92,17 +92,29 @@ mkdir -p -- "$countdir"
     file="$1"
     [ -n "$2" ] && N=$(($2)) || N=1
     [ "$file" = ^ ] && {
-        mpc playlist -f %file% | while read -r line; do
+        lines="$(mpc playlist -f %file%)"
+        [ -z "$lines" ] && echo 'No items to bump.' && exit
+        total="$(echo "$lines" | wc -l)"
+        i=0
+        echo "$lines" | while read -r line; do
             $0 bump "$line" "$N"
+            i=$((i + 1))
+            printf '\rbumped %d/%d (%3d%%)...' "$i" "$total" $((i * 100 / total))
         done
+        echo ' done.'
         exit
     }
     if [ -f "$musicdir/$file" ]; then
         if [ "${file##*.}" = m3u ] || [ "$(xdg-mime query filetype "$musicdir/$file")" = 'text/plain' ]; then
             # Bump a playlist
+            total="$(wc -l <"$musicdir/$file")"
+            i=0
             while read -r line; do
                 $0 bump "$line" "$N"
+                i=$((i + 1))
+                printf '\rbumped %d/%d (%3d%%)...' "$i" "$total" $((i * 100 / total))
             done <"$musicdir/$file"
+            echo ' done.'
         else
             # Bump a file
             val="$(grep -Fn -- "$file" "$countfile")"
@@ -123,9 +135,16 @@ mkdir -p -- "$countdir"
         fi
     elif [ -d "$musicdir/$file" ]; then
         # Bump a directory
-        find "$musicdir/$file" -maxdepth 1 -type f -name '*.mp3' | while read -r f; do
+        lines="$(find "$musicdir/$file" -maxdepth 1 -type f -name '*.mp3')"
+        [ -z "$lines" ] && echo 'No items to bump.' && exit
+        total="$(echo "$lines" | wc -l)"
+        i=0
+        echo "$lines" | while read -r f; do
             $0 bump "$(realpath --relative-to "$musicdir" -- "$f")" "$N"
+            i=$((i + 1))
+            printf '\rbumped %d/%d (%3d%%)...' "$i" "$total" $((i * 100 / total))
         done
+        echo ' done.'
     else
         printf 'No such file or directory: %s\n' "$musicdir/$file" >&2
     fi

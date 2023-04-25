@@ -16,7 +16,7 @@ host="$(cat /etc/hostname)"
 myhist="hist.$host.m3u"
 
 # Export own history to Sync first
-[ -f "$PLMUSICDIR/$myhist" ] && cp -- "$PLMUSICDIR/$myhist" "$PLSYNCDIR/"
+[ -f "$PLMUSICDIR/$myhist" ] && cp -p -- "$PLMUSICDIR/$myhist" "$PLSYNCDIR/"
 
 # Sleep for some time -- if there are Sync devices present in the
 # network, they will have posted their histories at the same time, so
@@ -26,7 +26,11 @@ myhist="hist.$host.m3u"
 
 # Import other devices' histories from Sync
 # Preprocess: my phone app export m3u with some metadata and absolute paths - clean it up
-sed -i -e '/^#/d' -e "s|^Sync/Music/||" "$PLSYNCDIR/hist.phone.m3u"
+grep -q '^#' "$PLSYNCDIR/hist.phone.m3u" && sed -i -e '/^#/d' -e 's|^Sync/Music/||' "$PLSYNCDIR/hist.phone.m3u"
 
-find "$PLSYNCDIR" -maxdepth 1 -type f -name 'hist.*.m3u' \! -name "$myhist" \
-    -exec cp -- '{}' "$PLMUSICDIR/" \;
+# Report sync conflicting histories
+find "$PLSYNCDIR" -maxdepth 1 -type f -name 'hist.*.sync-conflict-*.m3u' \
+    -exec notify-send -u critical history-playlists-sync.sh "{}" \;
+
+find "$PLSYNCDIR" -maxdepth 1 -type f -name 'hist.*.m3u' \! -name "$myhist" \! -name '*.sync-conflict-*.m3u' \
+    -exec cp -p -- '{}' "$PLMUSICDIR/" \;

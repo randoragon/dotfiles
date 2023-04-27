@@ -66,7 +66,7 @@ nmap <silent> <Leader>t :Lex!<CR>
 let g:AutoPairsFlyMode = 1
 let g:AutoPairsShortcutToggle = '<Leader>)'
 let g:AutoPairsShortcutFastWrap = '<M-e>'
-let g:AutoPairsShortcutJump = '<Nop>'
+let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutBackInsert = '<Leader><Backspace>'
 " }}}
 

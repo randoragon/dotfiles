@@ -9,9 +9,9 @@ function AppendDoubleBackslash()
     endwhile
     call setline('.', line . (strlen(line) == 0 ? '\\' : ' \\'))
 endfunction
-nnoremap <buffer> <M-CR> :call AppendDoubleBackslash()<CR>o
+" nnoremap <buffer> <M-CR> :call AppendDoubleBackslash()<CR>o
 inoremap <buffer> <M-CR> <Esc>:call AppendDoubleBackslash()<CR>o
-nnoremap <buffer> <M-Space> :call AppendDoubleBackslash()<CR>
+" nnoremap <buffer> <M-Space> :call AppendDoubleBackslash()<CR>
 
 " Preview
 nnoremap <buffer> <Leader>m :write \| AsyncRun lxmake -d "$VIM_PREVIEW_HOME" "%:p" "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>

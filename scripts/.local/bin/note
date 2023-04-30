@@ -15,8 +15,10 @@
 # - git
 # - tar
 # - asciidoctor, asciidoctor-diagram (for adoc support)
+# - lxmake (custom script for LaTeX support)
 #
 # For neatroff rnd macros see https://github.com/randoragon/tmac-rnd
+# For the lxmake script see https://github.com/Randoragon/dotfiles/blob/master/scripts/.local/bin/lxmake
 
 # CONFIG
 notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
@@ -79,6 +81,9 @@ NAME Extensions:
     *.mom
         groff + mom macros
 
+    *.tex
+        XeLaTeX.
+
 String Substitutions:
     Inside a note in any format, the following strings will be
     substituted before compilation:
@@ -126,6 +131,21 @@ strsub () {
     sed -i -e "s/NOTE_MTIME/$mtime/g" "$2"
 }
 
+# get_filetype <dir>
+# Determines filetype by looking for existence of a NOTE file inside
+# the given directory.
+get_filetype () {
+    [ -f "$1/NOTE/NOTE.txt" ]  && { echo "txt";  return; }
+    [ -f "$1/NOTE/NOTE.md" ]   && { echo "md";   return; }
+    [ -f "$1/NOTE/NOTE.adoc" ] && { echo "adoc"; return; }
+    [ -f "$1/NOTE/NOTE.rnd" ]  && { echo "rnd";  return; }
+    [ -f "$1/NOTE/NOTE.ms" ]   && { echo "ms";   return; }
+    [ -f "$1/NOTE/NOTE.mm" ]   && { echo "mm";   return; }
+    [ -f "$1/NOTE/NOTE.mom" ]  && { echo "mom";  return; }
+    [ -f "$1/NOTE/NOTE.tex" ]  && { echo "tex";  return; }
+    echo "note: NOTE file not found within the archive" >&2 && exit 4
+}
+
 # edit <archive>
 # archive - path to the note archive file, relative to $notedir
 edit () {
@@ -133,16 +153,7 @@ edit () {
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     extract "$notedir/$1" "$tmpd"
     note="$(basename -- "$1")"
-
-    # Determine filetype
-    target="$tmpd/NOTE/NOTE.txt"
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.adoc"
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd"
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom"
-    [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
+    target="$tmpd/NOTE/NOTE.$(get_filetype "$tmpd")"
 
     # Customizable setup for every file type.
     # The files variable holds a string of filenames to open.
@@ -175,16 +186,8 @@ view () {
     extract "$notedir/$1" "$tmpd"
     note="$(basename -- "$1")"
 
-    # Determine filetype
-    target="$tmpd/NOTE/NOTE.txt"
-    fmt=txt
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"   && fmt=md
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.adoc" && fmt=adoc
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd"  && fmt=rnd
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"   && fmt=ms
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"   && fmt=mm
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom"  && fmt=mom
-    [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
+    fmt="$(get_filetype "$tmpd")"
+    target="$tmpd/NOTE/NOTE.$fmt"
     [ -n "$textonly" ] && fmt=txt
 
     # Perform string substitutions, update access time
@@ -221,6 +224,9 @@ view () {
             ;;
         mom)
             pdfmom -k -e -p -t "$target" | "${PDF_READER:-zathura}" -
+            ;;
+        tex)
+            lxmake "$target" - | "${PDF_READER:-zathura}" -
             ;;
         *)
             printf "note: unknown note format \"%s\"\n" "$fmt" >&2
@@ -280,16 +286,8 @@ output () {
     stdout=
     [ "$output" = - ] && stdout=1
 
-    # Determine filetype
-    target="$tmpd/NOTE/NOTE.txt"
-    fmt=txt
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.md"   && fmt=md
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.adoc" && fmt=adoc
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.rnd"  && fmt=rnd
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.ms"   && fmt=ms
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mm"   && fmt=mm
-    [ ! -f "$target" ] && target="$tmpd/NOTE/NOTE.mom"  && fmt=mom
-    [ ! -f "$target" ] && echo "note: NOTE file not found within the archive" >&2 && exit 4
+    fmt="$(get_filetype "$tmpd")"
+    target="$tmpd/NOTE/NOTE.$fmt"
     [ -n "$textonly" ] && fmt=txt
 
     # Perform string substitutions, update access time
@@ -346,6 +344,14 @@ output () {
                 pdfmom -k -e -p -t "$target"
             else
                 pdfmom -k -e -p -t "$target" >"$output"
+            fi
+            ;;
+        tex)
+            echo "target: $target"
+            if [ $stdout ]; then
+                lxmake "$target" -
+            else
+                lxmake "$target" "$output"
             fi
             ;;
         *)
@@ -451,6 +457,7 @@ else
         *.mm)   ext=.mm   ;;
         *.mom)  ext=.mom  ;;
         *.txt)  ext=.txt  ;;
+        *.tex)  ext=.tex  ;;
         *)      ext=.txt fname="$fname$ext" ;;
     esac
     [ -e "$notedir/$fname" ] && echo "note: a note with the same name already exists" >&2 && exit

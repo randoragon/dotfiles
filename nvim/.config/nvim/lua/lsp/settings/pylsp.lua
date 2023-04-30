@@ -15,6 +15,8 @@ return {
 					'E401', -- multiple imports on one line
 					'E501', -- line too long (>79 characters)
 					'E741', -- ambiguous variable names
+					'E203', -- whitespace before ':'
+					'E241', -- multiple spaces after ':'
 				},
 			},
 

@@ -310,6 +310,7 @@ do
 done
 
 [ -n "$need_devtools" ] && for package in \
+    lua-cjson \
     zls \
     python-pylsp-mypy
 do

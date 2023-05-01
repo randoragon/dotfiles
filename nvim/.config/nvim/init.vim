@@ -240,7 +240,7 @@ nnoremap <silent> <Leader>d :try \| call ToggleLList() \| catch \| echo "No loca
 
 "{{{1 LSP Configuration
 let g:project_mode = 0
-nnoremap <silent> <Leader>p :let g:project_mode = !g:project_mode<CR>
+nnoremap <silent> <Leader>.L :let g:project_mode = !g:project_mode<CR>
 nnoremap <Space> <Nop>
 
 function! ConfigureLSP()

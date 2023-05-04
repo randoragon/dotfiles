@@ -23,6 +23,20 @@
 # The -m option can be passed when INPUT is a subfile of a main document,
 # and it will cause the script to compile that main document instead.
 
+# Determine if running in interactive shell or headless
+interactive=
+[ -t 0 ] && interactive=1
+
+error () {
+    [ -n "$interactive" ] && {
+        tput bold setaf 0 setab 15
+        echo "$*" >&2
+        tput sgr0
+    } || {
+        notify-send -u critical lxmake "$*"
+    }
+}
+
 cleanup () {
     [ -f "$tinput" ] && shred -u -- "$tinput"
     [ -f "$graphnames" ] && shred -u -- "$graphnames"
@@ -132,7 +146,7 @@ graphviz_setup() {
         # Ensure no pre-existing files are overwritten
         for culprit in "$PWD/$graph".dot "$PWD/$graph".pdf; do
             [ -e "$culprit" ] && {
-                notify-send -u critical lxmake "Graph name collision: $culprit"
+                error "Graph name collision: $culprit"
                 exit 8
             }
         done
@@ -162,7 +176,7 @@ fi
 # Ensure the tmpmaster files won't overwrite pre-existing files
 for culprit in "$dir/tmpmaster.gvpr" "$dir/tmpmaster.graphviz"; do
     [ -e "$culprit" ] && {
-        notify-send -u critical lxmake "tmpmaster file collision: $culprit"
+        error "tmpmaster file collision: $culprit"
         exit 7
     }
 done

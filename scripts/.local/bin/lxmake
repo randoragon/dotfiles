@@ -187,19 +187,19 @@ maintex="$(grep -o '^\\documentclass\[.*\]{subfiles}' "$tinput")"
 }
 
 # Compile
-printf '%sCOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
+printf '%s COMPILING 1/3 %s -output-dir=%s -jobname=%s\n' "$(tput bold setaf 0 setab 15)" "$(tput sgr0)" "$dir" "$jobname" >&2
 compile "$dir" "$jobname"
 grep -q '^\\nofiles\b' "$tinput" || {
     [ -n "$use_biblatex" ] && {
         ls -a -- "$dir"
-        printf '%sRUNNING BIBER%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
+        printf '%s RUNNING BIBER %s -output-dir=%s -jobname=%s\n' "$(tput bold setaf 0 setab 15)" "$(tput sgr0)" "$dir" "$jobname" >&2
         biber  --output-directory "$dir" -- "$jobname"
-        printf '\n%sRECOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
-        compile "$dir" "$jobname"
     }
+    printf '\n%s COMPILING 2/3 %s -output-dir=%s -jobname=%s\n' "$(tput bold setaf 0 setab 15)" "$(tput sgr0)" "$dir" "$jobname" >&2
+    compile "$dir" "$jobname"
     graphnames="$(mktemp --tmpdir lxmake.graphs.XXXXX)"
     graphviz_setup "$dir"
-    printf '\n%sRECOMPILING%s -output-dir=%s -jobname=%s\n' "$(tput bold)" "$(tput sgr0)" "$dir" "$jobname" >&2
+    printf '\n%s COMPILING 3/3 %s -output-dir=%s -jobname=%s\n' "$(tput bold setaf 0 setab 15)" "$(tput sgr0)" "$dir" "$jobname" >&2
     compile "$dir" "$jobname"
     graphviz_cleanup
 }

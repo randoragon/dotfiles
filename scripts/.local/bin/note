@@ -155,11 +155,11 @@ edit () {
     note="$(basename -- "$1")"
     target="$tmpd/NOTE/NOTE.$(get_filetype "$tmpd")"
 
-    # Customizable setup for every file type.
+    # Custom preprocessing based on file type.
     # The files variable holds a string of filenames to open.
     files="$target"
-    case ".${target##*.}" in
-        .adoc) files="$files${nl}$tmpd/NOTE/docinfo.html" ;;
+    case "${target##*.}" in
+        adoc) files="$files${nl}$tmpd/NOTE/docinfo.html" ;;
     esac
 
     sum="$(dir_cksum "$tmpd/NOTE")"
@@ -171,6 +171,14 @@ edit () {
     if [ "$(dir_cksum "$tmpd/NOTE")" = "$sum" ]; then
         echo "No changes were made, skipping."
     else
+        # Custom postprocessing based on file type.
+        case "${target##*.}" in
+            tex)
+                # Cache the PDF for quick access
+                cache="$tmpd/NOTE/CACHE.pdf"
+                lxmake "$target" "$cache"
+        esac
+
         archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Edit $1"
@@ -226,7 +234,15 @@ view () {
             pdfmom -k -e -p -t "$target" | "${PDF_READER:-zathura}" -
             ;;
         tex)
-            lxmake "$target" - | "${PDF_READER:-zathura}" -
+            cache="$tmpd/NOTE/CACHE.pdf"
+            # Ensure PDF cache exists
+            [ ! -f "$cache" ] && {
+                lxmake "$target" "$cache"
+                archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+                git -C "$notedir" add "$1"
+                git -C "$notedir" commit -o "$1" -m "Cache $1"
+            }
+            "${PDF_READER:-zathura}" - <"$cache"
             ;;
         *)
             printf "note: unknown note format \"%s\"\n" "$fmt" >&2
@@ -347,11 +363,18 @@ output () {
             fi
             ;;
         tex)
-            echo "target: $target"
+            cache="$tmpd/NOTE/CACHE.pdf"
+            # Ensure PDF cache exists
+            [ ! -f "$cache" ] && {
+                lxmake "$target" "$cache"
+                archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+                git -C "$notedir" add "$1"
+                git -C "$notedir" commit -o "$1" -m "Cache $1"
+            }
             if [ $stdout ]; then
-                lxmake "$target" -
+                cat -- "$cache"
             else
-                lxmake "$target" "$output"
+                cp -- "$cache" "$output"
             fi
             ;;
         *)

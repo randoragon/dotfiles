@@ -23,7 +23,7 @@ iron.setup {
 
 	keymaps = {
 		send_motion = '<Leader>is',
-		visual_send = '<M-[>',
+		visual_send = '<M-(>',
 		send_file = '<Leader>if',
 		send_line = '<Nop>',
 		send_mark = '<Nop>',

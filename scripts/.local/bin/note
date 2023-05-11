@@ -40,8 +40,10 @@ Options:
         Open note for editing instead of viewing. This implies that
         the note already exists (NAME cannot be passed).
 
-    -t, --textonly
-        View or output any markup note as plain text.
+    -r, --raw
+        Output an unprocessed note directory. Can only be used with
+        the -o option. The FILE argument must be a directory and
+        cannot be - (standard output not supported).
 
     -o FILE, --output FILE
         Output note to file, or - for standard output. This option
@@ -196,7 +198,6 @@ view () {
 
     fmt="$(get_filetype "$tmpd")"
     target="$tmpd/NOTE/NOTE.$fmt"
-    [ -n "$textonly" ] && fmt=txt
 
     # Perform string substitutions, update access time
     strsub "$notedir/$1" "$target"
@@ -295,6 +296,26 @@ create () {
 # archive -  path to the note archive file, relative to $notedir
 # filename - path to the file to export to, or - for stdout
 output () {
+    [ -n "$raw" ] && {
+        output="$2"
+        [ "$output" = - ] && echo 'note: cannot output to stdout when --raw is used' >&2 && exit 2
+        [ -e "$output" ] && {
+            [ ! -d "$output" ] && printf 'note: %s exists and is not a directory\n' "$output" >&2 && exit 1
+            [ -n "$(ls -qA -- "$output")" ] && printf 'note: %s exists and is not empty\n' "$output" >&2 && exit 1
+        }
+        mkdir -p -- "$output"
+        extract "$notedir/$1" "$output"
+        find "$output/NOTE" -maxdepth 1 ! -name 'NOTE' -exec mv -f -- '{}' "$output/" \;
+        [ -e "$output/NOTE/NOTE" ] && {
+            tmp="$(mktemp -p "$output" NOTE.XXXXX)"
+            mv -f -- "$output/NOTE/NOTE" "$tmp"
+            rm -rf -- "$output/NOTE"
+            mv -f -- "$tmp" "$output/NOTE"
+        }
+        rm -rf -- "$output/NOTE"
+        return
+    }
+
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     extract "$notedir/$1" "$tmpd"
     note="$(basename -- "$1")"
@@ -304,7 +325,6 @@ output () {
 
     fmt="$(get_filetype "$tmpd")"
     target="$tmpd/NOTE/NOTE.$fmt"
-    [ -n "$textonly" ] && fmt=txt
 
     # Perform string substitutions, update access time
     strsub "$notedir/$1" "$target"
@@ -385,7 +405,7 @@ output () {
 }
 
 edit=
-textonly=
+raw=
 output=
 force_dmenu=
 force_fzf=
@@ -393,7 +413,7 @@ while true; do
     case "$1" in
         -h|--help) help ; exit ; shift ;;
         -e|--edit) edit=1 ; shift ;;
-        -t|--textonly) textonly=1 ; shift ;;
+        -r|--raw) raw=1 ; shift ;;
         -o|--output)
             if [ -z "$2" ]; then
                 echo "note: output filename needed" >&2
@@ -444,6 +464,7 @@ if [ $# -eq 0 ]; then
         output "$note" "$output"
 
     else # View/edit existing note
+        [ -z "$edit" ] && [ -n "$raw" ] && echo "note: illegal use of --raw option" >&2 && exit 2
 
         # For interactive shells use fzf, otherwise use dmenu.
         if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
@@ -465,7 +486,7 @@ if [ $# -eq 0 ]; then
 
 # Create new note
 else
-    [ -n "$textonly" ] && echo "note: illegal use of --textonly option" >&2 && exit 2
+    [ -n "$raw" ] && echo "note: illegal use of --raw option" >&2 && exit 2
     [ -n "$edit" ] && echo "note: illegal use of --edit option" >&2 && exit 2
     [ -n "$output" ] && echo "note: illegal use of --output option" >&2 && exit 2
     fname="$(printf "%s" "$*" | tr ' ' '-')"

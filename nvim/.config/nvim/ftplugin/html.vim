@@ -1,9 +1,31 @@
 set shiftwidth=2 tabstop=2
 
-" Preview
-nnoremap <buffer> <Leader>m :write \| AsyncRun pkill -HUP surf<CR>
-nnoremap <buffer> <Leader>p :AsyncRun setsid surf -S -- file://"%:p"<CR>
-nnoremap <buffer> <Leader>P :AsyncRun xdg-open file://%:p"<CR>
+" HTML-only mappings, not compatible with markdown (https://vi.stackexchange.com/a/8343)
+if (&filetype == 'html')
+    " Preview
+    nnoremap <buffer> <Leader>m :write \| AsyncRun pkill -HUP surf<CR>
+    nnoremap <buffer> <Leader>p :AsyncRun setsid surf -S -- file://"%:p"<CR>
+    nnoremap <buffer> <Leader>P :AsyncRun xdg-open file://"%:p"<CR>
+
+    command LSPFileToggleHTML    lua require('lsp').toggle({
+                \   name = 'vscode-html-languageserver',
+                \   cmd  = {'vscode-html-languageserver', '--stdio'},
+                \   settings = require('lsp.settings.vscode-html-languageserver'),
+                \ })
+    command LSPProjectToggleHTML lua require('lsp').toggle({
+                \   name = 'vscode-html-languageserver',
+                \   cmd  = {'vscode-html-languageserver', '--stdio'},
+                \   settings = require('lsp.settings.vscode-html-languageserver'),
+                \ },
+                \ {
+                \  '.git',
+                \  'index.html',
+                \  'Makefile', 'makefile', 'GNUmakefile',
+                \  'CMakeLists.txt'
+                \ })
+    nnoremap <buffer> <silent> <Leader>l :LSPFileToggleHTML<CR>
+    nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleHTML<CR>
+endif
 
 inoremap <buffer> <Leader>c <!--  --><C-o>F 
 
@@ -51,22 +73,3 @@ inoremap <buffer> <Leader>fs <input type="submit" value="<,,>"><C-o>3F"
 inoremap <buffer> <Leader>.i id=""<Left>
 inoremap <buffer> <Leader>.c class=""<Left>
 inoremap <buffer> <Leader>.s src=""<Left>
-
-command LSPFileToggleHTML    lua require('lsp').toggle({
-            \   name = 'vscode-html-languageserver',
-            \   cmd  = {'vscode-html-languageserver', '--stdio'},
-            \   settings = require('lsp.settings.vscode-html-languageserver'),
-            \ })
-command LSPProjectToggleHTML lua require('lsp').toggle({
-            \   name = 'vscode-html-languageserver',
-            \   cmd  = {'vscode-html-languageserver', '--stdio'},
-            \   settings = require('lsp.settings.vscode-html-languageserver'),
-            \ },
-            \ {
-            \  '.git',
-            \  'index.html',
-            \  'Makefile', 'makefile', 'GNUmakefile',
-            \  'CMakeLists.txt'
-            \ })
-nnoremap <buffer> <silent> <Leader>l :LSPFileToggleHTML<CR>
-nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleHTML<CR>

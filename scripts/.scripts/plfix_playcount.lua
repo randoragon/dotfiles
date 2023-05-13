@@ -3,7 +3,7 @@
 -- any duplicate entry to the first entry. It is automatically invoked by the
 -- plfix script.
 
-musicdir = os.getenv('HOME') .. '/Music/'
+musicdir = os.getenv('HOME')..'/Music/'
 fpath = arg[1]
 pretend = (arg[2] == '1')
 hashset = {}
@@ -36,12 +36,15 @@ end
 if not pretend then
 	fout = io.open(fpath, 'w')
 	for _, v in ipairs(hashset_order) do
-		fout:write(string.format('%d\t%s\n', hashset[v], v))
+		fout:write(('%d\t%s\n'):format(hashset[v], v))
 	end
 	fout:close()
 end
 
 if dupes ~= 0 then
-	io.stderr:write(string.format("%s %d duplicate line%s in '"..fpath:gsub(musicdir, '').."'\n",
-		pretend and 'Found' or 'Merged', dupes, dupes == 1 and '' or 's'))
+	io.stderr:write(("%s %d duplicate line%s in '"..fpath:gsub(musicdir, '').."'\n"):format(
+		pretend and 'Found' or 'Merged',
+		dupes,
+		dupes == 1 and '' or 's'
+	))
 end

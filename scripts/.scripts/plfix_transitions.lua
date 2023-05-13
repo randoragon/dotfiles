@@ -7,8 +7,8 @@
 -- 2) if both the base and a subsequent entry have a field, keep base's value
 -- This script is automatically invoked by the plfix script.
 
-musicdir = os.getenv('HOME') .. '/Music/'
-fpath = musicdir .. 'transitions.tsv'
+musicdir = os.getenv('HOME')..'/Music/'
+fpath = musicdir..'transitions.tsv'
 pretend = (arg[1] == '1')
 hashset = {}
 hashset_order = {}
@@ -44,7 +44,7 @@ end
 if not pretend then
 	fout = io.open(fpath, 'w')
 	for _, v in ipairs(hashset_order) do
-		fout:write(string.format('%s\t%s\t%s\t%s\t%s\n', v, table.unpack(hashset[v])))
+		fout:write(('%s\t%s\t%s\t%s\t%s\n'):format(v, table.unpack(hashset[v])))
 	end
 	fout:close()
 end
@@ -52,6 +52,9 @@ end
 if dupes == 0 then
 	io.stderr:write('No duplicate lines in transitions.tsv\n')
 else
-	io.stderr:write(string.format('%s %d duplicate line%s in transitions.tsv\n',
-		pretend and 'Found' or 'Merged', dupes, dupes == 1 and '' or 's'))
+	io.stderr:write(('%s %d duplicate line%s in transitions.tsv\n'):format(
+		pretend and 'Found' or 'Merged',
+		dupes,
+		dupes == 1 and '' or 's'
+	))
 end

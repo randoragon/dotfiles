@@ -11,13 +11,13 @@
 -- in the playlist, or a time indication in format [HH:]MM:[SS] denoting the
 -- desired length of the playlist (the exact lenght will vary somewhat).
 
-require 'lfs'
+local lfs = require 'lfs'
 
 --------------------------
 -- GLOBAL CONFIGURATION --
 --------------------------
-MUSIC_DIR = os.getenv('HOME') .. '/Music/'
-PLAYLIST_DIR = MUSIC_DIR .. 'Playlists/'
+MUSIC_DIR = os.getenv('HOME')..'/Music/'
+PLAYLIST_DIR = MUSIC_DIR..'Playlists/'
 BPM_TOLERANCE = 0.05
 CANDIDATE_STRICTNESS = 0.5
 
@@ -50,7 +50,7 @@ function load_data()
 	end
 
 	-- Read song transitions
-	for line in io.lines(MUSIC_DIR .. 'transitions.tsv') do
+	for line in io.lines(MUSIC_DIR..'transitions.tsv') do
 		local song, bpm, mood, iter = nil, {}, {}, line:gmatch('[^\t]*')
 		song = iter()
 		if was_stdin_empty and unavailable_songs[song] then
@@ -75,7 +75,7 @@ function load_data()
 	if not was_stdin_empty then
 		-- Warn about unavailable songs
 		for song, _ in pairs(unavailable_songs) do
-			io.stderr:write('plgen: file "' .. song .. '" missing metadata, skipping\n')
+			io.stderr:write('plgen: file "'..song..'" missing metadata, skipping\n')
 		end
 
 		-- Filter unavailable songs out of the available list
@@ -112,13 +112,13 @@ function load_data()
 			if prefix ~= '_' and prefix ~= '@' and prefix ~= '!' then
 				goto continue
 			end
-			attr = lfs.attributes(PLAYLIST_DIR .. file)
+			attr = lfs.attributes(PLAYLIST_DIR..file)
 			if attr.mode == 'directory' then
 				goto continue
 			end
 		end
 		playlists[file] = {}
-		for song in io.lines(PLAYLIST_DIR .. file) do
+		for song in io.lines(PLAYLIST_DIR..file) do
 			if songs[song] ~= nil then
 				songs[song].playlists[#songs[song].playlists + 1] = file
 				playlists[file][song] = true
@@ -261,7 +261,7 @@ function generate_playlist(params)
 			local index = math.random(#playlists['.'])
 			playlist[#playlist + 1] = playlists['.'][index]
 			table.remove(playlists['.'], index)
-			io.stderr:write('No candidates after ' .. playlist[#playlist - 1] .. ', picked ' .. playlist[#playlist] .. ' at random.\n')
+			io.stderr:write('No candidates after '..playlist[#playlist - 1]..', picked '..playlist[#playlist]..' at random.\n')
 		end
 	end
 
@@ -269,14 +269,15 @@ function generate_playlist(params)
 	local index, duration, last_duration = math.random(#playlists['.']), 0, 0
 	playlist[1] = playlists['.'][index]
 	table.remove(playlists['.'], index)
-	duration = io.popen(string.format("mp3info -p %%S '%s'", MUSIC_DIR .. playlist[1]:gsub("'", "'\"'\"'")))
-	duration = tonumber(duration:read('*a'))
+	local duration_fname = ("mp3info -p %%S '%s'"):format(MUSIC_DIR..playlist[1]:gsub("'", "'\"'\"'"))
+	local duration_file = assert(io.popen(duration_fname))
+	duration = assert(tonumber(duration_file:read('*a')))
 
 	if params.ntracks ~= nil then
 		for _ = 2, params.ntracks do
 			last_duration = duration
 			add_song()
-			local tmp = io.popen(string.format("mp3info -p %%S '%s'", MUSIC_DIR .. playlist[#playlist]:gsub("'", "'\"'\"'")))
+			local tmp = io.popen(("mp3info -p %%S '%s'"):format(MUSIC_DIR..playlist[#playlist]:gsub("'", "'\"'\"'")))
 			assert(tmp)
 			duration = duration + tonumber(tmp:read('*a'))
 		end
@@ -284,7 +285,7 @@ function generate_playlist(params)
 		while duration < params.seconds do
 			last_duration = duration
 			add_song()
-			local tmp = io.popen(string.format("mp3info -p %%S '%s'", MUSIC_DIR .. playlist[#playlist]:gsub("'", "'\"'\"'")))
+			local tmp = io.popen(("mp3info -p %%S '%s'"):format(MUSIC_DIR..playlist[#playlist]:gsub("'", "'\"'\"'")))
 			assert(tmp)
 			duration = duration + tonumber(tmp:read('*a'))
 		end

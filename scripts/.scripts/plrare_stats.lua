@@ -31,7 +31,7 @@ function build_cache()
 	function process_batch(i_start)
 		local cmd = "stat -c %Y -- "..table.concat(stat_batch, ' ')
 		stat_batch = {}
-		local i, cmd_output = i_start, assert(io.popen(cmd, 'r'))
+		local i, cmd_output = i_start, assert(io.popen(cmd, 'r'), ('failed to run `%s`'):format(cmd))
 		for line in cmd_output:lines() do
 			local item = cache_list[i]
 			local last_modified = tonumber(line)
@@ -108,8 +108,12 @@ function parse_input()
 		return
 	end
 	for i, item in ipairs(data) do
-		io.write(string.format('\rReading %d/%d %.2f%%... (%dh)',
-			i, #data, i / #data * 100, no_seconds // 3600))
+		io.write(('\rReading %d/%d %.2f%%... (%dh)'):format(
+			i,
+			#data,
+			i / #data * 100,
+			no_seconds // 3600
+		))
 		local duration = get_duration(item.fname)
 		local artist = item.fname:match('^[^/]*')
 		local album_path = item.fname:match('^([^/]*/[^/]*)/')
@@ -137,15 +141,20 @@ function parse_input()
 	local h = (no_seconds % 86400) // 3600
 	local m = (no_seconds % 3600) // 60
 	local s = no_seconds % 60
-	print(string.format('Total listen time:   %dd, %dh, %dm, %ds', d, h, m, s))
-	print(string.format('Total no. plays:     %d', no_plays))
-	print(string.format('No. tracks:          %d (%.0f%% of plays, %.0f%% of all)',
-		no_tracks, no_tracks / no_plays * 100, no_tracks / LIBRARY_SIZE * 100))
-	print(string.format('Avg track duration:  %02d:%02d',
-		no_seconds // no_plays // 60, no_seconds // no_plays % 60))
+	print(('Total listen time:   %dd, %dh, %dm, %ds'):format(d, h, m, s))
+	print(('Total no. plays:     %d'):format(no_plays))
+	print(('No. tracks:          %d (%.0f%% of plays, %.0f%% of all)'):format(
+		no_tracks,
+		no_tracks / no_plays * 100,
+		no_tracks / LIBRARY_SIZE * 100
+	))
+	print(('Avg track duration:  %02d:%02d'):format(
+		no_seconds // no_plays // 60,
+		no_seconds // no_plays % 60
+	))
 	print()
 
-	print(string.format('No. artists:         %d', no_artists))
+	print(('No. artists:         %d'):format(no_artists))
 	artists['Various Artists'] = nil
 	local artists_list = {}
 	for k, v in pairs(artists) do
@@ -156,19 +165,20 @@ function parse_input()
 	for i = 1, math.min(TOP_N, #artists_list) do
 		artists_coverage = artists_coverage + artists_list[i][2]
 	end
-	print(string.format('Top listened artists (%.1f%% of all listen time):',
-		artists_coverage / no_seconds * 100))
+	print(('Top listened artists (%.1f%% of all listen time):'):format(
+		artists_coverage / no_seconds * 100
+	))
 	for i = 1, math.min(TOP_N, #artists_list) do
-		local s = artists_list[i][2]
-		print(string.format('  %02d:%02d:%02d',
-				s // 3600,
-				s % 3600 // 60,
-				s % 60),
-			artists_list[i][1])
+		local s_ = artists_list[i][2]
+		print(('  %02d:%02d:%02d'):format(
+			s_ // 3600,
+			s_ % 3600 // 60,
+			s_ % 60
+		), artists_list[i][1])
 	end
 	print()
 
-	print(string.format('No. albums:          %d', no_albums))
+	print(('No. albums:          %d'):format(no_albums))
 	local albums_list = {}
 	for k, v in pairs(albums) do
 		albums_list[#albums_list + 1] = {k, v}
@@ -178,20 +188,21 @@ function parse_input()
 	for i = 1, math.min(TOP_N, #albums_list) do
 		albums_coverage = albums_coverage + albums_list[i][2]
 	end
-	print(string.format('Top listened albums (%.1f%% of all listen time):',
-		albums_coverage / no_seconds * 100))
+	print(('Top listened albums (%.1f%% of all listen time):'):format(
+		albums_coverage / no_seconds * 100
+	))
 	for i = 1, math.min(TOP_N, #albums_list) do
-		local s = albums_list[i][2]
-		print(string.format('  %02d:%02d:%02d',
-				s // 3600,
-				s % 3600 // 60,
-				s % 60),
-			albums_list[i][1]:match('/([^/]*)$'))
+		local s_ = albums_list[i][2]
+		print(('  %02d:%02d:%02d'):format(
+			s_ // 3600,
+			s_ % 3600 // 60,
+			s_ % 60
+		), albums_list[i][1]:match('/([^/]*)$'))
 	end
 end
 
 function write_cache()
-	local f = io.open(CACHE_FILE, 'w')
+	local f = assert(io.open(CACHE_FILE, 'w'), 'failed to open cache file')
 	for _, item in ipairs(cache_list) do
 		f:write(item.timestamp, '\t', item.duration, '\t', item.fname, '\n')
 	end

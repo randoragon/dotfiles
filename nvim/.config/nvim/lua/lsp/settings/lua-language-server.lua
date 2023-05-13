@@ -8,7 +8,10 @@ return {
 		},
 
 		diagnostics = {
-			disable = { 'lowercase-global' },
+			disable = {
+				'lowercase-global',
+				'redefined-local',
+			},
 		},
 
 		workspace = {

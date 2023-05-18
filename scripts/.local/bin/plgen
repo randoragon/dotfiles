@@ -1,308 +1,229 @@
-#!/usr/bin/env lua
+#!/bin/sh
 
--- Generate a new, random, parameterized playlist. This script requires a list
--- of song paths to choose from delimited by newlines on standard input. The
--- resulting playlist is printed on standard output. If standard input is empty,
--- all the available songs will be considered.
---
--- Usage:
---     plgen N|TIME
--- The first argument is either an integer denoting the number of tracks to put
--- in the playlist, or a time indication in format [HH:]MM:[SS] denoting the
--- desired length of the playlist (the exact lenght will vary somewhat).
+# Generate a smart, seamless playlist. Interactive.
+#
+# Dependencies:
+# - mpd, mpc
+# - rg (ripgrep)
+# - lua
 
-local lfs = require 'lfs'
+musicdir=~/Music
+pldir="$musicdir"/Playlists
+plout="${1:-$pldir/.Generated.m3u}"
+mappings="${XDG_CONFIG_HOME:-$HOME/.config}/playlist-mappings.tsv"
+mpdpl="$(mktemp -t plgen.XXXXX)"
+setting="$(mktemp -t plgen.XXXXX)"
+tmp="$(mktemp -t plgen.XXXXX)" # aux buffer
 
---------------------------
--- GLOBAL CONFIGURATION --
---------------------------
-MUSIC_DIR = os.getenv('HOME')..'/Music/'
-PLAYLIST_DIR = MUSIC_DIR..'Playlists/'
-BPM_TOLERANCE = 0.05
-CANDIDATE_STRICTNESS = 0.5
+# External lua script for generating filtered playlists
+lua_filter=~/.scripts/plfilter_filter.lua
 
--- Aside from '_', '@' and '!'-prefixed playlists, this hashset
--- can include other ones that will be used for comparing songs
-PLAYLIST_WHITELIST = {
-	['#Fast'] = true,
-	['#Slow'] = true,
-	['#Lo-Fi'] = true,
-	['#Bass'] = true,
-	['#Keys'] = true,
-	['#Rap'] = true,
+# External lua script for generating smart, seamless playlists
+lua_generate=~/.scripts/plgen_generate.lua
+
+# External lua script for filtering out unavailable songs
+lua_available=~/.scripts/plgen_available.lua
+
+cleanup () {
+    rm -f -- "$tmp" "$setting" "$mpdpl"
+    exit 0
+}
+trap cleanup INT QUIT TERM EXIT
+
+last_termw=
+last_change=
+available_songs=
+
+eprint () {
+    tput sgr0 >&2
+    printf '  ' >&2
+    tput setaf 15 setab 1 >&2
+    printf "$@" >&2
+    tput sgr0 >&2
 }
 
--- By convention the '.' playlists entry contains all usable songs
-local was_stdin_empty = true
-songs, playlists = {}, {['.'] = {}}
-for line in io.stdin:lines() do
-	playlists['.'][#playlists['.'] + 1] = line
-	was_stdin_empty = false
-end
+# Read playlist mappings
+[ ! -r "$mappings" ] && {
+    printf 'Failed to read %s.\n' "$mappings" >&2
+    exit 1
+}
+playlists=
+while read -r line; do
+    [ -z "$line" ] && playlists="$playlists
+" && continue
+    fname="${line%%	*}"
+    prefix="${line##*	}"
+    [ ! -f "$pldir/$fname.m3u" ] && eprint 'Playlist not found: %s\n' "$fname" && exit
+    playlists="$playlists
+$fname.m3u"
+done <"$mappings"
 
-function load_data()
-	-- Temporary hashset to find unavailable songs
-	local unavailable_songs = {}
-	if not was_stdin_empty then
-		for _, song in ipairs(playlists['.']) do
-			unavailable_songs[song] = true
-		end
-	end
+# Detect mapping collisions
+duplicates="$(cut -d'	' -f2 -- "$mappings" | sort | uniq -d)"
+[ -n "$duplicates" ] && {
+    eprint "Prefix collisions: "
+    for dupe in ${duplicates% *}; do
+        eprint "$dupe"
+    done
+    eprint '\n'
+    exit 2
+}
 
-	-- Read song transitions
-	for line in io.lines(MUSIC_DIR..'transitions.tsv') do
-		local song, bpm, mood, iter = nil, {}, {}, line:gmatch('[^\t]*')
-		song = iter()
-		if was_stdin_empty and unavailable_songs[song] then
-			goto continue
-		end
-		bpm[1] = tonumber(iter())
-		bpm[2] = tonumber(iter())
-		mood[1] = tonumber(iter())
-		mood[2] = tonumber(iter())
-		if (song and bpm[1] and bpm[2] and mood[1] and mood[2]) == nil then
-			goto continue
-		end
-		songs[song] = {bpm = bpm, mood = mood, playcount = 0, playlists = {}}
-		if was_stdin_empty then
-			playlists['.'][#playlists['.']  + 1] = song
-		else
-			unavailable_songs[song] = nil
-		end
-		::continue::
-	end
+getprefix () {
+    match="$(rg -F -- "$1	" "$mappings")"
+    echo "${match##*	}"
+}
 
-	if not was_stdin_empty then
-		-- Warn about unavailable songs
-		for song, _ in pairs(unavailable_songs) do
-			io.stderr:write('plgen: file "'..song..'" missing metadata, skipping\n')
-		end
+getplaylist () {
+    [ "$1" = '.' ] && echo "$mpdpl" && return
+    match="$(cut -d'	' -f2 -- "$mappings" | rg -Fn -- "$1")"
+    [ -z "$match" ] && return
+    fname="$(sed -n "${match%%:*}s/	.*//p" "$mappings")"
+    printf "%s/%s.m3u" "$pldir" "$fname"
+}
 
-		-- Filter unavailable songs out of the available list
-		local playlists_new = {}
-		for _, song in ipairs(playlists['.']) do
-			if not unavailable_songs[song] then
-				playlists_new[#playlists_new + 1] = song
-			end
-		end
-		playlists['.'] = playlists_new
-	end
-	unavailable_songs = nil
+main () {
+    # Parse menu inputs
+    [ "$1" = q ] && echo Bye. && exit
+    [ "$1" =  ] && {
+        clear
+        tput setaf 5
+        echo "Item pool: $(echo "$available_songs" | wc -l)"
+        tput sgr0
+        printf 'Enter the desired number of items (%sN%s), or the desired length (%s[HH:]MM:[SS]%s):' \
+            "$(tput bold setaf 4)" "$(tput sgr0)" "$(tput bold setaf 4)" "$(tput sgr0)"
+        printf '\n> '
+        read -r ans
+        echo "$available_songs" | $lua_generate "$ans" >"$plout"
+        exit
+    }
 
-	-- Read song playcounts
-	local cmd = io.popen('plrare .', 'r')
-	assert(cmd)
-	for line in cmd:lines() do
-		local song, playcount, iter
-		iter = line:gmatch('[^\t]*')
-		playcount = tonumber(iter())
-		song = iter()
-		if (song and playcount) == nil or songs[song] == nil then
-			goto continue
-		end
-		songs[song].playcount = playcount
-		::continue::
-	end
-	cmd:close()
+    # Update MPD playlist
+    mpc -f %file% playlist >"$mpdpl"
 
-	-- Read playlists
-	for file in lfs.dir(PLAYLIST_DIR) do
-		local prefix, attr = file:sub(1, 1), nil
-		if PLAYLIST_WHITELIST[file] == nil then
-			if prefix ~= '_' and prefix ~= '@' and prefix ~= '!' then
-				goto continue
-			end
-			attr = lfs.attributes(PLAYLIST_DIR..file)
-			if attr.mode == 'directory' then
-				goto continue
-			end
-		end
-		playlists[file] = {}
-		for song in io.lines(PLAYLIST_DIR..file) do
-			if songs[song] ~= nil then
-				songs[song].playlists[#songs[song].playlists + 1] = file
-				playlists[file][song] = true
-			end
-		end
-		::continue::
-	end
-end
+    # Parse user input
+    [ -n "$1" ] && {
+        left="$1"
+        while [ -n "$left" ]; do
+            prefix="${left%"${left#?}"}"
+            left="${left#?}"
+            plfile="$(getplaylist "$prefix")"
+            [ -z "$plfile" ] && {
+                eprint 'Missing playlist for prefix: %s\n' "$prefix"
+                continue
+            }
+            [ ! -f "$plfile" ] && {
+                eprint 'No such file: "%s"\n' "$plfile"
+                continue
+            }
+            line="$(rg -Fn -- "$plfile" "$setting")"
+            if [ -z "$line" ]; then
+                echo "+$plfile" >>"$setting"
+            else
+                [ "$(printf '%s' "$line" | wc -l)" -ne 0 ] && eprint 'More than one match for "%s"\n' "$plfile" && return
+                lineno="${line%%:*}"
+                state="${line#*:}"
+                state="${state%"${state#?}"}"
+                if [ "$state" = + ]; then
+                    sed -i "${lineno}s/^\+/-/" "$setting"
+                elif [ "$state" = - ]; then
+                    sed -i "${lineno}d" "$setting"
+                else
+                    eprint 'Invalid line in setting: "%s"\n' "$line"
+                fi
+            fi
+            sort -k1.1,1.1 -o "$setting" "$setting"
+        done
+    }
 
-function parse_args()
-	local ret = {ntracks = nil, seconds = nil}
-	if #arg ~= 1 then
-		io.stderr:write('plgen: exactly 1 argument expected\n')
-		return
-	end
-	ret.ntracks = arg[1]:match('^%d+$')
-	if ret.ntracks ~= nil then
-		return ret
-	end
+    # Print header
+    clear
+    tput setab 15 setaf 0 bold
+    printf ' plgen '
+    tput sgr0
+    printf ' %sq%s exit  '   "$(tput bold setaf 4)" "$(tput sgr0)"
+    printf ' %sESC%s accept  '   "$(tput bold setaf 4)" "$(tput sgr0)"
+    col="$(tput setaf 7)"
+    if rg -Fq -- "+$mpdpl" "$setting"; then
+        col="$(tput bold setaf 10)"
+    elif rg -Fq -- "-$mpdpl" "$setting"; then
+        col="$(tput setaf 9)"
+    fi
+    printf '%s.%s mpd  '     "$(tput setaf 4)" "$col"
+    nlines_available=0
+    nlines_total=0
+    available_songs=
+    filtered_songs="$($lua_filter <"$setting")"
+    [ -n "$filtered_songs" ] && {
+        available_songs="$(echo "$filtered_songs" | $lua_available)"
+        nlines_available="$(echo "$available_songs" | wc -l)"
+        nlines_total="$(echo "$filtered_songs" | wc -l)"
+    }
+    printf '%s(%s/%s result%s)\n' "$(tput setaf 5)" "$nlines_available" "$nlines_total" "$([ "$nlines_total" -eq 1 ] || printf 's')"
+    tput sgr0
+    # Print last non-empty line input by user
+    [ -n "$1" ] && last_change="$1"
+    tput sgr0 setaf 7
+    printf '\n  %s\n' "$last_change"
 
-	-- Extract hours, minutes and seconds
-	local h, m, s
-	local a, b, c = arg[1]:match('(%d+):(%d+):(%d+)')
-	if (a and b and c) ~= nil then
-		h, m, s = tonumber(a), tonumber(b), tonumber(c)
-	else
-		local a, b = arg[1]:match('(%d+):(%d+)')
-		if (a and b) ~= nil then
-			h, m, s = 0, tonumber(a), tonumber(b)
-		else
-			local a = arg[1]:match('(%d+):')
-			if a ~= nil then
-				h, m, s = 0, tonumber(a), 0
-			end
-		end
-	end
-	ret.seconds = h * 3600 + m * 60 + s
-	return ret
-end
+    # Recalculate column layout
+    termw="$(tput cols)"
+    [ "$termw" != "$last_termw" ] && {
+        printf 0 >"$tmp"
+        echo "$playlists" | while read -r plname; do
+            w="$(printf '%s' "${plname%.m3u}" | wc -m)"
+            [ "$w" -gt "$(cat -- "$tmp")" ] && printf '%s' "$w" >"$tmp"
+        done
+        entryw="$(cat -- "$tmp")"
+        entrycols="$(( (termw - 2) / (entryw + 4) ))"
+        [ "$entrycols" -lt 1 ] && entrycols=1
+        [ "$entrycols" -gt 4 ] && entrycols=4
+        last_termw="$termw"
+    }
 
-function generate_playlist(params)
-	local playlist = {}
+    # Print playlists state
+    i=0
+    :>"$tmp"
+    echo "$playlists" | while read -r plname; do
+        [ -z "$plname" ] && {
+            cat -- "$tmp"
+            :>"$tmp"
+            if [ $i -eq 0 ]; then printf '\n'; else printf '\n\n'; fi
+            i=0
+            continue
+        }
+        plfile="$pldir/$plname"
+        prefix="$(getprefix "${plname%.m3u}")"
+        [ -z "$prefix" ] && eprint 'Missing prefix for playlist "%s"\n' "$plname"
+        tput bold setaf 4 >>"$tmp"
+        printf '  %s ' "$prefix" >>"$tmp"
+        if rg -Fq -- "+$plfile" "$setting"; then
+            tput setaf 10 >>"$tmp"
+        elif rg -Fq -- "-$plfile" "$setting"; then
+            tput setaf 9 >>"$tmp"
+        else
+            tput sgr0 setaf 7 >>"$tmp"
+        fi
+        printf "%-${entryw}s" "${plname%.m3u}" >>"$tmp"
+        i=$((i + 1))
+        [ "$((i % entrycols))" -eq 0 ] && {
+            cat -- "$tmp"
+            :>"$tmp"
+            printf '\n'
+            i=0
+        }
+    done
+    [ -s "$tmp" ] && {
+        cat -- "$tmp"
+        printf '\n'
+    }
 
-	local function add_song()
-		local candidates = {}
+    # Show prompt
+    tput sgr0
+    printf '\n> '
+}
 
-		-- Compile a list of candidates
-		for index, song in ipairs(playlists['.']) do
-			local s0, s1 = songs[playlist[#playlist]], songs[song]
-
-			-- Filter out by BPM
-			local ratio = s0.bpm[2] >= s1.bpm[1]
-				and s0.bpm[2] / s1.bpm[1] % 1
-				or s1.bpm[1] / s0.bpm[2] % 1
-			if ratio > BPM_TOLERANCE and 1 - ratio > BPM_TOLERANCE then
-				goto continue
-			end
-
-			-- Filter out by mood
-			if math.abs(s0.mood[2] - s1.mood[1]) > 1 then
-				goto continue
-			end
-
-			candidates[#candidates + 1] = {index, song}
-			::continue::
-		end
-
-		-- Pick a candidate
-		if #candidates ~= 0 then
-			-- Sort candidates based on playlists similarity
-			local function comp(a, b)
-				local a_dist, b_dist
-				a, b = a[2], b[2]
-				local a_pls, b_pls = songs[a].playlists, songs[b].playlists
-
-				-- Count how many playlists a and b have in common with the
-				-- previous song.
-				local hashset, a_common, b_common = {}, 0, 0
-				for _, v in ipairs(songs[playlist[#playlist]].playlists) do
-					hashset[v] = true
-				end
-				for _, v in ipairs(a_pls) do
-					a_common = a_common + (hashset[v] and 1 or 0)
-				end
-				for _, v in ipairs(b_pls) do
-					b_common = b_common + (hashset[v] and 1 or 0)
-				end
-
-				-- Use sine function to quantify the fit - too many playlists
-				-- in common is not good, because it leads to poor diversity.
-				-- Too few playlists in common is also not good, because it
-				-- leads to weird transitions. The sine range [0, pi] is
-				-- stretched over the domain [0, n], where n is the number of
-				-- playlists the song is in (the smaller of the two). As such,
-				-- the function maximum lies at x == n/2. To convert similarity
-				-- to distance, the result is subtracted from 1.
-				local n = #a_pls <= #b_pls and #a_pls or #b_pls
-				if n ~= 0 then
-					a_dist = 1 - math.sin(a_common * math.pi / n)
-					b_dist = 1 - math.sin(b_common * math.pi / n)
-				else
-					a_dist = 1
-					b_dist = 1
-				end
-
-				-- Break ties: if a and b are equally similar to the previous
-				-- song, prioritize the one which does not come from the same
-				-- directory (i.e. different artist), if possible. If that
-				-- doesn't clarify a winner, pick whichever has less plays.
-				if a_dist == b_dist then
-					local prev, adir, bdir = playlist[#playlist], a, b
-					prev = prev:sub(1, prev:find('/') - 1)
-					adir = adir:sub(1, adir:find('/') - 1)
-					bdir = bdir:sub(1, bdir:find('/') - 1)
-					if bdir == prev then
-						if adir ~= prev then
-							return true
-						else
-							return songs[a].playcount < songs[b].playcount
-						end
-					end
-					return false
-				end
-				return a_dist < b_dist
-			end
-			table.sort(candidates, comp)
-
-			-- Select winner (top candidates have higher chance)
-			local index = 1
-			while math.random() < CANDIDATE_STRICTNESS do
-				if index == #candidates then
-					break
-				end
-				index = index + 1
-			end
-			local winner = candidates[index]
-			playlist[#playlist + 1] = winner[2]
-			table.remove(playlists['.'], winner[1])
-		else
-			local index = math.random(#playlists['.'])
-			playlist[#playlist + 1] = playlists['.'][index]
-			table.remove(playlists['.'], index)
-			io.stderr:write('No candidates after '..playlist[#playlist - 1]..', picked '..playlist[#playlist]..' at random.\n')
-		end
-	end
-
-	-- Pick random starting point
-	local index, duration, last_duration = math.random(#playlists['.']), 0, 0
-	playlist[1] = playlists['.'][index]
-	table.remove(playlists['.'], index)
-	local duration_fname = ("mp3info -p %%S '%s'"):format(MUSIC_DIR..playlist[1]:gsub("'", "'\"'\"'"))
-	local duration_file = assert(io.popen(duration_fname))
-	duration = assert(tonumber(duration_file:read('*a')))
-
-	if params.ntracks ~= nil then
-		for _ = 2, params.ntracks do
-			last_duration = duration
-			add_song()
-			local tmp = io.popen(("mp3info -p %%S '%s'"):format(MUSIC_DIR..playlist[#playlist]:gsub("'", "'\"'\"'")))
-			assert(tmp)
-			duration = duration + tonumber(tmp:read('*a'))
-		end
-	elseif params.seconds ~= nil then
-		while duration < params.seconds do
-			last_duration = duration
-			add_song()
-			local tmp = io.popen(("mp3info -p %%S '%s'"):format(MUSIC_DIR..playlist[#playlist]:gsub("'", "'\"'\"'")))
-			assert(tmp)
-			duration = duration + tonumber(tmp:read('*a'))
-		end
-		-- Remove the last track if it will make it closer to the goal
-		if math.abs(last_duration - params.seconds) < math.abs(duration - params.seconds) then
-			table.remove(playlist)
-		end
-	end
-	return playlist
-end
-
-load_data()
-local params = parse_args()
-if params == nil then
-	os.exit(1)
-end
-local pl = generate_playlist(params)
-for _, v in ipairs(pl) do
-	print(v)
-end
+main
+while read -r line; do
+    main "$line"
+done

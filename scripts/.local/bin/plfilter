@@ -12,7 +12,6 @@ pldir="$musicdir"/Playlists
 plout="${1:-$pldir/.Filtered.m3u}"
 mappings="${XDG_CONFIG_HOME:-$HOME/.config}/playlist-mappings.tsv"
 mpdpl="$(mktemp -t plfilter.XXXXX)"
-mpc -f %file% playlist >"$mpdpl"
 setting="$(mktemp -t plfilter.XXXXX)"
 tmp="$(mktemp -t plfilter.XXXXX)" # aux buffer
 
@@ -79,10 +78,9 @@ getplaylist () {
 main () {
     # Parse menu inputs
     [ "$1" = q ] && echo Bye. && exit
-    [ "$1" =  ] && {
-        $lua_filter "$setting" >"$plout"
-        set -- ''
-    }
+
+    # Update MPD playlist
+    mpc -f %file% playlist >"$mpdpl"
 
     # Parse user input
     [ -n "$1" ] && {
@@ -119,13 +117,15 @@ main () {
         done
     }
 
+    $lua_filter "$setting" >"$plout"
+    set -- ''
+
     # Print header
     clear
     tput setab 15 setaf 0 bold
     printf ' plfilter '
     tput sgr0
     printf ' %sq%s exit  '   "$(tput bold setaf 4)" "$(tput sgr0)"
-    printf '%sESC%s apply  ' "$(tput bold setaf 4)" "$(tput sgr0)"
     col="$(tput setaf 7)"
     if rg -Fq -- "+$mpdpl" "$setting"; then
         col="$(tput bold setaf 10)"

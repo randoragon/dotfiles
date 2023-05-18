@@ -15,47 +15,9 @@ mpdpl="$(mktemp -t plfilter.XXXXX)"
 mpc -f %file% playlist >"$mpdpl"
 setting="$(mktemp -t plfilter.XXXXX)"
 tmp="$(mktemp -t plfilter.XXXXX)" # aux buffer
-lua_script="
-hashset = {}
-isfirst = true
-for playlist in io.lines(arg[1]) do
-    if isfirst then
-        if playlist:sub(1, 1) == '+' then
-            for song in io.lines(playlist:sub(2)) do
-                hashset[song] = true
-            end
-        else
-            local f = io.popen('cd \\'$musicdir\\' && find . -type f -name \\'*.mp3\\'', 'r')
-            local output = f:read('*a')
-            f:close()
-            for song in output:gmatch("'"[^\\n]*"'") do
-                local song = song:sub(3)
-                if #song ~= 0 then hashset[song] = true end
-            end
-        end
-        isfirst = false
-    else
-        if playlist:sub(1, 1) == '+' then
-            local to_unify = {}
-            for song in io.lines(playlist:sub(2)) do
-                to_unify[song] = true
-            end
-            for k, _ in pairs(hashset) do
-                if not to_unify[k] then
-                    hashset[k] = nil
-                end
-            end
-        elseif playlist:sub(1, 1) == '-' then
-            for song in io.lines(playlist:sub(2)) do
-                hashset[song] = nil
-            end
-        end
-    end
-end
-for k, _ in pairs(hashset) do
-    print(k)
-end
-"
+
+# External lua script for generating filtered playlists
+lua_filter=~/.scripts/plfilter_filter.lua
 
 cleanup () {
     rm -f -- "$tmp" "$setting" "$mpdpl"
@@ -118,7 +80,7 @@ main () {
     # Parse menu inputs
     [ "$1" = q ] && echo Bye. && exit
     [ "$1" =  ] && {
-        echo "$lua_script" | lua - "$setting" >"$plout"
+        $lua_filter "$setting" >"$plout"
         set -- ''
     }
 

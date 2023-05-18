@@ -35,7 +35,7 @@ end
 math.randomseed(os.time())
 for i = 0, #lists do
 	if #lists[i] ~= 0 then
-		for j = 1, #lists[i]-1 do
+		for j = 1, #lists[i] - 1 do
 			local index = math.random(j, #lists[i])
 			print(i, lists[i][index])
 			lists[i][index] = lists[i][j]

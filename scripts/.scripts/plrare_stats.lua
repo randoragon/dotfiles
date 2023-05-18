@@ -3,7 +3,7 @@
 -- playcount data read from standard input.
 
 MUSIC_DIR = os.getenv('HOME')..'/Music/'
-CACHE_DIR = os.getenv('XDG_CACHE_HOME')..'/' or (os.getenv('HOME')..'/.cache/')
+CACHE_DIR = os.getenv('XDG_CACHE_HOME')..'/' or os.getenv('HOME')..'/.cache/'
 CACHE_FILE = CACHE_DIR..'plrare-stats-cache.tsv'
 CACHE_WRITE_THRES = 100
 TOP_N = 10 -- how many top listened artists/albums to display

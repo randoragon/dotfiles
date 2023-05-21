@@ -16,6 +16,7 @@ output="$musicdir"/transitions.tsv
 mpc_fmt='%file%%artist%%title%%album%%time%'
 awk_begin='BEGIN{FS="	";OFS="	"}'
 tmp="$(mktemp -t plcategorize.XXXXX)" # aux buffer
+maxcols=5
 
 cleanup () {
     rm -f -- "$tmp"
@@ -313,7 +314,7 @@ main () {
         entryw="$(cat -- "$tmp")"
         entrycols="$(( (termw - 2) / (entryw + 4) ))"
         [ "$entrycols" -lt 1 ] && entrycols=1
-        [ "$entrycols" -gt 4 ] && entrycols=4
+        [ "$entrycols" -gt $maxcols ] && entrycols=$maxcols
         last_termw="$termw"
     }
 

@@ -14,6 +14,7 @@ mappings="${XDG_CONFIG_HOME:-$HOME/.config}/playlist-mappings.tsv"
 mpdpl="$(mktemp -t plgen.XXXXX)"
 setting="$(mktemp -t plgen.XXXXX)"
 tmp="$(mktemp -t plgen.XXXXX)" # aux buffer
+maxcols=5
 
 # External lua script for generating filtered playlists
 lua_filter=~/.scripts/plfilter_filter.lua
@@ -177,7 +178,7 @@ main () {
         entryw="$(cat -- "$tmp")"
         entrycols="$(( (termw - 2) / (entryw + 4) ))"
         [ "$entrycols" -lt 1 ] && entrycols=1
-        [ "$entrycols" -gt 4 ] && entrycols=4
+        [ "$entrycols" -gt $maxcols ] && entrycols=$maxcols
         last_termw="$termw"
     }
 

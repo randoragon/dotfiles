@@ -180,6 +180,7 @@ done
 [ -n "$need_gui" ] && {
     printf "installing xorg packages... "
     sudo pacman -Sq --needed --noconfirm xorg >/dev/null || printf "failed.\n"
+    pacinstall brightnessctl
     printf "done.\n"
 }
 # gcr package needed by surf later

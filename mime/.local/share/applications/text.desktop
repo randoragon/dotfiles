@@ -1,4 +1,5 @@
 [Desktop Entry]
 Type=Application
 Name=OpenPlainText
-Exec=~/.scripts/open-plain-text.sh %u
+Exec=open-plain-text %u
+MimeType=text/plain

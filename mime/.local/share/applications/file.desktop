@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=lf
-Exec=/usr/local/bin/alacritty -e lf --  %f
+Exec=alacritty -e lf -- %f
 Terminal=false
 Icon=/usr/share/icons/Adwaita/64x64/places/folder-symbolic.symbolic.png
 MimeType=inode/directory

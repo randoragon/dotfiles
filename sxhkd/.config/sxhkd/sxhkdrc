@@ -76,9 +76,9 @@ super+ctrl + equal
 
 # Backlight
 {XF86MonBrightnessUp,XF86MonBrightnessDown}
-	xbacklight {-inc,-dec} 5
+	brightnessctl set {+5%,5%-}
 shift + {XF86MonBrightnessUp,XF86MonBrightnessDown}
-	xbacklight -set {100,0}
+	brightnessctl set {100,0}%
 
 # Shortcuts Help
 super+shift + slash

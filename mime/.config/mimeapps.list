@@ -1,20 +1,19 @@
 [Default Applications]
 
-# Document
+# Documents
 application/pdf=pdf.desktop;
 text/plain=text.desktop;
 text/troff=text.desktop;
+text/x-tex=text.desktop;
+text/html=surf.desktop;
+text/csv=text.desktop
+
+# Code
 text/x-shellscript=text.desktop;
 text/x-script.python=text.desktop;
 text/x-c=text.desktop;
 text/x-makefile=text.desktop;
-text/x-tex=text.desktop;
-text/html=surf.desktop;
-text/csv=text.desktop
-application/rss+xml=firefox.desktop;
-application/rss+xml=text.desktop;firefox.desktop;
-application/atom+xml=text.desktop;firefox.desktop;
-application/json=text.desktop
+text/x-ruby=text.desktop;
 
 # Audio
 audio/mpeg=mpv.desktop;
@@ -23,10 +22,12 @@ audio/x-wav=mpv.desktop
 audio/ogg=mpv.desktop;
 audio/x-hx-aac-adts=mpv.desktop;
 
-# Image
+# Images
 image/gif=image.desktop;
 image/png=image.desktop;
 image/jpeg=image.desktop;
+image/svg=image.desktop;
+image/svg+xml=image.desktop;
 
 # Video
 application/mpeg=mpv.desktop;
@@ -35,9 +36,14 @@ video/x-matroska=mpv.desktop;
 
 # Misc
 inode/directory=file.desktop;
+inode/x-empty=text.desktop;
 application/octet-stream=text.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;
 application/zip=xarchiver.desktop;
+application/rss+xml=firefox.desktop;
+application/rss+xml=text.desktop;firefox.desktop;
+application/atom+xml=text.desktop;firefox.desktop;
+application/json=text.desktop
 
 # URL Schemes
 x-scheme-handler/http=firefox.desktop;

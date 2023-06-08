@@ -583,3 +583,10 @@ nnoremap <silent> <M-O> ^"py$:call NextInsMarker()<CR>"pPl"_df>
 inoremap <silent> <M-O> <Esc>^"py$:call NextInsMarker()<CR>"pPl"_df>
 vnoremap <silent> <M-O> <Esc>:call NextInsMarker()<CR>"=GetLastSelection()<CR>Pl"_df>
 "}}}
+
+"{{{1 Keymap for surrounding character/selection with spaces
+" Because I had to fix too many people's code that don't surround operators
+" with spaces >:(
+nmap <M-1> ysl  l
+vmap <M-1> S  l
+"}}}

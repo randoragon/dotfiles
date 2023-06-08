@@ -32,7 +32,7 @@ for f in "$@"; do
             tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
             printf "%s" "$HTML_MD_STYLE" >"$tmp"
             md2html --github -- "$f" >>"$tmp"
-            surf -z 1.5 -- file://"$tmp"
+            surf -- file://"$tmp"
             shred -u -- "$tmp"
             ;;
         adoc) # Asciidoc

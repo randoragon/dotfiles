@@ -79,6 +79,7 @@ nnoremap <silent> <Leader>gr :Gitsigns reset_hunk<CR>
 nnoremap <silent> <Leader>gl :Gitsigns toggle_signs<CR>
 nnoremap <silent> <Leader>gb :lua require('gitsigns').blame_line({full=true})<CR>
 nnoremap <silent> <Leader>gq :Gitsigns setqflist<CR>
+nnoremap <silent> <Leader>gs :Gitsigns select_hunk<CR>
 " }}}
 
 " Tabular keyboard shortcuts {{{2

@@ -13,7 +13,8 @@
 #
 # DEPENDENCIES
 # - md2html (md4c)
-# - surf
+# - rst2html (python-docutils)
+# - surf (http://surf.suckless.org/)
 # - env: TERMINAL, EDITOR, PDF_READER
 # - env (optional): HTML_MD_STYLE
 
@@ -21,7 +22,7 @@ for f in "$@"; do
 
     # Skip if file doesn't exist or has no read permission
     [ ! -r "$f" ] && {
-        printf 'open-plain-text.sh: cannot read file "%s"\n' "$f" >&2
+        printf 'open-plain-text: cannot read file "%s"\n' "$f" >&2
         continue
     }
 
@@ -33,6 +34,12 @@ for f in "$@"; do
             printf "%s" "$HTML_MD_STYLE" >"$tmp"
             md2html --github -- "$f" >>"$tmp"
             surf -- file://"$tmp"
+            shred -u -- "$tmp"
+            ;;
+        rst) # reStructuredText
+            tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
+            rst2html -- "$f" "$tmp"
+            surf -z 1.5 -- file://"$tmp"
             shred -u -- "$tmp"
             ;;
         adoc) # Asciidoc

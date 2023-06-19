@@ -45,6 +45,7 @@ for f in "$@"; do
         adoc) # Asciidoc
             tmp="$(mktemp -p /tmp -- open-plain-text.XXXXX.html)"
             dirname="$(dirname -- "$f")"
+            # shellcheck disable=SC2086
             asciidoctor $ASCIIDOCTOR_OPTS -a imagesdir="$dirname" -a stylesdir="$dirname" -o "$tmp" -- "$f"
             surf -S -- file://"$tmp"
             shred -u -- "$tmp"
@@ -68,10 +69,10 @@ for f in "$@"; do
             lxmake "$f" - | $PDF_READER -
             ;;
         0|1|2|3|4|5|6|7|8|9) # man page
-            "$TERMINAL" -e man -l -- "$f"
+            $TERMINAL -e man -l -- "$f"
             ;;
         *)
-            "$TERMINAL" -e "$EDITOR" -- "$f"
+            $TERMINAL -e "$EDITOR" -- "$f"
             ;;
     esac
 done

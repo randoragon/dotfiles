@@ -7,7 +7,7 @@
 [commit]
 	gpgSign = true
 [diff]
-	submodule = diff
+	submodule = short
 [status]
 	submoduleSummary = 1
 [pull]

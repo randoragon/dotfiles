@@ -9,7 +9,7 @@ treesitter.setup {
 		'diff',
 		'dockerfile',
 		'dot',
-		'git_config', 'gitignore', 'git_rebase', 'gitattributes',
+		'gitcommit', 'git_config', 'gitignore', 'git_rebase', 'gitattributes',
 		'go', 'gosum', 'gowork',
 		'html', 'css', 'javascript', 'typescript', 'jsdoc',
 		'json', 'yaml',

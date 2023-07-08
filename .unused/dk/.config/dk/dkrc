@@ -1,0 +1,79 @@
+#!/bin/sh
+
+# Gracefully exit if dkcmd is not available
+[ -z "$(command -v dkcmd)" ] && {
+    echo 'dkrc: dkcmd required, but not detected' >&2
+    exit
+}
+
+# Log file
+datadir="${XDG_DATA_HOME:-~/.local/share}/dk"
+logfile="$datadir/dkrc.log"
+mkdir -p -- "$datadir"
+: >"$logfile"
+
+(
+
+    # Workspaces
+    dkcmd set numws=13
+    dkcmd set ws=_ apply \
+        layout=tile \
+        master=1 stack=999 \
+        gap=10 \
+        msplit=0.5 ssplit=0.5
+    dkcmd set \
+        ws=10 name=_sp \
+        ws=11 name= \
+        ws=12 name= \
+        ws=13 name= \
+
+    # Rules
+    dkcmd rule instance='^sp$' float=true x=center y=center
+    dkcmd rule instance='^floatme$' float=true x=center y=center
+    dkcmd rule class='^firefox$' ws=11
+    dkcmd rule class='^Brave-browser$' ws=11
+    dkcmd rule class='^Chromium$' ws=11
+    dkcmd rule class='^thunderbird$' ws=12
+    dkcmd rule class='^discord$' ws=13
+    dkcmd rule class='^sxiv$' float=true
+
+    # General behavior
+    dkcmd set \
+        focus_open=true \
+        focus_urgent=false \
+        focus_mouse=true \
+        tile_tohead=0 \
+        tile_hints=false
+
+    # Mouse support
+    dkcmd set mouse \
+        mod=super \
+        move=button1 \
+        resize=button3
+
+    # Appearance
+    dkcmd set \
+        smart_gap=false \
+        smart_border=false \
+        border \
+        width=2 \
+        color \
+        focus='#a0ff00' \
+        unfocus='#666666' \
+        urgent='#ee5555' \
+
+) >> "$logfile" 2>&1
+
+# Report errors in log
+if grep -q 'error:' "$logfile"; then
+    notify-send -u critical 'error while executing dkrc'
+    exit 1
+fi
+
+# Run xprofile autostart script
+# Using sxhkd as a condition to determine whether or not xprofile
+# should be run is a dirty solution, but it works.
+pidof -q sxhkd || {
+    xprofile="$HOME/.config/X11/xprofile"
+    [ -f "$xprofile" ] && . "$xprofile"
+}

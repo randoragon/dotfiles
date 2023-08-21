@@ -28,6 +28,7 @@ sectionend
 
 section UPDATING 'neovim plugins'
 nvim --headless +'autocmd User PaqDoneSync qall' +PaqSync
+nvim --headless +TSUpdateSync +qall
 echo
 sectionend
 
@@ -35,7 +36,7 @@ section PULLING 'latest LLS-Addons'
 if [ ! -d ~/Software/LLS-Addons ]; then
     echo 'LLS-Addons not installed, skipping'
 else
-    pullmsg="$(git -C ~/Software/LLS-Addons pull)"
+    pullmsg="$(git -C ~/Software/LLS-Addons pull --recurse-submodules=on-demand)"
     if [ "$pullmsg" = 'Already up to date.' ]; then
         echo "$pullmsg"
     else

@@ -199,9 +199,8 @@ view () {
     fmt="$(get_filetype "$tmpd")"
     target="$tmpd/NOTE/NOTE.$fmt"
 
-    # Perform string substitutions, update access time
+    # Perform string substitutions
     strsub "$notedir/$1" "$target"
-    touch -ac "$notedir/$1"
 
     case "$fmt" in
         txt)
@@ -326,9 +325,8 @@ output () {
     fmt="$(get_filetype "$tmpd")"
     target="$tmpd/NOTE/NOTE.$fmt"
 
-    # Perform string substitutions, update access time
+    # Perform string substitutions
     strsub "$notedir/$1" "$target"
-    touch -ac -- "$notedir/$1"
 
     case "$fmt" in
         txt)

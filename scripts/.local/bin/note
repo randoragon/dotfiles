@@ -122,6 +122,7 @@ archive () {
 # strsub <source> <file>
 # Does in-place string substitution, as described in --help.
 # source is the file that will be stat'ted for information
+# SOURCE MUST BE A NOTES GIT REPO FILE!!!
 # file is the file that will be modified with substitutions
 strsub () {
     # Update modified time according to git data
@@ -129,7 +130,7 @@ strsub () {
     epoch="$(git -C "$notedir" log -1 --format='%at' -- "$fpath")"
     touch -mct "$(date -d "@$epoch" '+%Y%m%d%H%M.%S')" -- "$1"
 
-    mtime="$(date -d "@$(stat -c %Y -- "$1")" +'%a %Y-%m-%d %H:%M %Z')"
+    mtime="$(date -d "@$epoch" '+%a %Y-%m-%d %H:%M %Z')"
     sed -i -e "s/NOTE_MTIME/$mtime/g" "$2"
 }
 
@@ -177,8 +178,12 @@ edit () {
         case "${target##*.}" in
             tex)
                 # Cache the PDF for quick access
+                cachetarget="$(mktemp -p "$tmpd/NOTE" cachetarget.XXXXX)"
+                cp -- "$target" "$cachetarget"
+                strsub "$notedir/$1" "$cachetarget"
                 cache="$tmpd/NOTE/CACHE.pdf"
-                lxmake "$target" "$cache"
+                lxmake "$cachetarget" "$cache"
+                shred -u -- "$cachetarget"
         esac
 
         archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"

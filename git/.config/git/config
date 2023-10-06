@@ -14,6 +14,8 @@
 	rebase = false
 [merge]
 	conflictstyle = diff3
+[rebase]
+	abbreviateCommands = true
 
 [submodule]
 	fetchJobs = 0

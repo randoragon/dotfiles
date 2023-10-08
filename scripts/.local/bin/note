@@ -119,15 +119,21 @@ archive () {
     shred -u -- "$tmp"
 }
 
-# strsub <source> <file>
+# strsub <source> <file> <use_current_time?>
 # Does in-place string substitution, as described in --help.
 # source is the file that will be stat'ted for information
 # SOURCE MUST BE A NOTES GIT REPO FILE!!!
 # file is the file that will be modified with substitutions
+# If use_current_time is passed, NOTE_MTIME will be substituted
+# for the current time, instead of fetching the latest git commit.
 strsub () {
     # Update modified time according to git data
     fpath="$(realpath --relative-to "$notedir" -- "$1")"
-    epoch="$(git -C "$notedir" log -1 --format='%at' -- "$fpath")"
+    if [ -z "$3" ]; then
+        epoch="$(git -C "$notedir" log -1 --format='%at' -- "$fpath")"
+    else
+        epoch="$(date +%s)"
+    fi
     touch -mct "$(date -d "@$epoch" '+%Y%m%d%H%M.%S')" -- "$1"
 
     mtime="$(date -d "@$epoch" '+%a %Y-%m-%d %H:%M %Z')"
@@ -180,7 +186,7 @@ edit () {
                 # Cache the PDF for quick access
                 cachetarget="$(mktemp -p "$tmpd/NOTE" cachetarget.XXXXX)"
                 cp -- "$target" "$cachetarget"
-                strsub "$notedir/$1" "$cachetarget"
+                strsub "$notedir/$1" "$cachetarget" 1
                 cache="$tmpd/NOTE/CACHE.pdf"
                 lxmake "$cachetarget" "$cache"
                 shred -u -- "$cachetarget"

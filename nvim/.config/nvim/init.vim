@@ -46,7 +46,6 @@ require 'paq' {
     'Vigemus/iron.nvim';
     'famiu/bufdelete.nvim';
     'tiagovla/scope.nvim';
-    'ggandor/lightspeed.nvim';
     {
         'nvim-treesitter/nvim-treesitter',
         run = function() vim.cmd('TSUpdate') end,
@@ -170,16 +169,6 @@ lua require('plugins.kanagawa')
 " nvim-treesitter {{{2
 lua require('plugins.treesitter')
 " }}}
-
-" lightspeed.nvim {{{2
-let g:lightspeed_last_motion = ''
-augroup lightspeed_last_motion
-autocmd!
-autocmd User LightspeedSxEnter let g:lightspeed_last_motion = 'sx'
-autocmd User LightspeedFtEnter let g:lightspeed_last_motion = 'ft'
-augroup end
-map <expr> ; g:lightspeed_last_motion == 'sx' ? "<Plug>Lightspeed_;_sx" : "<Plug>Lightspeed_;_ft"
-map <expr> \ g:lightspeed_last_motion == 'sx' ? "<Plug>Lightspeed_,_sx" : "<Plug>Lightspeed_,_ft"
 " }}}
 
 " }}}

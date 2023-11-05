@@ -19,7 +19,7 @@ while read -r file; do
         'less') convert -rotate -90 "$file" "$file" ;;
         'question') convert -rotate 180 "$file" "$file" ;;
         'bar') convert -flop "$file" "$file" ;;
-        'underscore') convert -rotate 180 -flop "$file" "$file" ;;
+        'underscore') convert -flip "$file" "$file" ;;
         'C-c') xclip -t "$(xdg-mime query filetype "$file")" -selection clipboard <"$file" &&
                  notify-send -i "$(readlink -f "$file")" "$file" "Image copied to clipboard" ;;
         'y') printf "%s" "$(basename -- "$file")" | xclip -selection clipboard &&

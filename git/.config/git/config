@@ -8,14 +8,17 @@
 	gpgSign = true
 [diff]
 	submodule = log
+	tool = meld
 [status]
 	submoduleSummary = 1
 [pull]
 	rebase = false
 [merge]
 	conflictstyle = diff3
+	tool = meld
 [rebase]
 	abbreviateCommands = true
+
 
 [submodule]
 	fetchJobs = 0
@@ -24,3 +27,12 @@
 
 [pass]
 	signcommits = true
+
+
+[difftool]
+	prompt = false
+[difftool "meld"]
+	cmd = meld "$LOCAL" "$REMOTE"
+[mergetool "meld"]
+	cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+	# cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"

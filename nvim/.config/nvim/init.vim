@@ -209,14 +209,14 @@ function! QFListSetState()
     if getwininfo(win_getid())[0]['loclist']
         let g:llist_isopen = 1
     else
-        let g:lcist_isopen = 1
+        let g:clist_isopen = 1
     endif
 endfunction
 function! QFListUnsetState()
     if getwininfo(win_getid())[0]['loclist']
         let g:llist_isopen = 0
     else
-        let g:lcist_isopen = 0
+        let g:clist_isopen = 0
     endif
 endfunction
 augroup qffixstates

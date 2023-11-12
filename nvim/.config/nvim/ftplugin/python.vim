@@ -14,12 +14,12 @@ inoremap <buffer> <Leader>M map(, <,,>)<C-o>F(<Right>
 inoremap <buffer> <Leader>c class 
 inoremap <buffer> <Leader>s split()<Left>
 
-command LSPFileTogglePy    lua require('lsp').toggle({
+command LSPFileTogglePy    lua lsp_toggle({
             \   name = 'pylsp',
             \   cmd  = {'pylsp'},
             \   settings = require('lsp.settings.pylsp'),
             \ })
-command LSPProjectTogglePy lua require('lsp').toggle({
+command LSPProjectTogglePy lua lsp_toggle({
             \   name = 'pylsp',
             \   cmd  = {'pylsp'},
             \   settings = require('lsp.settings.pylsp'),

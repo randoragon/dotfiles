@@ -18,12 +18,12 @@ inoremap <buffer> <Leader>mc calloc()<Left>
 inoremap <buffer> <Leader>mr realloc()<Left>
 inoremap <buffer> <Leader>mf free();<Left><Left>
 
-command LSPFileToggleC    lua require('lsp').toggle({
+command LSPFileToggleC    lua lsp_toggle({
             \   name = 'ccls',
             \   cmd  = {'ccls'},
             \   settings = require('lsp.settings.ccls'),
             \ })
-command LSPProjectToggleC lua require('lsp').toggle({
+command LSPProjectToggleC lua lsp_toggle({
             \   name = 'ccls',
             \   cmd  = {'ccls'},
             \   settings = require('lsp.settings.ccls'),

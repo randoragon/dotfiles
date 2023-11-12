@@ -53,12 +53,12 @@ inoremap <buffer> <Leader>.i id=""<Left>
 inoremap <buffer> <Leader>.c class=""<Left>
 inoremap <buffer> <Leader>.s src=""<Left>
 
-command LSPFileToggleVue    lua require('lsp').toggle({
+command LSPFileToggleVue    lua lsp_toggle({
             \   name = 'vls',
             \   cmd  = {'vls'},
             \   settings = require('lsp.settings.vls'),
             \ })
-command LSPProjectToggleVue lua require('lsp').toggle({
+command LSPProjectToggleVue lua lsp_toggle({
             \   name = 'vls',
             \   cmd  = {'vls'},
             \   settings = require('lsp.settings.vls'),

@@ -157,12 +157,12 @@ nnoremap <silent> <buffer> <Leader>if :silent let _newsubfile = NewSubfile()<CR>
     \ call setbufline(_newsubfile[0], 1, _newsubfile[1]) \|
     \ exec 'buf +6 '._newsubfile[0] \| endif<CR>
 
-command LSPFileToggleTex    lua require('lsp').toggle({
+command LSPFileToggleTex    lua lsp_toggle({
             \   name = 'texlab',
             \   cmd  = {'texlab'},
             \   settings = require('lsp.settings.texlab'),
             \ })
-command LSPProjectToggleTex lua require('lsp').toggle({
+command LSPProjectToggleTex lua lsp_toggle({
             \   name = 'texlab',
             \   cmd  = {'texlab'},
             \   settings = require('lsp.settings.texlab'),

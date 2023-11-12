@@ -7,12 +7,12 @@ if (&filetype == 'html')
     nnoremap <buffer> <Leader>p :AsyncRun setsid surf -S -- file://"%:p"<CR>
     nnoremap <buffer> <Leader>P :AsyncRun xdg-open file://"%:p"<CR>
 
-    command LSPFileToggleHTML    lua require('lsp').toggle({
+    command LSPFileToggleHTML    lua lsp_toggle({
                 \   name = 'vscode-html-languageserver',
                 \   cmd  = {'vscode-html-languageserver', '--stdio'},
                 \   settings = require('lsp.settings.vscode-html-languageserver'),
                 \ })
-    command LSPProjectToggleHTML lua require('lsp').toggle({
+    command LSPProjectToggleHTML lua lsp_toggle({
                 \   name = 'vscode-html-languageserver',
                 \   cmd  = {'vscode-html-languageserver', '--stdio'},
                 \   settings = require('lsp.settings.vscode-html-languageserver'),

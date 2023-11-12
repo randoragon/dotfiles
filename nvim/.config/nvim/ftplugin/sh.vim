@@ -13,12 +13,12 @@ inoremap <buffer> <Leader>R read -r
 inoremap <buffer> <Leader>p printf 
 inoremap <buffer> <Leader>x exit
 
-command LSPFileToggleBash    lua require('lsp').toggle({
+command LSPFileToggleBash    lua lsp_toggle({
             \   name = 'bash-language-server',
             \   cmd  = {'bash-language-server', 'start'},
             \   settings = require('lsp.settings.bash-language-server'),
             \ })
-command LSPProjectToggleBash lua require('lsp').toggle({
+command LSPProjectToggleBash lua lsp_toggle({
             \   name = 'bash-language-server',
             \   cmd  = {'bash-language-server', 'start'},
             \   settings = require('lsp.settings.bash-language-server'),

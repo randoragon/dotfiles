@@ -1,5 +1,3 @@
-local M = {}
-
 -- Each buffer remembers its lsp client ID and its lsp configuration.
 -- To support 'project mode' where lsp is automatically started for each new
 -- buffer, the most recent lsp configuration is stored in a global variable as
@@ -10,7 +8,7 @@ vim.g.active_lsp_config = nil
 
 -- Toggle a LSP for the current buffer.
 -- If query_list is not passed, root directory will be set to null.
-function M.toggle(config, query_list)
+function lsp_toggle(config, query_list)
 	if vim.b.active_lsp_client == nil then
 		if not config.root_dir and query_list then
 			local found = vim.fs.find(query_list, {
@@ -47,7 +45,7 @@ function M.toggle(config, query_list)
 	end
 end
 
-function M.status()
+function lsp_get_status_str()
 	if vim.b.active_lsp_client == nil then
 		return ''
 	end
@@ -55,5 +53,3 @@ function M.status()
 	local errors   = #vim.diagnostic.get(0, {severity=vim.diagnostic.severity.ERROR})
 	return '%#MyStatusBarWarn# '..warnings..' %#MyStatusBarError# '..errors..' '
 end
-
-return M

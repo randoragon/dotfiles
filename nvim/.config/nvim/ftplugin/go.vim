@@ -12,12 +12,12 @@ inoremap <buffer> <Leader>E if err != nil {}<Left><CR>
 inoremap <buffer> <Leader>o else if 
 inoremap <buffer> <Leader>f for 
 
-command LSPFileToggleGo    lua require('lsp').toggle({
+command LSPFileToggleGo    lua lsp_toggle({
             \   name = 'gopls',
             \   cmd  = {'gopls'},
             \   settings = require('lsp.settings.gopls'),
             \ })
-command LSPProjectToggleGo lua require('lsp').toggle({
+command LSPProjectToggleGo lua lsp_toggle({
             \   name = 'gopls',
             \   cmd  = {'gopls'},
             \   settings = require('lsp.settings.gopls'),

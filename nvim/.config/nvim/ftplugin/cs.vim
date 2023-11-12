@@ -15,12 +15,12 @@ inoremap <buffer> <Leader>o else if () <,,><C-o>F)
 inoremap <buffer> <Leader>f for () <,,><C-o>F)
 inoremap <buffer> <Leader>w while () <,,><C-o>F)
 
-command LSPFileToggleCSharp    lua require('lsp').toggle({
+command LSPFileToggleCSharp    lua lsp_toggle({
             \   name = 'omnisharp',
             \   cmd  = {'omnisharp', '-lsp'},
             \   settings = require('lsp.settings.omnisharp'),
             \ })
-command LSPProjectToggleCSharp lua require('lsp').toggle({
+command LSPProjectToggleCSharp lua lsp_toggle({
             \   name = 'omnisharp',
             \   cmd  = {'omnisharp', '-lsp'},
             \   settings = require('lsp.settings.omnisharp'),

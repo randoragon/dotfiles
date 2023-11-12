@@ -1,11 +1,11 @@
 set shiftwidth=4 tabstop=4
 
-command LSPFileToggleCSS    lua require('lsp').toggle({
+command LSPFileToggleCSS    lua lsp_toggle({
             \   name = 'vscode-css-languageserver',
             \   cmd  = {'vscode-css-languageserver', '--stdio'},
             \   settings = require('lsp.settings.vscode-css-languageserver'),
             \ })
-command LSPProjectToggleCSS lua require('lsp').toggle({
+command LSPProjectToggleCSS lua lsp_toggle({
             \   name = 'vscode-css-languageserver',
             \   cmd  = {'vscode-css-languageserver', '--stdio'},
             \   settings = require('lsp.settings.vscode-css-languageserver'),

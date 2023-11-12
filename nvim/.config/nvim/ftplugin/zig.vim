@@ -14,12 +14,12 @@ inoremap <buffer> <Leader>o else if () <,,><C-o>F)
 inoremap <buffer> <Leader>f for () <,,><C-o>F)
 inoremap <buffer> <Leader>w while () <,,><C-o>F)
 
-command LSPFileToggleZig    lua require('lsp').toggle('ziglsp', {'zls'})
+command LSPFileToggleZig    lua lsp_toggle('ziglsp', {'zls'})
             \   name = 'ziglsp',
             \   cmd  = {'zls'},
             \   settings = require('lsp.settings.zls'),
             \ })
-command LSPProjectToggleZig lua require('lsp').toggle('ziglsp', {'zls'},
+command LSPProjectToggleZig lua lsp_toggle('ziglsp', {'zls'},
             \ {
             \  '.git',
             \  'build.zig',

@@ -41,12 +41,12 @@ inoremap <buffer> \|= <Esc>y^gi= <C-r>" \|
 inoremap <buffer> >>= <Esc>y^gi= <C-r>" >>
 inoremap <buffer> <<= <Esc>y^gi= <C-r>" <<
 
-command LSPFileToggleLua    lua require('lsp').toggle({
+command LSPFileToggleLua    lua lsp_toggle({
             \   name = 'lua-language-server',
             \   cmd  = {'lua-language-server'},
             \   settings = require('lsp.settings.lua-language-server'),
             \ })
-command LSPProjectToggleLua lua require('lsp').toggle({
+command LSPProjectToggleLua lua lsp_toggle({
             \   name = 'lua-language-server',
             \   cmd  = {'lua-language-server'},
             \   settings = require('lsp.settings.lua-language-server'),

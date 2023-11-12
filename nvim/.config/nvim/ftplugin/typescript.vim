@@ -4,12 +4,12 @@ set shiftwidth=2
 set tabstop=2
 set softtabstop=0
 
-command LSPFileToggleTS    lua require('lsp').toggle({
+command LSPFileToggleTS    lua lsp_toggle({
             \   name = 'typescript-language-server',
             \   cmd  = {'typescript-language-server', '--stdio'},
             \   settings = require('lsp.settings.typescript-language-server'),
             \ })
-command LSPProjectToggleTS lua require('lsp').toggle({
+command LSPProjectToggleTS lua lsp_toggle({
             \   name = 'typescript-language-server',
             \   cmd  = {'typescript-language-server', '--stdio'},
             \   settings = require('lsp.settings.typescript-language-server'),

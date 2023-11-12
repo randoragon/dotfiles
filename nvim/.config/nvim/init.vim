@@ -229,6 +229,7 @@ nnoremap <silent> <Leader>d :try \| call ToggleLList() \| catch \| echo "No loca
 "}}}
 
 "{{{1 LSP Configuration
+lua require("lsp")
 let g:project_mode = 0
 nnoremap <silent> <Leader>.L :let g:project_mode = !g:project_mode<CR>
 nnoremap <Space> <Nop>
@@ -265,7 +266,7 @@ augroup END
 " https://shapeshed.com/vim-statuslines/
 set statusline=
 set statusline+=%#MyProjectMode#%{g:project_mode?'·':''}       " Project Mode indicator
-set statusline+=%{%luaeval(\"require('lsp').status()\")%}      " LSP warnings/errors
+set statusline+=%{%luaeval(\"lsp_get_status_str()\")%}         " LSP warnings/errors
 set statusline+=%#Visual#\ %f\                                 " File path
 set statusline+=%#WarningMsg#%h%m%r                            " {help, modified, readonly} flags
 set statusline+=%#CursorColumn#%=                              " Align the rest to the right

@@ -11,6 +11,10 @@ map("v", "<Leader>/", ":nohlsearch<CR>", { silent=true })
 map("n", "<PageUp>", "<C-u>", { remap=true })
 map("n", "<PageDown>", "<C-d>", { remap=true })
 
+-- LSP
+map("n", "<Leader>.L", lsp_toggle_project_mode, { silent=true })
+map("n", "<Space>", "<Nop>")
+
 -- Quickfix/location lists
 map("n", "<Leader>q", ":ToggleCList<CR>", { silent=true })
 map("n", "<Leader>d", ":ToggleLList<CR>", { silent=true })

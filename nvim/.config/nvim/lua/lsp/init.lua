@@ -1,3 +1,5 @@
+local modpath = (...)
+
 -- Each buffer remembers its lsp client ID and its lsp configuration.
 -- To support 'project mode' where lsp is automatically started for each new
 -- buffer, the most recent lsp configuration is stored in a global variable as
@@ -5,6 +7,11 @@
 vim.b.active_lsp_client = nil
 vim.b.active_lsp_config = nil
 vim.g.active_lsp_config = nil
+vim.g.project_mode = false
+
+function lsp_toggle_project_mode()
+	vim.g.project_mode = not vim.g.project_mode
+end
 
 -- Toggle a LSP for the current buffer.
 -- If query_list is not passed, root directory will be set to null.
@@ -53,3 +60,5 @@ function lsp_get_status_str()
 	local errors   = #vim.diagnostic.get(0, {severity=vim.diagnostic.severity.ERROR})
 	return '%#MyStatusBarWarn# '..warnings..' %#MyStatusBarError# '..errors..' '
 end
+
+require(modpath .. ".autocommands")

@@ -4,5 +4,5 @@ package.path = "./?/init.lua;" .. package.path
 
 require("lua.options")
 require("lua.lsp")
-require("lua.commands")
+require("lua.misc")
 require("lua.mappings")

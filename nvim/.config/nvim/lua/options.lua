@@ -14,6 +14,25 @@ o.timeoutlen = 500
 o.history = 1000
 bo.spelllang = "en_us"
 
+-- Searching
+o.ignorecase = true
+o.smartcase = true
+
+-- Wildmenu
+o.wildmenu = true
+o.wildmode = "longest:full,full"
+o.setwildignorecase = true
+o.wildignore = { "*.git/*", "*.tags", "*.o" }
+
+-- Window splitting
+o.splitbelow = true
+o.splitright = true
+
+-- Backup directories
+o.backup = true
+o.writebackup = true
+o.backupdir = "~/.local/share/nvim/backup/"
+
 -- Status bar
 -- https://jdhao.github.io/2019/11/03/vim_custom_statusline/
 -- https://shapeshed.com/vim-statuslines/
@@ -41,3 +60,13 @@ vim.g.clipboard = {
 	},
 	cache_enabled = true
 }
+
+-- Colorscheme
+if os.getenv("DISPLAY") != "" then
+	o.termguicolors = true
+	o.background = "dark"
+	vim.cmd.colorscheme("kanagawa")
+else
+	-- Fallback colorscheme for TTY
+	vim.cmd.colorscheme("ron")
+end

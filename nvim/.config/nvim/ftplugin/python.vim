@@ -1,3 +1,5 @@
+setl foldmethod=indent
+
 nnoremap <buffer> <Leader>m :write \| split \| terminal python3 -i %<CR>
 nnoremap <buffer> <Leader>.m :write \| split \| terminal ipython -i %<CR>
 
@@ -15,20 +17,20 @@ inoremap <buffer> <Leader>c class
 inoremap <buffer> <Leader>s split()<Left>
 
 command LSPFileTogglePy    lua lsp_toggle({
-            \   name = 'pylsp',
-            \   cmd  = {'pylsp'},
-            \   settings = require('lsp.settings.pylsp'),
+            \   name = "pylsp",
+            \   cmd  = {"pylsp"},
+            \   settings = require("lsp.settings.pylsp"),
             \ })
 command LSPProjectTogglePy lua lsp_toggle({
-            \   name = 'pylsp',
-            \   cmd  = {'pylsp'},
-            \   settings = require('lsp.settings.pylsp'),
+            \   name = "pylsp",
+            \   cmd  = {"pylsp"},
+            \   settings = require("lsp.settings.pylsp"),
             \ },
             \ {
-            \  '.git',
-            \  'setup.py',
-            \  'Makefile', 'makefile', 'GNUmakefile',
-            \  'CMakeLists.txt'
+            \  ".git",
+            \  "setup.py",
+            \  "Makefile", "makefile", "GNUmakefile",
+            \  "CMakeLists.txt"
             \ })
 nnoremap <buffer> <silent> <Leader>l :LSPFileTogglePy<CR>
 nnoremap <buffer> <silent> <Leader>L :LSPProjectTogglePy<CR>

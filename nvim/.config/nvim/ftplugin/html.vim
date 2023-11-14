@@ -1,4 +1,4 @@
-set shiftwidth=2 tabstop=2
+setl shiftwidth=2 tabstop=2
 
 " HTML-only mappings, not compatible with markdown (https://vi.stackexchange.com/a/8343)
 if (&filetype == 'html')
@@ -8,26 +8,24 @@ if (&filetype == 'html')
     nnoremap <buffer> <Leader>P :AsyncRun xdg-open file://"%:p"<CR>
 
     command LSPFileToggleHTML    lua lsp_toggle({
-                \   name = 'vscode-html-languageserver',
-                \   cmd  = {'vscode-html-languageserver', '--stdio'},
-                \   settings = require('lsp.settings.vscode-html-languageserver'),
+                \   name = "vscode-html-languageserver",
+                \   cmd  = {"vscode-html-languageserver", "--stdio"},
+                \   settings = require("lsp.settings.vscode-html-languageserver"),
                 \ })
     command LSPProjectToggleHTML lua lsp_toggle({
-                \   name = 'vscode-html-languageserver',
-                \   cmd  = {'vscode-html-languageserver', '--stdio'},
-                \   settings = require('lsp.settings.vscode-html-languageserver'),
+                \   name = "vscode-html-languageserver",
+                \   cmd  = {"vscode-html-languageserver", "--stdio"},
+                \   settings = require("lsp.settings.vscode-html-languageserver"),
                 \ },
                 \ {
-                \  '.git',
-                \  'index.html',
-                \  'Makefile', 'makefile', 'GNUmakefile',
-                \  'CMakeLists.txt'
+                \  ".git",
+                \  "index.html",
+                \  "Makefile", "makefile", "GNUmakefile",
+                \  "CMakeLists.txt"
                 \ })
     nnoremap <buffer> <silent> <Leader>l :LSPFileToggleHTML<CR>
     nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleHTML<CR>
 endif
-
-inoremap <buffer> <Leader>c <!--  --><C-o>F 
 
 inoremap <buffer> <Leader>p <p></p><C-o>F<
 inoremap <buffer> <Leader>1 <h1></h1><C-o>F<

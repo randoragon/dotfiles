@@ -6,7 +6,7 @@ return {
 	},
 
 	clang = {
-		extraArgs = { '-std=c99', '-Wall', '-Wextra', '-pedantic' },
+		extraArgs = {'-std=c99', '-Wall', '-Wextra', '-pedantic'},
 	},
 
 	completion = {

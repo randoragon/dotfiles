@@ -1,25 +1,25 @@
 local map = vim.keymap.set
 
-local augroup = vim.api.nvim_create_augroup("lsp", { clear=true })
+local augroup = vim.api.nvim_create_augroup("lsp", {clear=true})
 
 vim.api.nvim_create_autocmd(
 	"LspAttach", {
 		pattern = "*",
 		group = augroup,
 		callback = function()
-			vim.bo.omnifunc = lua.vim.lsp.omnifunc
-			vim.diagnostic.config({ virtual_text=false })
-			map("n", "<Leader><C-l>"  , vim.diagnostic.reset      , { silent=true })
-			map("n", "<Leader>e"      , vim.diagnostic.open_float , { silent=true })
-			map("n", "<Leader>[e"     , vim.diagnostic.goto_prev  , { silent=true })
-			map("n", "<Leader>]e"     , vim.diagnostic.goto_next  , { silent=true })
-			map("n", "<Leader>D"      , vim.diagnostic.setloclist , { silent=true })
-			map("n", "gd"             , vim.lsp.buf.definition    , { silent=true })
-			map("n", "gD"             , vim.lsp.buf.declaration   , { silent=true })
-			map("n", "<Space>"        , vim.lsp.buf.hover         , { silent=true })
-			map("n", "<Leader><Space>", vim.lsp.buf.signature_help, { silent=true })
-			map("n", "<Leader>r"      , vim.lsp.buf.references    , { silent=true })
-			map("n", "<Leader>R"      , vim.lsp.buf.rename        , { silent=true })
+			vim.bo.omnifunc = vim.lsp.omnifunc
+			vim.diagnostic.config({virtual_text=false})
+			map("n", "<Leader><C-l>"  , vim.diagnostic.reset      , {silent=true})
+			map("n", "<Leader>e"      , vim.diagnostic.open_float , {silent=true})
+			map("n", "<Leader>[e"     , vim.diagnostic.goto_prev  , {silent=true})
+			map("n", "<Leader>]e"     , vim.diagnostic.goto_next  , {silent=true})
+			map("n", "<Leader>D"      , vim.diagnostic.setloclist , {silent=true})
+			map("n", "gd"             , vim.lsp.buf.definition    , {silent=true})
+			map("n", "gD"             , vim.lsp.buf.declaration   , {silent=true})
+			map("n", "<Space>"        , vim.lsp.buf.hover         , {silent=true})
+			map("n", "<Leader><Space>", vim.lsp.buf.signature_help, {silent=true})
+			map("n", "<Leader>r"      , vim.lsp.buf.references    , {silent=true})
+			map("n", "<Leader>R"      , vim.lsp.buf.rename        , {silent=true})
 		end,
 	}
 )
@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd(
 		pattern = "*",
 		group = augroup,
 		callback = function()
-			vim.diagnostic.setloclist({ open=false })
+			vim.diagnostic.setloclist({open=false})
 		end,
 	}
 )

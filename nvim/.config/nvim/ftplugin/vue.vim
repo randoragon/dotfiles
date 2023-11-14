@@ -1,12 +1,8 @@
-set tw=80
-set noexpandtab
-set shiftwidth=2
-set tabstop=2
-set softtabstop=0
-inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
-
-inoremap <buffer> <M-n> <C-o>o
-inoremap <buffer> <Leader>c <!--  --><C-o>F 
+setl tw=80
+setl noexpandtab
+setl shiftwidth=2
+setl tabstop=2
+setl softtabstop=0
 
 inoremap <buffer> <Leader>p <p></p><C-o>F<
 inoremap <buffer> <Leader>1 <h1></h1><C-o>F<
@@ -54,20 +50,20 @@ inoremap <buffer> <Leader>.c class=""<Left>
 inoremap <buffer> <Leader>.s src=""<Left>
 
 command LSPFileToggleVue    lua lsp_toggle({
-            \   name = 'vls',
-            \   cmd  = {'vls'},
-            \   settings = require('lsp.settings.vls'),
+            \   name = "vls",
+            \   cmd  = {"vls"},
+            \   settings = require("lsp.settings.vls"),
             \ })
 command LSPProjectToggleVue lua lsp_toggle({
-            \   name = 'vls',
-            \   cmd  = {'vls'},
-            \   settings = require('lsp.settings.vls'),
+            \   name = "vls",
+            \   cmd  = {"vls"},
+            \   settings = require("lsp.settings.vls"),
             \ },
             \ {
-            \  '.git',
-            \  'tsconfig.json', 'jsconfig.json', 'package.json',
-            \  'Makefile', 'makefile', 'GNUmakefile',
-            \  'CMakeLists.txt'
+            \  ".git",
+            \  "tsconfig.json", "jsconfig.json", "package.json",
+            \  "Makefile", "makefile", "GNUmakefile",
+            \  "CMakeLists.txt"
             \ })
 nnoremap <buffer> <silent> <Leader>l :LSPFileToggleVue<CR>
 nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleVue<CR>

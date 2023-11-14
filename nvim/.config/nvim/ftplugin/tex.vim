@@ -1,4 +1,4 @@
-set tabstop=4 shiftwidth=4
+setl tabstop=4 shiftwidth=4
 nnoremap <Leader>.t :VimtexTocOpen<CR>
 
 " Helper binds for inserting \\ at the end of a line

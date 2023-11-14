@@ -13,20 +13,20 @@ inoremap <buffer> <Leader>o else if
 inoremap <buffer> <Leader>f for 
 
 command LSPFileToggleGo    lua lsp_toggle({
-            \   name = 'gopls',
-            \   cmd  = {'gopls'},
-            \   settings = require('lsp.settings.gopls'),
+            \   name = "gopls",
+            \   cmd  = {"gopls"},
+            \   settings = require("lsp.settings.gopls"),
             \ })
 command LSPProjectToggleGo lua lsp_toggle({
-            \   name = 'gopls',
-            \   cmd  = {'gopls'},
-            \   settings = require('lsp.settings.gopls'),
+            \   name = "gopls",
+            \   cmd  = {"gopls"},
+            \   settings = require("lsp.settings.gopls"),
             \ },
             \ {
-            \  '.git',
-            \  'go.mod', 'go.sum', 'main.go',
-            \  'Makefile', 'makefile', 'GNUmakefile',
-            \  'CMakeLists.txt'
+            \  ".git",
+            \  "go.mod", "go.sum", "main.go",
+            \  "Makefile", "makefile", "GNUmakefile",
+            \  "CMakeLists.txt"
             \ })
 nnoremap <buffer> <silent> <Leader>l :LSPFileToggleGo<CR>
 nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleGo<CR>

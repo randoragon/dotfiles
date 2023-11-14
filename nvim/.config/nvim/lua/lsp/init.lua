@@ -20,14 +20,15 @@ function lsp_toggle(config, query_list)
 		if not config.root_dir and query_list then
 			local found = vim.fs.find(query_list, {
 				upward=true,
-				stop=os.getenv('HOME'),
+				stop=os.getenv("HOME"),
 			})[1]
 			if found then
 				found = vim.fs.dirname(found)
 			else
 				found = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
 			end
-			local root = vim.api.nvim_exec(string.format('echo input("lsp root: ", "%s", "dir")', found:gsub('^'..os.getenv('HOME'), '~')), true)
+			found = found:gsub("^" .. os.getenv("HOME"), "~")
+			local root = vim.api.nvim_exec(("echo input('lsp root: ', '%s', 'dir')"):format(found), true)
 			vim.cmd.echo()
 			if #root == 0 then
 				return
@@ -54,11 +55,14 @@ end
 
 function lsp_get_status_str()
 	if vim.b.active_lsp_client == nil then
-		return ''
+		return ""
 	end
 	local warnings = #vim.diagnostic.get(0, {severity=vim.diagnostic.severity.WARN})
 	local errors   = #vim.diagnostic.get(0, {severity=vim.diagnostic.severity.ERROR})
-	return '%#MyStatusBarWarn# '..warnings..' %#MyStatusBarError# '..errors..' '
+	return "%#MyStatusBarWarn# " .. warnings .. " %#MyStatusBarError# " .. errors .. " "
 end
 
 require(modpath .. ".autocommands")
+
+map("n", "<Leader>.L", lsp_toggle_project_mode)
+map("n", "<Space>", "<Nop>")

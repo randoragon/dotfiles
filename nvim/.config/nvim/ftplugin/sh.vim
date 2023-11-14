@@ -1,4 +1,4 @@
-set expandtab shiftwidth=4 tabstop=4 softtabstop=4
+setl expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
 nnoremap <buffer> <Leader>m :write \| split \| terminal sh -i %<CR>
 
@@ -14,19 +14,19 @@ inoremap <buffer> <Leader>p printf
 inoremap <buffer> <Leader>x exit
 
 command LSPFileToggleBash    lua lsp_toggle({
-            \   name = 'bash-language-server',
-            \   cmd  = {'bash-language-server', 'start'},
-            \   settings = require('lsp.settings.bash-language-server'),
+            \   name = "bash-language-server",
+            \   cmd  = {"bash-language-server", "start"},
+            \   settings = require("lsp.settings.bash-language-server"),
             \ })
 command LSPProjectToggleBash lua lsp_toggle({
-            \   name = 'bash-language-server',
-            \   cmd  = {'bash-language-server', 'start'},
-            \   settings = require('lsp.settings.bash-language-server'),
+            \   name = "bash-language-server",
+            \   cmd  = {"bash-language-server", "start"},
+            \   settings = require("lsp.settings.bash-language-server"),
             \ },
             \ {
-            \  '.git',
-            \  'Makefile', 'makefile', 'GNUmakefile',
-            \  'CMakeLists.txt'
+            \  ".git",
+            \  "Makefile", "makefile", "GNUmakefile",
+            \  "CMakeLists.txt"
             \ })
 nnoremap <buffer> <silent> <Leader>l :LSPFileToggleBash<CR>
 nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleBash<CR>

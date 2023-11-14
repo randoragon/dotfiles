@@ -1,8 +1,8 @@
-set shiftwidth=3 tabstop=3
+setl shiftwidth=3 tabstop=3
 
 nnoremap <buffer> <Leader>m :write \| split \| terminal lua -i %<CR>
 
-inoremap <buffer> <Leader>R require('')<Left><Left>
+inoremap <buffer> <Leader>R require("")<Left><Left>
 inoremap <buffer> <Leader>l local 
 inoremap <buffer> <Leader>r return 
 inoremap <buffer> <Leader>i if 
@@ -42,20 +42,20 @@ inoremap <buffer> >>= <Esc>y^gi= <C-r>" >>
 inoremap <buffer> <<= <Esc>y^gi= <C-r>" <<
 
 command LSPFileToggleLua    lua lsp_toggle({
-            \   name = 'lua-language-server',
-            \   cmd  = {'lua-language-server'},
-            \   settings = require('lsp.settings.lua-language-server'),
+            \   name = "lua-language-server",
+            \   cmd  = {"lua-language-server"},
+            \   settings = require("lsp.settings.lua-language-server"),
             \ })
 command LSPProjectToggleLua lua lsp_toggle({
-            \   name = 'lua-language-server',
-            \   cmd  = {'lua-language-server'},
-            \   settings = require('lsp.settings.lua-language-server'),
+            \   name = "lua-language-server",
+            \   cmd  = {"lua-language-server"},
+            \   settings = require("lsp.settings.lua-language-server"),
             \ },
             \ {
-            \   '.git',
-            \   'init.lua',
-            \   'Makefile', 'makefile', 'GNUmakefile',
-            \   'CMakeLists.txt'
+            \   ".git",
+            \   "init.lua",
+            \   "Makefile", "makefile", "GNUmakefile",
+            \   "CMakeLists.txt"
             \ })
 nnoremap <buffer> <silent> <Leader>l :LSPFileToggleLua<CR>
 nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleLua<CR>

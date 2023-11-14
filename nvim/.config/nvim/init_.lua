@@ -1,8 +1,0 @@
--- Randoragon's init.lua for NeoVim
-
-package.path = "./?/init.lua;" .. package.path
-
-require("lua.options")
-require("lua.lsp")
-require("lua.misc")
-require("lua.mappings")

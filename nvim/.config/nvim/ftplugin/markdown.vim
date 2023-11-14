@@ -1,4 +1,7 @@
-set tw=80
+setl tw=80
+setl foldmethod=expr
+setl foldexpr=MarkdownLevel()
+setl foldnestmax=3
 
 " Preview
 nnoremap <buffer> <Leader>m :write \| AsyncRun (printf '\%s\n' "$HTML_MD_STYLE" && md2html --github "%:p") > "$VIM_PREVIEW_HOME/vim-preview.html" && pkill -HUP surf<CR>

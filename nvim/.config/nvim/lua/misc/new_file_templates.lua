@@ -7,7 +7,7 @@ local substitutions = {
 
 local function try_load_template()
 	local fpath = os.getenv("HOME") .. "/.config/nvim/templates/" .. vim.bo.filetype
-	vim.cmd.echo(('"%s"'):format(fpath))
+	vim.cmd.echo(("'%s'"):format(fpath))
 	if vim.fn.filereadable(fpath) then
 		lines = {}
 		for line in io.lines(fpath) do
@@ -30,11 +30,11 @@ local function try_load_template()
 	end
 end
 
-local augroup = vim.api.nvim_create_augroup("new_file_templates", { clear=true })
-vim.api.nvim_create_autocmd(
+local grp = augroup("new_file_templates")
+autocmd(
 	"BufNewFile", {
 		pattern = "*",
-		group = augroup,
+		group = grp,
 		callback = try_load_template,
 	}
 )

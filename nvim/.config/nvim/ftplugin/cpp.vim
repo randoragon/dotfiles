@@ -1,3 +1,5 @@
+setl foldmethod=indent
+
 inoremap <buffer> <Leader>I #include 
 inoremap <buffer> <Leader>t static 
 inoremap <buffer> <Leader>c const 
@@ -19,19 +21,19 @@ inoremap <buffer> <Leader>mr realloc()<Left>
 inoremap <buffer> <Leader>mf free();<Left><Left>
 
 command LSPFileToggleCPP    lua lsp_toggle({
-            \   name = 'ccls',
-            \   cmd  = {'ccls'},
-            \   settings = require('lsp.settings.ccls'),
+            \   name = "ccls",
+            \   cmd  = {"ccls"},
+            \   settings = require("lsp.settings.ccls"),
             \ })
 command LSPProjectToggleCPP lua lsp_toggle({
-            \   name = 'ccls',
-            \   cmd  = {'ccls'},
-            \   settings = require('lsp.settings.ccls'),
+            \   name = "ccls",
+            \   cmd  = {"ccls"},
+            \   settings = require("lsp.settings.ccls"),
             \ },
             \ {
-            \  '.git',
-            \  'Makefile', 'makefile', 'GNUmakefile',
-            \  'CMakeLists.txt'
+            \  ".git",
+            \  "Makefile", "makefile", "GNUmakefile",
+            \  "CMakeLists.txt"
             \ })
 nnoremap <buffer> <silent> <Leader>l :LSPFileToggleCPP<CR>
 nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleCPP<CR>

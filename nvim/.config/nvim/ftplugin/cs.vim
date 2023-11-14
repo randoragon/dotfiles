@@ -1,7 +1,6 @@
-inoremap <buffer> <M-p> <Esc>/<,,><CR>"_cf>
+setl tw=80
 
 inoremap <buffer> <M-n> <C-o>o
-set tw=80
 inoremap <buffer> <Leader>t static 
 inoremap <buffer> <Leader>c const 
 inoremap <buffer> <Leader>.c /*  */<Left><Left><Left>
@@ -16,20 +15,20 @@ inoremap <buffer> <Leader>f for () <,,><C-o>F)
 inoremap <buffer> <Leader>w while () <,,><C-o>F)
 
 command LSPFileToggleCSharp    lua lsp_toggle({
-            \   name = 'omnisharp',
-            \   cmd  = {'omnisharp', '-lsp'},
-            \   settings = require('lsp.settings.omnisharp'),
+            \   name = "omnisharp",
+            \   cmd  = {"omnisharp", "-lsp"},
+            \   settings = require("lsp.settings.omnisharp"),
             \ })
 command LSPProjectToggleCSharp lua lsp_toggle({
-            \   name = 'omnisharp',
-            \   cmd  = {'omnisharp', '-lsp'},
-            \   settings = require('lsp.settings.omnisharp'),
+            \   name = "omnisharp",
+            \   cmd  = {"omnisharp", "-lsp"},
+            \   settings = require("lsp.settings.omnisharp"),
             \ },
             \ {
-            \  '.git',
-            \  '*.csproj',
-            \  'Makefile', 'makefile', 'GNUmakefile',
-            \  'CMakeLists.txt'
+            \  ".git",
+            \  "*.csproj",
+            \  "Makefile", "makefile", "GNUmakefile",
+            \  "CMakeLists.txt"
             \ })
 nnoremap <buffer> <silent> <Leader>l :LSPFileToggleCSharp<CR>
 nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleCSharp<CR>

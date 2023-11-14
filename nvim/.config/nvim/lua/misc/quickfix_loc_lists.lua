@@ -1,6 +1,3 @@
-local map = vim.keymap.set
-
-
 -- Cycle through QuickFix/Location lists
 -- https://vi.stackexchange.com/a/8535
 local function add_list_cycle_command(name, cmd, alt_pattern, alt_cmd, msg)
@@ -27,12 +24,12 @@ add_list_cycle_command("Lprev", "lprev", "No location list", "llast", "No locati
 -- https://rafaelleru.github.io/blog/quickfix-autocomands/
 vim.g.clist_isopen = false
 vim.g.llist_isopen = false
-local augroup = vim.api.nvim_create_augroup("qffixstates", { clear=true })
+local grp = augroup("qffixstates")
 
 local function add_quickfix_autocmd(events, val)
-	vim.api.nvim_create_autocmd(events, {
+	autocmd(events, {
 		pattern = "quickfix",
-		group = augroup,
+		group = grp,
 		callback = function()
 			if vim.fn.getwininfo(vim.fn.win_getid())[1]["loclist"] == 1 then
 				vim.g.llist_isopen = val
@@ -68,3 +65,10 @@ local function add_list_toggle_command(name, list_name, toggle_var, cmd_open, cm
 end
 add_list_toggle_command("ToggleCList", "quickfix", "clist_isopen", "copen", "cclose")
 add_list_toggle_command("ToggleLList", "location", "llist_isopen", "lopen", "lclose")
+
+map("n", "<Leader>q", vim.cmd.ToggleCList, {silent=true})
+map("n", "<Leader>d", vim.cmd.ToggleLList, {silent=true})
+map("n", "[q", vim.cmd.Cprev, {silent=true})
+map("n", "]q", vim.cmd.Cnext, {silent=true})
+map("n", "[d", vim.cmd.Lprev, {silent=true})
+map("n", "]d", vim.cmd.Lnext, {silent=true})

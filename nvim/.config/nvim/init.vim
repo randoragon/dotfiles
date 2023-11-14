@@ -439,7 +439,6 @@ map <M-b> <C-b>
 " Copy shortcuts {{{1
 nnoremap <silent> <M-a> :%y+<CR>
 vnoremap <M-a> "+y
-inoremap <M-a> <ESC>:%y+<CR>a
 " }}}
 
 " Insert Mode Shortcuts {{{1

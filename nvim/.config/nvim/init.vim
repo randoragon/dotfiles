@@ -91,6 +91,14 @@ vnoremap <Leader>t, :Tabular/,/l0r1<CR>
 vnoremap <Leader>t; :Tabular/;/l0r1<CR>
 " }}}
 
+" FSwitch {{{2
+augroup file_switch
+    autocmd! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '.'
+    autocmd! BufEnter *.c   let b:fswitchdst = 'h'     | let b:fswitchlocs = '.'
+augroup END
+nnoremap <silent> <C-s> :FSHere<CR>
+" }}}
+
 " FZF {{{2
 nnoremap <silent> <C-Space>  :GFiles<CR>
 nnoremap <silent> <M-Space>  :Rg<CR>
@@ -368,14 +376,6 @@ augroup new_file_templates
     autocmd!
     autocmd! BufNewFile * call TryLoadTemplate()
 augroup END
-" }}}
-
-" FSwitch settings {{{1
-augroup file_switch
-    autocmd! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '.'
-    autocmd! BufEnter *.c   let b:fswitchdst = 'h'     | let b:fswitchlocs = '.'
-augroup END
-nnoremap <silent> <C-s> :FSHere<CR>
 " }}}
 
 " Searching {{{1

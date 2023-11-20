@@ -3,7 +3,7 @@ local modpath = (...)
 require("paq") {
 	"lewis6991/gitsigns.nvim",
 	"junegunn/fzf.vim",
-	"tpope/vim-surround",
+	"kylechui/nvim-surround",
 	"tpope/vim-speeddating",
 	"tpope/vim-repeat",
 	"tpope/vim-abolish",
@@ -36,6 +36,7 @@ require(modpath .. ".iron")
 require(modpath .. ".kanagawa")
 require(modpath .. ".scope")
 require(modpath .. ".smoothie")
+require(modpath .. ".surround")
 require(modpath .. ".tabular")
 require(modpath .. ".treesitter")
 require(modpath .. ".vimtex")

@@ -11,7 +11,7 @@ require("paq") {
 	"glts/vim-radical",
 	"glts/vim-magnum",
 	"rebelot/kanagawa.nvim",
-	"jiangmiao/auto-pairs",
+	"windwp/nvim-autopairs",
 	"godlygeek/tabular",
 	"skywind3000/asyncrun.vim",
 	"derekwyatt/vim-fswitch",

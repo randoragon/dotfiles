@@ -1,11 +1,9 @@
-local map = vim.keymap.set
+local grp = augroup("lsp")
 
-local augroup = vim.api.nvim_create_augroup("lsp", {clear=true})
-
-vim.api.nvim_create_autocmd(
+autocmd(
 	"LspAttach", {
 		pattern = "*",
-		group = augroup,
+		group = grp,
 		callback = function()
 			vim.bo.omnifunc = "vim.lsp.omnifunc"
 			vim.diagnostic.config({virtual_text=false})
@@ -24,10 +22,10 @@ vim.api.nvim_create_autocmd(
 	}
 )
 
-vim.api.nvim_create_autocmd(
+autocmd(
 	"BufEnter", {
 		pattern = "*",
-		group = augroup,
+		group = grp,
 		callback = function()
 			if vim.g.project_mode and vim.g.active_lsp_config then
 				vim.b.active_lsp_client = vim.lsp.start(vim.g.active_lsp_config)
@@ -36,20 +34,20 @@ vim.api.nvim_create_autocmd(
 	}
 )
 
-vim.api.nvim_create_autocmd(
+autocmd(
 	"DiagnosticChanged", {
 		pattern = "*",
-		group = augroup,
+		group = grp,
 		callback = function()
 			vim.diagnostic.setloclist({open=false})
 		end,
 	}
 )
 
-vim.api.nvim_create_autocmd(
+autocmd(
 	"ColorScheme", {
 		pattern = "*",
-		group = augroup,
+		group = grp,
 		callback = function()
 			vim.cmd.highlight({
 				"MyProjectMode",

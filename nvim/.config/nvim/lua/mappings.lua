@@ -6,7 +6,19 @@ map("v", ".", function() vim.cmd.normal(".") end)
 map("n", "<Leader>/", vim.cmd.nohlsearch)
 map("n", "<PageUp>", "<C-u>", {remap=true})
 map("n", "<PageDown>", "<C-d>", {remap=true})
-map("n", "<Leader>s", "set spell!<CR>")
+
+-- Toggle spell checker
+map("n", "<Leader>s",
+	function()
+		if wo.spell then
+			wo.spell = false
+			vim.cmd.echo("'Spell check: disabled'")
+		else
+			wo.spell = true
+			vim.cmd.echo("'Spell check: enabled'")
+		end
+	end
+)
 
 -- netrw
 map("n", "<Leader>t", function() vim.cmd("Lex!") end)

@@ -1,26 +1,30 @@
-function indent_style_tab(n)
+function indent_style_tab(n, echo)
 	n = n or 8
 	bo.expandtab = false
 	bo.shiftwidth = n
 	bo.tabstop = n
 	bo.softtabstop = 0
-	vim.cmd.echo(("'Indent style: %d-width tabs'"):format(n))
+	if echo then
+		vim.cmd.echo(("'Indent style: %d-width tabs'"):format(n))
+	end
 end
 
-function indent_style_sp(n)
+function indent_style_sp(n, echo)
 	n = n or 4
 	bo.expandtab = true
 	bo.shiftwidth = n
 	bo.tabstop = n
 	bo.softtabstop = n
-	vim.cmd.echo(("'Indent style: %d spaces'"):format(n))
+	if echo then
+		vim.cmd.echo(("'Indent style: %d spaces'"):format(n))
+	end
 end
 
 function indent_style_toggle()
 	if vim.bo.expandtab then
-		indent_style_tab()
+		indent_style_tab(8, true)
 	else
-		indent_style_sp()
+		indent_style_sp(4, true)
 	end
 end
 

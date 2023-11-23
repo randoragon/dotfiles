@@ -5,7 +5,7 @@ autocmd(
 		pattern = "*",
 		group = grp,
 		callback = function()
-			vim.bo.omnifunc = "vim.lsp.omnifunc"
+			vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 			vim.diagnostic.config({virtual_text=false})
 			map("n", "<Leader><C-l>"  , vim.diagnostic.reset      , {silent=true})
 			map("n", "<Leader>e"      , vim.diagnostic.open_float , {silent=true})

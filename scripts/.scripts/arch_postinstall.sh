@@ -229,11 +229,11 @@ done
 
 [ -n "$need_devtools" ] && for package in \
     ccls lua-language-server texlab gopls \
-    python-lsp-server flake8 \
+    pyright ruff \
     vscode-html-languageserver vscode-css-languageserver typescript-language-server \
     gdb valgrind \
     patch lazygit \
-    tokei ctags highlight \
+    tokei highlight \
     bash-language-server shellcheck \
     lua lua-filesystem lua-penlight lua-lpeg
 do
@@ -316,8 +316,7 @@ done
 
 [ -n "$need_devtools" ] && for package in \
     lua-cjson \
-    zls \
-    python-pylsp-mypy
+    zls
 do
     yayinstall "$package"
 done

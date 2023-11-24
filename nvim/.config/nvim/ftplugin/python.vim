@@ -17,18 +17,23 @@ inoremap <buffer> <Leader>c class
 inoremap <buffer> <Leader>s split()<Left>
 
 command LSPFileTogglePy    lua lsp_toggle({
-            \   name = "pylsp",
-            \   cmd  = {"pylsp"},
-            \   settings = require("lsp.settings.pylsp"),
+            \   name = "pyright",
+            \   cmd  = {"pyright-langserver", "--stdio"},
+            \   settings = require("lsp.settings.pyright"),
             \ })
 command LSPProjectTogglePy lua lsp_toggle({
-            \   name = "pylsp",
-            \   cmd  = {"pylsp"},
-            \   settings = require("lsp.settings.pylsp"),
+            \   name = "pyright",
+            \   cmd  = {"pyright-langserver", "--stdio"},
+            \   settings = require("lsp.settings.pyright"),
             \ },
             \ {
             \  ".git",
             \  "setup.py",
+            \  "pyproject.toml",
+            \  "setup.cfg",
+            \  "requirements.txt",
+            \  "Pipfile",
+            \  "pyrightconfig.json",
             \  "Makefile", "makefile", "GNUmakefile",
             \  "CMakeLists.txt"
             \ })

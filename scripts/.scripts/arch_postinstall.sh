@@ -228,7 +228,7 @@ done
 }
 
 [ -n "$need_devtools" ] && for package in \
-    ccls lua-language-server texlab gopls \
+    clang lua-language-server texlab gopls \
     pyright ruff \
     vscode-html-languageserver vscode-css-languageserver typescript-language-server \
     gdb valgrind \

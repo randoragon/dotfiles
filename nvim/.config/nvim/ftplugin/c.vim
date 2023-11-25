@@ -21,19 +21,25 @@ inoremap <buffer> <Leader>mr realloc()<Left>
 inoremap <buffer> <Leader>mf free();<Left><Left>
 
 command LSPFileToggleC    lua lsp_toggle({
-            \   name = "ccls",
-            \   cmd  = {"ccls"},
-            \   settings = require("lsp.settings.ccls"),
+            \   name = "clangd",
+            \   cmd  = {"clangd"},
+            \   settings = require("lsp.settings.clangd"),
             \ })
 command LSPProjectToggleC lua lsp_toggle({
-            \   name = "ccls",
-            \   cmd  = {"ccls"},
-            \   settings = require("lsp.settings.ccls"),
+            \   name = "clangd",
+            \   cmd  = {"clangd"},
+            \   settings = require("lsp.settings.clangd"),
             \ },
             \ {
             \  ".git",
             \  "Makefile", "makefile", "GNUmakefile",
-            \  "CMakeLists.txt"
+            \  "CMakeLists.txt",
+            \  ".clangd",
+            \  ".clang-tidy",
+            \  ".clang-format",
+            \  "compile_commands.json",
+            \  "compile_flags.txt",
+            \  "configure.ac"
             \ })
 nnoremap <buffer> <silent> <Leader>l :LSPFileToggleC<CR>
 nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleC<CR>

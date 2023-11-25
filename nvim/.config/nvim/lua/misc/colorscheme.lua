@@ -18,6 +18,7 @@ local function transparent_bg()
 	vim.cmd.highlight({"SignColumn",   "guibg=NONE", "ctermbg=NONE"})
 	vim.cmd.highlight({"CursorLine",   "guibg=NONE", "ctermbg=NONE"})
 	vim.cmd.highlight({"CursorLineNr", "guibg=NONE", "ctermbg=NONE"})
+	vim.cmd.highlight({"FloatBorder",  "guifg=white", "ctermfg=white", "guibg=NONE", "ctermbg=NONE"})
 end
 
 autocmd(

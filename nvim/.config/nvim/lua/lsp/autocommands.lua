@@ -16,6 +16,7 @@ autocmd(
 			map("n", "gD"             , vim.lsp.buf.declaration)
 			map("n", "<Space>"        , vim.lsp.buf.hover)
 			map("n", "<Leader><Space>", vim.lsp.buf.signature_help)
+			map("n", "<Leader>.<Space>", vim.lsp.buf.code_action)
 			map("n", "<Leader>r"      , vim.lsp.buf.references)
 			map("n", "<Leader>R"      , vim.lsp.buf.rename)
 		end,

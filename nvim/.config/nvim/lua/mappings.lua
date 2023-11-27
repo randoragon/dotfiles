@@ -2,7 +2,7 @@
 map("n", "<Leader>w", ":set wrap! linebreak!<CR>", {silent=true})
 map("n", "Y", "y$", {remap=true})
 map("n", "c", '"_c')
-map("v", ".", function() vim.cmd.normal(".") end)
+map("v", ".", ":norm .<CR>")
 map("n", "<Leader>/", vim.cmd.nohlsearch)
 map("n", "<PageUp>", "<C-u>", {remap=true})
 map("n", "<PageDown>", "<C-d>", {remap=true})

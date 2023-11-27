@@ -26,9 +26,11 @@ require("paq") {
 		"nvim-treesitter/nvim-treesitter",
 		run = function() vim.cmd("TSUpdate") end,
 	},
+	"ms-jpq/coq_nvim",
 }
 
 require(modpath .. ".autopairs")
+require(modpath .. ".coq")
 require(modpath .. ".fswitch")
 require(modpath .. ".fzf")
 require(modpath .. ".gitsigns")

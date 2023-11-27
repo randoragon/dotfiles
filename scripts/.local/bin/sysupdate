@@ -28,7 +28,10 @@ sectionend
 
 section UPDATING 'neovim plugins'
 nvim --headless +'autocmd User PaqDoneSync qall' +PaqSync
+echo
 nvim --headless +TSUpdateSync +qall
+echo
+nvim --headless +COQdeps +qall
 echo
 sectionend
 

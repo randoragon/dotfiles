@@ -98,5 +98,5 @@ map("n", "N", "Nzz")
 -- Keymap for surrounding character/selection with spaces,
 -- because I had to fix too many people's code that don't surround operators
 -- with spaces >:(
-map("n", "<M-1>", "ysl  l", {remap=true})
-map("v", "<M-1>", "S  l", {remap=true})
+map("n", "<M-1>", "ysl l", {remap=true})
+map("v", "<M-1>", "S l", {remap=true})

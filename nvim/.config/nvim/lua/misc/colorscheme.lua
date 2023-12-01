@@ -1,4 +1,4 @@
-if os.getenv("DISPLAY") ~= "" then
+if os.getenv("DISPLAY") then
 	o.termguicolors = true
 	o.background = "dark"
 	vim.cmd.colorscheme("kanagawa")

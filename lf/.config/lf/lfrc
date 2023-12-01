@@ -94,8 +94,7 @@ map R :bulk-rename
 
 # Change permission flags
 cmd chmod &{{
-    [ -z "$fs" ] && fs="$f"
-    printf "%s\n" "$fs" | while read -r fpath; do
+    printf "%s\n" "$fx" | while read -r fpath; do
         chmod "$@" -- "$fpath"
     done
     lf -remote "send $id reload"

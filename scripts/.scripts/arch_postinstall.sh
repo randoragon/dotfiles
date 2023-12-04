@@ -236,7 +236,8 @@ done
     patch lazygit \
     tokei highlight \
     bash-language-server shellcheck \
-    lua lua-filesystem lua-penlight lua-lpeg
+    lua lua-filesystem lua-penlight lua-lpeg \
+    rust rust-analyzer
 do
     pacinstall "$package"
 done

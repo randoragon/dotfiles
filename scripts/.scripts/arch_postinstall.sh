@@ -207,7 +207,7 @@ done
     texlive-basic texlive-xetex \
     texlive-latexrecommended texlive-fontsrecommended \
     texlive-latexextra texlive-plaingeneric \
-    texlive-langcjk \
+    texlive-langcjk texlive-binextra \
     texlive-bibtexextra biber
 do
     pacinstall "$package"

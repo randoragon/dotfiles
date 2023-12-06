@@ -18,5 +18,6 @@ case "$1" in
         printf 'artist: %s\ntitle:  %s\nalbum:  %s\ntrack:  %s\nalbum artist: %s\n' \
             "$artist" "$title" "$album" "$track" "$albumartist"
         ;;
+    *.iso) iso-info --no-header -l -- "$1" ;;
     *) highlight -O ansi "$1" || cat "$1" ;;
 esac

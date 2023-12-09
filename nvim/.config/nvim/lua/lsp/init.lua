@@ -11,6 +11,7 @@ vim.g.project_mode = false
 
 function lsp_toggle_project_mode()
 	vim.g.project_mode = not vim.g.project_mode
+	vim.cmd.redrawstatus()
 end
 
 -- Toggle a LSP for the current buffer.
@@ -51,6 +52,7 @@ function lsp_toggle(config, query_list)
 		vim.b.active_lsp_client = nil
 		vim.b.active_lsp_config = nil
 	end
+	vim.cmd.redrawstatus()
 end
 
 function lsp_get_status_str()

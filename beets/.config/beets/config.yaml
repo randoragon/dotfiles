@@ -14,30 +14,29 @@ sort_album: albumartist+ album+
 sort_case_insensitive: yes
 
 # Import options
-import: 
-    write: no
-    move: yes
-    copy: no
-    resume: ask
-    incremental: no
-    incremental_skip_later: no
-    quiet: no
-    detail: yes
-    from_scratch: no
-    log: ~/.config/beets/import.log
-    languages: en pl
-    autotag: yes
+import:
+  write: yes
+  move: yes
+  copy: no
+  resume: ask
+  incremental: no
+  incremental_skip_later: no
+  quiet: no
+  detail: yes
+  from_scratch: no
+  log: ~/.config/beets/import.log
+  languages: en pl
+  autotag: yes
 
 # Paths
 paths:
-    default: $albumartist/$album%aunique{}/$title
-    singleton: $artist/no album/$title
-    comp: Various Artists/$album%aunique{}/$title
+  default: $albumartist/$album%aunique{}/$title
+  singleton: $artist/no album/$title
+  comp: Various Artists/$album%aunique{}/$title
 
 # PLUGINS ----------------------------------------------------
 # https://beets.readthedocs.io/en/stable/plugins/index.html
 # fetchart       : download album art
-# lastgenre      : download genre
 # chroma         : enables matching by acoustic fingerprint instead of just tags
 # acousticbrainz : fetch tags from AcousticBrainz
 # edit           : edit tags with any text editor
@@ -46,82 +45,82 @@ paths:
 # mbsync         : update MusicBrainz tags with "beet mbsync QUERY". Affects only items with MusicBrainzID
 # replaygain     : calculates replaygain
 # thumbnails     : adds metadata for displaying file thumbnails in thunar etc.
-# fuzzy          : enables fuzzy searching by prefixing the query with ~
 # info           : enables listing quaried items' tag information
 # duplicates     : finds duplicate tracks or albums
 # fromfilename   : guesses missing artist/title from filename
-plugins: fetchart acousticbrainz edit embedart ftintitle mbsync replaygain thumbnails fuzzy info fromfilename
+# playlist       : playlist queries, auto-update playlist entries on move/delete
+plugins: >
+  fetchart
+  acousticbrainz
+  edit
+  embedart
+  ftintitle
+  mbsync
+  replaygain
+  thumbnails
+  info
+  fromfilename
+  playlist
 
 chroma:
-    auto: yes
+  auto: yes
 
 acoustid:
-    # Send local fingerprints to with "beet submit"
-    apikey: plCTgUVJgu
+  # Send local fingerprints to with "beet submit"
+  apikey: plCTgUVJgu
 
 acousticbrainz:
-    auto: yes
-    force: no
-    tags: [] # all
+  auto: yes
+  force: no
+  tags: [] # all
 
 edit:
-    itemfields: track title artist album
-    albumfields: album albumartist
+  itemfields: track title artist album
+  albumfields: album albumartist
 
 fetchart:
-    auto: yes
-    minwidth: 0
-    maxwidth: 500
-    enforce_ratio: no
-    sources: filesystem coverart itunes amazon albumart wikipedia
-    store_source: no
+  auto: yes
+  minwidth: 0
+  maxwidth: 500
+  enforce_ratio: no
+  sources: filesystem coverart itunes amazon albumart wikipedia
+  store_source: no
 
 embedart:
-    auto: yes
-    compare_threshold: 0
-    ifempty: no
-    maxwidth: 500
-    remove_art_file: yes
+  auto: yes
+  compare_threshold: 0
+  ifempty: no
+  maxwidth: 500
+  remove_art_file: yes
 
 ftintitle:
-    auto: yes
-    drop: no
-    format: feat. {0}
-
-lastgenre:
-    auto: yes
-    canonical: no
-    count: 2
-    fallback: ''
-    force: no
-    min_weight: 10
-    prefer_specific: no
-    source: track
-    separator: ' '
-    whitelist: no
+  auto: yes
+  drop: no
+  format: feat. {0}
 
 replaygain:
-    backend: gstreamer
-    auto: yes
-    overwrite: no
-    targetlevel: 89
+  backend: gstreamer
+  auto: yes
+  overwrite: no
+  targetlevel: 89
 
 thumbnails:
-    auto: yes
-    force: no
-    dolphin: no
-
-fuzzy:
-    threshold: 0.7
-    prefix: "~"
+  auto: yes
+  force: no
+  dolphin: no
 
 duplicates:
-    keys: [mb_trackid, mb_albumid]
-    album: no
-    count: no
-    delete: no
-    full: no
-    merge: no
-    path: yes
+  keys: [mb_trackid, mb_albumid]
+  album: no
+  count: no
+  delete: no
+  full: no
+  merge: no
+  path: yes
 
+playlist:
+  auto: yes
+  relative_to: library
+  playlist_dir: ~/Music/Playlists
+  forward_slash: yes
 # ENDOF PLUGINS ----------------------------------------------

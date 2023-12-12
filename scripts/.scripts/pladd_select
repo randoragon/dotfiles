@@ -6,6 +6,9 @@ pldir="$mroot/Playlists"
 
 playlists="$(find "$pldir" -maxdepth 1 -type f -name '*.m3u' \
     \! -path "$pldir/.Filtered.m3u" \
+    \! -path "$pldir/.Rare.m3u" \
+    \! -path "$pldir/.Generated.m3u" \
+    \! -path "$pldir/hist.*.m3u" \
     \! -path "$pldir/#Rate[1-5].m3u" \
     -writable \
     -print0 | xargs -0l basename -- | sed 's/\.m3u$//')"

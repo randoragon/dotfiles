@@ -98,8 +98,6 @@ function parse_input()
 
 	local no_seconds = 0
 	local no_tracks = #data
-	local no_artists = 0
-	local no_albums = 0
 	local no_plays = 0
 	local artists = {}
 	local albums = {}
@@ -120,15 +118,16 @@ function parse_input()
 		local album = album_path:match('^[^/]*/([^/]*)$')
 		if album ~= 'no album' then
 			if albums[album_path] == nil then
-				albums[album_path] = item.count * duration
-				no_albums = no_albums + 1
-			else
-				albums[album_path] = albums[album_path] + (item.count * duration)
+				albums[album_path] = {}
 			end
+			if albums[album_path][item.fname] == nil then
+				albums[album_path][item.fname] = {0, duration}
+			end
+			assert(duration == albums[album_path][item.fname][2])
+			albums[album_path][item.fname][1] = albums[album_path][item.fname][1] + item.count
 		end
 		if artists[artist] == nil then
 			artists[artist] = item.count * duration
-			no_artists = no_artists + 1
 		else
 			artists[artist] = artists[artist] + (item.count * duration)
 		end
@@ -137,6 +136,21 @@ function parse_input()
 	end
 	print(' done.\n')
 
+	print_general_stats(no_seconds, no_plays, no_tracks)
+	print()
+
+	print_artist_ranking(artists, no_seconds)
+	print()
+
+	albums_clamp_listen_counts(albums)
+	print_album_ranking(albums, no_seconds)
+end
+
+-- Arguments:
+-- - `no_seconds`: the total number of seconds of listen time
+-- - `no_plays`: the total number of times any track was played
+-- - `no_tracks`: the total number of unique tracks that were played
+function print_general_stats(no_seconds, no_plays, no_tracks)
 	local d = no_seconds // 86400
 	local h = (no_seconds % 86400) // 3600
 	local m = (no_seconds % 3600) // 60
@@ -152,7 +166,16 @@ function parse_input()
 		no_seconds // no_plays // 60,
 		no_seconds // no_plays % 60
 	))
-	print()
+end
+
+-- Arguments:
+-- - `artists`: a table mapping artist name to a duration
+-- - `no_seconds`: the total number of seconds of listen time
+function print_artist_ranking(artists, no_seconds)
+	local no_artists = 0
+	for _ in pairs(artists) do
+		no_artists = no_artists + 1
+	end
 
 	print(('No. artists:         %d'):format(no_artists))
 	artists['Various Artists'] = nil
@@ -176,12 +199,87 @@ function parse_input()
 			s_ % 60
 		), artists_list[i][1])
 	end
-	print()
+end
+
+-- Round down each album to the number of times AT LEAST HALF of all tracks on it
+-- were listened to. This mechanism aims to prevent albums with popular singles
+-- from appearing higher in the ranking.
+--
+-- Arguments:
+-- - `albums`: a table mapping album names to a table mapping track filenames to
+--   {count, duration} tuples
+function albums_clamp_listen_counts(albums)
+	-- Initialize new_albums with every track count set to 0
+	local new_albums = {}
+	for k, v in pairs(albums) do
+		new_albums[k] = {}
+		for k2, t in pairs(v) do
+			new_albums[k][k2] = {0, t[2]}
+		end
+	end
+
+	-- Transfer counts from albums to new_albums until no
+	-- at-least-halves are left
+	for album_name, album_list in pairs(albums) do
+		-- Compute the number of tracks and total duration of the album
+		local album_no_tracks = 0
+		local album_duration = 0
+		for _, t in pairs(album_list) do
+			album_no_tracks = album_no_tracks + 1
+			album_duration = album_duration + t[2]
+		end
+
+		while true do
+			-- Get as many single-count tracks in the list as possible
+			local set = {}
+			local set_duration = 0
+			for k, t in pairs(album_list) do
+				if t[1] ~= 0 then
+					set[#set + 1] = k
+					set_duration = set_duration + t[2]
+					t[1] = t[1] - 1
+				end
+			end
+
+
+			if set_duration >= album_duration / 2 or #set >= album_no_tracks / 2 then
+				-- Transfer the set to new_albums
+				for _, k in ipairs(set) do
+					new_albums[album_name][k][1] = new_albums[album_name][k][1] + 1
+				end
+			else
+				-- Exhausted all at-least-halves
+				break
+			end
+		end
+	end
+
+	-- Set albums to new_albums
+	for k, _ in pairs(albums) do
+		albums[k] = nil
+	end
+	for k, v in pairs(new_albums) do
+		albums[k] = v
+	end
+end
+
+-- Arguments:
+-- - `albums`: a table mapping album names to a table mapping track filenames to {count, duration} tuples
+-- - `no_seconds`: the total number of seconds of listen time
+function print_album_ranking(albums, no_seconds)
+	local no_albums = 0
+	for _ in pairs(albums) do
+		no_albums = no_albums + 1
+	end
 
 	print(('No. albums:          %d'):format(no_albums))
 	local albums_list = {}
 	for k, v in pairs(albums) do
-		albums_list[#albums_list + 1] = {k, v}
+		local sum = 0
+		for _, t in pairs(v) do
+			sum = sum + t[1] * t[2]
+		end
+		albums_list[#albums_list + 1] = {k, sum}
 	end
 	table.sort(albums_list, function(x, y) return x[2] > y[2] end)
 	local albums_coverage = 0

@@ -12,8 +12,11 @@ map w adjust_window best-fit
 map e adjust_window width
 map <C-j> navigate next
 map <C-k> navigate previous
+map <Button8> navigate next
+map <Button9> navigate previous
 set font "bitstream vera sans mono 12"
 set guioptions "shv"
 set window-title-home-tilde true
 set window-title-page true
 set statusbar-home-tilde true
+set scroll-step 100

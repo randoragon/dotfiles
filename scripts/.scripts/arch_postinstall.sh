@@ -149,7 +149,7 @@ for package in \
     networkmanager net-tools udisks2 \
     iputils wpa_supplicant wireless_tools \
     pipewire pipewire-pulse pipewire-jack pipewire-alsa \
-    wireplumber carla pulsemixer \
+    wireplumber qpwgraph carla pulsemixer \
     physlock \
     ntfs-3g dosfstools which \
     arch-install-scripts \

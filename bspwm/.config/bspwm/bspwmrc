@@ -20,7 +20,7 @@ done
 
 # Window rules - always use 'bspc rule...' when possible,
 # to minimize the overhead of the external rules script.
-bspc rule -a '*:sp'       state=floating
+bspc rule -a 'sp:*'       state=floating
 bspc rule -a '*:floatme'  state=floating
 bspc rule -a 'firefox'       desktop=
 bspc rule -a 'Brave-browser' desktop=
@@ -28,6 +28,7 @@ bspc rule -a 'Chromium'      desktop=
 bspc rule -a 'thunderbird' desktop=
 bspc rule -a 'discord'     desktop=
 bspc rule -a 'Carla2:carla' state=floating
+bspc rule -a 'qpwgraph' state=floating
 bspc rule -a 'Sxiv:sxiv'    state=floating
 bspc rule -a 'weka-gui-GUIChooser' state=floating
 bspc rule -a 'flameshot:flameshot' state=floating border=off

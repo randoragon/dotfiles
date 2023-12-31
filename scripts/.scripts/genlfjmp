@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script parses my default jumprc file and formats it
 # for lf to autocreate mappings that match the jumprc aliases.

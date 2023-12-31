@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # NeatRoff PDF image generator script. Used by my vim configuration to
 # automatically embed screenshots in roff documents. In my own extension

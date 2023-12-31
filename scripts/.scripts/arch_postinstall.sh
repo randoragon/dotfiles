@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script assumes you already have the working user in the sudo group.
 # Most software and tools that I use will be installed automatically.

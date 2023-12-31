@@ -14,7 +14,6 @@ show-read-articles yes
 #feed-sort-order lastupdated-desc
 article-sort-order date-asc
 notify-always yes
-notify-program "~/.scripts/dwmblocks/newsboat"
 podlist-format "%2i [%5dMB/%5tMB] %-15S %-40b <%u>"
 
 # Keybindings

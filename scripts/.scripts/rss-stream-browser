@@ -1,6 +1,6 @@
-#!/usr/bin/sh
+#!/bin/sh
 
-# This script is used by newsboat to open live streams.
+# This script is used by an RSS reader to open live streams.
 # Based on the URL it can distinguish between YouTube and Twitch
 # livestreams and run an appropriate script to open it with live chat.
 

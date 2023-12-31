@@ -1,6 +1,6 @@
-#!/usr/bin/sh
+#!/bin/sh
 
-# This script is used by newsboat to play videos with mpv.
+# This script is used by an RSS reader to play videos with mpv.
 # The advantage that it offers over simply running mpv is that
 # if can detect certain error messages that mpv gives and notify
 # the user about it via notifications (e.g. video premieres).
@@ -8,19 +8,19 @@
 icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
 
 # Run mpv and obtain its output
-fout="$(mktemp --tmpdir newsboat-mpv-browser.XXXXX)"
+fout="$(mktemp --tmpdir rss-mpv-browser.XXXXX)"
 notif="$(dunstify -p -i "$icon" -u low "$0" "starting <u>$@</u>...")"
 mpv --force-window=immediate "$@" >"$fout" 2>/dev/null
 
 # If output contains certain keyphrases, display a notification
 if grep -qsF 'Premieres in' -- "$fout"; then
-	icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
-	dunstify -r "$notif" -i "$icon" -u low 'youtube-dl' "$(grep -o 'Premieres in .*$' -- "$fout")"
+    icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
+    dunstify -r "$notif" -i "$icon" -u low 'youtube-dl' "$(grep -o 'Premieres in .*$' -- "$fout")"
 elif grep -qsF 'ERROR' -- "$fout"; then
-	icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
-	dunstify -r "$notif" -i "$icon" -u low 'youtube-dl' "$(grep -o 'ERROR:.*$' -- "$fout")"
+    icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
+    dunstify -r "$notif" -i "$icon" -u low 'youtube-dl' "$(grep -o 'ERROR:.*$' -- "$fout")"
 else
-	dunstify -C "$notif"
+    dunstify -C "$notif"
 fi
 
 shred -u -- "$fout"

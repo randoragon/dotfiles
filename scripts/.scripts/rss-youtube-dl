@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# This is a wrapper script for newsboat. It downloads a video or audio file with
-# youtube-dl without blocking the running newsboat instance by running the
-# command in a new terminal.
+# This is a wrapper script for an RSS reader. It downloads a video or audio
+# file with youtube-dl without blocking the running RSS reader instance by
+# executing the command in a new terminal.
 #
 # The first argument must be either "v" or "a" for video or audio respectively.
 # The second argument must be the url.

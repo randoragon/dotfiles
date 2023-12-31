@@ -7,7 +7,7 @@ display-article-progress yes
 goto-next-feed no
 confirm-exit yes
 download-path "~/Downloads/Podcasts/%n/"
-player "setsid ~/.scripts/newsboat-mpv-browser &"
+player "setsid ~/.scripts/rss-mpv-browser &"
 delete-played-files no
 show-read-feeds no
 show-read-articles yes
@@ -51,14 +51,14 @@ unbind-key D # delete-article
 bind-key D pb-toggle-download-all
 
 # Macros
-macro o set browser "setsid ~/.scripts/newsboat-mpv-browser %u &" ; open-in-browser ; set browser "$BROWSER"
-macro O set browser "setsid ~/.scripts/newsboat-mpv-browser --audio-display=no --no-video %u &" ; open-in-browser ; set browser "$BROWSER"
-macro m set browser "setsid ~/.scripts/newsboat-youtube-dl a %u &" ; open-in-browser ; set browser "$BROWSER"
-macro M set browser "setsid ~/.scripts/newsboat-youtube-dl v %u &" ; open-in-browser ; set browser "$BROWSER"
+macro o set browser "setsid ~/.scripts/rss-mpv-browser %u &" ; open-in-browser ; set browser "$BROWSER"
+macro O set browser "setsid ~/.scripts/rss-mpv-browser --audio-display=no --no-video %u &" ; open-in-browser ; set browser "$BROWSER"
+macro m set browser "setsid ~/.scripts/rss-youtube-dl a %u &" ; open-in-browser ; set browser "$BROWSER"
+macro M set browser "setsid ~/.scripts/rss-youtube-dl v %u &" ; open-in-browser ; set browser "$BROWSER"
 macro d set browser "setsid wget -np -P ~/Downloads %u &" ; open-in-browser ; set browser "$BROWSER"
 macro u set browser "setsid printf %u | xclip -selection clipboard &" ; open-in-browser ; set browser "$BROWSER"
 macro l set browser "setsid surf %u &" ; open-in-browser ; set browser "$BROWSER"
-macro L set browser "setsid ~/.scripts/newsboat-stream-browser %u &" ; open-in-browser ; set browser "$BROWSER"
+macro L set browser "setsid ~/.scripts/rss-stream-browser %u &" ; open-in-browser ; set browser "$BROWSER"
 
 # Color (https://newsboat.org/releases/2.10.2/docs/newsboat.html#_configuring_colors)
 color background white black

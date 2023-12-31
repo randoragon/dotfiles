@@ -13,7 +13,7 @@ nvim/.config/nvim/autostart
 nvim/.config/nvim/plugged
 nvim/**/.netrwhist
 shell/.config/zsh/.zcompdump
-newsboat/**/urls
+newsraft/**/feeds
 weechat/**/irc.conf
 weechat/**/sec.conf
 weechat/**/weechat.log

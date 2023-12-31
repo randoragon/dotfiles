@@ -29,7 +29,7 @@ heading "Inserting misc/snippetrc..."
 ppush ~/.config/snippetrc 'misc/snippetrc'
 
 heading "Inserting misc/rss..."
-ppush ~/.config/newsboat/urls 'misc/rss'
+ppush ~/.config/newsraft/feeds 'misc/rss'
 
 heading "Inserting misc/playlist-mappings.tsv..."
 ppush ~/.config/playlist-mappings.tsv 'misc/playlist-mappings.tsv'

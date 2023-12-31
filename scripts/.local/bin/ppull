@@ -30,7 +30,7 @@ heading "Copying misc/snippetrc..."
 ppull 'misc/snippetrc' ~/.config/snippetrc
 
 heading "Copying misc/rss..."
-ppull 'misc/rss' ~/.config/newsboat/urls
+ppull 'misc/rss' ~/.config/newsraft/feeds
 
 heading "Copying misc/playlist-mappings.tsv..."
 ppull 'misc/playlist-mappings.tsv' ~/.config/playlist-mappings.tsv

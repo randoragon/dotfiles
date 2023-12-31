@@ -78,7 +78,7 @@ need_music=
 need_email=
 need_sync=
 need_bluetooth=
-need_newsboat=
+need_rss=
 need_funcmd=
 need_ytdl=
 need_obs=
@@ -94,7 +94,7 @@ ask "(4/13) Install music production tools?" && need_makemusic=1
 ask "(5/13) Install email client?"           && need_email=1
 ask "(6/13) Install bluetooth support?"      && need_bluetooth=1
 ask "(7/13) Install sync tools?"             && need_sync=1
-ask "(8/13) Install newsboat?"               && need_newsboat=1
+ask "(8/13) Install RSS reader?"             && need_rss=1
 ask "(9/13) Install youtube-dl?"             && need_ytdl=1
 ask "(10/13) Install OBS?"                   && need_obs=1
 ask "(11/13) Install fun commands?"          && need_funcmd=1
@@ -270,7 +270,6 @@ done
 
 [ -n "$need_email" ]     && pacinstall thunderbird
 [ -n "$need_sync" ]      && pacinstall syncthing
-[ -n "$need_newsboat" ]  && pacinstall newsboat
 [ -n "$need_bluetooth" ] && pacinstall bluez bluez-utils
 [ -n "$need_ytdl" ]      && pacinstall youtube-dl yt-dlp
 [ -n "$need_obs" ]       && pacinstall obs-studio
@@ -346,6 +345,7 @@ done
     printf "done.\n"
 }
 
+[ -n "$need_rss" ]   && yayinstall newsraft-git
 [ -n "$need_sync" ]  && yayinstall onedrive-abraunegg
 
 [ -n "$need_music" ] && for package in \
@@ -475,7 +475,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     ddetach mime
     [ -n "$need_music" ] && sstow mpd
     [ -n "$need_music" ] && sstow ncmpcpp
-    sstow newsboat
+    sstow newsraft
     sstow nvim
     [ -n "$need_gui" ] && sstow picom
     sstow pipewire

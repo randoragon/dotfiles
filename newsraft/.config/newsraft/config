@@ -1,0 +1,34 @@
+# vim: ft=conf
+
+# Functionality
+set open-in-browser-command "xdg-open '%l'"
+set copy-to-clipboard-command "auto"
+set status-messages-count-limit 1000
+set notification-command ":"  # Disable notifications
+
+# Vanity
+set global-section-name "All"
+set item-content-date-format "%a, %b %d %Y, %H:%M:%S %z"
+set list-entry-date-format "%b %d %Y"
+set menu-section-entry-format "%5.0u %t"
+
+# Command keybinds
+unbind ^D
+unbind ^R
+unbind Q
+bind d mark-read
+bind D mark-read-all
+bind a mark-unread
+bind A mark-unread-all
+bind q quit-hard
+bind f select-next-page
+bind b select-prev-page
+
+# Custom keybinds
+bind E exec $EDITOR ~/.config/newsraft/feeds
+bind O exec setsid surf -- '%l' >/dev/null 2>&1 &
+bind L exec setsid ~/.scripts/rss-stream-browser '%l' &
+bind m exec setsid ~/.scripts/rss-mpv-browser '%l' &
+bind M exec setsid ~/.scripts/rss-mpv-browser --audio-display=no --no-video '%l' &
+bind w exec setsid ~/.scripts/rss-youtube-dl a '%l' &
+bind W exec setsid ~/.scripts/rss-youtube-dl v '%l' &

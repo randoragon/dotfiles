@@ -263,7 +263,9 @@ done
     distrho-ports-lv2 \
     sfizz \
     vmpk \
-    ardour
+    ardour \
+    hydrogen \
+    zynaddsubfx
 do
     pacinstall "$package"
 done

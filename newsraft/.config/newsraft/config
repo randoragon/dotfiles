@@ -16,6 +16,7 @@ set menu-section-entry-format "%5.0u %t"
 unbind ^D
 unbind ^R
 unbind Q
+bind R reload-all
 bind d mark-read
 bind D mark-read-all
 bind a mark-unread

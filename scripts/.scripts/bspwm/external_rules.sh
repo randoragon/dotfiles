@@ -18,3 +18,11 @@ case "$title" in
     zoom) echo 'manage=off' ;;
     Settings) echo 'state=floating' ;;
 esac
+
+# Hydrogen
+[ "$class" = 'Hydrogen' ] && \
+[ "$insta" = 'hydrogen' ] && \
+case "$title" in
+    Mixer) echo 'state=floating' ;;
+    LADSPA*Properties) echo 'state=floating' ;;
+esac

@@ -5,6 +5,8 @@ set open-in-browser-command "xdg-open '%l'"
 set copy-to-clipboard-command "auto"
 set status-messages-count-limit 1000
 set notification-command ":"  # Disable notifications
+set menu-feed-sorting unread-desc
+set menu-item-sorting unread-desc
 
 # Vanity
 set global-section-name "All"

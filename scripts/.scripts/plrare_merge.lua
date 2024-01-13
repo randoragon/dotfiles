@@ -5,7 +5,7 @@ playcount = {}
 for _, fpath in ipairs(arg) do
 	for line in io.lines(fpath) do
 		local file, count = line:gsub('.*\t', ''), line:gsub('\t.*', '')
-		playcount[file] = (playcount[file] or 0) + count
+		playcount[file] = (playcount[file] or 0) + tonumber(count)
 	end
 end
 for file, count in pairs(playcount) do

@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script can be run by window managers to
 # easily perform common operations such as shutting
@@ -8,8 +8,5 @@ case "$(printf "%s\n" "poweroff" "reboot" "suspend" "logout" | dmenu)" in
     "poweroff") systemctl poweroff ;;
     "reboot") systemctl reboot ;;
     "suspend") systemctl suspend && physlock ;;
-    "logout")
-        bspc quit
-        killall newsboat podboat
-        ;;
+    "logout") pkill -x spectrwm ;;
 esac

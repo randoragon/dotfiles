@@ -187,7 +187,7 @@ done
 [ -n "$need_gui" ] && for package in \
     xorg-xinit xorg-xkbcomp xorg-drivers \
     picom \
-    bspwm sxhkd polybar \
+    sxhkd \
     alacritty \
     ttf-jetbrains-mono ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
     ttf-liberation ttf-carlito libertinus-font \
@@ -325,6 +325,7 @@ do
 done
 
 [ -n "$need_gui" ] && for package in \
+    spectrwm \
     numix-icon-theme-git \
     gromit-mpx-git \
     mousemode-git \
@@ -462,7 +463,7 @@ rm -f -- ~/.bashrc ~/.bash_profile
 if [ -n "$overwrite_dotfiles" ]; then
     cd ~/dotfiles
     [ -n "$need_music" ] && sstow beets
-    [ -n "$need_gui" ] && sstow bspwm
+    [ -n "$need_gui" ] && sstow spectrwm
     sstow carla
     ddetach cronie
     [ -n "$need_gui" ] && sstow dunst
@@ -481,7 +482,6 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow nvim
     [ -n "$need_gui" ] && sstow picom
     sstow pipewire
-    sstow polybar
     sstow python
     sstow R
     sstow redshift

@@ -7,6 +7,11 @@
 # Dependencies:
 # - xdo
 # - xdotool
+# - wmctrl
+
+SPDIR="${TMPDIR:-/tmp}/spectrwm_sp.$USER"
+# shellcheck disable=SC2174
+mkdir -m 700 -p -- "$SPDIR" || exit 1
 
 usage () {
     printf \
@@ -38,8 +43,6 @@ attributes with pattern matching rules (common feature in tiling WMs).\n" >&2
 [ "$1" = '-h' ] || [ "$1" = '--help' ] && usage && exit
 [ $# -lt 2 ] && usage && exit 1
 
-setprop=
-[ "$1" = '-n' ] && setprop=1 && shift
 name="$1"
 action="$2"
 cmd=
@@ -49,15 +52,23 @@ cmd=
 }
 
 show () {
-    xdo activate -n "$name" && exit
-    [ -n "$cmd" ] && {
+    wid=
+    [ -r "$SPDIR/$name" ] && wid="$(cat -- "$SPDIR/$name")"
+
+    if [ -n "$wid" ]; then
+        cur_desktop=$(($(wmctrl -d | grep -F -m1 \* | cut -d' ' -f1)))
+        xdotool set_desktop_for_window "$wid" $cur_desktop windowactivate "$wid"
+    elif [ -n "$cmd" ]; then
         $cmd &
         pid=$!
-        [ -n "$setprop" ] && {
-            wid=$(xdo id -mp "$pid")
-            xdotool set_window --classname "$name" "$wid"
-        }
-    }
+
+        # Cache the window ID of the new scratchpad
+        xdo id -mn "$name" >"$SPDIR/$name"
+
+        # If the scratchpad terminates, delete the cached window id file
+        wait $pid
+        rm -f -- "$SPDIR/$name"
+    fi
 }
 
 hide () {
@@ -70,7 +81,3 @@ case "$action" in
     hide) hide ;;
     *) usage ; exit 1 ;;
 esac
-
-# xdotool search --onlyvisible --classname "$name" windowunmap \
-#     || xdotool search --classname "$name" windowmap \
-#     || $cmd

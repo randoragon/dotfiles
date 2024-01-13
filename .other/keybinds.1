@@ -3,7 +3,7 @@
 \\$2
 .sp -1
 ..
-.TH KEYBINDS 7 2022-02-20 keybinds
+.TH KEYBINDS 7 2024-01-14 keybinds
 .SH DESCRIPTION
 .P
 This man page lists all global keybindings available on my linux machine.
@@ -18,19 +18,20 @@ my dotfiles repo
 .SS MISCELLANEOUS
 .KB "Super Shift /"         "Open keybinds help"
 .KB "Super Ctrl r"          "Reload sxhkd config"
+.KB "Super Shift r"         "Reload spectrwm config"
+.KB "Super b"               "Toggle status bar"
 .KB "Super Shift w"         "Randomize wallpaper"
 .KB "Super Ctrl Shift w"    "Set wallpaper to black"
 .
+.sp
 .SS LAUNCHERS
 .P
 .KB "Super Return"      "Terminal emulator"
 .KB "Super o"           "dmenu_run"
 .KB "Super g"           "mousemode"
 .KB "Super c"           "snippet"
-.KB "Ctrl Alt i"        "File explorer"
 .KB "Ctrl Alt w"        "surf"
 .KB "Ctrl Alt d"        "Discord"
-.KB "Ctrl Alt f"        "fsearch"
 .KB "Ctrl Alt b"        "Book menu"
 .KB "Super Shift o"     "Copy password"
 .KB "Super Ctrl o"      "Copy user"
@@ -40,121 +41,86 @@ my dotfiles repo
 .KB "Ctrl Printscrn"    "Capture screen to clipboard"
 .
 .sp
-.SS NODES (WINDOWS)
+.SS WINDOWS
 .P
 .KB "Super q"            "Close"
 .KB "Super Ctrl q"       "Kill"
-.KB "Super Shift m"      "Minimize"
-.KB "Super Ctrl m"       "Unminimize"
+.KB "Super \e"           "Minimize"
+.KB "Super Shift \e"     "Unminimize"
 .sp
-.KB "Super Left/h"          "Focus left"
-.KB "Super Down/j"          "Focus down"
-.KB "Super Up/k"            "Focus up"
-.KB "Super Right/l"         "Focus right"
+.KB "Super j"          "Focus next"
+.KB "Super k"          "Focus previous"
+.KB "Super u"          "Swap with next"
+.KB "Super i"          "Swap with previous"
 .sp
-.KB "Super Shift Left/h"    "Move left"
-.KB "Super Shift Down/j"    "Move down"
-.KB "Super Shift Up/k"      "Move up"
-.KB "Super Shift Right/l"   "Move right"
-.sp
-.KB "Super Ctrl Left/h"  "Shrink left"
-.KB "Super Ctrl Down/j"  "Grow down"
-.KB "Super Ctrl Up/k"    "Shrink up"
-.KB "Super Ctrl Right/l" "Grow right"
-.sp
-.KB "Super u"               "Focus cycle next"
-.KB "Super i"               "Focus cycle previous"
-.KB "Super Shift u"         "Focus cycle floating next"
-.KB "Super Shift i"         "Focus cycle floating previous"
-.KB "Super Ctrl u"          "Focus cycle tiled next"
-.KB "Super Ctrl i"          "Focus cycle tiled previous"
-.sp
-.KB "Super Ctrl Shift i"       "Select parent"
-.KB "Super Ctrl Shift u"       "Select 1st child"
-.KB "Super Ctrl Shift o"       "Select 2nd child"
-.sp
-.KB "Super y"                     "Send to presel"
-.KB "Super Shift y"               "Send marked to presel"
-.sp
-.KB "Super t"               "Toggle tiled"
-.KB "Super Ctrl t"          "Toggle pseudo-tiled"
 .KB "Super Shift Space"     "Toggle floating"
-.KB "Super f"               "Toggle fullscreen"
+.KB "Super f"               "Toggle maximized"
+.KB "Super Shift f"         "Toggle fullscreen"
 .sp
-.KB "Super Ctrl a"       "Toggle marked"
-.KB "Super Ctrl s"       "Toggle sticky"
-.KB "Super Ctrl z"       "Toggle private"
-.KB "Super Ctrl x"       "Toggle locked"
 .sp
-.KB "Super Ctrl Shift e" "Equalize all or selected"
-.KB "Super Ctrl Shift b" "Balance all or selected"
+.SS WINDOWS (TILED)
+.P
+.KB "Super s"               "Swap with master"
+.KB "Super a"               "Focus master"
+.KB "Super Shift 0"         "Jump to arbitrary window"
 .
 .sp
-.SS NODES (WINDOWS) \- TILED
+.SS WINDOWS (FLOATING)
 .P
-.KB "Super Ctrl Shift Left/h"  "Toggle west presel"
-.KB "Super Ctrl Shift Down/j"  "Toggle south presel"
-.KB "Super Ctrl Shift Up/k"    "Toggle north presel"
-.KB "Super Ctrl Shift Right/l" "Toggle east presel"
-.KB "Super Ctrl Shift 1..9"    "Set presel size to 90..10%"
+.KB "Super Shift h"  "Move west"
+.KB "Super Shift j"  "Move south"
+.KB "Super Shift k"  "Move north"
+.KB "Super Shift l"  "Move east"
 .sp
-.KB "Super s"               "Swap current with biggest/last"
-.KB "Super Shift s"         "Swap with sibling"
-.KB "Super Ctrl Shift s"    "Swap siblings of sibling"
+.KB "Super Ctrl h"  "Shrink horizontal"
+.KB "Super Ctrl j"  "Grow vertical"
+.KB "Super Ctrl k"  "Shrink vertical"
+.KB "Super Ctrl l"  "Grow horizontal"
 .sp
-.kB "Super z"               "Rotate counterclockwise"
-.kB "Super x"               "Rotate clockwise"
-.sp
-.KB "Super 0"               "Jump to arbitrary window"
-.KB "Super Shift 0"         "Bring arbitrary window"
-.KB "Super Ctrl 0"          "Swap with arbitrary window"
+.KB "Super Ctrl Shift h"  "Throw west"
+.KB "Super Ctrl Shift j"  "Throw south"
+.KB "Super Ctrl Shift k"  "Throw north"
+.KB "Super Ctrl Shift l"  "Throw east"
+.KB "Super Ctrl Shift n"  "Throw center"
 .
 .sp
-.SS NODES (WINDOWS) \- FLOATING
+.SS WORKSPACES
 .P
-.KB "Super Ctrl Shift Left/h"  "Throw west"
-.KB "Super Ctrl Shift Down/j"  "Throw south"
-.KB "Super Ctrl Shift Up/k"    "Throw north"
-.KB "Super Ctrl Shift Right/l" "Throw east"
-.KB "Super Ctrl Shift n"       "Throw center"
-.
-.sp
-.SS TAGS / WORKSPACES
-.P
-.KB "Super a"               "Toggle monocle layout"
-.KB "Super Ctrl Shift 0"    "Toggle gaps"
-.sp
 .KB "Super ["               "Select previous (occupied)"
 .KB "Super ]"               "Select next (occupied)"
 .KB "Super Ctrl ["          "Select previous"
 .KB "Super Ctrl ]"          "Select next"
 .sp
-.KB "Super 1..9"            "Select tag 1..9"
-.KB "Super Shift 1..9"      "Move to tag 1..9"
-.KB "Super W"               "Select Browser tag"
-.KB "Super Shift W"         "Move to Browser tag"
-.KB "Super E"               "Select E-Mail tag"
-.KB "Super Shift E"         "Move to E-Mail tag"
-.KB "Super D"               "Select Discord tag"
-.KB "Super Shift D"         "Move to Discord tag"
-.KB "Super Tab"             "Select last tag"
-.KB "Super Shift Tab"       "Move to last tag"
+.KB "Super 1..6"            "Select workspace 1..6"
+.KB "Super Shift 1..6"      "Move to workspace 1..6"
+.KB "Super W"               "Select Browser workspace"
+.KB "Super Shift W"         "Move to Browser workspace"
+.KB "Super E"               "Select E-Mail workspace"
+.KB "Super Shift E"         "Move to E-Mail workspace"
+.KB "Super D"               "Select Discord workspace"
+.KB "Super Shift D"         "Move to Discord workspace"
+.KB "Super Tab"             "Select last workspace"
 .sp
-.KB "Super Space"           "Toggle Scratch Terminal"
-.KB "Super M"               "Toggle Scratch ncmpcpp"
-.KB "Super N"               "Toggle Scratch DualBoat"
+.KB "Super Space"           "Toggle Scratch terminal"
+.KB "Super M"               "Toggle Scratch music player"
+.KB "Super N"               "Toggle Scratch RSS viewer"
+.KB "Super /"               "Toggle Scratch calculator"
 .sp
-.KB "Super ,"               "Focus Previous Monitor"
-.KB "Super ."               "Focus Next Monitor"
-.KB "Super Shift ,"         "Move to Previous Monitor"
-.KB "Super Shift ."         "Move to Next Monitor"
+.KB "Super ,"               "Focus previous monitor"
+.KB "Super ."               "Focus next monitor"
+.KB "Super Shift ,"         "Move to previous monitor"
+.KB "Super Shift ."         "Move to next monitor"
 .
 .sp
-.SS STATUS BAR
-.P
-.KB "Super b"               "Toggle visibility"
-.KB "Super Shift"           "Restart"
-.KB "Super Ctrl b"          "Kill"
+.SS TILING LAYOUTS
+.KB "Super 9"               "Layout: vertical"
+.KB "Super Shift 9"         "Layout: horizontal"
+.KB "Super Shift 0"         "Layout: max"
+.KB "Super Shift s"         "Flip layout"
+.KB "Super Shift -"         "Decrement no. windows in the master area"
+.KB "Super Shift ="         "Increment no. windows in the master area"
+.KB "Super h"               "Shrink master area"
+.KB "Super l"               "Grow master area"
 .
 .sp
 .SS MUSIC / VOLUME

@@ -1,7 +1,7 @@
 setl tw=80
 
 " Preview
-nnoremap <buffer> <Leader>m :write \| AsyncRun echo $ASCIIDOCTOR_OPTS -a 'imagesdir=%:p:h' -o "$VIM_PREVIEW_HOME/vim-preview.html" -- "%:p" \| xargs asciidoctor && pkill -HUP surf<CR>
+nnoremap <buffer> <Leader>m :write \| AsyncRun echo $ASCIIDOCTOR_OPTS -a 'imagesdir=%:p:h' -o "$VIM_PREVIEW_HOME/vim-preview.html" -- "%:p" \| xargs asciidoctor && pkill -x -HUP surf<CR>
 nnoremap <buffer> <Leader>p :AsyncRun setsid surf -S -- file://"$VIM_PREVIEW_HOME/vim-preview.html"<CR>
 nnoremap <buffer> <Leader>P :AsyncRun xdg-open file://"$VIM_PREVIEW_HOME/vim-preview.html"<CR>
 

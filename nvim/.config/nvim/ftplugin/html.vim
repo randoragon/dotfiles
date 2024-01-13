@@ -3,7 +3,7 @@ setl shiftwidth=2 tabstop=2
 " HTML-only mappings, not compatible with markdown (https://vi.stackexchange.com/a/8343)
 if (&filetype == 'html')
     " Preview
-    nnoremap <buffer> <Leader>m :write \| AsyncRun pkill -HUP surf<CR>
+    nnoremap <buffer> <Leader>m :write \| AsyncRun pkill -x -HUP surf<CR>
     nnoremap <buffer> <Leader>p :AsyncRun setsid surf -S -- file://"%:p"<CR>
     nnoremap <buffer> <Leader>P :AsyncRun xdg-open file://"%:p"<CR>
 

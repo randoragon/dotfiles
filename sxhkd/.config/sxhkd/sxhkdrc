@@ -89,9 +89,3 @@ super+ctrl{_,+shift} + w
 	~/.scripts/wallpaper_random.sh,\
 	xwallpaper --zoom ~/.local/share/wallpapers/black.png\
 	}
-
-# Laugh Tracks
-super + {KP_End,KP_Down,KP_Next}
-	~/.scripts/laugh-track {ss,si,l}
-
-

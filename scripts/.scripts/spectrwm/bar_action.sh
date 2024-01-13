@@ -3,23 +3,22 @@
 storage () {
     rootfs=$((1024 * $(df --output=avail / | tail -n1)))
     homefs=$((1024 * $(df --output=avail /home | tail -n1)))
-    printf ' %s   %s\n' \
+    printf '/ %s  ~ %s\n' \
         "$(numfmt --to iec --format %.1f "$rootfs")" \
         "$(numfmt --to iec --format %.1f "$homefs")"
 }
 
 datetime () {
-    date +'%a %m/%d  %H:%M:+@fn=4;%S+@fn=0;'
+    date +'%a %m/%d  %H:%M:+@fn=2;%S+@fn=0;'
 }
 
 volume () {
     if [ "$(pactl get-sink-mute @DEFAULT_SINK@)" = 'Mute: yes' ]; then
-        icon=''
+        printf 'M '
     else
-        icon=''
+        printf '++ '
     fi
-    perc="$(pactl get-sink-volume @DEFAULT_SINK@ | grep -o '[0-9]\+%' | sort -nr | head -n1)"
-    echo "$icon $perc"
+    pactl get-sink-volume @DEFAULT_SINK@ | grep -o '[0-9]\+%' | sort -nr | head -n1
 }
 
 i=0

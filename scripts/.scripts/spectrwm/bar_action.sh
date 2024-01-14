@@ -34,9 +34,9 @@ storage () {
 
 volume () {
     if [ "$(pactl get-sink-mute @DEFAULT_SINK@)" = 'Mute: yes' ]; then
-        printf 'M '
+        printf 'X '
     else
-        printf '++ '
+        printf '> '
     fi
     pactl get-sink-volume @DEFAULT_SINK@ | grep -o '[0-9]\+%' | sort -nr | head -n1
 }

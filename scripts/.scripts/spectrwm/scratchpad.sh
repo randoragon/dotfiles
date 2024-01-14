@@ -50,6 +50,9 @@ spawn () {
 toggle () {
     if xwininfo -id "$wid" | grep -Fq -m1 'Map State: IsViewable'; then
         wmctrl -i -r "$wid" -b add,hidden
+        # By convention, keep all hidden scratchpads on the last workspace,
+        # to keep them from "falsely" occupying random iconified lists.
+        wmctrl -i -r "$wid" -t 8
     else
         cur_desktop=$(($(wmctrl -d | grep -F -m1 \* | cut -d' ' -f1)))
         wmctrl -i -r "$wid" -t $cur_desktop

@@ -2,7 +2,7 @@
 
 # Jump to any window. EWMH-compliant.
 
-sel="$(wmctrl -lx | nl -w2 -s' ' | dmenu -f -l 10 -p 'Jump To:')"
+sel="$(wmctrl -lx | nl -w2 -s' ' | dmenu -f -i -l 10 -p 'Jump To:')"
 [ -z "$sel" ] && exit
 
 wid="0x${sel#*x}"

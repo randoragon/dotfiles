@@ -5,6 +5,7 @@
 # I wrote this script for SpectrWM. It works well and fast enough for me.
 #
 # Dependencies:
+# - xprop
 # - xdo
 # - xdotool
 # - wmctrl
@@ -50,13 +51,12 @@ cmd=
     shift 2
     cmd="$*"
 }
+wid=
+[ -r "$SPDIR/$name" ] && wid="$(cat -- "$SPDIR/$name")"
+cur_desktop=$(($(wmctrl -d | grep -F -m1 \* | cut -d' ' -f1)))
 
 show () {
-    wid=
-    [ -r "$SPDIR/$name" ] && wid="$(cat -- "$SPDIR/$name")"
-
     if [ -n "$wid" ]; then
-        cur_desktop=$(($(wmctrl -d | grep -F -m1 \* | cut -d' ' -f1)))
         xdotool set_desktop_for_window "$wid" $cur_desktop windowactivate "$wid"
     elif [ -n "$cmd" ]; then
         $cmd &
@@ -72,7 +72,13 @@ show () {
 }
 
 hide () {
-    xdo hide -dn "$name"
+    win_desktop="$(xprop -notype -id "$wid" _NET_WM_DESKTOP)"
+    win_desktop="${win_desktop##*= }"
+    if [ $((win_desktop)) -ne $cur_desktop ] || xprop -notype -id "$wid" _NET_WM_STATE | grep -qF -m1 STATE_HIDDEN; then
+        false
+    else
+        wmctrl -i -r "$wid" -b add,hidden
+    fi
 }
 
 case "$action" in

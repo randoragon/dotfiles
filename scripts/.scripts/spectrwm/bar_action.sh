@@ -43,22 +43,19 @@ volume () {
 
 i=0
 while true; do
-    [ $((i % (4 * 3600))) -eq 0 ] && {
+    [ $((i % 3600)) -eq 0 ] && {
         gpg_expire="$(gpg_expire)"
     }
 
-    [ $((i % (4 * 10))) -eq 0 ] && {
+    [ $((i % 10)) -eq 0 ] && {
         storage="$(storage)"
     }
 
-    [ $((i % 4)) -eq 0 ] && {
-        datetime="$(datetime)"
-    }
-
+    datetime="$(datetime)"
     volume="$(volume)"
 
     printf '%s │ %s │ %s │ %s\n' "$volume" "$storage" "$gpg_expire" "$datetime"
 
     i=$((i + 1))
-    sleep 0.25
+    sleep 1
 done

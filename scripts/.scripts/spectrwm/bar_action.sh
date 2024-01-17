@@ -32,9 +32,12 @@ gpg_expire () {
 storage () {
     rootfs=$((1024 * $(df --output=avail / | tail -n1)))
     homefs=$((1024 * $(df --output=avail /home | tail -n1)))
-    printf '/ %s  ~ %s\n' \
-        "$(numfmt --to iec --format %.1f "$rootfs")" \
-        "$(numfmt --to iec --format %.1f "$homefs")"
+    printf '/ %s' \
+        "$(numfmt --to iec --format %.1f "$rootfs")"
+    [ $homefs -ne $rootfs ] && {
+        printf '  ~ %s' \
+            "$(numfmt --to iec --format %.1f "$homefs")"
+    }
 }
 
 volume () {

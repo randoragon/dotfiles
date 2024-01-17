@@ -198,7 +198,8 @@ done
     xf86-input-libinput \
     flameshot shotgun \
     gtk-engine-murrine materia-gtk-theme xcursor-bluecurve \
-    xclip xdotool screenkey \
+    xclip screenkey \
+    xdotool wmctrl xdo \
     libnotify dunst \
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \

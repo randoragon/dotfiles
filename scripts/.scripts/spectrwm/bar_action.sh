@@ -1,5 +1,10 @@
 #!/bin/sh
 
+battery () {
+    perc="$(cat -- /sys/class/power_supply/BAT?/capacity | head -n1)"
+    [ -n "$perc" ] && printf '%s%%' "$perc"
+}
+
 datetime () {
     date +'%a %m/%d  %H:%M:+@fn=2;%S+@fn=0;'
 }
@@ -49,12 +54,18 @@ while true; do
 
     [ $((i % 10)) -eq 0 ] && {
         storage="$(storage)"
+        battery="$(battery)"
     }
 
     datetime="$(datetime)"
     volume="$(volume)"
 
-    printf '%s │ %s │ %s │ %s\n' "$volume" "$storage" "$gpg_expire" "$datetime"
+    if [ -n "$battery" ]; then
+        printf ' │ %s' "$volume" "$storage" "$gpg_expire" "$datetime" "$battery"
+    else
+        printf ' │ %s' "$volume" "$storage" "$gpg_expire" "$datetime"
+    fi
+    echo
 
     i=$((i + 1))
     sleep 1

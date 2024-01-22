@@ -1,8 +1,35 @@
 #!/bin/sh
 
+BATTERY_DUNSTID=82147924
+BATTERY_TMPF="$(mktemp --tmpdir "spectrwm_bar_power.$(whoami).XXXXX")"
+echo 100 >"$BATTERY_TMPF"
+
+# shellcheck disable=SC2064
+trap "rm -f -- '$BATTERY_TMPF'; exit" INT QUIT EXIT HUP TERM
+
 battery () {
-    perc="$(cat -- /sys/class/power_supply/BAT?/capacity | head -n1)"
-    [ -n "$perc" ] && printf '%s%%' "$perc"
+    for path in /sys/class/power_supply/BAT?; do
+        [ ! -d "$path" ] && return
+
+        case "$(cat -- "$path/status")" in
+            Charging) printf '^' ;;
+            Discharging) printf 'v' ;;
+        esac
+
+        perc=$(($(cat -- "$path/capacity")))
+        perc_prev=$(($(cat -- "$BATTERY_TMPF")))
+        [ -n "$perc" ] && {
+            printf '%s%%' "$perc"
+            if [ $perc -le 15 ] && [ $perc_prev -gt 15 ]; then
+                dunstify -r $BATTERY_DUNSTID -i battery -u critical "Battery Low [$perc%]"
+            elif [ $perc -le 5 ] && [ $perc_prev -gt $perc ]; then
+                dunstify -r $BATTERY_DUNSTID -i battery -u critical "Battery Low [$perc%]"
+            fi
+            echo "$perc" >"$BATTERY_TMPF"
+        }
+
+        break  # Only care about the first battery, if any
+    done
 }
 
 datetime () {

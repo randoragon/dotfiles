@@ -26,7 +26,8 @@ command LSPProjectToggleCSharp lua lsp_toggle({
             \ },
             \ {
             \  ".git",
-            \  "*.csproj",
+            \  "*.sln", "*.csproj",
+            \  "omnisharp.json", "function.json",
             \  "Makefile", "makefile", "GNUmakefile",
             \  "CMakeLists.txt"
             \ })

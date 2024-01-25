@@ -51,6 +51,11 @@ autocmd(
 		group = grp,
 		callback = function()
 			vim.cmd.highlight({
+				"MyRunningInLf",
+				"ctermfg=7", "ctermbg=6", "cterm=bold",
+				"guifg=#00C0F0", "guibg=#205050", "gui=bold",
+			})
+			vim.cmd.highlight({
 				"MyProjectMode",
 				"ctermfg=7", "ctermbg=6", "cterm=bold",
 				"guifg=White", "guibg=DarkCyan", "gui=bold",

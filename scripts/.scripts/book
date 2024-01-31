@@ -2,6 +2,6 @@
 
 bookdir=~/Documents/Books
 
-book="$(find "$bookdir" -type f -name '*.pdf' -exec basename -- '{}' \; | dmenu -F -i -p "Open Book:")"
+book="$(find "$bookdir" -type f -name '*.pdf' -exec basename -- '{}' \; | dmenu -F -i -l 10 -p "Open Book:")"
 
 [ -n "$book" ] && $PDF_READER "$(find "$bookdir" -type f -name "$book" -print -quit)"

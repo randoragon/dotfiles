@@ -23,6 +23,6 @@ printf "%s\n" "$chosen" | while read -r pl; do
         printf "%s\n" "$path"
         alacritty --class Alacritty,floatme -e addfairuse "$path"
     else
-        pladd "$pl" "$mroot/$playing"
+        pladd "$pl"
     fi
 done

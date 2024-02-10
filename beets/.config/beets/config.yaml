@@ -38,7 +38,6 @@ paths:
 # https://beets.readthedocs.io/en/stable/plugins/index.html
 # fetchart       : download album art
 # chroma         : enables matching by acoustic fingerprint instead of just tags
-# acousticbrainz : fetch tags from AcousticBrainz
 # edit           : edit tags with any text editor
 # embedart       : embed album art directly into the music files
 # ftintitle      : converts tags like "artist feat. guest - title" to "artist - title feat. guest"
@@ -51,7 +50,6 @@ paths:
 # playlist       : playlist queries, auto-update playlist entries on move/delete
 plugins: >
   fetchart
-  acousticbrainz
   edit
   embedart
   ftintitle
@@ -68,11 +66,6 @@ chroma:
 acoustid:
   # Send local fingerprints to with "beet submit"
   apikey: plCTgUVJgu
-
-acousticbrainz:
-  auto: yes
-  force: no
-  tags: [] # all
 
 edit:
   itemfields: track title artist album

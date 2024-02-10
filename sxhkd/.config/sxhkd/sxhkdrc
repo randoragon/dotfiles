@@ -49,11 +49,11 @@ super+shift + semicolon
 super+shift + apostrophe
 	mpc --port=$MPD_PORT seek +5
 {XF86AudioMute,super + BackSpace}
-	pactl set-sink-mute @DEFAULT_SINK@ toggle
+	pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+7 -x dwmblocks
 {XF86AudioRaiseVolume,super + equal}
-	pactl set-sink-volume @DEFAULT_SINK@ +2%
+	pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+7 -x dwmblocks
 {XF86AudioLowerVolume,super + minus}
-	pactl set-sink-volume @DEFAULT_SINK@ -2%
+	pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+7 -x dwmblocks
 
 # Add to playlist
 super+ctrl + equal

@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script is ran by dwm before it initializes itself.
 # dwm will not open properly until this script's execution

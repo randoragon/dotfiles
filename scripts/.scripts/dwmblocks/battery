@@ -1,0 +1,27 @@
+#!/bin/sh
+
+BATTERY_DUNSTID=82147924
+BATTERY_TMPF="$(mktemp --tmpdir "dwmblocks_power.$(whoami).XXXXX")"
+
+for path in /sys/class/power_supply/BAT?; do
+    [ ! -d "$path" ] && return
+
+    case "$(cat -- "$path/status")" in
+        Charging) printf '^' ;;
+        Discharging) printf 'v' ;;
+    esac
+
+    perc=$(($(cat -- "$path/capacity")))
+    perc_prev=$(($(cat -- "$BATTERY_TMPF")))
+    [ -n "$perc" ] && {
+        printf '%s%%' "$perc"
+        if [ $perc -le 15 ] && [ $perc_prev -gt 15 ]; then
+            dunstify -r $BATTERY_DUNSTID -i battery -u critical "Battery Low [$perc%]"
+        elif [ $perc -le 5 ] && [ $perc_prev -gt $perc ]; then
+            dunstify -r $BATTERY_DUNSTID -i battery -u critical "Battery Low [$perc%]"
+        fi
+        echo "$perc" >"$BATTERY_TMPF"
+    }
+
+    break  # Only care about the first battery, if any
+done

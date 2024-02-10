@@ -199,7 +199,7 @@ done
     flameshot shotgun \
     gtk-engine-murrine materia-gtk-theme xcursor-bluecurve \
     xclip screenkey \
-    xdotool wmctrl xdo \
+    xdotool \
     libnotify dunst \
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
@@ -326,7 +326,6 @@ do
 done
 
 [ -n "$need_gui" ] && for package in \
-    spectrwm \
     numix-icon-theme-git \
     gromit-mpx-git \
     mousemode-git \
@@ -418,7 +417,7 @@ fi
 printf "done.\n"
 sectionend
 
-for i in dmenu surf sent; do
+for i in dwm dwmblocks dmenu surf sent; do
     section "Installing $i"
     if [ -n "$need_gui" ]; then
         cd ~/Software
@@ -464,7 +463,7 @@ rm -f -- ~/.bashrc ~/.bash_profile
 if [ -n "$overwrite_dotfiles" ]; then
     cd ~/dotfiles
     [ -n "$need_music" ] && sstow beets
-    [ -n "$need_gui" ] && sstow spectrwm
+    [ -n "$need_gui" ] && sstow dwm
     sstow carla
     ddetach cronie
     [ -n "$need_gui" ] && sstow dunst

@@ -84,7 +84,7 @@ super+shift + slash
 	alacritty -e man -l -- ~/dotfiles/.other/keybinds.1
 
 # Randomize wallpaper
-super+ctrl{_,+shift} + w
+super+ctrl{_,+shift} + slash
 	{\
 	~/.scripts/wallpaper_random.sh,\
 	xwallpaper --zoom ~/.local/share/wallpapers/black.png\

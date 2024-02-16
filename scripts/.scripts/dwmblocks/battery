@@ -12,7 +12,8 @@ for path in /sys/class/power_supply/BAT?; do
     esac
 
     perc=$(($(cat -- "$path/capacity")))
-    perc_prev=$(($(cat -- "$BATTERY_TMPF")))
+    perc_prev="$(cat -- "$BATTERY_TMPF")"
+    [ -z "$perc_prev" ] && perc_prev=100 || perc_prev=$((perc_prev))
     [ -n "$perc" ] && {
         printf '%s%%' "$perc"
         if [ $perc -le 15 ] && [ $perc_prev -gt 15 ]; then

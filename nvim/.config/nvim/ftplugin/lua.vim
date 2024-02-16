@@ -21,6 +21,7 @@ inoremap <buffer> <Leader>P pairs()<Left>
 inoremap <buffer> <Leader>d do<CR>end<Esc>O
 inoremap <buffer> <Leader>ss string.
 inoremap <buffer> <Leader>sf string.format()<Left>
+inoremap <buffer> <Leader>a assert()<Left>
 
 inoremap <buffer> <Leader>tt table.
 inoremap <buffer> <Leader>ti table.insert()<Left>

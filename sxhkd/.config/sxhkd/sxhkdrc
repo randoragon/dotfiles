@@ -11,9 +11,8 @@ ctrl+alt + {w,d,b,h}
 	alacritty --class Alacritty\,floatme -e htop\
 	}
 
-super + {Return,o,g,c}
+super + {o,g,c}
 	{\
-	alacritty,\
 	dmenu_run,\
 	~/.scripts/mousemode-run,\
 	snippet\

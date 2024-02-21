@@ -1,0 +1,13 @@
+#!/bin/sh
+
+link="$1"
+echo "$link" | grep -q '^https://\(www\.\)\?youtube\.com/watch?v=[^?]\+$' || {
+    notify-send -u low rss-thumbnail "Only YouTube links are supported.\n$link"
+    exit 1
+}
+video_id="${link##*\?v=}"
+
+tmpf="$(mktemp --tmpdir rss-thumbnail.XXXXX)"
+wget -q -O "$tmpf" "https://img.youtube.com/vi/$video_id/hqdefault.jpg"
+sxiv "$tmpf"
+rm -- "$tmpf"

@@ -1,7 +1,8 @@
 #!/bin/sh
 
 BATTERY_DUNSTID=82147924
-BATTERY_TMPF="$(mktemp --tmpdir "dwmblocks_power.$(whoami).XXXXX")"
+BATTERY_TMPF="${TMPDIR:-/tmp}/dwmblocks_battery.$(whoami)"
+chmod 600 -- "$BATTERY_TMPF"
 
 for path in /sys/class/power_supply/BAT?; do
     [ ! -d "$path" ] && return

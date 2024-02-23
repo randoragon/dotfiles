@@ -10,6 +10,8 @@ inoremap <buffer> <Leader>o else if
 inoremap <buffer> <Leader>f for 
 inoremap <buffer> <Leader>w while 
 inoremap <buffer> <Leader>p println!()<,,><C-o>F)
+inoremap <buffer> <Leader>a assert!()<,,><C-o>F)
+inoremap <buffer> <Leader>.a debug_assert!()<,,><C-o>F)
 
 command LSPFileToggleRust    lua lsp_toggle({
             \   name = "rust-analyzer",

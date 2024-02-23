@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script instakes a m3u playlist and creates
 # a directory containing all files in the same order

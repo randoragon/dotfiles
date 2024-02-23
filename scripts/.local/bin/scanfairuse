@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script validates whether there's ANY problems with the Fair Use playlist. If this script
 # does not yield any errors, all the music on the Fair Use playlist should be safe to play live.

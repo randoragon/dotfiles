@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script deletes mp3 files with paths stored
 # inside a ".Delete" playlist. This is just a convention.

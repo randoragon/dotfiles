@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script intakes an m3u playlist path and an arbitrary file path
 # and then appends the file's path to the playlist file IF the path isn't already

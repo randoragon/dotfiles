@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 mcdir="${XDG_DATA_HOME:-$HOME/.local/share}/minecraft"
 /usr/bin/minecraft-launcher -l "$mcdir" -w "$mcdir"

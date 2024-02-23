@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # Change the wallpaper and generate new colorscheme.
 # Intakes image path as an only parameter.

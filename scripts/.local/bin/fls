@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # This script intakes a path and produces a comprehensive
 # view of a file or a directory's properties and details.

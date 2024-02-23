@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # Use mp3gain to force a recalculation of gain
 # in ID3v2 tags. If an update is recommended,

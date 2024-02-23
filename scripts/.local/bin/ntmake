@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # Invokes all commands necessary to process a troff document
 # into PDF using neatroff. All command-line arguments starting

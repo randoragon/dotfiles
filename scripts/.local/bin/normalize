@@ -58,7 +58,7 @@ normalize_dir () {
 }
 
 if [ "$1" = -a ]; then
-    find "$MUSIC_DIR" -mindepth 2 -maxdepth 2 -type d
+    find "$MUSIC_DIR" -mindepth 2 -maxdepth 2 -type d \! -path '*/Playlists/*' \! -path '*/.playcount/*'
 elif [ "$1" = -w ]; then
     [ -z "$(beet ls -p added:-1w..)" ] && echo 'There is nothing to do.' >&2 && exit
     beet ls -p added:-1w.. | xargs -d '\n' dirname | sort | uniq

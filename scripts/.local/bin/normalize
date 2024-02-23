@@ -3,6 +3,10 @@
 # This script is a simple wrapper for running mp3gain recursively
 # on a library full of mp3 music files.
 # Last run gets stored in a log file as a sanity check.
+#
+# Dependencies:
+# - mp3gain
+# - rsgain
 
 MUSIC_DIR=~/Music
 LOG=~/.cache/normalize-latest.log
@@ -10,7 +14,7 @@ LOG=~/.cache/normalize-latest.log
 set -e
 
 usage () {
-    echo 'Usage:  normalize [OPTION]'
+    echo 'Usage:  normalize OPTION'
     echo
     echo 'Uses mp3gain to losslessly normalize mp3 files and updates ReplayGain tags.'
     echo '- Tracks belonging to a common album are analyzed together, so that the'
@@ -22,9 +26,11 @@ usage () {
     echo 'Options'
     echo '  -h: Display this help.'
     echo '  -a: Re-analyze the entire library.'
+    echo '  -w: Re-analyze tracks imported in the last week.'
+    echo '  -d: Re-analyze tracks imported since yesterday.'
 }
 
-[ "$1" = '-h' ] && usage && exit
+[ $# -eq 0 ] || [ "$1" = '-h' ] && usage && exit
 
 # Normalizes a flat directory of tracks.
 # If the directory is named 'no album', each track is analyzed separately.
@@ -38,21 +44,27 @@ normalize_dir () {
         tput setaf 6
         echo '-> SINGLES, analyzing tracks separately'
         tput sgr0
-        find "$1" -maxdepth 1 -type f -name '*.mp3' -print0 \
-            | xargs -0 mp3gain -s r -r -e -k
+
+        mp3gain -s r -r -e -k "$1"/*.mp3
+        rsgain custom -s i -- "$1"/*.mp3
     else
         tput setaf 6
         echo '-> ALBUM, analyzing tracks together'
         tput sgr0
-        find "$1" -maxdepth 1 -type f -name '*.mp3' -print0 \
-            | xargs -0 mp3gain -s r -a -k
+
+        mp3gain -s r -a -k "$1"/*.mp3
+        rsgain custom -s i -a -- "$1"/*.mp3
     fi
 }
 
 if [ "$1" = -a ]; then
     find "$MUSIC_DIR" -mindepth 2 -maxdepth 2 -type d
-else
+elif [ "$1" = -w ]; then
+    [ -z "$(beet ls -p added:-1w..)" ] && echo 'There is nothing to do.' >&2 && exit
     beet ls -p added:-1w.. | xargs -d '\n' dirname | sort | uniq
+elif [ "$1" = -d ]; then
+    [ -z "$(beet ls -p added:-1d..)" ] && echo 'There is nothing to do.' >&2 && exit
+    beet ls -p added:-1d.. | xargs -d '\n' dirname | sort | uniq
 fi \
     | while read -r dir_path; do normalize_dir "$dir_path"; done \
     | tee "$LOG"

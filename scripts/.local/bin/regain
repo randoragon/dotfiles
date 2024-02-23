@@ -2,6 +2,11 @@
 
 # Normalize a single file or directory with mp3gain.
 # Directories can be treated both as singles and as an album.
+#
+# Dependencies:
+# - mp3gain
+# - rsgain
+# - id3ted
 
 set -e
 
@@ -18,10 +23,25 @@ usage () {
     echo '-s DIR: Analyze directory as singles.'
 }
 
-if [ "$1" = '-h' ]; then
+rsgain_single () {
+    # Unfortunately, rsgain does not support analyzing only the TRACK_GAIN
+    # information and updating it without removing or altering ALBUM_GAIN.
+    # When not asked to analyze ALBUM_GAIN, it erases it from the file.
+    # To mitigate this, read ALBUM_GAIN before using rsgain and restore
+    # it afterwards.
+    for file in "$@"; do
+        album_gain="$(id3ted -l -- "$file" | sed -n 's/^TXXX: \[REPLAYGAIN_ALBUM_GAIN\]: //p')"
+        album_peak="$(id3ted -l -- "$file" | sed -n 's/^TXXX: \[REPLAYGAIN_ALBUM_PEAK\]: //p')"
+        rsgain custom -s i -- "$file"
+        [ -n "$album_gain" ] && id3ted --TXXX "$album_gain:REPLAYGAIN_ALBUM_GAIN" -- "$file"
+        [ -n "$album_peak" ] && id3ted --TXXX "$album_peak:REPLAYPEAK_ALBUM_PEAK" -- "$file"
+    done
+}
+
+if [ $# -eq 0 ] || [ "$1" = '-h' ]; then
     usage
     exit
-elif [ "$#" -eq 1 ]; then
+elif [ $# -eq 1 ]; then
     # Single file
     [ -f "$1" ] || {
         echo "regain: file path expected. Try '-h' for help." >&2
@@ -32,8 +52,11 @@ elif [ "$#" -eq 1 ]; then
     tput bold setaf 3
     printf '"%s"\n' "$1"
     tput sgr0
+
     mp3gain -s r -r -e -k "$1"
-elif [ "$#" -eq 2 ]; then
+    printf '%s\n' --------------------------------------------------
+    rsgain_single "$1"
+elif [ $# -eq 2 ]; then
     # Directory of files
     [ -d "$2" ] || {
         echo "regain: directory path expected. Try '-h' for help." >&2
@@ -45,16 +68,20 @@ elif [ "$#" -eq 2 ]; then
         tput bold setaf 3
         printf '"%s"\n' "$2"
         tput sgr0
-        find "$2" -maxdepth 1 -type f -name '*.mp3' -print0 \
-            | xargs -0 mp3gain -s r -a -k
+
+        mp3gain -s r -a -k "$2"/*.mp3
+        printf '%s\n' --------------------------------------------------
+        rsgain custom -s i -a -- "$2"/*.mp3
     elif [ "$1" = '-s' ]; then
         tput setaf 4
         printf 'Normalizing singles '
         tput bold setaf 3
         printf '"%s"\n' "$2"
         tput sgr0
-        find "$2" -maxdepth 1 -type f -name '*.mp3' -print0 \
-            | xargs -0 mp3gain -s r -a -k
+
+        mp3gain -s r -r -e -k "$2"/*.mp3
+        printf '%s\n' --------------------------------------------------
+        rsgain_single "$2"/*.mp3
     else
         echo "regain: Invalid argument. Try '-h' for help." >&2
         exit 1

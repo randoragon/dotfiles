@@ -352,7 +352,7 @@ done
 [ -n "$need_sync" ]  && yayinstall onedrive-abraunegg
 
 [ -n "$need_music" ] && for package in \
-    mp3gain \
+    mp3gain rsgain-git \
     taptempo
 do
     yayinstall "$package"

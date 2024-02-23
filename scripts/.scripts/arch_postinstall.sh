@@ -506,6 +506,23 @@ else
 fi
 sectionend
 
+# Install music_tools
+section "Installing music_tools"
+if [ -n "$need_music" ]; then
+    cd ~/Software
+    if [ -d music_tools ]; then
+        echo 'music_tools already installed, skipping.'
+    else
+        git clone "https://github.com/randoragon/music_tools"
+        cd ~/Software/music_tools
+        cargo install --path .
+        printf "done.\n"
+    fi
+else
+    echo "'music'" disabled, skipping.
+fi
+sectionend
+
 # Install neatroff
 section "Installing neatroff and tmac-rnd"
 if [ -n "$need_gui" ]; then

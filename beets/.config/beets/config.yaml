@@ -42,7 +42,6 @@ paths:
 # embedart       : embed album art directly into the music files
 # ftintitle      : converts tags like "artist feat. guest - title" to "artist - title feat. guest"
 # mbsync         : update MusicBrainz tags with "beet mbsync QUERY". Affects only items with MusicBrainzID
-# replaygain     : calculates replaygain
 # thumbnails     : adds metadata for displaying file thumbnails in thunar etc.
 # info           : enables listing quaried items' tag information
 # duplicates     : finds duplicate tracks or albums
@@ -54,7 +53,6 @@ plugins: >
   embedart
   ftintitle
   mbsync
-  replaygain
   thumbnails
   info
   fromfilename
@@ -90,12 +88,6 @@ ftintitle:
   auto: yes
   drop: no
   format: feat. {0}
-
-replaygain:
-  backend: gstreamer
-  auto: yes
-  overwrite: no
-  targetlevel: 89
 
 thumbnails:
   auto: yes

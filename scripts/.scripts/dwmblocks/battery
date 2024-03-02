@@ -10,6 +10,7 @@ for path in /sys/class/power_supply/BAT?; do
     case "$(cat -- "$path/status")" in
         Charging) printf '^' ;;
         Discharging) printf 'v' ;;
+        Not\ charging) printf '*' ;;
     esac
 
     perc=$(($(cat -- "$path/capacity")))

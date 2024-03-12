@@ -4,21 +4,41 @@
 # The advantage that it offers over simply running mpv is that
 # if can detect certain error messages that mpv gives and notify
 # the user about it via notifications (e.g. video premieres).
+#
+# Requires youtube-dl or yt-dlp.
 
-icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
+if [ -n "$(command -v yt-dlp)" ]; then
+    ytdl=yt-dlp
+elif [ -n "$(command -v youtube-dl)" ]; then
+    ytdl=youtube-dl
+else
+    echo "rss-mpv-browser: neither yt-dlp nor youtube-dl have been found" >&2
+    exit 1
+fi
+
+# Allow the user to select video format, if possible
+format=
+formats="$($ytdl -F -- "$1" 2>/dev/null | grep -F https | grep -F -e 'mp4' -e 'webm' | grep -F -v 'audio only')"
+[ -n "$formats" ] && {
+    format="$(echo "$formats" | dmenu -p 'Video format:' -l 20)"
+    [ -z "$format" ] && exit
+    format="${format%% *}+bestaudio"
+}
 
 # Run mpv and obtain its output
 fout="$(mktemp --tmpdir rss-mpv-browser.XXXXX)"
-notif="$(dunstify -p -i "$icon" -u low "$0" "starting <u>$@</u>...")"
-mpv --force-window=immediate "$@" >"$fout" 2>&1
+notif="$(dunstify -p -u low "$0" "starting <u>$1</u>...")"
+if [ -n "$format" ]; then
+    mpv --force-window=immediate --ytdl-format="$format" -- "$1" >"$fout" 2>&1
+else
+    mpv --force-window=immediate -- "$1" >"$fout" 2>&1
+fi
 
 # If output contains certain keyphrases, display a notification
 if grep -qsF 'Premieres in' -- "$fout"; then
-    icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
-    dunstify -r "$notif" -i "$icon" -u low 'youtube-dl' "$(grep -o 'Premieres in .*$' -- "$fout")"
+    dunstify -r "$notif" -u low 'youtube-dl' "$(grep -o 'Premieres in .*$' -- "$fout")"
 elif grep -qsF 'ERROR' -- "$fout"; then
-    icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
-    dunstify -r "$notif" -i "$icon" -u low 'youtube-dl' "$(grep -o 'ERROR:.*$' -- "$fout")"
+    dunstify -r "$notif" -u low 'youtube-dl' "$(grep -o 'ERROR:.*$' -- "$fout")"
 else
     dunstify -C "$notif"
 fi

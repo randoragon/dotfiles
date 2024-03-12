@@ -10,26 +10,25 @@
 #
 # Requires ytmp3 and ytmp3 wrapper scripts around youtube-dl.
 
-icon='/usr/share/icons/Adwaita/96x96/mimetypes/video-x-generic-symbolic.symbolic.png'
 if [ -n "$(command -v yt-dlp)" ]; then
-    cmd=yt-dlp
+    ytdl=yt-dlp
 elif [ -n "$(command -v youtube-dl)" ]; then
-    cmd=youtube-dl
+    ytdl=youtube-dl
 else
-    echo "ytmp3: neither yt-dlp nor youtube-dl have been found" >&2
+    echo "rss-youtube-dl: neither yt-dlp nor youtube-dl have been found" >&2
     exit 1
 fi
 
 if [ "$1" = 'a' ]; then
     shift
     title='ytmp3'
-    dunstify -u low -i "$icon" "$0" "downloading audio from <u>$1</u>..."
-    [ -n "$(command -v termtit)" ] && title="${title}: $($cmd -e "$1" 2>/dev/null)"
+    dunstify -u low "$0" "downloading audio from <u>$1</u>..."
+    [ -n "$(command -v termtit)" ] && title="${title}: $($ytdl -e "$1" 2>/dev/null)"
     alacritty -T "$title" -e ytmp3 "$@" >/dev/null 2>&1 &
 elif [ "$1" = 'v' ]; then
     shift
     title='ytmp4'
-    dunstify -u low -i "$icon" "$0" "downloading video from <u>$1</u>..."
-    [ -n "$(command -v termtit)" ] && title="${title}: $($cmd -e "$1" 2>/dev/null)"
+    dunstify -u low "$0" "downloading video from <u>$1</u>..."
+    [ -n "$(command -v termtit)" ] && title="${title}: $($ytdl -e "$1" 2>/dev/null)"
     alacritty -T "$title" -e ytmp4 "$@" >/dev/null 2>&1 &
 fi

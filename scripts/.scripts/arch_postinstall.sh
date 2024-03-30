@@ -385,20 +385,6 @@ else
 fi
 sectionend
 
-section "Cloning LLS-Addons"
-if [ -n "$need_devtools" ]; then
-    if [ -d ~/Software/LLS-Addons ]; then
-        printf 'LLS-Addons already installed, skipping\n'
-    else
-        cd ~/Software
-        git clone "https://github.com/LuaLS/LLS-Addons"
-        cd ~/Software/LLS-Addons
-        git submodule update --init --recursive
-        printf "done.\n"
-    fi
-fi
-sectionend
-
 section "Installing singular LaTeX CRANs"
 if [ -n "$need_gui" ]; then
     sudo tlmgr install graphviz

@@ -347,7 +347,7 @@ done
     printf "done.\n"
 }
 
-[ -n "$need_rss" ]   && yayinstall newsraft-git
+[ -n "$need_rss" ]   && yayinstall newsraft
 [ -n "$need_sync" ]  && yayinstall onedrive-abraunegg
 
 [ -n "$need_music" ] && for package in \

@@ -491,22 +491,24 @@ else
 fi
 sectionend
 
-# Install music_tools
-section "Installing music_tools"
-if [ -n "$need_music" ]; then
-    cd ~/Software
-    if [ -d music_tools ]; then
-        echo 'music_tools already installed, skipping.'
+# Install rust crates
+for crate in music_tools rsid3; do
+    section "Installing $crate"
+    if [ -n "$need_music" ]; then
+        cd ~/Software
+        if [ -d "$crate" ]; then
+            echo "$crate already installed, skipping."
+        else
+            git clone "https://github.com/randoragon/$crate"
+            cd ~/Software/"$crate"
+            cargo install --path .
+            printf "done.\n"
+        fi
     else
-        git clone "https://github.com/randoragon/music_tools"
-        cd ~/Software/music_tools
-        cargo install --path .
-        printf "done.\n"
+        echo "'music'" disabled, skipping.
     fi
-else
-    echo "'music'" disabled, skipping.
-fi
-sectionend
+    sectionend
+done
 
 # Install neatroff
 section "Installing neatroff and tmac-rnd"

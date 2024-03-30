@@ -377,7 +377,7 @@ if [ -n "$need_music" ]; then
     do
         pacinstall "$package"
     done
-    sudo python3 -m pip -q install beets\[fetchart,lyrics,lastgenre\] pathlib
+    sudo python3 -m pip -q install --break-system-packages beets\[fetchart,lyrics,lastgenre\] pathlib
     cargo install mpd-discord-rpc
     printf "done.\n"
 else

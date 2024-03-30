@@ -46,7 +46,6 @@ paths:
 # info           : enables listing quaried items' tag information
 # duplicates     : finds duplicate tracks or albums
 # fromfilename   : guesses missing artist/title from filename
-# playlist       : playlist queries, auto-update playlist entries on move/delete
 plugins: >
   fetchart
   edit
@@ -56,7 +55,6 @@ plugins: >
   thumbnails
   info
   fromfilename
-  playlist
 
 chroma:
   auto: yes
@@ -103,9 +101,4 @@ duplicates:
   merge: no
   path: yes
 
-playlist:
-  auto: yes
-  relative_to: library
-  playlist_dir: ~/Music/Playlists
-  forward_slash: yes
 # ENDOF PLUGINS ----------------------------------------------

@@ -309,7 +309,6 @@ sectionend
 section "Installing AUR Packages"
 for package in \
     xxd-standalone \
-    pass-update \
     pass-extension-tail \
     rar \
     sparklines-git \

@@ -22,9 +22,6 @@
 # To ensure all paths are properly converted to relative variants, set the music root directory below.
 mroot="$HOME/Music"
 
-# port on which mpd is running
-mpd_port="$MPD_PORT"
-
 # default playlists directory
 pldir="$HOME/Music/Playlists"
 
@@ -39,9 +36,9 @@ if [ $# -eq 2 ]; then
     file="$2"
     title="$(id3ted -l "$file" | sed -n 's/^TIT2: //p')"
 else
-    file="$(printf "%s" "$(mpc current -f %file% --port="$mpd_port")")"
+    file="$(printf "%s" "$(mpc current -f %file%)")"
     printf "%s" "$file" | grep "^/" || file="$mroot/$file"
-    title="$(mpc current -f %title% --port="$mpd_port")"
+    title="$(mpc current -f %title%)"
 fi
 
 # Convert file to be a relative path to mroot

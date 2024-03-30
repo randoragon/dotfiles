@@ -18,7 +18,7 @@ printf "%s" "$(mpc current --format '%album%    ·')    " \
 switch_wallpaper=1
 if [ -n "$switch_wallpaper" ]; then
     cachefile="${XDG_CACHE_HOME:-~/.cache}/ncmpcpp-albumart.jpg"
-    mpdfpath="$(mpc current --format %file% --port "$MPD_PORT")"
+    mpdfpath="$(mpc current --format %file%)"
     mpc readpicture "$mpdfpath" >"$cachefile"
     if file -- "$cachefile" | grep -qi 'image'; then
         tmp="$(mktemp)"

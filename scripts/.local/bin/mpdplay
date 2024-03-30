@@ -6,16 +6,14 @@
 # Quit if no arguments
 [ $# -eq 0 ] && exit 1
 
-port="$MPD_PORT"
-
 # Run mpd if not running
 [ -z "$(pidof mpd)" ] && mpd && wait
 
 
 # Add to playlist
 song="$(realpath -- "$1")"
-if [ -z "$(mpc --port="$port" insert "file://$song" 2>&1)" ]; then
-    mpc --port="$port" next
+if [ -z "$(mpc insert "file://$song" 2>&1)" ]; then
+    mpc next
 else
     notify-send -u critical "mpdplay" "Failed to add song to queue"
 fi

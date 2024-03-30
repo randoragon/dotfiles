@@ -247,7 +247,7 @@ done
 # rust and openssl-1.1 for mpd-discord-rpc
 [ -n "$need_music" ] && for package in \
     mpd ncmpcpp mpc \
-    beets chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
+    chromaprint gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly python-gobject \
     atomicparsley \
     mp3info \
     lua lua-filesystem \
@@ -376,7 +376,7 @@ if [ -n "$need_music" ]; then
     do
         pacinstall "$package"
     done
-    sudo python3 -m pip -q install --break-system-packages beets\[fetchart,lyrics,lastgenre\] pathlib
+    yayinstall beets-git
     cargo install mpd-discord-rpc
     printf "done.\n"
 else

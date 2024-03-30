@@ -334,8 +334,7 @@ done
     xidlehook \
     farbfeld-git \
     ttf-unifont \
-    mscgen \
-    tllocalmgr-git
+    mscgen
 do
     yayinstall "$package"
 done
@@ -402,7 +401,7 @@ sectionend
 
 section "Installing singular LaTeX CRANs"
 if [ -n "$need_gui" ]; then
-    tllocalmgr install graphviz
+    sudo tlmgr install graphviz
     sudo texhash
 fi
 sectionend

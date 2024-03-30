@@ -18,11 +18,17 @@ fi
 
 # Allow the user to select video format, if possible
 format=
-formats="$($ytdl -F -- "$1" 2>/dev/null | grep -F https | grep -F -e 'mp4' -e 'webm' | grep -F -v 'audio only')"
+formats="$($ytdl -F -- "$1" 2>/dev/null \
+    | grep -F https | grep -F -e 'mp4' -e 'webm' | grep -F -v 'audio only' \
+    | tr -d '~≈' | sort -k6n | sort -s -k3nr)"
 [ -n "$formats" ] && {
-    format="$(echo "$formats" | dmenu -p 'Video format:' -l 20)"
+    format="$(printf 'default\n%s\n' "$formats" | dmenu -p 'Video format:' -l 20)"
     [ -z "$format" ] && exit
-    format="${format%% *}+bestaudio"
+    if [ "$format" = 'default' ]; then
+        format=
+    else
+        format="${format%% *}+bestaudio"
+    fi
 }
 
 # Run mpv and obtain its output

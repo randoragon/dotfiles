@@ -14,7 +14,7 @@
 #
 # DEPENDENCIES
 # - mpc
-# - id3ted
+# - rsid3
 # - libnotify
 
 
@@ -34,7 +34,7 @@ plist="$(if [ -f "$1" ]; then printf "%s" "$1"; else printf "%s" "$pldir/$1.m3u"
 plname="$(basename -- "$plist" | sed 's/\.m3u//')"
 if [ $# -eq 2 ]; then
     file="$2"
-    title="$(id3ted -l "$file" | sed -n 's/^TIT2: //p')"
+    title="$(rsid3 --TIT2 -- "$file")"
 else
     file="$(printf "%s" "$(mpc current -f %file%)")"
     printf "%s" "$file" | grep "^/" || file="$mroot/$file"

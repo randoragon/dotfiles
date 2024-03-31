@@ -6,7 +6,7 @@
 # Dependencies:
 # - mp3gain
 # - rsgain
-# - id3ted
+# - rsid3
 
 set -e
 
@@ -30,11 +30,11 @@ rsgain_single () {
     # To mitigate this, read ALBUM_GAIN before using rsgain and restore
     # it afterwards.
     for file in "$@"; do
-        album_gain="$(id3ted -l -- "$file" | sed -n 's/^TXXX: \[REPLAYGAIN_ALBUM_GAIN\]: //p')"
-        album_peak="$(id3ted -l -- "$file" | sed -n 's/^TXXX: \[REPLAYGAIN_ALBUM_PEAK\]: //p')"
+        album_gain="$(rsid3 --TXXX REPLAYGAIN_ALBUM_GAIN -- "$file")"
+        album_peak="$(rsid3 --TXXX REPLAYGAIN_ALBUM_PEAK -- "$file")"
         rsgain custom -s i -- "$file"
-        [ -n "$album_gain" ] && id3ted --TXXX "$album_gain:REPLAYGAIN_ALBUM_GAIN" -- "$file"
-        [ -n "$album_peak" ] && id3ted --TXXX "$album_peak:REPLAYPEAK_ALBUM_PEAK" -- "$file"
+        [ -n "$album_gain" ] && rsid3 --TXXX= REPLAYGAIN_ALBUM_GAIN "$album_gain" -- "$file"
+        [ -n "$album_peak" ] && rsid3 --TXXX= REPLAYGAIN_ALBUM_PEAK "$album_peak" -- "$file"
     done
 }
 

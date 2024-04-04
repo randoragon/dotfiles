@@ -16,6 +16,7 @@
 # - tar
 # - asciidoctor, asciidoctor-diagram (for adoc support)
 # - lxmake (custom script for LaTeX support)
+# - typst (for typst support)
 #
 # For neatroff rnd macros see https://github.com/randoragon/tmac-rnd
 # For the lxmake script see https://github.com/Randoragon/dotfiles/blob/master/scripts/.local/bin/lxmake
@@ -86,6 +87,9 @@ NAME Extensions:
     *.tex
         XeLaTeX.
 
+    *.typ
+        Typst. See https://github.com/typst/typst
+
 String Substitutions:
     Inside a note in any format, the following strings will be
     substituted before compilation:
@@ -152,6 +156,7 @@ get_filetype () {
     [ -f "$1/NOTE/NOTE.mm" ]   && { echo "mm";   return; }
     [ -f "$1/NOTE/NOTE.mom" ]  && { echo "mom";  return; }
     [ -f "$1/NOTE/NOTE.tex" ]  && { echo "tex";  return; }
+    [ -f "$1/NOTE/NOTE.typ" ]  && { echo "typ";  return; }
     echo "note: NOTE file not found within the archive" >&2 && exit 4
 }
 
@@ -190,6 +195,16 @@ edit () {
                 cache="$tmpd/NOTE/CACHE.pdf"
                 lxmake "$cachetarget" "$cache"
                 shred -u -- "$cachetarget"
+                ;;
+            typ)
+                # Cache the PDF for quick access
+                cachetarget="$(mktemp -p "$tmpd/NOTE" cachetarget.XXXXX)"
+                cp -- "$target" "$cachetarget"
+                strsub "$notedir/$1" "$cachetarget" 1
+                cache="$tmpd/NOTE/CACHE.pdf"
+                typst compile -- "$cachetarget" "$cache"
+                shred -u -- "$cachetarget"
+                ;;
         esac
 
         archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
@@ -249,6 +264,17 @@ view () {
             # Ensure PDF cache exists
             [ ! -f "$cache" ] && {
                 lxmake "$target" "$cache"
+                archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+                git -C "$notedir" add "$1"
+                git -C "$notedir" commit -o "$1" -m "Cache $1"
+            }
+            "${PDF_READER:-zathura}" - <"$cache"
+            ;;
+        typ)
+            cache="$tmpd/NOTE/CACHE.pdf"
+            # Ensure PDF cache exists
+            [ ! -f "$cache" ] && {
+                typst compile -- "$target" "$cache"
                 archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
                 git -C "$notedir" add "$1"
                 git -C "$notedir" commit -o "$1" -m "Cache $1"
@@ -406,6 +432,21 @@ output () {
                 cp -- "$cache" "$output"
             fi
             ;;
+        typ)
+            cache="$tmpd/NOTE/CACHE.pdf"
+            # Ensure PDF cache exists
+            [ ! -f "$cache" ] && {
+                typst compile -- "$target" "$cache"
+                archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+                git -C "$notedir" add "$1"
+                git -C "$notedir" commit -o "$1" -m "Cache $1"
+            }
+            if [ $stdout ]; then
+                cat -- "$cache"
+            else
+                cp -- "$cache" "$output"
+            fi
+            ;;
         *)
             printf "note: unknown note format \"%s\"\n" "$fmt" >&2
     esac
@@ -511,6 +552,7 @@ else
         *.mom)  ext=.mom  ;;
         *.txt)  ext=.txt  ;;
         *.tex)  ext=.tex  ;;
+        *.typ)  ext=.typ  ;;
         *)      ext=.txt fname="$fname$ext" ;;
     esac
     [ -e "$notedir/$fname" ] && echo "note: a note with the same name already exists" >&2 && exit

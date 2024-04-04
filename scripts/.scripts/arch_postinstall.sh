@@ -209,7 +209,8 @@ done
     texlive-latexrecommended texlive-fontsrecommended \
     texlive-latexextra texlive-plaingeneric \
     texlive-langcjk texlive-binextra \
-    texlive-bibtexextra biber
+    texlive-bibtexextra biber \
+    typst
 do
     pacinstall "$package"
 done

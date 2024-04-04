@@ -12,4 +12,5 @@ augroup filetypedetect
   au! BufNewFile,BufRead *.sent  setfiletype sent | set syntax=conf
   au! BufNewFile,BufRead *.msc   setfiletype mscgen | set syntax=dot
   au! BufNewFile,BufRead *.tex   setfiletype tex
+  au! BufNewFile,BufRead *.typ   setfiletype typst
 augroup END

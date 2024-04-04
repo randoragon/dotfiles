@@ -15,6 +15,8 @@ inoremap <buffer> <Leader>F filter(, <,,>)<C-o>F(<Right>
 inoremap <buffer> <Leader>M map(, <,,>)<C-o>F(<Right>
 inoremap <buffer> <Leader>c class 
 inoremap <buffer> <Leader>s split()<Left>
+inoremap <buffer> <Leader>p print()<Left>
+inoremap <buffer> <Leader>a assert 
 
 command LSPFileTogglePy    lua lsp_toggle({
             \   name = "pyright",

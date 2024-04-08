@@ -32,3 +32,27 @@ inoremap <buffer> <Leader>th table.hline()
 inoremap <buffer> <Leader>tv table.vline()
 inoremap <buffer> <Leader>tc table.cell(colspan: , [<,,>])<C-o>8h
 inoremap <buffer> <Leader>tr table.cell(rowspan: , [<,,>])<C-o>8h
+
+" Shortcut for inserting a new subfile
+function NewSubfile()
+    let filepath = expand('<cfile>')
+    if empty(filepath)
+        return 0
+    endif
+    let filepath = filepath.'.typ'
+
+    if filepath[0] == '/'
+        let bufnr = bufadd(filepath)
+    else
+        let filedir = system(['dirname', '--', filepath])[0:-2]
+        let bufnr = bufadd(expand('%:p:h').'/'.filepath)
+    endif
+    call setline('.', '#include("'.filepath.'")')
+    write
+
+    return bufnr
+endfunction
+nnoremap <silent> <buffer> <Leader>if :silent let _newsubfile = NewSubfile()<CR>
+    \ :echo _newsubfile . " " . type(_newsubfile) \|
+    \ :silent if type(_newsubfile) == v:t_number \| call bufload(_newsubfile) \|
+    \ exec 'buf '._newsubfile[0] \| endif<CR>

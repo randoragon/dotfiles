@@ -8,6 +8,7 @@ nnoremap <buffer> <Leader>p :AsyncRun setsid xdg-open "$VIM_PREVIEW_HOME/vim-pre
 
 " Misc
 inoremap <buffer> <Leader>= #let  = [<,,>]<C-o>8h
+inoremap <buffer> <Leader>- / : <,,><C-o>F:
 inoremap <buffer> <Leader>C #columns()[<,,>]<C-o>F)
 inoremap <buffer> <Leader>.C #colbreak()
 inoremap <buffer> <Leader>f #footnote[] <,,><C-o>F]

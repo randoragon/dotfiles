@@ -2,6 +2,7 @@ setl tabstop=4 shiftwidth=4
 
 " Preview
 nnoremap <buffer> <Leader>m :write \| AsyncRun typst compile -- "%:p" "$VIM_PREVIEW_HOME/vim-preview.pdf" 2>"$VIM_PREVIEW_HOME/vim-preview.log"<CR>
+nnoremap <buffer> <Leader>M :write \| 5split \| terminal typst watch -- "%:p" "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
 nnoremap <buffer> <Leader>.m :view $VIM_PREVIEW_HOME/vim-preview.log"<CR>:syn match Error '[Ee]rror:'<CR>:syn match DbgBreakPt '[Ww]arning:'<CR>GM
 nnoremap <buffer> <Leader>p :AsyncRun setsid xdg-open "$VIM_PREVIEW_HOME/vim-preview.pdf"<CR>
 

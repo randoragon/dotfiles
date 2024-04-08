@@ -11,6 +11,7 @@ inoremap <buffer> <Leader>C #columns()[<,,>]<C-o>F)
 inoremap <buffer> <Leader>.C #colbreak()
 inoremap <buffer> <Leader>f #footnote[] <,,><C-o>F]
 inoremap <buffer> <Leader>f #footnote[] <,,><C-o>F]
+inoremap <buffer> <Leader>P #pagebreak(weak: true)
 
 " Text formatting
 inoremap <buffer> <Leader>h #highlight[]<Left>

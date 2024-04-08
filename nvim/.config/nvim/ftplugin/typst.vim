@@ -34,7 +34,7 @@ inoremap <buffer> <Leader>tc table.cell(colspan: , [<,,>])<C-o>8h
 inoremap <buffer> <Leader>tr table.cell(rowspan: , [<,,>])<C-o>8h
 
 " Shortcut for inserting a new subfile
-function NewSubfile()
+function NewSubfileTypst()
     let filepath = expand('<cfile>')
     if empty(filepath)
         return 0
@@ -52,7 +52,7 @@ function NewSubfile()
 
     return bufnr
 endfunction
-nnoremap <silent> <buffer> <Leader>if :silent let _newsubfile = NewSubfile()<CR>
+nnoremap <silent> <buffer> <Leader>if :silent let _newsubfile = NewSubfileTypst()<CR>
     \ :echo _newsubfile . " " . type(_newsubfile) \|
     \ :silent if type(_newsubfile) == v:t_number \| call bufload(_newsubfile) \|
     \ exec 'buf '._newsubfile[0] \| endif<CR>

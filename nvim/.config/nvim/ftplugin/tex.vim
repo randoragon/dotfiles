@@ -122,7 +122,7 @@ inoremap <buffer> <Leader>ne \begin{Example}<CR>\end{Example}<C-o>O
 inoremap <buffer> <Leader>nx \begin{Exercise}<CR>\end{Exercise}<C-o>O
 
 " Shortcut for inserting a new subfile
-function NewSubfile()
+function NewSubfileLatex()
     let filepath = expand('<cfile>')
     if empty(filepath)
         return 0
@@ -152,7 +152,7 @@ function NewSubfile()
         \'\end{document}']
     return [bufnr, lines]
 endfunction
-nnoremap <silent> <buffer> <Leader>if :silent let _newsubfile = NewSubfile()<CR>
+nnoremap <silent> <buffer> <Leader>if :silent let _newsubfile = NewSubfileLatex()<CR>
     \:silent if type(_newsubfile) == v:t_list \| call bufload(_newsubfile[0]) \|
     \ call setbufline(_newsubfile[0], 1, _newsubfile[1]) \|
     \ exec 'buf +6 '._newsubfile[0] \| endif<CR>

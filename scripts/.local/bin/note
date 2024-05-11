@@ -16,6 +16,7 @@
 # - typst (for typst support)
 #
 # For the lxmake script see https://github.com/Randoragon/dotfiles/blob/master/scripts/.local/bin/lxmake
+set -e
 
 # CONFIG
 notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
@@ -28,14 +29,14 @@ help () {
 Usage:
     note [OPTIONS] [NAME]
 
-    Without the NAME argument, note will let you select a note for
-    viewing with either dmenu or fzf.
-    To create a new note, pass the NAME argument (with extension).
+    NAME is the name of the note to target. NAME can be omitted,
+    in which case note will let you interactively select a note
+    with either dmenu or fzf. The default action is viewing.
 
 Options:
     -e, --edit
-        Open note for editing instead of viewing. This implies that
-        the note already exists (NAME cannot be passed).
+        Open note for editing instead of viewing. If the note
+        does not exist, it is created.
 
     -r, --raw
         Output an unprocessed note directory. Can only be used with
@@ -54,27 +55,21 @@ Options:
         used if the stdin descriptor is not open (test ! -t 0)
         and fzf will be used otherwise. However, this test is not
         foolproof, and so you can force either dmenu or fzf with
-        these options, if you need. They are mutually exclusive.
+        these options, if you need. They are mutually exclusive
+        and only take effect if NAME has not been passed.
 
 NAME Extensions:
-    *.txt
-        Plain text. If no extension in NAME is present, \".txt\"
-        will be appended automatically.
+    *.txt       Plain text.
 
-    *.md
-        Markdown
+    *.md        Markdown.
 
-    *.adoc
-        Asciidoc. See https://asciidoc.org/
+    *.adoc      Asciidoc. See https://asciidoc.org/
 
-    *.tex
-        XeLaTeX.
+    *.tex       XeLaTeX.
 
-    *.typ
-        Typst. See https://github.com/typst/typst
+    *.typ       Typst. See https://github.com/typst/typst
 
-    *.ldg
-        ledger journal. See https://ledger-cli.org
+    *.ldg       Ledger journal. See https://ledger-cli.org
 
 String Substitutions:
     Inside a note in any format, the following strings will be
@@ -149,7 +144,6 @@ edit () {
     [ ! -r "$gpgid" ] && echo "note: .gpg-id file not found, aborting." >&2 && exit 3
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     extract "$notedir/$1" "$tmpd"
-    note="$(basename -- "$1")"
     target="$tmpd/NOTE/NOTE.$(get_filetype "$tmpd")"
 
     # Custom preprocessing based on file type.
@@ -203,7 +197,6 @@ edit () {
 view () {
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     extract "$notedir/$1" "$tmpd"
-    note="$(basename -- "$1")"
 
     fmt="$(get_filetype "$tmpd")"
     target="$tmpd/NOTE/NOTE.$fmt"
@@ -264,7 +257,6 @@ view () {
 # ext is the target NOTE file extension
 create () {
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
-    fname="$(basename -- "$1")"
     mkdir -p -- "$tmpd/NOTE"
     target="$tmpd/NOTE/NOTE$2"
 
@@ -325,7 +317,6 @@ output () {
 
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     extract "$notedir/$1" "$tmpd"
-    note="$(basename -- "$1")"
     output="$2"
     stdout=
     [ "$output" = - ] && stdout=1
@@ -397,6 +388,7 @@ output () {
     rm -rf -- "$tmpd"
 }
 
+note=
 edit=
 raw=
 output=
@@ -421,8 +413,36 @@ while true; do
         *) break ;;
     esac
 done
+if [ $# -eq 1 ]; then
+    note="$1"
+    [ -z "$(basename -- "$note")" ] && {
+        echo 'note: cannot create a note with empty filename' >&2
+        exit 2
+    }
+    [ -e "$note" ] && [ ! -f "$note" ] && {
+        printf "note: '%s' already exists but is not a file\n" "$note" >&2
+        exit 2
+    }
+elif [ $# -ne 0 ]; then
+    echo 'note: too many arguments' >&2
+    exit 1
+fi
+
+# Validate command-line arguments
 [ -n "$force_dmenu" ] && [ -n "$force_fzf" ] && {
     echo 'note: --fzf and --dmenu are mutually exclusive' >&2
+    exit 5
+}
+[ -n "$raw" ] && [ -z "$output" ] && {
+    echo 'note: --raw can only be used with --output' >&2
+    exit 5
+}
+[ -n "$raw" ] && [ "$output" = '-' ] && {
+    echo 'note: cannot output to stdout when using --raw' >&2
+    exit 5
+}
+[ -n "$edit" ] && [ -n "$output" ] && {
+    echo 'note: --edit and --output are mutually exclusive' >&2
     exit 5
 }
 
@@ -438,63 +458,55 @@ else
     [ -t 0 ] && interactive=1
 fi
 
-if [ $# -eq 0 ]; then
-    if [ -n "$output" ]; then # Output existing note
-
-        [ -n "$edit" ] && echo "note: illegal use of --edit option" >&2 && exit 2
-
-        # For interactive shells use fzf, otherwise use dmenu.
-        prompt="Output Note:"
-        if [ -n "$interactive" ]; then
-            note="$(cd "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
-                | fzf --no-sort --no-multi --prompt "$prompt ")"
-        else
-            note="$(cd "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
-                | dmenu -F -l 5 -p "$prompt")"
-        fi
-
-        [ -z "$note" ] && exit
-        output "$note" "$output"
-
-    else # View/edit existing note
-        [ -z "$edit" ] && [ -n "$raw" ] && echo "note: illegal use of --raw option" >&2 && exit 2
-
-        # For interactive shells use fzf, otherwise use dmenu.
-        if [ -z "$edit" ]; then prompt="View Note:"; else prompt="Edit Note:"; fi
-        if [ -n "$interactive" ]; then
-            note="$(cd -- "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
-                | fzf --no-sort --no-multi --prompt "$prompt ")"
-        else
-            note="$(cd -- "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
-                | dmenu -F -l 5 -p "$prompt")"
-        fi
-
-        [ -z "$note" ] && exit
-        if [ -z "$edit" ]; then
-            view "$note"
-        else
-            edit "$note"
-        fi
+# If the NAME argument was not specified, ask interactively
+if [ -z "$note" ]; then
+    if [ -n "$edit" ]; then
+        prompt='Edit Note:'
+    elif [ -n "$output" ]; then
+        prompt='Output Note:'
+    else
+        prompt='View Note:'
     fi
 
-# Create new note
-else
-    [ -n "$raw" ] && echo "note: illegal use of --raw option" >&2 && exit 2
-    [ -n "$edit" ] && echo "note: illegal use of --edit option" >&2 && exit 2
-    [ -n "$output" ] && echo "note: illegal use of --output option" >&2 && exit 2
-    fname="$(printf "%s" "$*" | tr ' ' '-')"
-    [ -z "$(basename -- "$fname")" ] && echo "note: cannot create a note with empty filename" >&2 && exit 2
+    # For interactive shells use fzf, otherwise use dmenu.
+    set +e
+    if [ -n "$interactive" ]; then
+        note="$(cd "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
+            | fzf --no-sort --no-multi --prompt "$prompt ")"
+    else
+        note="$(cd "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
+            | dmenu -F -l 10 -p "$prompt")"
+    fi
+    set -e
 
-    ext=
-    case "$fname" in
-        *.md)   ext=.md   ;;
-        *.adoc) ext=.adoc ;;
-        *.txt)  ext=.txt  ;;
-        *.tex)  ext=.tex  ;;
-        *.typ)  ext=.typ  ;;
-        *.ldg)  ext=.ldg  ;;
-        *)      ext=.txt fname="$fname$ext" ;;
-    esac
-    [ -e "$notedir/$fname" ] && echo "note: a note with the same name already exists" >&2 && exit
-    create "$fname" "$ext"
+    [ -z "$note" ] && exit
+fi
+
+# Handle targeting non-existent notes (which is only allowed when editing)
+[ ! -f "$notedir/$note" ] && [ -z "$edit" ] && {
+    printf "note: '%s' does not exist\n" "$note" >&2
+    exit 1
+}
+
+# Execute the right action
+if [ -n "$output" ]; then
+    output "$note" "$output"
+elif [ -n "$edit" ]; then
+    if [ ! -f "$notedir/$note" ]; then
+        ext=
+        case "$note" in
+            *.md)   ext=.md   ;;
+            *.adoc) ext=.adoc ;;
+            *.txt)  ext=.txt  ;;
+            *.tex)  ext=.tex  ;;
+            *.typ)  ext=.typ  ;;
+            *.ldg)  ext=.ldg  ;;
+            *) echo 'note: missing or unsupported extension' >&2 && exit 2 ;;
+        esac
+        create "$note" "$ext"
+    else
+        edit "$note"
+    fi
+else
+    view "$note"
 fi

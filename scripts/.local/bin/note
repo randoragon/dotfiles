@@ -90,6 +90,9 @@ NAME Extensions:
     *.typ
         Typst. See https://github.com/typst/typst
 
+    *.ldg
+        ledger journal. See https://ledger-cli.org
+
 String Substitutions:
     Inside a note in any format, the following strings will be
     substituted before compilation:
@@ -157,6 +160,7 @@ get_filetype () {
     [ -f "$1/NOTE/NOTE.mom" ]  && { echo "mom";  return; }
     [ -f "$1/NOTE/NOTE.tex" ]  && { echo "tex";  return; }
     [ -f "$1/NOTE/NOTE.typ" ]  && { echo "typ";  return; }
+    [ -f "$1/NOTE/NOTE.ldg" ]  && { echo "ldg";  return; }
     echo "note: NOTE file not found within the archive" >&2 && exit 4
 }
 
@@ -229,7 +233,7 @@ view () {
     strsub "$notedir/$1" "$target"
 
     case "$fmt" in
-        txt)
+        txt|ldg)
             if [ -z "$interactive" ]; then
                 alacritty -e "$PAGER" -- "$target"
             else
@@ -366,7 +370,7 @@ output () {
     strsub "$notedir/$1" "$target"
 
     case "$fmt" in
-        txt)
+        txt|ldg)
             if [ $stdout ]; then
                 cat -- "$target"
             else
@@ -553,6 +557,7 @@ else
         *.txt)  ext=.txt  ;;
         *.tex)  ext=.tex  ;;
         *.typ)  ext=.typ  ;;
+        *.ldg)  ext=.ldg  ;;
         *)      ext=.txt fname="$fname$ext" ;;
     esac
     [ -e "$notedir/$fname" ] && echo "note: a note with the same name already exists" >&2 && exit

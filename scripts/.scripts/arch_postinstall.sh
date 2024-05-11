@@ -479,7 +479,7 @@ sectionend
 section "Installing dotfiles"
 [ ! -d ~/dotfiles ] && {
     cd ~
-    git clone 'https://github.com/Randoragon/dotfiles'
+    git clone 'https://github.com/randoragon/dotfiles'
 }
 rm -f -- ~/.bashrc ~/.bash_profile
 
@@ -531,7 +531,7 @@ fi
 sectionend
 
 # Install rust crates
-for crate in music_tools rsid3; do
+for crate in music-tools rsid3; do
     section "Installing $crate"
     if [ -n "$need_music" ]; then
         cd ~/Software
@@ -581,7 +581,7 @@ if [ -n "$need_gui" ]; then
     if [ -d tmac-rnd ]; then
         printf "tmac-rnd already installed, skipping.\n"
     else
-        git clone 'https://github.com/Randoragon/tmac-rnd'
+        git clone 'https://github.com/randoragon/tmac-rnd'
         cd tmac-rnd
         make
         ln -Tfs -- ~/Software/tmac-rnd/src/tmac.media ~/Software/neatroff/tmac/tmac.media

@@ -144,7 +144,7 @@ section "Installing Official Packages"
 # ripgrep needed for some scripts and for general use
 for package in \
     make cmake gcc \
-    neovim python-pynvim \
+    neovim python-pynvim tree-sitter tree-sitter-cli \
     git \
     pass \
     stow \

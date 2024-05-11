@@ -82,24 +82,26 @@ need_rss=
 need_funcmd=
 need_ytdl=
 need_obs=
+need_accounting=
 overwrite_dotfiles=
 overwrite_crontabs=
 snow=1
 
 printf "\n%sINSTALLATION WIZARD%s\n" "$(tput setaf 3)" "$(tput sgr0)"
-ask "(1/13) Install graphical session?"      && need_gui=1
-ask "(2/13) Install development tools?"      && need_devtools=1
-ask "(3/13) Install music library tools?"    && need_music=1
-ask "(4/13) Install music production tools?" && need_makemusic=1
-ask "(5/13) Install email client?"           && need_email=1
-ask "(6/13) Install bluetooth support?"      && need_bluetooth=1
-ask "(7/13) Install sync tools?"             && need_sync=1
-ask "(8/13) Install RSS reader?"             && need_rss=1
-ask "(9/13) Install youtube-dl?"             && need_ytdl=1
-ask "(10/13) Install OBS?"                   && need_obs=1
-ask "(11/13) Install fun commands?"          && need_funcmd=1
-ask "(12/13) Overwrite local dotfiles?"      && overwrite_dotfiles=1
-ask "(13/13) Overwrite local crontabs with dotfiles'?" && overwrite_crontabs=1
+ask "(1/14) Install graphical session?"      && need_gui=1
+ask "(2/14) Install development tools?"      && need_devtools=1
+ask "(3/14) Install music library tools?"    && need_music=1
+ask "(4/14) Install music production tools?" && need_makemusic=1
+ask "(5/14) Install email client?"           && need_email=1
+ask "(6/14) Install bluetooth support?"      && need_bluetooth=1
+ask "(7/14) Install sync tools?"             && need_sync=1
+ask "(8/14) Install RSS reader?"             && need_rss=1
+ask "(9/14) Install youtube-dl?"             && need_ytdl=1
+ask "(10/14) Install OBS?"                   && need_obs=1
+ask "(11/14) Install accounting tools?"      && need_accounting=1
+ask "(12/14) Install fun commands?"          && need_funcmd=1
+ask "(13/14) Overwrite local dotfiles?"      && overwrite_dotfiles=1
+ask "(14/14) Overwrite local crontabs with dotfiles'?" && overwrite_crontabs=1
 printf "\n"
 sleep 1
 if ask "Configuration Complete. Begin Installation?"; then
@@ -437,6 +439,42 @@ else
 fi
 sectionend
 
+section "Installing ledger"
+if [ -n "$need_accounting" ]; then
+    if [ -n "$(command -v ledger)" ]; then
+        echo "ledger already installed, skipping."
+    else
+        # Compile ledger with gpg support (the official package does not include
+        # this support, unfortunately)
+
+        # Install dependencies (https://github.com/ledger/ledger?tab=readme-ov-file#dependencies)
+        for package in \
+            cmake \
+            boost \
+            gmp \
+            mpfr \
+            utf8cpp \
+            gpgme
+        do
+            pacinstall "$package"
+        done
+
+        cd ~/Software
+        git clone git@github.com:ledger/ledger.git
+
+        cd ledger
+        sed -i '/^option(USE_GPGME/s/OFF)$/ON)/' CMakeLists.txt
+        ./acprep --no-python dependencies
+        ./acprep --no-python update
+        sudo make install
+
+        printf "done.\n"
+    fi
+else
+    echo "'need_accounting' disabled, skipping."
+fi
+sectionend
+
 # Download and apply dotfiles
 section "Installing dotfiles"
 [ ! -d ~/dotfiles ] && {
@@ -457,6 +495,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     ddetach gpg
     [ -n "$need_gui" ] && sstow gromit-mpx
     [ -n "$need_gui" ] && sstow gtk
+    [ -n "$need_accounting" ] && sstow ledger
     sstow less
     sstow lf
     sstow lua

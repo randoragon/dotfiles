@@ -90,7 +90,7 @@ extract () {
     tmp="$(mktemp --tmpdir note.XXXXX)"
     gpg --yes --quiet --output "$tmp" --decrypt -- "$1"
     tar -xzf "$tmp" -C "$2"
-    shred -u -- "$tmp"
+    rm -f -- "$tmp"
 }
 
 # archive <basedir> <archive> <gpuid>
@@ -101,7 +101,7 @@ archive () {
     tmp="$(mktemp --tmpdir note.XXXXX)"
     tar -C "$1" -czf "$tmp" -- NOTE
     gpg --yes --quiet --output "$2" --encrypt --recipient "$3" -- "$tmp"
-    shred -u -- "$tmp"
+    rm -f -- "$tmp"
 }
 
 # strsub <source> <file> <use_current_time?>
@@ -171,7 +171,7 @@ edit () {
                 strsub "$notedir/$1" "$cachetarget" 1
                 cache="$tmpd/NOTE/CACHE.pdf"
                 lxmake "$cachetarget" "$cache"
-                shred -u -- "$cachetarget"
+                rm -f -- "$cachetarget"
                 ;;
             typ)
                 # Cache the PDF for quick access
@@ -180,7 +180,7 @@ edit () {
                 strsub "$notedir/$1" "$cachetarget" 1
                 cache="$tmpd/NOTE/CACHE.pdf"
                 typst compile -- "$cachetarget" "$cache"
-                shred -u -- "$cachetarget"
+                rm -f -- "$cachetarget"
                 ;;
         esac
 
@@ -188,8 +188,7 @@ edit () {
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Edit $1"
     fi
-    find "$tmpd" -type f -exec shred -x '{}' \;
-    rm -r -- "$tmpd"
+    rm -rf -- "$tmpd"
 }
 
 # view <archive>
@@ -248,7 +247,6 @@ view () {
         *)
             printf "note: unknown note format \"%s\"\n" "$fmt" >&2
     esac
-    find "$tmpd" -type f -exec shred -x '{}' \;
     rm -rf -- "$tmpd"
 }
 
@@ -287,8 +285,7 @@ create () {
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Create $1"
     fi
-    find "$tmpd" -type f -exec shred -x '{}' \;
-    rm -r -- "$tmpd"
+    rm -rf -- "$tmpd"
 }
 
 # output <archive> <filename>
@@ -384,7 +381,6 @@ output () {
         *)
             printf "note: unknown note format \"%s\"\n" "$fmt" >&2
     esac
-    find "$tmpd" -type f -exec shred -x '{}' \;
     rm -rf -- "$tmpd"
 }
 

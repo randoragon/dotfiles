@@ -7,18 +7,14 @@
 # - gpg, sha1sum
 # - dmenu, fzf
 # - md2html (md4c)
-# - groff (+mom macros)
-# - neatroff (+ms, mm, rnd macros)
 # - surf (html viewing)
 # - env: $PDF_READER (fallback to zathura)
-# - ntmake (my script for quick neatroff compilation)
 # - git
 # - tar
 # - asciidoctor, asciidoctor-diagram (for adoc support)
 # - lxmake (custom script for LaTeX support)
 # - typst (for typst support)
 #
-# For neatroff rnd macros see https://github.com/randoragon/tmac-rnd
 # For the lxmake script see https://github.com/Randoragon/dotfiles/blob/master/scripts/.local/bin/lxmake
 
 # CONFIG
@@ -70,19 +66,6 @@ NAME Extensions:
 
     *.adoc
         Asciidoc. See https://asciidoc.org/
-
-    *.rnd
-        Neatroff + rnd macros
-        See https://github.com/randoragon/tmac-rnd
-
-    *.mm
-        Neatroff + mm macros
-
-    *.ms
-        Neatroff + ms macros
-
-    *.mom
-        groff + mom macros
 
     *.tex
         XeLaTeX.
@@ -154,10 +137,6 @@ get_filetype () {
     [ -f "$1/NOTE/NOTE.txt" ]  && { echo "txt";  return; }
     [ -f "$1/NOTE/NOTE.md" ]   && { echo "md";   return; }
     [ -f "$1/NOTE/NOTE.adoc" ] && { echo "adoc"; return; }
-    [ -f "$1/NOTE/NOTE.rnd" ]  && { echo "rnd";  return; }
-    [ -f "$1/NOTE/NOTE.ms" ]   && { echo "ms";   return; }
-    [ -f "$1/NOTE/NOTE.mm" ]   && { echo "mm";   return; }
-    [ -f "$1/NOTE/NOTE.mom" ]  && { echo "mom";  return; }
     [ -f "$1/NOTE/NOTE.tex" ]  && { echo "tex";  return; }
     [ -f "$1/NOTE/NOTE.typ" ]  && { echo "typ";  return; }
     [ -f "$1/NOTE/NOTE.ldg" ]  && { echo "ldg";  return; }
@@ -250,18 +229,6 @@ view () {
             tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
             asciidoctor $ASCIIDOCTOR_OPTS -o "$tmp" -- "$target"
             [ -s "$tmp" ] && surf -- file://"$tmp"
-            ;;
-        rnd)
-            ntmake "$target" -mrnd | "${PDF_READER:-zathura}" -
-            ;;
-        ms)
-            ntmake "$target" -ms | "${PDF_READER:-zathura}" -
-            ;;
-        mm)
-            ntmake "$target" -mm | "${PDF_READER:-zathura}" -
-            ;;
-        mom)
-            pdfmom -k -e -p -t "$target" | "${PDF_READER:-zathura}" -
             ;;
         tex)
             cache="$tmpd/NOTE/CACHE.pdf"
@@ -393,34 +360,6 @@ output () {
                 asciidoctor $ASCIIDOCTOR_OPTS -o "$output" -- "$target"
             fi
             ;;
-        rnd)
-            if [ $stdout ]; then
-                ntmake "$target" -mrnd
-            else
-                ntmake "$target" -mrnd >"$output"
-            fi
-            ;;
-        ms)
-            if [ $stdout ]; then
-                ntmake "$target" -ms
-            else
-                ntmake "$target" -ms >"$output"
-            fi
-            ;;
-        mm)
-            if [ $stdout ]; then
-                ntmake "$target" -mm
-            else
-                ntmake "$target" -mm >"$output"
-            fi
-            ;;
-        mom)
-            if [ $stdout ]; then
-                pdfmom -k -e -p -t "$target"
-            else
-                pdfmom -k -e -p -t "$target" >"$output"
-            fi
-            ;;
         tex)
             cache="$tmpd/NOTE/CACHE.pdf"
             # Ensure PDF cache exists
@@ -550,10 +489,6 @@ else
     case "$fname" in
         *.md)   ext=.md   ;;
         *.adoc) ext=.adoc ;;
-        *.rnd)  ext=.rnd  ;;
-        *.ms)   ext=.ms   ;;
-        *.mm)   ext=.mm   ;;
-        *.mom)  ext=.mom  ;;
         *.txt)  ext=.txt  ;;
         *.tex)  ext=.tex  ;;
         *.typ)  ext=.typ  ;;

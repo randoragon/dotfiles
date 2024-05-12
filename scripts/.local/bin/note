@@ -129,19 +129,19 @@ strsub () {
 # Determines filetype by looking for existence of a NOTE file inside
 # the given directory.
 get_filetype () {
-    [ -f "$1/NOTE/NOTE.txt" ]  && { echo "txt";  return; }
-    [ -f "$1/NOTE/NOTE.md" ]   && { echo "md";   return; }
-    [ -f "$1/NOTE/NOTE.adoc" ] && { echo "adoc"; return; }
-    [ -f "$1/NOTE/NOTE.tex" ]  && { echo "tex";  return; }
-    [ -f "$1/NOTE/NOTE.typ" ]  && { echo "typ";  return; }
-    [ -f "$1/NOTE/NOTE.ldg" ]  && { echo "ldg";  return; }
-    echo "note: NOTE file not found within the archive" >&2 && exit 4
+    [ -f "$1/NOTE/NOTE.txt" ]  && { echo txt;  return; }
+    [ -f "$1/NOTE/NOTE.md" ]   && { echo md;   return; }
+    [ -f "$1/NOTE/NOTE.adoc" ] && { echo adoc; return; }
+    [ -f "$1/NOTE/NOTE.tex" ]  && { echo tex;  return; }
+    [ -f "$1/NOTE/NOTE.typ" ]  && { echo typ;  return; }
+    [ -f "$1/NOTE/NOTE.ldg" ]  && { echo ldg;  return; }
+    echo 'note: NOTE file not found within the archive' >&2 && exit 4
 }
 
 # edit <archive>
 # archive - path to the note archive file, relative to $notedir
 edit () {
-    [ ! -r "$gpgid" ] && echo "note: .gpg-id file not found, aborting." >&2 && exit 3
+    [ ! -r "$gpgid" ] && echo 'note: .gpg-id file not found, aborting.' >&2 && exit 3
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     extract "$notedir/$1" "$tmpd"
     target="$tmpd/NOTE/NOTE.$(get_filetype "$tmpd")"
@@ -155,12 +155,12 @@ edit () {
 
     sum="$(dir_cksum "$tmpd/NOTE")"
     if [ -z "$interactive" ]; then
-        echo "$files" | xargs alacritty -e "$EDITOR" "+cd $tmpd/NOTE" --
+        echo "$files" | xargs $TERMINAL -e $EDITOR "+cd $tmpd/NOTE" --
     else
-        echo "$files " | xargs "$EDITOR" "+cd $tmpd/NOTE" --
+        echo "$files " | xargs $EDITOR "+cd $tmpd/NOTE" --
     fi
     if [ "$(dir_cksum "$tmpd/NOTE")" = "$sum" ]; then
-        echo "No changes were made, skipping."
+        echo 'No changes were made, skipping.'
     else
         # Custom postprocessing based on file type.
         case "${target##*.}" in
@@ -200,12 +200,12 @@ edit_ledger () {
 
     sum="$(sha1sum -- "$target")"
     if [ -z "$interactive" ]; then
-        alacritty -e $EDITOR "+cd $tmpd" -- "$target"
+        $TERMINAL -e $EDITOR "+cd $tmpd" -- "$target"
     else
         $EDITOR "+cd $tmpd" -- "$target"
     fi
     if [ "$(sha1sum -- "$target")" = "$sum" ]; then
-        echo "No changes were made, skipping."
+        echo 'No changes were made, skipping.'
     else
         gpg --yes --quiet --output "$notedir/$1" --encrypt --recipient "$(cat -- "$gpgid")" -- "$target"
         git -C "$notedir" add "$1"
@@ -229,19 +229,19 @@ view () {
     case "$fmt" in
         txt|ldg)
             if [ -z "$interactive" ]; then
-                alacritty -e "$PAGER" -- "$target"
+                $TERMINAL -e $PAGER -- "$target"
             else
-                "$PAGER" -- "$target"
+                $PAGER -- "$target"
             fi
             ;;
         md)
-            tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
-            printf "%s" "$HTML_MD_STYLE" >"$tmp"
+            tmp="$(mktemp -p "$tmpd/NOTE" note.XXXXX.html)"
+            printf '%s' "$HTML_MD_STYLE" >"$tmp"
             md2html --github -- "$target" >>"$tmp"
             [ -s "$tmp" ] && surf -- file://"$tmp"
             ;;
         adoc)
-            tmp="$(mktemp -p "$tmpd/NOTE" "note.XXXXX.html")"
+            tmp="$(mktemp -p "$tmpd/NOTE" note.XXXXX.html)"
             asciidoctor $ASCIIDOCTOR_OPTS -o "$tmp" -- "$target"
             [ -s "$tmp" ] && surf -- file://"$tmp"
             ;;
@@ -254,7 +254,7 @@ view () {
                 git -C "$notedir" add "$1"
                 git -C "$notedir" commit -o "$1" -m "Cache $1"
             }
-            "${PDF_READER:-zathura}" - <"$cache"
+            ${PDF_READER:-zathura} - <"$cache"
             ;;
         typ)
             cache="$tmpd/NOTE/CACHE.pdf"
@@ -265,10 +265,10 @@ view () {
                 git -C "$notedir" add "$1"
                 git -C "$notedir" commit -o "$1" -m "Cache $1"
             }
-            "${PDF_READER:-zathura}" - <"$cache"
+            ${PDF_READER:-zathura} - <"$cache"
             ;;
         *)
-            printf "note: unknown note format \"%s\"\n" "$fmt" >&2
+            printf "note: unknown note format '%s'\n" "$fmt" >&2
     esac
     rm -rf -- "$tmpd"
 }
@@ -295,6 +295,7 @@ view_ledger () {
 # note is a path of a new note relative to notedir
 # ext is the target NOTE file extension
 create () {
+    [ ! -r "$gpgid" ] && echo 'note: .gpg-id file not found, aborting.' >&2 && exit 3
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     mkdir -p -- "$tmpd/NOTE"
     target="$tmpd/NOTE/NOTE$2"
@@ -314,12 +315,12 @@ create () {
 
     sum="$(dir_cksum "$tmpd/NOTE")"
     if [ -z "$interactive" ]; then
-        echo "$files" | xargs alacritty -e $EDITOR "+cd $tmpd/NOTE" --
+        echo "$files" | xargs $TERMINAL -e $EDITOR "+cd $tmpd/NOTE" --
     else
         echo "$files" | xargs $EDITOR "+cd $tmpd/NOTE" --
     fi
     if [ "$(dir_cksum "$tmpd/NOTE")" = "$sum" ]; then
-        echo "Note directory unchanged, cancelling."
+        echo 'Note directory unchanged, cancelling.'
     else
         mkdir -p -- "$notedir/$(dirname -- "$1")"
         archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
@@ -332,16 +333,16 @@ create () {
 # create_ledger <note>
 # note is a path of a new note relative to notedir
 create_ledger () {
-    [ ! -r "$gpgid" ] && echo "note: .gpg-id file not found, aborting." >&2 && exit 3
+    [ ! -r "$gpgid" ] && echo 'note: .gpg-id file not found, aborting.' >&2 && exit 3
     target="$(mktemp --tmpdir note.XXXXX."$(basename -- "$1")")"
 
     if [ -z "$interactive" ]; then
-        alacritty -e $EDITOR "+cd ${TMPDIR:-/tmp}" -- "$target"
+        $TERMINAL -e $EDITOR "+cd ${TMPDIR:-/tmp}" -- "$target"
     else
         $EDITOR "+cd ${TMPDIR:-/tmp}" -- "$target"
     fi
     if [ ! -s "$target" ]; then
-        echo "Note unchanged, cancelling."
+        echo 'Note unchanged, cancelling.'
     else
         mkdir -p -- "$notedir/$(dirname -- "$1")"
         gpg --yes --quiet --output "$notedir/$1" --encrypt --recipient "$(cat -- "$gpgid")" -- "$target"
@@ -358,8 +359,8 @@ output () {
     [ -n "$raw" ] && {
         output="$2"
         [ -e "$output" ] && {
-            [ ! -d "$output" ] && printf 'note: %s exists and is not a directory\n' "$output" >&2 && exit 1
-            [ -n "$(ls -qA -- "$output")" ] && printf 'note: %s exists and is not empty\n' "$output" >&2 && exit 1
+            [ ! -d "$output" ] && printf "note: '%s' exists and is not a directory\n" "$output" >&2 && exit 1
+            [ -n "$(ls -qA -- "$output")" ] && printf "note: '%s' exists and is not empty\n" "$output" >&2 && exit 1
         }
         mkdir -p -- "$output"
         extract "$notedir/$1" "$output"
@@ -441,7 +442,7 @@ output () {
             fi
             ;;
         *)
-            printf "note: unknown note format \"%s\"\n" "$fmt" >&2
+            printf "note: unknown note format '%s'\n" "$fmt" >&2
     esac
     rm -rf -- "$tmpd"
 }
@@ -451,7 +452,7 @@ output () {
 # output - path to the file to export to, or - for stdout
 output_ledger () {
     [ -n "$raw" ] && {
-        [ -e "$output" ] && printf 'note: %s exists\n' "$output" >&2 && exit 1
+        [ -e "$output" ] && printf "note: '%s' exists\n" "$output" >&2 && exit 1
         mkdir -p -- "$(dirname -- "$2")"
         gpg --yes --quiet --output "$2" --decrypt -- "$notedir/$1"
         return
@@ -487,7 +488,7 @@ while true; do
         -r|--raw) raw=1 ; shift ;;
         -o|--output)
             if [ -z "$2" ]; then
-                echo "note: output filename needed" >&2
+                echo 'note: output filename needed' >&2
                 exit 2
             else
                 output="$2"
@@ -523,7 +524,7 @@ fi
     echo 'note: --raw can only be used with --output' >&2
     exit 5
 }
-[ -n "$raw" ] && [ "$output" = '-' ] && {
+[ -n "$raw" ] && [ "$output" = - ] && {
     echo 'note: cannot output to stdout when using --raw' >&2
     exit 5
 }
@@ -532,7 +533,7 @@ fi
     exit 5
 }
 
-[ ! -d "$notedir" ] && echo "note: notes dir not found" >&2 && exit 1
+[ ! -d "$notedir" ] && echo 'note: notes dir not found' >&2 && exit 1
 
 # Check if shell is interactive
 if [ -n "$force_dmenu" ]; then

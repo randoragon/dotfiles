@@ -19,6 +19,7 @@ alias art='$EDITOR ~/Music/Playlists/artists.yaml'
 alias bms='$EDITOR ~/.config/surf/bookmarks'
 alias snip='$EDITOR ~/.config/snippetrc'
 alias todo='$EDITOR ~/Sync/todo'
+alias le='note -e "ledger/entries/$(date +%Y-%m.ldg)"'
 
 # Directories
 alias cdap='cd ~/.local/share/applications && ls'

@@ -14,6 +14,7 @@ treesitter.setup {
 		"html", "css", "javascript", "typescript", "jsdoc",
 		"json", "yaml",
 		"latex", "bibtex",
+		"ledger",
 		"lua", "luadoc", "luap",
 		"markdown", "markdown_inline", "rst",
 		"passwd",

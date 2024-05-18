@@ -1,7 +1,7 @@
-nnoremap <Leader>m :write \| !R -q -f %<CR>
-nnoremap <Leader>o :!xdg-open Rplots.pdf<CR><CR>
+nnoremap <buffer> <Leader>m :write \| !R -q -f %<CR>
+nnoremap <buffer> <Leader>o :!xdg-open Rplots.pdf<CR><CR>
 
-inoremap <Leader>= <- 
+inoremap <buffer> <Leader>= <- 
 inoremap <buffer> <Leader>r return()<Left>
 inoremap <buffer> <Leader>i if () <,,><C-o>F)
 inoremap <buffer> <Leader>e else 

@@ -1,8 +1,8 @@
 setl expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
 imap <Leader>d <Leader><C-d> 
-inoremap <Leader>a Assets:
-inoremap <Leader>e Expenses:
-inoremap <Leader>i Income:
-inoremap <Leader>l Liabilities:
-inoremap <Leader>q Equity:
+inoremap <buffer> <Leader>a Assets:
+inoremap <buffer> <Leader>e Expenses:
+inoremap <buffer> <Leader>i Income:
+inoremap <buffer> <Leader>l Liabilities:
+inoremap <buffer> <Leader>q Equity:

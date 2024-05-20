@@ -151,6 +151,7 @@ edit () {
     files="$target"
     case "${target##*.}" in
         adoc) files="$files${nl}$tmpd/NOTE/docinfo.html" ;;
+        typ) export TYPST_ROOT="$tmpd/NOTE" ;;
     esac
 
     sum="$(dir_cksum "$tmpd/NOTE")"

@@ -22,7 +22,7 @@ o.smartcase = true
 -- Wildmenu
 o.wildmenu = true
 o.wildmode = "longest:full,full"
-o.setwildignorecase = true
+o.wildignorecase = true
 o.wildignore = "*.git/*,*.tags,*.o" 
 
 -- Window splitting

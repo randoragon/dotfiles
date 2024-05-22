@@ -32,7 +32,7 @@ alias bt='bluetoothctl'
 alias rgf='rg --files | rg'
 alias dmpd='setsid mpd-discord-rpc >/dev/null 2>&1 &'
 alias plhist='$PAGER ~/Music/Playlists/hist.$HOST.m3u'
-alias ldg='ledger -f "${XDG_DATA_HOME:-$HOME/.local/share}/notes/ledger/main.ldg"'
+alias led='ledger -f "${XDG_DATA_HOME:-$HOME/.local/share}/notes/ledger/main.ldg"'
 
 # Git
 alias gs='git status'

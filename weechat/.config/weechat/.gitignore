@@ -1,0 +1,11 @@
+guile/
+logs/
+lua/
+perl/
+python/
+ruby/
+script/
+tcl/
+xfer/
+weechat_fifo_*
+irc.conf

@@ -1,7 +1,3 @@
-# Set ZSH
-# I need the read -q command
-set shell zsh
-
 # Y to copy file contents to clipboard
 map Y &{{
     xclip -selection clipboard "$f"
@@ -35,12 +31,11 @@ cmd trash %{{
     clear
     printf "%s\n" "$fx"
     printf "move to trash? [y/N] "
-    read -q ans
+    read ans
     if [ $ans = "y" ] || [ $ans = "Y" ]; then
         printf "%s\n" "$fx" | while read l; do
             trash-put -- "$l"
         done
-        lf -remote "send $id reload"
     else
         lf -remote "send $id clear"
     fi

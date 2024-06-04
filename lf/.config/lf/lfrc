@@ -483,7 +483,7 @@ map ,I &sxiv -qtar .
 
 # Better previews and paging
 set previewer ~/.scripts/lf-previewer
-map i ${ highlight -O ansi -- "$f" || cat -- "$f" } | less -R
+map i ${ highlight -O ansi -- "$f" || cat -- "$f"; } | less -R
 
 # Generate directory shortcuts from jumprc
 map c

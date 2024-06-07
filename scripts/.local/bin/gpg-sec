@@ -8,8 +8,7 @@
 # Inspired by:
 # https://incenp.org/notes/2015/using-an-offline-gnupg-master-key.html
 
-# The expected name of the file containing the key
-fname="sec.asc"
+set -e
 
 [ "$1" = "-h" ] || [ "$1" = "--help" ] && {
     printf "NAME
@@ -19,16 +18,19 @@ SYNOPSIS
     gpg-sec [OPTIONS] PARTITION GPG_ARGS...
 
 DESCRIPTION
-    gpg-sec will probe the selected device for a file called \"%s\". If
-    found, it will import it into the local gpg keyring. It will then
-    run gpg with the remaining arguments. When the execution finishes,
-    the imported key will be permanently deleted from the keyring.
+    gpg-sec will probe the selected device for files and let the user
+    choose one of them. It will import that file into the local gpg keyring.
+    It will then run gpg with the remaining arguments. When the execution
+    finishes, the imported key will be permanently deleted from the keyring.
 
     The intended use is temporarily importing primary secret keys to
     perform routine tasks such as changing key expiration dates etc.
 
     Under any normal circumstance running this command as superuser is
     not advised, as you will most likely fail to import the secret key.
+
+    It is assumed that the secret key is additionally encrypted and must be
+    decrypted before importing is possible.
 
 OPTIONS
     -h, --help
@@ -37,7 +39,7 @@ OPTIONS
 EXAMPLE
     gpg-sec /dev/sdc1 --edit-key user@email.com
 
-" "$fname"
+"
     exit
 }
 
@@ -53,11 +55,17 @@ mountdir="$(mktemp -d -p /tmp gpg-sec.XXXXX)"
 mountdev="$1" ; shift
 chmod 0700 "$mountdir" || { echo "gpg-sec: failed to set directory permissions" >&2 && exit 2; }
 sudo mount -r "$mountdev" "$mountdir" || { echo "gpg-sec: failed to mount $mountdev" >&2 && exit 3; }
-[ ! -f "$mountdir/$fname" ] && { echo "gpg-sec: secret key not found on device" >&2 && umount "$mountdir" && exit 3; }
-[ ! -r "$mountdir/$fname" ] && { echo "gpg-sec: secret key found but no read permissions" >&2 && umount "$mountdir" && exit 3; }
 
-# Import secret primary key from device
-gpg --import "$mountdir/$fname" || { echo "gpg-sec: failed to import secret key" >&2 && umount "$mountdir" && exit 4; }
+# Let the user pick a file
+printf '%s contains the following files:\n' "$mountdev"
+ls -l -- "$mountdir"
+printf 'Input filename: '
+read -r fname
+[ ! -f "$mountdir/$fname" ] && { echo "gpg-sec: file not found" >&2 && umount "$mountdir" && exit 3; }
+[ ! -r "$mountdir/$fname" ] && { echo "gpg-sec: file does not have read permissions" >&2 && umount "$mountdir" && exit 3; }
+
+# Decrypt and import secret primary key from device
+gpg --output - --decrypt "$mountdir/$fname" | gpg --import || { echo "gpg-sec: failed to import secret key" >&2 && umount "$mountdir" && exit 4; }
 sudo umount "$mountdir" || { echo "gpg-sec: failed to unmount $mountdev" && exit 5; }
 
 # Run the user command
@@ -66,9 +74,9 @@ gpg "$@"
 # Delete the primary secret key from keyring
 printf "\n%s________________________________________%s\n" "$(tput setaf 3)" "$(tput setaf 15)"
 printf   "%sDELETING PRIMARY SECRET KEY FROM KEYRING%s\n" "$(tput setaf 3)" "$(tput setaf 15)"
-gpg --list-secret-keys --with-keygrip | sed '/Keygrip = /q'
-keygrip="$(gpg --list-secret-keys --with-keygrip | sed -n '/Keygrip = /{s/^.*Keygrip = //p;q}')"
-[ "$(printf "%s\n" "$keygrip" | wc -l)" -ne 1 ] && { echo "gpg-sec: failed to retrieve primary keygrip" && exit 5; }
+gpg --list-secret-keys --with-keygrip
+printf 'Paste the keygrip to delete: '
+read -r keygrip
 gpg-connect-agent "DELETE_KEY $keygrip" /bye
 
 # Cleanup

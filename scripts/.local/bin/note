@@ -20,7 +20,8 @@ set -e
 
 # CONFIG
 notedir="${XDG_DATA_HOME:-~/.local/share}/notes"
-gpgid="$notedir/.gpg-id"
+gpgid_e="$(cat -- "$notedir/.gpgid-encrypt")"
+gpgid_s="$(cat -- "$notedir/.gpgid-sign")"
 nl='
 '
 
@@ -93,14 +94,14 @@ extract () {
     rm -f -- "$tmp"
 }
 
-# archive <basedir> <archive> <gpuid>
-# The opposite of extract, requires gpgid for encryption
+# archive <basedir> <archive>
+# The opposite of extract
 # basedir is the root directory of the archive
 # dir must be the NAME (not path) of a directory within basedir
 archive () {
     tmp="$(mktemp --tmpdir note.XXXXX)"
     tar -C "$1" -czf "$tmp" -- NOTE
-    gpg --yes --quiet --output "$2" --encrypt --recipient "$3" -- "$tmp"
+    gpg --yes --quiet --output "$2" --encrypt --recipient "$gpgid_e" --sign --local-user "$gpgid_s" -- "$tmp"
     rm -f -- "$tmp"
 }
 
@@ -141,7 +142,6 @@ get_filetype () {
 # edit <archive>
 # archive - path to the note archive file, relative to $notedir
 edit () {
-    [ ! -r "$gpgid" ] && echo 'note: .gpg-id file not found, aborting.' >&2 && exit 3
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     extract "$notedir/$1" "$tmpd"
     target="$tmpd/NOTE/NOTE.$(get_filetype "$tmpd")"
@@ -185,7 +185,7 @@ edit () {
                 ;;
         esac
 
-        archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+        archive "$tmpd" "$notedir/$1"
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Edit $1"
     fi
@@ -195,7 +195,6 @@ edit () {
 # edit_ledger <file>
 # file - path to the note text file, relative to $notedir
 edit_ledger () {
-    [ ! -r "$gpgid" ] && echo "note: .gpg-id file not found, aborting." >&2 && exit 3
     target="$(mktemp --tmpdir note.XXXXX."$(basename -- "$1")")"
     gpg --yes --quiet --output "$target" --decrypt -- "$notedir/$1"
 
@@ -208,7 +207,7 @@ edit_ledger () {
     if [ "$(sha1sum -- "$target")" = "$sum" ]; then
         echo 'No changes were made, skipping.'
     else
-        gpg --yes --quiet --output "$notedir/$1" --encrypt --recipient "$(cat -- "$gpgid")" -- "$target"
+        gpg --yes --quiet --output "$notedir/$1" --encrypt --recipient "$gpgid_e" --sign --local-user "$gpgid_s" -- "$target"
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Edit $1"
     fi
@@ -251,7 +250,7 @@ view () {
             # Ensure PDF cache exists
             [ ! -f "$cache" ] && {
                 lxmake "$target" "$cache"
-                archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+                archive "$tmpd" "$notedir/$1"
                 git -C "$notedir" add "$1"
                 git -C "$notedir" commit -o "$1" -m "Cache $1"
             }
@@ -262,7 +261,7 @@ view () {
             # Ensure PDF cache exists
             [ ! -f "$cache" ] && {
                 typst compile -- "$target" "$cache"
-                archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+                archive "$tmpd" "$notedir/$1"
                 git -C "$notedir" add "$1"
                 git -C "$notedir" commit -o "$1" -m "Cache $1"
             }
@@ -296,7 +295,6 @@ view_ledger () {
 # note is a path of a new note relative to notedir
 # ext is the target NOTE file extension
 create () {
-    [ ! -r "$gpgid" ] && echo 'note: .gpg-id file not found, aborting.' >&2 && exit 3
     tmpd="$(mktemp --tmpdir -d note.XXXXX)"
     mkdir -p -- "$tmpd/NOTE"
     target="$tmpd/NOTE/NOTE$2"
@@ -324,7 +322,7 @@ create () {
         echo 'Note directory unchanged, cancelling.'
     else
         mkdir -p -- "$notedir/$(dirname -- "$1")"
-        archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+        archive "$tmpd" "$notedir/$1"
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Create $1"
     fi
@@ -334,7 +332,6 @@ create () {
 # create_ledger <note>
 # note is a path of a new note relative to notedir
 create_ledger () {
-    [ ! -r "$gpgid" ] && echo 'note: .gpg-id file not found, aborting.' >&2 && exit 3
     target="$(mktemp --tmpdir note.XXXXX."$(basename -- "$1")")"
 
     if [ -z "$interactive" ]; then
@@ -346,7 +343,7 @@ create_ledger () {
         echo 'Note unchanged, cancelling.'
     else
         mkdir -p -- "$notedir/$(dirname -- "$1")"
-        gpg --yes --quiet --output "$notedir/$1" --encrypt --recipient "$(cat -- "$gpgid")" -- "$target"
+        gpg --yes --quiet --output "$notedir/$1" --encrypt --recipient "$gpgid_e" --sign --local-user "$gpgid_s" -- "$target"
         git -C "$notedir" add "$1"
         git -C "$notedir" commit -o "$1" -m "Create $1"
     fi
@@ -417,7 +414,7 @@ output () {
             # Ensure PDF cache exists
             [ ! -f "$cache" ] && {
                 lxmake "$target" "$cache"
-                archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+                archive "$tmpd" "$notedir/$1"
                 git -C "$notedir" add "$1"
                 git -C "$notedir" commit -o "$1" -m "Cache $1"
             }
@@ -432,7 +429,7 @@ output () {
             # Ensure PDF cache exists
             [ ! -f "$cache" ] && {
                 typst compile -- "$target" "$cache"
-                archive "$tmpd" "$notedir/$1" "$(cat -- "$gpgid")"
+                archive "$tmpd" "$notedir/$1"
                 git -C "$notedir" add "$1"
                 git -C "$notedir" commit -o "$1" -m "Cache $1"
             }

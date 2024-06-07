@@ -1,7 +1,7 @@
 [user]
 	email = randoragongamedev@gmail.com
 	name = randoragon
-	signingkey = 854177C8D0AEF74B18F5CD3191B74A02AD0CE230
+	signingkey = 0x033330609EB240A515E4B5BDFE00DCDB97D196C1!
 	signcommits = true
 
 [commit]

@@ -549,50 +549,6 @@ for crate in music-tools rsid3; do
     sectionend
 done
 
-# Install neatroff
-section "Installing neatroff and tmac-rnd"
-if [ -n "$need_gui" ]; then
-    cd ~/Software
-    if [ -d neatroff ]; then
-        printf "neatroff already installed, skipping.\n"
-    else
-        git clone 'git://repo.or.cz/neatroff_make.git' neatroff
-        cd ~/Software/neatroff
-        make init neat
-        cd ~/Software/neatroff/neatpost/
-        git apply ~/dotfiles/.other/neatroff-invisible-links.diff
-        make
-        ln -Tfs -- ~/Software/neatroff/neatroff/roff   ~/.local/bin/ntroff
-        ln -Tfs -- ~/Software/neatroff/troff/pic/pic   ~/.local/bin/ntpic
-        ln -Tfs -- ~/Software/neatroff/troff/tbl/tbl   ~/.local/bin/nttbl
-        ln -Tfs -- ~/Software/neatroff/neateqn/eqn     ~/.local/bin/nteqn
-        ln -Tfs -- ~/Software/neatroff/neatmkfn/mkfn   ~/.local/bin/ntmkfn
-        ln -Tfs -- ~/Software/neatroff/neatpost/post   ~/.local/bin/ntpost
-        ln -Tfs -- ~/Software/neatroff/neatpost/pdf    ~/.local/bin/ntpdf
-        ln -Tfs -- ~/Software/neatroff/neatrefer/refer ~/.local/bin/ntrefer
-        ln -Tfs -- ~/Software/neatroff/shape/shape     ~/.local/bin/ntshape
-        ln -Tfs -- ~/Software/neatroff/soin/soin       ~/.local/bin/ntsoin
-        cp -- ~/dotfiles/.other/neatroff-devutf/* ~/Software/neatroff/devutf/
-        ln -sft ~/Software/neatroff/tmac -- ~/dotfiles/.other/tmac.rnd
-        printf "done.\n"
-    fi
-
-    cd ~/Software
-    if [ -d tmac-rnd ]; then
-        printf "tmac-rnd already installed, skipping.\n"
-    else
-        git clone 'https://github.com/randoragon/tmac-rnd'
-        cd tmac-rnd
-        make
-        ln -Tfs -- ~/Software/tmac-rnd/src/tmac.media ~/Software/neatroff/tmac/tmac.media
-        ln -Tfs -- ~/Software/tmac-rnd/tmac.rnd   ~/Software/neatroff/tmac/tmac.rnd
-        printf "done.\n"
-    fi
-else
-    echo "'gui'" disabled, skipping.
-fi
-sectionend
-
 section "Finishing Touches"
 
 printf "linking (vi → vim) and (vim → nvim)... "

@@ -11,6 +11,9 @@ iron.setup {
 			sh = {
 				command = {"sh"}
 			},
+			python = {
+				command = {"python"}
+			}
 		},
 
 		repl_open_cmd = view.offset({

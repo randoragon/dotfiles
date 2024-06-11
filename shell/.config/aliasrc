@@ -57,3 +57,9 @@ alias gstp='git stash pop'
 alias gstl='git stash list'
 alias gf='git fetch'
 alias gfs='git fetch --recurse-submodules=on'
+
+# SSH
+alias sshp='ssh-add ~/.ssh/p'
+alias sshr='ssh-add ~/.ssh/r'
+alias sshdp='ssh-add -d ~/.ssh/p'
+alias sshdr='ssh-add -d ~/.ssh/r'

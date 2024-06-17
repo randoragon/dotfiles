@@ -8,7 +8,6 @@ xwallpaper --zoom ~/.config/wallpaper
 flameshot &
 dunst &
 sxhkd &
-picom --config ~/.config/picom/picom.conf &
 xidlehook --not-when-audio --timer 600 'physlock' '' --timer 1200 'systemctl suspend' '' &
 
 # Autostart other programs

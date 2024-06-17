@@ -188,7 +188,6 @@ done
 # gcr package needed by surf later
 [ -n "$need_gui" ] && for package in \
     xorg-xinit xorg-xkbcomp xorg-drivers \
-    picom \
     sxhkd \
     alacritty \
     ttf-jetbrains-mono ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
@@ -504,7 +503,6 @@ if [ -n "$overwrite_dotfiles" ]; then
     [ -n "$need_music" ] && sstow ncmpcpp
     sstow newsraft
     sstow nvim
-    [ -n "$need_gui" ] && sstow picom
     sstow pipewire
     sstow python
     sstow R

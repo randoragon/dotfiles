@@ -1,3 +1,4 @@
+-- https://github.com/kylechui/nvim-surround/wiki/Configuration
 surround = require("nvim-surround")
 local config = require("nvim-surround.config")
 
@@ -93,4 +94,44 @@ add_buffer_config_for_filetype("tex", {
 			-- Change and delete provided by VimTex
 		},
 	}
+})
+
+add_buffer_config_for_filetype("typst", {
+	surrounds = {
+		["u"] = {
+			add = {{"#underline["}, {"]"}},
+			find = "#underline%[.-%]",
+			delete = "(#underline%[)().-(%])()",
+		},
+		["s"] = {
+			add = {{"#strike["}, {"]"}},
+			find = "#strike%[.-%]",
+			delete = "(#strike%[)().-(%])()",
+		},
+		["o"] = {
+			add = {{"#overline["}, {"]"}},
+			find = "#overline%[.-%]",
+			delete = "(#overline%[)().-(%])()",
+		},
+		["h"] = {
+			add = {{"#highlight["}, {"]"}},
+			find = "#highlight%[.-%]",
+			delete = "(#highlight%[)().-(%])()",
+		},
+		["c"] = {
+			add = {{"#smallcaps["}, {"]"}},
+			find = "#smallcaps%[.-%]",
+			delete = "(#smallcaps%[)().-(%])()",
+		},
+		["p"] = {
+			add = {{"#super["}, {"]"}},
+			find = "#super%[.-%]",
+			delete = "(#super%[)().-(%])()",
+		},
+		["b"] = {
+			add = {{"#sub["}, {"]"}},
+			find = "#sub%[.-%]",
+			delete = "(#sub%[)().-(%])()",
+		},
+	},
 })

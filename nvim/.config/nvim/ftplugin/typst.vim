@@ -18,11 +18,12 @@ inoremap <buffer> <Leader>P #pagebreak(weak: true)
 " Text formatting
 inoremap <buffer> <Leader>h #highlight[]<Left>
 inoremap <buffer> <Leader>l #link("") <,,><C-o>F"
+inoremap <buffer> <Leader>u #underline[]<Left>
 inoremap <buffer> <Leader>s #strike[]<Left>
+inoremap <buffer> <Leader>o #overline[]<Left>
 inoremap <buffer> <Leader>_ #sub[]<Left>
 inoremap <buffer> <Leader>^ #super[]<Left>
-inoremap <buffer> <Leader>u #underline[]<Left>
-inoremap <buffer> <Leader>c ``````<Left><Left><Left>
+inoremap <buffer> <Leader>c #smallcaps[]<Left>
 inoremap <buffer> <Leader>e $$ <,,><C-o>F$
 inoremap <buffer> <Leader>E $  $<Left><Left>
 

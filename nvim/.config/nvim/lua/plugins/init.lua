@@ -10,7 +10,7 @@ require("paq") {
 	"tpope/vim-commentary",
 	"glts/vim-radical",
 	"glts/vim-magnum",
-	"rebelot/kanagawa.nvim",
+	"f4z3r/gruvbox-material.nvim",
 	"windwp/nvim-autopairs",
 	"godlygeek/tabular",
 	"skywind3000/asyncrun.vim",
@@ -35,7 +35,6 @@ require(modpath .. ".fswitch")
 require(modpath .. ".fzf")
 require(modpath .. ".gitsigns")
 require(modpath .. ".iron")
-require(modpath .. ".kanagawa")
 require(modpath .. ".scope")
 require(modpath .. ".smoothie")
 require(modpath .. ".surround")

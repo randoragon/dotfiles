@@ -60,3 +60,21 @@ nnoremap <silent> <buffer> <Leader>if :silent let _newsubfile = NewSubfileTypst(
     \ :echo _newsubfile . " " . type(_newsubfile) \|
     \ :silent if type(_newsubfile) == v:t_number \| call bufload(_newsubfile) \|
     \ exec 'buf '._newsubfile[0] \| endif<CR>
+
+command LSPFileToggleTypst    lua lsp_toggle({
+            \   name = "typst-lsp",
+            \   cmd  = {"typst-lsp"},
+            \   settings = require("lsp.settings.typst_lsp"),
+            \ })
+command LSPProjectToggleTypst lua lsp_toggle({
+            \   name = "typst-lsp",
+            \   cmd  = {"typst-lsp"},
+            \   settings = require("lsp.settings.typst_lsp"),
+            \ },
+            \ {
+            \  ".git",
+            \  "Makefile", "makefile", "GNUmakefile",
+            \  "main.typ"
+            \ })
+nnoremap <buffer> <silent> <Leader>l :LSPFileToggleTypst<CR>
+nnoremap <buffer> <silent> <Leader>L :LSPProjectToggleTypst<CR>

@@ -211,7 +211,7 @@ done
     texlive-latexextra texlive-plaingeneric \
     texlive-langcjk texlive-binextra \
     texlive-bibtexextra biber \
-    typst
+    typst typst-lsp
 do
     pacinstall "$package"
 done

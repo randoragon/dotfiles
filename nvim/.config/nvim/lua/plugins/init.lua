@@ -10,7 +10,7 @@ require("paq") {
 	"tpope/vim-commentary",
 	"glts/vim-radical",
 	"glts/vim-magnum",
-	"f4z3r/gruvbox-material.nvim",
+	"kepano/flexoki-neovim",
 	"windwp/nvim-autopairs",
 	"godlygeek/tabular",
 	"skywind3000/asyncrun.vim",

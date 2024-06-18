@@ -1,6 +1,6 @@
 if os.getenv("DISPLAY") then
 	o.background = "dark"
-	vim.cmd.colorscheme("gruvbox-material")
+	vim.cmd.colorscheme("flexoki-dark")
 else
 	-- Fallback colorscheme for TTY
 	vim.cmd.colorscheme("ron")

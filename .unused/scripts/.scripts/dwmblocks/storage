@@ -1,7 +1,12 @@
-#!/usr/bin/sh
+#!/bin/sh
 
-icon=
-col1="#b09050"
-col2="#d0b070"
+rootfs=$((1024 * $(df --output=avail / | tail -n1)))
+homefs=$((1024 * $(df --output=avail /home | tail -n1)))
 
-df -h | awk "/\/$/ { print \"^c$col1^$icon^f3^^c$col2^\"\$4 }"
+printf '/ %s' \
+    "$(numfmt --to iec --format %.1f "$rootfs")"
+
+[ $homefs -ne $rootfs ] && {
+    printf '  ~ %s' \
+        "$(numfmt --to iec --format %.1f "$homefs")"
+}

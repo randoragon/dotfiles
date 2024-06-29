@@ -178,33 +178,23 @@ do
 done
 
 
-# "xorg" is a group of packages, so it has to be dealt with separately
 [ -n "$need_gui" ] && {
-    printf "installing xorg packages... "
-    sudo pacman -Sq --needed --noconfirm xorg >/dev/null || printf "failed.\n"
-    pacinstall brightnessctl
+    printf "installing graphic environment packages... "
+    pacinstall river xdg-desktop-portal xdg-desktop-portal-wlr
     printf "done.\n"
 }
-# gcr package needed by surf later
 [ -n "$need_gui" ] && for package in \
-    xorg-xinit xorg-xkbcomp xorg-drivers \
-    sxhkd \
-    alacritty \
+    brightnessctl \
     ttf-jetbrains-mono ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
     ttf-liberation ttf-carlito libertinus-font \
-    xwallpaper \
     sxiv \
     xarchiver \
     firefox \
-    xf86-input-libinput \
-    flameshot shotgun \
     gtk-engine-murrine materia-gtk-theme xcursor-bluecurve \
-    xclip screenkey \
-    xdotool \
-    libnotify dunst \
+    wl-clipboard \
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
-    md4c webkit2gtk gcr \
+    md4c \
     asciidoctor rubygems mathjax2 graphviz gnuplot \
     texlive-basic texlive-xetex \
     texlive-latexrecommended texlive-fontsrecommended \
@@ -319,20 +309,9 @@ do
     yayinstall "$package"
 done
 
-[ -n "$need_devtools" ] && for package in \
-    lua-cjson \
-    zls
-do
-    yayinstall "$package"
-done
-
 [ -n "$need_gui" ] && for package in \
+    wideriver \
     numix-icon-theme-git \
-    gromit-mpx-git \
-    mousemode-git \
-    xkeycheck-git \
-    xrectsel \
-    xidlehook \
     farbfeld-git \
     ttf-unifont \
     mscgen
@@ -340,13 +319,12 @@ do
     yayinstall "$package"
 done
 
-# libxft-bgra conflicts with libxft, and conflicts
-# sadly cannot be resolved automatically with --noconfirm
-[ -n "$need_gui" ] && {
-    printf "installing $(tput setaf $col2)libxft-bgra$(tput sgr0)...\n"
-    yay -Sqa --needed libxft-bgra || printf "failed.\n"
-    printf "done.\n"
-}
+[ -n "$need_devtools" ] && for package in \
+    lua-cjson \
+    zls
+do
+    yayinstall "$package"
+done
 
 [ -n "$need_rss" ]   && yayinstall newsraft
 [ -n "$need_sync" ]  && yayinstall onedrive-abraunegg
@@ -403,7 +381,7 @@ fi
 printf "done.\n"
 sectionend
 
-for i in dwm dwmblocks dmenu surf sent; do
+for i in dmenu sent; do
     section "Installing $i"
     if [ -n "$need_gui" ]; then
         cd ~/Software
@@ -485,14 +463,10 @@ rm -f -- ~/.bashrc ~/.bash_profile
 if [ -n "$overwrite_dotfiles" ]; then
     cd ~/dotfiles
     [ -n "$need_music" ] && sstow beets
-    [ -n "$need_gui" ] && sstow dwm
     sstow carla
     ddetach cronie
-    [ -n "$need_gui" ] && sstow dunst
-    [ -n "$need_gui" ] && ddetach flameshot
     sstow git
     ddetach gpg
-    [ -n "$need_gui" ] && sstow gromit-mpx
     [ -n "$need_gui" ] && sstow gtk
     [ -n "$need_accounting" ] && sstow ledger
     sstow less
@@ -506,16 +480,13 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow pipewire
     sstow python
     sstow R
-    sstow redshift
+    sstow river
     sstow scripts
     sstow shell
     ddetach speedcrunch
-    [ -n "$need_gui" ] && ddetach sxhkd
     [ -n "$need_gui" ] && sstow sxiv
     sstow tmux
     sstow wget
-    [ -n "$need_gui" ] && ddetach xkb
-    [ -n "$need_gui" ] && sstow xorg
     [ -n "$need_gui" ] && sstow zathura
 
     printf "copying sfx... "

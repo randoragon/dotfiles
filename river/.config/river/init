@@ -1,0 +1,72 @@
+#!/bin/sh
+
+# This is the configuration script of the River Wayland compositor.
+#
+# To keep this file from growing too big, I split a lot of repetitive
+# code into separate scripts which are sourced by this main one.
+#
+# This script should only contain core settings, such as keyboard and
+# mouse behavior, appearance, external layout program and keybindings
+# for basic things like tag/view manipulation and session management.
+#
+# All other configuration should be logically divided into standalone
+# executable shell scripts and put inside the init.d directory.
+
+# Keyboard configuration
+riverctl set-repeat 30 250
+riverctl default-attach-mode below
+riverctl keyboard-layout-file "${XDG_CONFIG_HOME:-$HOME/.config}/xkb/keymap/mykbd"
+
+# Mouse settings
+riverctl map-pointer normal Super BTN_LEFT move-view
+riverctl map-pointer normal Super BTN_RIGHT resize-view
+
+# Appearance
+riverctl background-color 0x111111
+riverctl border-color-focused 0xeeeeee
+riverctl border-color-unfocused 0x222222
+riverctl border-color-urgent 0xee0000
+riverctl border-width 1
+
+# Basic keybindings
+riverctl map normal Super Return spawn "$TERMINAL"
+riverctl map normal Super O spawn 'dmenu_run'
+
+# Tag keybindings
+tagmap () {
+    riverctl map -repeat normal Super               "$1" set-focused-tags     "$2"
+    riverctl map -repeat normal Super+Control       "$1" toggle-focused-tags  "$2"
+    riverctl map -repeat normal Super+Shift         "$1" set-view-tags        "$2"
+    riverctl map -repeat normal Super+Control+Shift "$1" toggle-view-tags     "$2"
+}
+i=0
+for key in $(seq 1 9) W E D; do
+    tagmap "$key" $(( 1 << i ))
+    i=$((i + 1))
+done
+riverctl map -repeat normal Super Tab focus-previous-tags
+
+# View keybindings
+riverctl map normal Super Q close
+riverctl map -repeat normal Super J focus-view next
+riverctl map -repeat normal Super K focus-view previous
+riverctl map -repeat normal Super+Shift J swap next
+riverctl map -repeat normal Super+Shift K swap previous
+riverctl map -repeat normal Super S zoom
+
+# Quitmenu mode
+riverctl declare-mode quitmenu
+riverctl map normal Super+Shift Q enter-mode quitmenu
+riverctl map quitmenu None P spawn 'poweroff'
+riverctl map quitmenu None R spawn 'reboot'
+riverctl map quitmenu None S spawn 'suspend'
+riverctl map quitmenu None L exit
+riverctl map quitmenu None Q enter-mode normal
+
+# Source script files from init.d directory
+if [ -d init.d ]; then
+    for f in init.d/?*.sh; do
+        [ -x "$f" ] && . "$f"
+    done
+    unset f
+fi

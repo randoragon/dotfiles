@@ -20,13 +20,13 @@ while read -r file; do
         'question') convert -rotate 180 "$file" "$file" ;;
         'bar') convert -flop "$file" "$file" ;;
         'underscore') convert -flip "$file" "$file" ;;
-        'C-c') xclip -t "$(xdg-mime query filetype "$file")" -selection clipboard <"$file" &&
+        'C-c') wl-copy <"$file" &&
                  notify-send -i "$(readlink -f "$file")" "$file" "Image copied to clipboard" ;;
-        'y') printf "%s" "$(basename -- "$file")" | xclip -selection clipboard &&
+        'y') printf "%s" "$(basename -- "$file")" | wl-copy &&
                  notify-send -i "$(readlink -f "$file")" "$(basename -- "$file")" "Name copied to clipboard" ;;
-        'Y') readlink -f "$file" | tr -d '\n' | xclip -selection clipboard &&
+        'Y') readlink -f "$file" | tr -d '\n' | wl-copy &&
                  notify-send -i "$(readlink -f "$file")" "$(readlink -f "$file")" "Path copied to clipboard" ;;
         'g') notify-send -i "$(readlink -f "$file")" "$file" "Launching in GIMP..." && gimp "$file" & ;;
-        'd') [ "$(printf "yes\nno\n" | dmenu -p "Delete image?")" = yes ] && rm -f -- "$file" ;;
+        'd') [ "$(printf "yes\nno\n" | bemenu -p "Delete image?")" = yes ] && rm -f -- "$file" ;;
     esac
 done

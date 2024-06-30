@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Gives a dmenu prompt to rate the currently playing MPD track from 1 to 5.
+# Gives a bemenu prompt to rate the currently playing MPD track from 1 to 5.
 # Then saves the result to one of playlists (as configured below).
 #
 # I no longer use this script, because I've found that rating each track in
@@ -44,7 +44,7 @@ if [ -n "$prev_rating" ]; then
 else
     prompt="Rate:"
 fi
-rating="$(seq 5 | dmenu -n -p "$prompt")"
+rating="$(seq 5 | bemenu --auto-select -p "$prompt")"
 [ -z "$rating" ] && exit
 
 # Remove possible duplicate ratings

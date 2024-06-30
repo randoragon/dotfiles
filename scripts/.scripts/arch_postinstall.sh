@@ -178,12 +178,10 @@ do
 done
 
 
-[ -n "$need_gui" ] && {
-    printf "installing graphic environment packages... "
-    pacinstall river xdg-desktop-portal xdg-desktop-portal-wlr
-    printf "done.\n"
-}
 [ -n "$need_gui" ] && for package in \
+    river xdg-desktop-portal xdg-desktop-portal-wlr \
+    bemenu \
+    grim slurp swappy \
     brightnessctl \
     ttf-jetbrains-mono ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
     ttf-liberation ttf-carlito libertinus-font \
@@ -381,7 +379,7 @@ fi
 printf "done.\n"
 sectionend
 
-for i in dmenu sent; do
+for i in sent; do
     section "Installing $i"
     if [ -n "$need_gui" ]; then
         cd ~/Software
@@ -484,6 +482,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow scripts
     sstow shell
     ddetach speedcrunch
+    sstow swappy
     [ -n "$need_gui" ] && sstow sxiv
     sstow tmux
     sstow wget

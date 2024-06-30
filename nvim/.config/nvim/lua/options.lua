@@ -51,14 +51,14 @@ o.statusline =
 
 -- Clipboard integration
 vim.g.clipboard = {
-	name = "xclip",
+	name = "wl-copy",
 	copy = {
-		["+"] = "xclip -selection clipboard",
-		["*"] = "xclip -selection clipboard"
+		["+"] = "wl-copy",
+		["*"] = "wl-copy"
 	},
 	paste = {
-		["+"] = "xclip -selection clipboard -o",
-		["*"] = "xclip -o"
+		["+"] = "wl-paste",
+		["*"] = "wl-paste"
 	},
 	cache_enabled = true
 }

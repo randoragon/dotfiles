@@ -1,13 +1,13 @@
 #!/bin/sh
 
-# This script lets you select any entry from pass via dmenu,
+# This script lets you select any entry from pass via bemenu,
 # then will prompt you for key password if necessary, and
 # finally copy the first line of the decrypted file into
 # XA_CLIPBOARD, which is wiped after PASSWORD_STORE_CLIP_TIME.
 #
 # Dependencies:
 # - pass
-# - dmenu
+# - bemenu
 # - gpg, gpg-agent with configured pinentry
 # - libnotify
 
@@ -15,13 +15,13 @@ passdir="${PASSWORD_STORE_DIR:-HOME/.password-store}"
 icon="/usr/share/icons/Adwaita/96x96/status/dialog-password-symbolic.symbolic.png"
 time="${PASSWORD_STORE_CLIP_TIME:-45}"
 
-[ -z "$(command -v xclip)" ] && notify-send "passcpy" "xclip is not available" && exit 1
+[ -z "$(command -v wl-copy)" ] && notify-send "passcpy" "wl-copy is not available" && exit 1
 [ -z "$(command -v pass)" ] && notify-send "passcpy" "pass is not available" && exit 1
 
 entry="$( \
     find "$passdir" -type f -name "[^_]*.gpg" -exec realpath --relative-to "$passdir" "{}" \; \
     | sed 's/\.gpg$//' \
-    | dmenu -p "Pass Query:" "$@" \
+    | bemenu -p "Pass Query:" "$@" \
 )"
 
 [ -z "$entry" ] && exit
@@ -30,11 +30,10 @@ password="$(pass "$entry" | head -n1 -)"
 
 [ -z "$password" ] && exit
 
-printf "%s" "$password" | xclip -r -selection clipboard &&
+printf "%s" "$password" | wl-copy -n &&
     notify-send -u low -i "$icon" "Password copied" "$time seconds remaining"
 
 sleep "$time"
-if [ "$(xclip -selection clipboard -o)" = "$password" ]; then
-    echo | xclip -r -selection clipboard &&
-    notify-send -u low -i "$icon" "Clipboard cleared"
+if [ "$(wl-paste)" = "$password" ]; then
+    wl-copy -c && notify-send -u low -i "$icon" "Clipboard cleared"
 fi

@@ -15,7 +15,7 @@ playlists="$(find "$pldir" -maxdepth 1 -type f -name '*.m3u' \
 [ -z "$playlists" ] && notify-send -u low "pladd_select" "No playlists detected" && exit
 playing="$(mpc current -f %file%)"
 echo "$playing" | grep -q '^Download/\|^/' && notify-send -u low "pladd_select" "The current file is in the <u>Download</u> directory" && exit
-chosen="$(printf '%s\n' "$playlists" | dmenu -i -p "Add to playlist:")"
+chosen="$(printf '%s\n' "$playlists" | bemenu -i -p "Add to playlist:")"
 [ -z "$chosen" ] && exit
 printf "%s\n" "$chosen" | while read -r pl; do
     if [ "$pl" = "Fair Use" ]; then

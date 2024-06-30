@@ -1,6 +1,6 @@
 # Y to copy file contents to clipboard
 map Y &{{
-    xclip -selection clipboard "$f"
+    wl-copy <"$f"
     fname="$(basename -- "$f")"
     lf -remote "send $id echo \\\"$fname\\\" copied to clipboard."
 }}

@@ -4,7 +4,7 @@
 # easily perform common operations such as shutting
 # down, restarting, logging out etc.
 
-case "$(printf "%s\n" "poweroff" "reboot" "suspend" | dmenu)" in
+case "$(printf "%s\n" "poweroff" "reboot" "suspend" | bemenu)" in
     "poweroff") systemctl poweroff ;;
     "reboot") systemctl reboot ;;
     "suspend") systemctl suspend && physlock ;;

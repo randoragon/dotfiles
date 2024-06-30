@@ -5,7 +5,7 @@
 #
 # Dependencies:
 # - gpg, sha1sum
-# - dmenu, fzf
+# - bemenu, fzf
 # - md2html (md4c)
 # - surf (html viewing)
 # - env: $PDF_READER (fallback to zathura)
@@ -32,7 +32,7 @@ Usage:
 
     NAME is the name of the note to target. NAME can be omitted,
     in which case note will let you interactively select a note
-    with either dmenu or fzf. The default action is viewing.
+    with either bemenu or fzf. The default action is viewing.
 
 Options:
     -e, --edit
@@ -51,11 +51,11 @@ Options:
     -h, --help
         Display this help text.
 
-    --dmenu, --fzf
-        Force the use of dmenu or fzf. By default, dmenu will be
+    --bemenu, --fzf
+        Force the use of bemenu or fzf. By default, bemenu will be
         used if the stdin descriptor is not open (test ! -t 0)
         and fzf will be used otherwise. However, this test is not
-        foolproof, and so you can force either dmenu or fzf with
+        foolproof, and so you can force either bemenu or fzf with
         these options, if you need. They are mutually exclusive
         and only take effect if NAME has not been passed.
 
@@ -477,7 +477,7 @@ note=
 edit=
 raw=
 output=
-force_dmenu=
+force_bemenu=
 force_fzf=
 while true; do
     case "$1" in
@@ -492,7 +492,7 @@ while true; do
                 output="$2"
                 shift 2
             fi ;;
-        --dmenu) force_dmenu=1 ; shift ;;
+        --bemenu) force_bemenu=1 ; shift ;;
         --fzf)   force_fzf=1   ; shift ;;
         --) shift ; break ;;
         *) break ;;
@@ -514,8 +514,8 @@ elif [ $# -ne 0 ]; then
 fi
 
 # Validate command-line arguments
-[ -n "$force_dmenu" ] && [ -n "$force_fzf" ] && {
-    echo 'note: --fzf and --dmenu are mutually exclusive' >&2
+[ -n "$force_bemenu" ] && [ -n "$force_fzf" ] && {
+    echo 'note: --fzf and --bemenu are mutually exclusive' >&2
     exit 5
 }
 [ -n "$raw" ] && [ -z "$output" ] && {
@@ -534,7 +534,7 @@ fi
 [ ! -d "$notedir" ] && echo 'note: notes dir not found' >&2 && exit 1
 
 # Check if shell is interactive
-if [ -n "$force_dmenu" ]; then
+if [ -n "$force_bemenu" ]; then
     interactive=
 elif [ -n "$force_fzf" ]; then
     interactive=1
@@ -553,14 +553,14 @@ if [ -z "$note" ]; then
         prompt='View Note:'
     fi
 
-    # For interactive shells use fzf, otherwise use dmenu.
+    # For interactive shells use fzf, otherwise use bemenu.
     set +e
     if [ -n "$interactive" ]; then
         note="$(cd "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
             | fzf --no-sort --no-multi --prompt "$prompt ")"
     else
         note="$(cd "$notedir" && find . -type f \! -path '\./\.*' -exec realpath --relative-to "$notedir" '{}' \; \
-            | dmenu -F -l 10 -p "$prompt")"
+            | bemenu -l 20 -p "$prompt")"
     fi
     set -e
 

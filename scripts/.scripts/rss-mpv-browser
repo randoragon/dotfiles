@@ -22,7 +22,7 @@ formats="$($ytdl -F -- "$1" 2>/dev/null \
     | grep -F https | grep -F -e 'mp4' -e 'webm' | grep -F -v 'audio only' \
     | tr -d '~≈' | sort -k6n | sort -s -k3nr)"
 [ -n "$formats" ] && {
-    format="$(printf 'default\n%s\n' "$formats" | dmenu -p 'Video format:' -l 20)"
+    format="$(printf 'default\n%s\n' "$formats" | bemenu -p 'Video format:' -l 20)"
     [ -z "$format" ] && exit
     if [ "$format" = 'default' ]; then
         format=

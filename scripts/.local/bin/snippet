@@ -11,7 +11,7 @@ SYNOPSIS
 
 DESCRIPTION
         This script searches for a ~/.config/snippetrc file, reads custom
-        text snippets from it, prompts the user to choose one with dmenu,
+        text snippets from it, prompts the user to choose one with bemenu,
         and finally copies the selected snippet to XA_CLIPBOARD and prints
         it to stdout.
 
@@ -25,8 +25,8 @@ OPTIONS
                 Read from a custom file (default is ~/.config/snippetrc).
 
 DEPENDENCIES
-        dmenu - snippet selection
-        xclip - copying to clipboard
+        bemenu - snippet selection
+        wl-copy - copying to clipboard
 
 SNIPPETRC FILE SYNTAX
         The syntax is inspired by troff and groff markup languages.
@@ -117,7 +117,7 @@ if __name__ == '__main__':
                 snippets[ml_name] += line
         linec += 1
 
-    # Compose a list for dmenu
+    # Compose a list for bemenu
     items  = []
     values = {}
     for key, value in snippets.items():
@@ -125,13 +125,13 @@ if __name__ == '__main__':
         items.append(s)
         values[s] = value
 
-    # Run dmenu
+    # Run bemenu
     # reference: https://stackoverflow.com/questions/9393425/python-how-to-execute-shell-commands-with-pipe-but-without-shell-true
     p1 = subprocess.Popen(['printf', '%s\n'] + items, stdout=subprocess.PIPE)
-    p2 = subprocess.Popen(['dmenu', '-i', '-l', '10', '-p', 'Snippet:'], stdin=p1.stdout, stdout=subprocess.PIPE)
+    p2 = subprocess.Popen(['bemenu', '-i', '-l', '20', '-p', 'Snippet:'], stdin=p1.stdout, stdout=subprocess.PIPE)
     p1.stdout.close()
     out = p2.communicate()[0].decode('utf-8').strip()
     if out in values:
         p1 = subprocess.Popen(['printf', '%s', values[out]], stdout=subprocess.PIPE)
-        p2 = subprocess.Popen(['xclip', '-sel', 'clipboard'], stdin=p1.stdout)
+        p2 = subprocess.Popen(['wl-copy'], stdin=p1.stdout)
         print(values[out])

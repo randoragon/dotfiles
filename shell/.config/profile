@@ -69,7 +69,7 @@ export NVIM_SMOOTHIE_ENABLED=1
 export VIM_PREVIEW_HOME="${TMPDIR:-/tmp}/vim-preview.$(whoami)"
 export LUA_INIT="@$HOME/.config/lua/init.lua"
 export ASCIIDOCTOR_OPTS='-r asciidoctor-diagram -a nofooter -a last-update-label! -a webfonts!'
-export BEMENU_OPTS='--scrollbar=autohide --counter=always --tb #3fbfff --tf #000000 --hb #3fbfff --hf #000000 --scf #ffffff --sb #186888 --sf #ffffff'
+export BEMENU_OPTS='--scrollbar=autohide --counter=always --tb #3fbfff --tf #000000 --hb #3fbfff --hf #000000 --scf #ffffff --sb #186888 --sf #ffffff  --bdr #223333'
 
 # Add custom PATH entries
 # user-specific paths take precedence over defaults, that's why
@@ -166,7 +166,7 @@ mkdir -p -- "$VIM_PREVIEW_HOME"
 chmod 700 -- "$VIM_PREVIEW_HOME"
 
 # Start graphical server on tty1 if not already running, otherwise start tmux
-if [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x Xorg >/dev/null; then
+if [ "$(tty)" = "/dev/tty1" ]; then
     river
 elif command -v tmux; then
     tmux

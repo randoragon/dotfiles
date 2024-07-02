@@ -1,0 +1,110 @@
+---
+
+bar:
+  location: top
+  height: 20
+  background: 333333ff
+
+  left:
+    - river:
+        content:
+          map:
+            default:
+              string:
+                margin: 5
+                text: "{id}"
+            conditions:
+              ~occupied && ~focused:
+                empty: {}
+              urgent:
+                string:
+                  deco:
+                    background:
+                      color: ff4444ff
+                  margin: 5
+                  text: "{id}"
+              focused:
+                string:
+                  deco:
+                    background:
+                      color: 666666ff
+                  margin: 5
+                  text: "{id}"
+
+  center:
+    - river:
+        title:
+          string:
+            text: "{title}"
+        content:
+          empty: {}
+
+  right:
+    - pipewire:
+        content:
+          map:
+            conditions:
+              type == "sink":
+                map:
+                  conditions:
+                    muted:
+                      string:
+                        margin: 5
+                        text: "X {cubic_volume}"
+                    ~muted:
+                      string:
+                        margin: 5
+                        text: "> {cubic_volume}"
+
+    - label: &sep
+        content:
+          string:
+            text: "|"
+
+    - script:
+        path: ~/.scripts/yambar/storage
+        poll-interval: 10000
+        content:
+          string:
+            margin: 5
+            text: "{str}"
+
+    - label: *sep
+
+    - script:
+        path: ~/.scripts/yambar/gpg_expire
+        poll-interval: 3600000
+        content:
+          string:
+            margin: 5
+            text: "{str}"
+
+    - label: *sep
+
+    - clock:
+        date-format: "%a %m/%d"
+        time-format: "%H:%M:%S"
+        content:
+          string:
+            margin: 5
+            text: "{date}  {time}"
+
+    - battery:
+        name: "BAT0"
+        content:
+          map:
+            default:
+              string:
+                  margin: 5
+                  text: "*{capacity}%"
+            conditions:
+              state == "discharging":
+                string:
+                    margin: 5
+                    text: "v{capacity}%"
+              state == "charging":
+                string:
+                    margin: 5
+                    text: "^{capacity}%"
+              state == "unknown":
+                empty: {}

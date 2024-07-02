@@ -4,8 +4,9 @@
 # easily perform common operations such as shutting
 # down, restarting, logging out etc.
 
-case "$(printf "%s\n" "poweroff" "reboot" "suspend" | bemenu)" in
+case "$(printf "%s\n" "poweroff" "reboot" "suspend" "logout" | bemenu -p 'quitmenu' -i -c -l10 -W0.5 -B5 -R10)" in
     "poweroff") systemctl poweroff ;;
     "reboot") systemctl reboot ;;
     "suspend") systemctl suspend && physlock ;;
+    "logout") riverctl exit ;;
 esac

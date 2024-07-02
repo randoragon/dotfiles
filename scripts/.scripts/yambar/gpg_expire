@@ -1,0 +1,21 @@
+#!/bin/sh
+
+epoch_expire=$(($(gpg -K --with-colons | grep '^\(sec\|ssb\)' | cut -d: -f7 | sort -n | head -n1)))
+epoch_now=$(($(date +%s)))
+printf 'str|string|'
+if [ $epoch_now -ge $epoch_expire ]; then
+    printf 'EXPIRED\n\n'
+else
+    n_left=$(((epoch_expire - epoch_now) / 3600))
+    if [ $n_left -eq 0 ]; then
+        printf '<1 hour'
+        return
+    elif [ $n_left -lt 24 ]; then
+        printf '%u hour' "$n_left"
+    else
+        n_left=$((n_left / 24))
+        printf '%u day' "$n_left"
+    fi
+    [ $n_left -ne 1 ] && printf 's'
+    printf '\n\n'
+fi

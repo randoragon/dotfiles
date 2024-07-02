@@ -183,6 +183,7 @@ done
     bemenu \
     grim slurp swappy \
     brightnessctl \
+    mako \
     ttf-jetbrains-mono ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
     ttf-liberation ttf-carlito libertinus-font \
     sxiv \
@@ -308,7 +309,7 @@ do
 done
 
 [ -n "$need_gui" ] && for package in \
-    wideriver \
+    rivercarro yambar \
     numix-icon-theme-git \
     farbfeld-git \
     ttf-unifont \
@@ -461,7 +462,7 @@ rm -f -- ~/.bashrc ~/.bash_profile
 if [ -n "$overwrite_dotfiles" ]; then
     cd ~/dotfiles
     [ -n "$need_music" ] && sstow beets
-    sstow carla
+    [ -n "$need_gui" ] && sstow carla
     ddetach cronie
     sstow git
     ddetach gpg
@@ -478,14 +479,14 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow pipewire
     sstow python
     sstow R
-    sstow river
+    [ -n "$need_gui" ] && sstow river
     sstow scripts
     sstow shell
-    ddetach speedcrunch
-    sstow swappy
+    [ -n "$need_gui" ] && sstow swappy
     [ -n "$need_gui" ] && sstow sxiv
     sstow tmux
     sstow wget
+    [ -n "$need_gui" ] && sstow yambar
     [ -n "$need_gui" ] && sstow zathura
 
     printf "copying sfx... "

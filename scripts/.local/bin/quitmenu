@@ -7,6 +7,6 @@
 case "$(printf "%s\n" "poweroff" "reboot" "suspend" "logout" | bemenu -p 'quitmenu' -i -c -l10 -W0.5 -B5 -R10)" in
     "poweroff") systemctl poweroff ;;
     "reboot") systemctl reboot ;;
-    "suspend") systemctl suspend && physlock ;;
+    "suspend") systemctl suspend ;;
     "logout") riverctl exit ;;
 esac

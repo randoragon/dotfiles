@@ -1,7 +1,7 @@
 #!/bin/sh
 
 riverctl default-layout rivercarro
-rivercarro -per-tag -main-ratio 0.55
+rivercarro -per-tag -main-ratio 0.55 &
 
 # Layout mappings
 riverctl map normal Super A send-layout-cmd rivercarro 'main-location-cycle left,monocle'

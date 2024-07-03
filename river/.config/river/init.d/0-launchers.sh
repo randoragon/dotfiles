@@ -7,8 +7,12 @@ appmap () {
 appmap Super         C      'snippet'
 appmap Super+Shift   O      '~/.scripts/passcpy'
 appmap Super+Control O      '~/.scripts/usercpy'
-appmap Super+Shift   N      'note'
-appmap Super+Control N      'note -e'
+appmap Super+Shift   Y      'note --bemenu'
+appmap Super+Control Y      'note --bemenu -e'
 appmap Super+Control equal  '~/.scripts/pladd_select'
 
+appmap Control+Alt H "$TERMINAL -a floatme htop"
 appmap Control+Alt D 'discord'
+appmap Control+Alt M "$TERMINAL ncmpcpp"
+appmap Control+Alt N "$TERMINAL newsraft"
+appmap Control+Alt Slash "$TERMINAL qalc"

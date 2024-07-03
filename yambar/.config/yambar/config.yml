@@ -13,6 +13,9 @@ bar:
               string:
                 margin: 5
                 text: "{id}"
+                on-click:
+                  left: "sh -c 'riverctl set-focused-tags $((1 << ({id} - 1)))'"
+                  right: "sh -c 'riverctl toggle-focused-tags $((1 << ({id} - 1)))'"
             conditions:
               ~occupied && ~focused:
                 empty: {}
@@ -23,6 +26,9 @@ bar:
                       color: ff4444ff
                   margin: 5
                   text: "{id}"
+                  on-click:
+                    left: "sh -c 'riverctl set-focused-tags $((1 << ({id} - 1)))'"
+                    right: "sh -c 'riverctl toggle-focused-tags $((1 << ({id} - 1)))'"
               focused:
                 string:
                   deco:
@@ -30,6 +36,9 @@ bar:
                       color: 666666ff
                   margin: 5
                   text: "{id}"
+                  on-click:
+                    left: "sh -c 'riverctl set-focused-tags $((1 << ({id} - 1)))'"
+                    right: "sh -c 'riverctl toggle-focused-tags $((1 << ({id} - 1)))'"
 
   center:
     - river:
@@ -55,6 +64,9 @@ bar:
                       string:
                         margin: 5
                         text: "> {cubic_volume}"
+                  on-click:
+                    left: "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+                    right: "qpwgraph"
 
     - label: &sep
         content:
@@ -88,6 +100,8 @@ bar:
           string:
             margin: 5
             text: "{date}  {time}"
+            on-click:
+              left: "foot -a floatme sh -c 'cal -3 --color=always | less -R'"
 
     - battery:
         name: "BAT0"

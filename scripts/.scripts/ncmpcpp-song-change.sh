@@ -37,7 +37,7 @@ if [ -n "$switch_wallpaper" ]; then
         tmp="$(mktemp)"
         h=$(magick "$cachefile" -format '%h' info:)
         newh="$(echo "scale=0; $h * 1.1 / 1" | bc)"
-        convert "$cachefile" +write mpr:ORIG \
+        magick "$cachefile" +write mpr:ORIG \
             \( \
                 mpr:ORIG -resize 320x180^ -filter Gaussian -blur 0x4 \
                 -gravity Center -crop 320x180+0+0 \

@@ -15,11 +15,11 @@
 while read -r file; do
     case "$1" in
         'w') chwall "$file" ;;
-        'greater') convert -rotate 90 "$file" "$file" ;;
-        'less') convert -rotate -90 "$file" "$file" ;;
-        'question') convert -rotate 180 "$file" "$file" ;;
-        'bar') convert -flop "$file" "$file" ;;
-        'underscore') convert -flip "$file" "$file" ;;
+        'greater') magick -rotate 90 "$file" "$file" ;;
+        'less') magick -rotate -90 "$file" "$file" ;;
+        'question') magick -rotate 180 "$file" "$file" ;;
+        'bar') magick -flop "$file" "$file" ;;
+        'underscore') magick -flip "$file" "$file" ;;
         'C-c') wl-copy <"$file" &&
                  notify-send -i "$(readlink -f "$file")" "$file" "Image copied to clipboard" ;;
         'y') printf "%s" "$(basename -- "$file")" | wl-copy &&

@@ -7,6 +7,8 @@ printf 'str|string|/ %s' \
     "$(numfmt --to iec --format %.1f "$rootfs")"
 
 [ $homefs -ne $rootfs ] && {
-    printf '  ~ %s\n\n' \
+    printf '  ~ %s' \
         "$(numfmt --to iec --format %.1f "$homefs")"
 }
+
+printf '\n\n'

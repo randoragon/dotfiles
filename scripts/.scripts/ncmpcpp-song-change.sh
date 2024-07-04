@@ -16,10 +16,23 @@ printf "%s" "$(mpc current --format '%album%    ·')    " \
 #
 # Uncomment the line below to activate:
 switch_wallpaper=1
+# fancy_transitions=1
 if [ -n "$switch_wallpaper" ]; then
     cachefile="${XDG_CACHE_HOME:-~/.cache}/ncmpcpp-albumart.jpg"
     mpdfpath="$(mpc current --format %file%)"
     mpc readpicture "$mpdfpath" >"$cachefile"
+
+    if [ -n "$fancy_transitions" ]; then
+        # Fancy transition effect (eats some CPU)
+        t_fps=$(($(wlr-randr --json | jq '.[0].modes.[] | select(.current==true).refresh | round')))
+        t_effect="$(printf '%s\n' simple wipe any | shuf | head -n1)"
+        t_angle=$(($(seq 360 | shuf | head -n1)))
+    else
+        t_fps=1
+        t_effect=none
+        t_angle=0
+    fi
+
     if file -- "$cachefile" | grep -qi 'image'; then
         tmp="$(mktemp)"
         h=$(magick "$cachefile" -format '%h' info:)
@@ -34,11 +47,13 @@ if [ -n "$switch_wallpaper" ]; then
                 mpr:BLUR mpr:ORIG -gravity center -composite \
                 +write "$tmp" \
             \) null:
-        xwallpaper --maximize "$tmp"
+
+        swww img -t "$t_effect" --transition-fps $t_fps --transition-angle $t_angle "$tmp"
         rm -f -- "$tmp"
     else
         rm -f -- "$cachefile"
-        xwallpaper --zoom "${XDG_CONFIG_HOME:-~/.config}/wallpaper"
+        swww img -t "$t_effect" --transition-fps $t_fps --transition-angle $t_angle "$tmp"
+        swww img "${XDG_CONFIG_HOME:-~/.config}/wallpaper"
     fi
 fi
 

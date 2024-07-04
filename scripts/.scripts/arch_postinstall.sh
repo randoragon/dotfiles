@@ -162,7 +162,7 @@ for package in \
     ntp \
     ripgrep fzf \
     pkgfile \
-    dash \
+    dash jq \
     python python-pip \
     pacman-contrib \
     zsh zsh-completions zsh-syntax-highlighting \
@@ -191,7 +191,7 @@ done
     xarchiver \
     firefox \
     gtk-engine-murrine materia-gtk-theme xcursor-bluecurve \
-    wl-clipboard \
+    wl-clipboard wlr-randr \
     zathura zathura-ps zathura-cb zathura-pdf-poppler \
     imagemagick graphicsmagick \
     md4c \
@@ -472,6 +472,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     sstow less
     sstow lf
     sstow lua
+    [ -n "$need_gui" ] && sstow mako
     ddetach mime
     [ -n "$need_music" ] && sstow mpd
     [ -n "$need_music" ] && sstow ncmpcpp
@@ -487,6 +488,7 @@ if [ -n "$overwrite_dotfiles" ]; then
     [ -n "$need_gui" ] && sstow sxiv
     sstow tmux
     sstow wget
+    [ -n "$need_gui" ] && sstow xdg-desktop-portal
     [ -n "$need_gui" ] && sstow yambar
     [ -n "$need_gui" ] && sstow zathura
 

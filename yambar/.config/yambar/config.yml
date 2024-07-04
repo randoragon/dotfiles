@@ -7,38 +7,116 @@ bar:
 
   left:
     - river:
+        anchors:
+          on-click: &onclick
+            left: "sh -c 'riverctl set-focused-tags $((1 << ({id} - 1)))'"
+            right: "sh -c 'riverctl toggle-focused-tags $((1 << ({id} - 1)))'"
+          focus-string: &focusstring
+            deco:
+              background:
+                color: 666666ff
+            margin: 5
+            text: "{id}"
+            on-click: *onclick
+          urgent-string: &urgentstring
+            deco:
+              background:
+                color: ff4444ff
+            margin: 5
+            text: "{id}"
+            on-click: *onclick
         content:
           map:
             default:
-              string:
-                margin: 5
-                text: "{id}"
-                on-click:
-                  left: "sh -c 'riverctl set-focused-tags $((1 << ({id} - 1)))'"
-                  right: "sh -c 'riverctl toggle-focused-tags $((1 << ({id} - 1)))'"
+              map:
+                default:
+                  string:
+                    margin: 5
+                    text: "{id}"
+                    on-click: *onclick
+                conditions:
+                  id == 10:
+                    string:
+                      margin: 5
+                      text: "w"
+                      on-click: *onclick
+                  id == 11:
+                    string:
+                      margin: 5
+                      text: "e"
+                      on-click: *onclick
+                  id == 12:
+                    string:
+                      margin: 5
+                      text: "d"
+                      on-click: *onclick
+                  id == 13:
+                    string:
+                      margin: 5
+                      text: "n"
+                      on-click: *onclick
+                  id == 14:
+                    string:
+                      margin: 5
+                      text: "m"
+                      on-click: *onclick
             conditions:
               ~occupied && ~focused:
                 empty: {}
               urgent:
-                string:
-                  deco:
-                    background:
-                      color: ff4444ff
-                  margin: 5
-                  text: "{id}"
-                  on-click:
-                    left: "sh -c 'riverctl set-focused-tags $((1 << ({id} - 1)))'"
-                    right: "sh -c 'riverctl toggle-focused-tags $((1 << ({id} - 1)))'"
+                map:
+                  default:
+                    string:
+                      <<: *urgentstring
+                      text: "{id}"
+                  conditions:
+                    id == 10:
+                      string:
+                        <<: *urgentstring
+                        text: "w"
+                    id == 11:
+                      string:
+                        <<: *urgentstring
+                        text: "e"
+                    id == 12:
+                      string:
+                        <<: *urgentstring
+                        text: "d"
+                    id == 13:
+                      string:
+                        <<: *urgentstring
+                        text: "n"
+                    id == 14:
+                      string:
+                        <<: *urgentstring
+                        text: "m"
               focused:
-                string:
-                  deco:
-                    background:
-                      color: 666666ff
-                  margin: 5
-                  text: "{id}"
-                  on-click:
-                    left: "sh -c 'riverctl set-focused-tags $((1 << ({id} - 1)))'"
-                    right: "sh -c 'riverctl toggle-focused-tags $((1 << ({id} - 1)))'"
+                map:
+                  default:
+                    string:
+                      <<: *focusstring
+                      text: "{id}"
+                  conditions:
+                    id == 10:
+                      string:
+                        <<: *focusstring
+                        text: "w"
+                    id == 11:
+                      string:
+                        <<: *focusstring
+                        text: "e"
+                    id == 12:
+                      string:
+                        <<: *focusstring
+                        text: "d"
+                    id == 13:
+                      string:
+                        <<: *focusstring
+                        text: "n"
+                    id == 14:
+                      string:
+                        <<: *focusstring
+                        text: "m"
 
   center:
     - river:

@@ -1,10 +1,5 @@
 #!/bin/sh
 
-logdir="${XDG_DATA_DIR:-$HOME/.local/share}/yambar"
-logfile="$logdir/yambar.log"
+riverctl map normal Super B spawn 'killall -e yambar || yambar'
 
-mkdir -p -- "$logdir"
-
-echo "[$(date +%a\ %Y-%m-%d\ %H:%M:%S\ %z)]" >>"$logfile"
-
-yambar 2>>"$logfile" &
+yambar &

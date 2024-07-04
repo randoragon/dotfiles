@@ -88,3 +88,6 @@ if [ -d init.d ]; then
     done
     unset f
 fi
+
+# Autostart other programs
+[ -f ~/.config/autostart ] && . ~/.config/autostart

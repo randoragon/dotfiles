@@ -180,7 +180,7 @@ done
 
 [ -n "$need_gui" ] && for package in \
     river xdg-desktop-portal xdg-desktop-portal-wlr \
-    swayidle waylock bemenu \
+    swayidle waylock bemenu bemenu-ncurses bemenu-wayland \
     foot \
     grim slurp swappy \
     brightnessctl \

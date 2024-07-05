@@ -22,7 +22,8 @@ unbind i
 unbind I
 unbind p
 unbind P
-bind R reload-all
+unbind R
+bind r reload-all
 bind d mark-read
 bind D mark-read-all
 bind a mark-unread

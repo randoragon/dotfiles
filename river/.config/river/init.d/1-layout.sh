@@ -2,7 +2,7 @@
 
 # Layout mappings
 riverctl map normal Super A send-layout-cmd rivercarro 'main-location-cycle left,monocle'
-riverctl map normal Super S send-layout-cmd rivercarro 'main-location-cycle top,monocle'
+riverctl map normal Super Z send-layout-cmd rivercarro 'main-location-cycle top,monocle'
 
 # Ratio mappings
 riverctl map -repeat normal Super H send-layout-cmd rivercarro 'main-ratio -0.025'

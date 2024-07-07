@@ -58,7 +58,7 @@ riverctl map -repeat normal Super J focus-view next
 riverctl map -repeat normal Super K focus-view previous
 riverctl map -repeat normal Super U swap next
 riverctl map -repeat normal Super I swap previous
-riverctl map -repeat normal Super Space zoom
+riverctl map -repeat normal Super S zoom
 riverctl map normal Super+Shift Space toggle-float
 riverctl map normal Super F toggle-fullscreen
 

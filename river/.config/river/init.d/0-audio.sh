@@ -30,3 +30,5 @@ pwmap None  XF86AudioRaiseVolume set-sink-volume +2%
 pwmap Super equal                set-sink-volume +2%
 pwmap None  XF86AudioLowerVolume set-sink-volume -2%
 pwmap Super minus                set-sink-volume -2%
+
+riverctl map normal Super+Control P spawn "~/.scripts/choose_default_sink.sh"

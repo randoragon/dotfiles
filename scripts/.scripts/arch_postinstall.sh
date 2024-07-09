@@ -188,7 +188,7 @@ done
     mako \
     ttf-jetbrains-mono ttf-dejavu ttf-opensans ttf-font-awesome ttf-joypixels otf-ipafont \
     ttf-liberation ttf-carlito libertinus-font \
-    sxiv \
+    sxiv oculante \
     xarchiver \
     firefox \
     gtk-engine-murrine materia-gtk-theme xcursor-bluecurve \

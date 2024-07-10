@@ -244,7 +244,8 @@ done
     atomicparsley \
     mp3info \
     lua lua-filesystem \
-    rust openssl-1.1
+    rust openssl-1.1 \
+    python-musicbrainzngs python-wikipedia
 do
     pacinstall "$package"
 done

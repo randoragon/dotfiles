@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+
+# A script for generating The Music Playlist (tml) artist link block.
+
+import musicbrainzngs as mb
+import wikipedia as wiki
+import sys
+
+def log(*args, **kwargs) -> None:
+    print(*args, **kwargs, file=sys.stderr)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        log("tml-get-artist-links: one argument expected (artist name)")
+        exit(1)
+
+    mb.set_useragent("musicbrainz_get_artist_links", "0.1", "randoragongamedev@gmail.com")
+
+    # Obtain the musicbrainz artist ID
+    query = sys.argv[1]
+    log("Artist query:", query)
+    artist_id = None
+    if query.startswith("https://musicbrainz.org/artist/"):
+        artist_id = query.removeprefix("https://musicbrainz.org/artist/")
+        log("Extracted id from link:", artist_id)
+    else:
+        log(f"Searching MusicBrainz for '{query}'...")
+        result = mb.search_artists(query, limit=10)
+        if result["artist-count"] == 0:
+            log("-> no results found")
+        else:
+            log("-> found", len(result), "results:")
+            for i, artist in enumerate(result["artist-list"]):
+                log(f"   [{i}]", artist["name"], f"(https://musicbrainz.org/artist/{artist['id']})")
+            while True:
+                log("   Choose index: ", end="")
+                try:
+                    choice = input()
+                except EOFError:
+                    artist_name = None
+                    artist_id = None
+                    log()
+                    break
+                try:
+                    artist_name = result["artist-list"][int(choice)]["name"]
+                    artist_id = result["artist-list"][int(choice)]["id"]
+                    break
+                except:
+                    log("   -> invalid input")
+
+    links = {
+        "wikipedia": None,
+        "discogs": None,
+        "youtube": None,
+        "spotify": None,
+        "bandcamp": None,
+        "soundcloud": None,
+        "musicbrainz": f"https://musicbrainz.org/artist/{artist_id}" if artist_id is not None else None,
+    }
+
+    if artist_id is not None:
+        # Get external links of the artist
+        artist = mb.get_artist_by_id(artist_id, includes=["url-rels"])["artist"]
+
+        for link in artist["url-relation-list"]:
+            if link["type"] == "discogs":
+                links["discogs"] = link["target"]
+            elif link["type"] == "youtube":
+                links["youtube"] = link["target"]
+            elif links["spotify"] is None and link["target"].startswith("https://open.spotify.com/artist/"):
+                links["spotify"] = link["target"]
+            elif link["type"] == "bandcamp":
+                links["bandcamp"] = link["target"]
+            elif link["type"] == "soundcloud":
+                links["soundcloud"] = link["target"]
+            if all(links.values()):
+                break
+
+    # Find wikipedia page
+    log("\nSearching for Wikipedia page...")
+    result = wiki.search(query)
+    if not result:
+        log("-> no results found")
+    else:
+        log("-> found", len(result), "results:")
+        for i, artist_name in enumerate(result):
+            log(f"   [{i}]", artist_name)
+        while True:
+            log("   Choose index: ", end="")
+            try:
+                choice = input()
+            except EOFError:
+                artist_name = None
+                log()
+                break
+            try:
+                artist_name = result[int(choice)]
+                break
+            except:
+                log("   -> invalid input")
+        if artist_name is not None:
+            links["wikipedia"] = wiki.page(artist_name).url
+
+    print("\t\twikipedia:", f"\"{links['wikipedia']}\"," if links["wikipedia"] else "none,")
+    print("\t\tdiscogs:", f"\"{links['discogs']}\"," if links["discogs"] else "none,")
+    print("\t\tyoutube:", f"\"{links["youtube"]}\"," if links["youtube"] else "none,")
+    print("\t\tspotify:", f"\"{links['spotify']}\"," if links["spotify"] else "none,")
+    print("\t\tbandcamp:", f"\"{links['bandcamp']}\"," if links["bandcamp"] else "none,")
+    print("\t\tsoundcloud:", f"\"{links['soundcloud']}\"," if links["soundcloud"] else "none,")
+    print("\t\tmusicbrainz:", f"\"{links['musicbrainz']}\"," if links["musicbrainz"] else "none,")

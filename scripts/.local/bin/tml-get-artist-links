@@ -3,7 +3,6 @@
 # A script for generating The Music Playlist (tml) artist link block.
 
 import musicbrainzngs as mb
-import wikipedia as wiki
 import sys
 
 def log(*args, **kwargs) -> None:
@@ -75,31 +74,6 @@ if __name__ == "__main__":
                 links["soundcloud"] = link["target"]
             if all(links.values()):
                 break
-
-    # Find wikipedia page
-    log("\nSearching for Wikipedia page...")
-    result = wiki.search(query)
-    if not result:
-        log("-> no results found")
-    else:
-        log("-> found", len(result), "results:")
-        for i, artist_name in enumerate(result):
-            log(f"   [{i}]", artist_name)
-        while True:
-            log("   Choose index: ", end="")
-            try:
-                choice = input()
-            except EOFError:
-                artist_name = None
-                log()
-                break
-            try:
-                artist_name = result[int(choice)]
-                break
-            except:
-                log("   -> invalid input")
-        if artist_name is not None:
-            links["wikipedia"] = wiki.page(artist_name).url
 
     print("\t\twikipedia:", f"\"{links['wikipedia']}\"," if links["wikipedia"] else "none,")
     print("\t\tdiscogs:", f"\"{links['discogs']}\"," if links["discogs"] else "none,")

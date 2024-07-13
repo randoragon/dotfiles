@@ -245,7 +245,7 @@ done
     mp3info \
     lua lua-filesystem \
     rust openssl-1.1 \
-    python-musicbrainzngs python-wikipedia
+    python-musicbrainzngs
 do
     pacinstall "$package"
 done

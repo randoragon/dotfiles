@@ -85,14 +85,14 @@ output="$2"
 
 
 # Validate input and output, store input in a temporary file, set inputdir
-[ "$input" != - ] && [ ! -r "$input" ] && echo 'lxmake: failed to read input file' >&2 && exit 1
+[ "$input" != '-' ] && [ ! -r "$input" ] && echo 'lxmake: failed to read input file' >&2 && exit 1
 tinput="$(mktemp --tmpdir lxmake.XXXXX)"
-if [ "$input" = - ]; then
+if [ "$input" = '-' ]; then
     [ -z "$output" ] && output=-
     cat - >"$tinput"
     inputdir="$PWD"
 else
-    [ -n "$output" ] && [ "$output" != - ] && output="$(realpath -- "$output")"
+    [ -n "$output" ] && [ "$output" != '-' ] && output="$(realpath -- "$output")"
     inputdir="$(dirname -- "$input")"
     cd -- "$inputdir" || { printf 'lxmake: failed to cd into "%s"' "$inputdir" >&2 && exit 9; }
     input="$(basename -- "$input")"
@@ -102,7 +102,7 @@ else
 fi
 unset input # no longer needed
 [ ! -s "$tinput" ] && echo 'lxmake: no input provided' >&2 && exit 2
-[ "$output" = - ] && [ -n "$d_dir" ] && {
+[ "$output" = '-' ] && [ -n "$d_dir" ] && {
     echo 'lxmake: specify output filename or drop -d (mutually exclusive)' >&2
     exit 5
 }
@@ -242,7 +242,7 @@ grep -q '^\\nofiles\b' "$tinput" || {
 }
 
 # Export the result PDF file
-if [ "$output" = - ]; then
+if [ "$output" = '-' ]; then
     cat -- "$dir/lxmake.pdf"
     shred -u -- "$dir/lxmake.pdf"
 elif [ -f "$dir/$jobname.pdf" ] && [ "$output" != "$dir/$jobname.pdf" ]; then

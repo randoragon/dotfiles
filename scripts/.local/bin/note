@@ -377,7 +377,7 @@ output () {
     extract "$notedir/$1" "$tmpd"
     output="$2"
     stdout=
-    [ "$output" = - ] && stdout=1
+    [ "$output" = '-' ] && stdout=1
 
     fmt="$(get_filetype "$tmpd")"
     target="$tmpd/NOTE/NOTE.$fmt"
@@ -460,7 +460,7 @@ output_ledger () {
     gpg --yes --quiet --output "$target" --decrypt -- "$notedir/$1"
     output="$2"
     stdout=
-    [ "$output" = - ] && stdout=1
+    [ "$output" = '-' ] && stdout=1
 
     # Perform string substitutions
     strsub "$notedir/$1" "$target"
@@ -522,7 +522,7 @@ fi
     echo 'note: --raw can only be used with --output' >&2
     exit 5
 }
-[ -n "$raw" ] && [ "$output" = - ] && {
+[ -n "$raw" ] && [ "$output" = '-' ] && {
     echo 'note: cannot output to stdout when using --raw' >&2
     exit 5
 }

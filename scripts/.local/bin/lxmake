@@ -250,3 +250,5 @@ elif [ -f "$dir/$jobname.pdf" ] && [ "$output" != "$dir/$jobname.pdf" ]; then
 fi
 
 [ -z "$interactive" ] && dunstify -C $NOTIF_ID
+
+true

@@ -24,7 +24,7 @@ require("paq") {
 	"tiagovla/scope.nvim",
 	{
 		"nvim-treesitter/nvim-treesitter",
-		run = function() vim.cmd("TSUpdate") end,
+		build = function() vim.cmd("TSUpdate") end,
 	},
 	"ms-jpq/coq_nvim",
 }

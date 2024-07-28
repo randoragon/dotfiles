@@ -2,6 +2,8 @@
 
 # This script is run every time ncmpcpp registers a song change.
 
+music_dir=~/Music
+
 # Dump now playing to a text file for other programs to read
 printf "%s" "$(mpc current --format '%artist% - %title%    ·')    " \
     >"${XDG_CACHE_HOME:-~/.cache}/ncmpcpp-now-playing.txt"
@@ -63,7 +65,7 @@ fi
 # A track is only considered if it plays for at least 50% of its duration.
 #
 # Uncomment the line(s) below to enable
-#keep_count=1
+keep_count=1
 keep_hist=1
 if [ -n "$keep_count" ] || [ -n "$keep_hist" ]; then
     data="$(mpc current --format %file%%time%)"
@@ -91,11 +93,11 @@ if [ -n "$keep_count" ] || [ -n "$keep_hist" ]; then
         sleep $(( seconds / 2 ))
         [ "$(mpc current --format %file%)" != "$file" ] && exit
 
-        [ -n "$keep_count" ] && plrare bump "$file"
+        [ -n "$keep_count" ] && plrare bump "$music_dir/$file"
         [ -n "$keep_hist" ] && {
             mkdir -p -- ~/Music/Playlists
             host="$(cat /etc/hostname)"
-            sed -i "1i$file" "$HOME/Music/Playlists/hist.$host.m3u"
+            sed -i "1i$file" "$music_dir/Playlists/hist.$host.m3u"
         }
     ) &
 fi

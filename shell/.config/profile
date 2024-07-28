@@ -71,6 +71,8 @@ export LUA_INIT="@$HOME/.config/lua/init.lua"
 export ASCIIDOCTOR_OPTS='-r asciidoctor-diagram -a nofooter -a last-update-label! -a webfonts!'
 export BEMENU_OPTS='--scrollbar=autohide --counter=always --tb #3fbfff --tf #000000 --hb #3fbfff --hf #000000 --scf #ffffff --sb #186888 --sf #ffffff  --bdr #223333'
 
+export LM_LICENSE_FILE="$HOME/Software/Questa/LR-163448_License.dat"  # QuestaSim license -- for uni
+
 # Add custom PATH entries
 # user-specific paths take precedence over defaults, that's why
 # the function prepends PATH with arguments instead of appending.

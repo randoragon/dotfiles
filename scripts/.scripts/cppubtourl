@@ -23,13 +23,13 @@
 # to be used with the following syntax: "description:URL".
 # There can be an unlimited number of different WXXXs, so long
 # each has a unique description. Since I don't care about having
-# multiple, nor about having a description, I will delete all 
+# multiple, nor about having a description, I will delete all
 # WXXX fields, and then assign the ":URL" string (gets truncated
 # to raw URL with no description).
 # Read more: (http://id3.org/id3v2.4.0-frames)
 #
 # DEPENDENCIES:
-# - id3ted 
+# - rsid3
 
 
 # Set to 1 to print information about "Kept" files (unchanged)
@@ -52,25 +52,25 @@ tmpwrite 0 0 0 0 0
 # Find every mp3 file, recursively, and follow symlinks
 # Save the full path list to the temporary file for while loop redirection
 find -L "$HOME/Music" -type f -name '*.mp3' > "$input"
-    
+
 # Iterate through every input path and run code for it
 while read f <&3; do
     # Update the count variable
     tmpadd 5
 
     # Extract url from the publisher field
-    url=$(id3ted -l "$f" | sed -n "s/^TPUB: //p" | sed "s/;/\//g")
+    url=$(rsid3 --TPUB -- "$f")
 
     if [ -n "$url" -a -n "$(expr "$url" : "^https\?://\([^/#?:]\+\)\(\.[\w]\+\)*")" ]; then
 
 
         # Store the current value of the URL field, in case it contains precious data
-        prev_url="$(id3ted -l "$f" | sed -n "s/^WXXX: \[origin\]: //p")"
+        prev_url="$(rsid3 --WXXX origin -- "$f")"
 
         if [ -z "$prev_url" ]; then
             # mp3 files can contain multiple WXXX fields, so to ensure we can distinguish
             # ours from the rest of them, we're adding an "origin" description.
-            id3ted -d \` --WXXX "$url\`origin" "$f"
+            rsid3 --WXXX= origin "$url" -- "$f"
             echo "  $(tput setaf 4)File$(tput setaf 7): $f"
             echo " $(tput setaf 5)Added$(tput setaf 7): $url"
             tmpadd 1
@@ -92,8 +92,7 @@ while read f <&3; do
             printf "  Replace? [y/N] "
             read response
             if [ "$response" = "y" ]; then
-                id3ted -r WXXX "$f"
-                id3ted -d \` --WXXX "$url\`origin" "$f"
+                rsid3 --WXXX= origin "$url" -- "$f"
                 echo "  Changed old to new."
                 tmpadd 3
             else

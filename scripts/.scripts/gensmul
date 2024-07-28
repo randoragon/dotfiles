@@ -9,7 +9,7 @@
 # platforms is made easier.
 #
 # DEPENDENCIES:
-# - id3ted
+# - rsid3
 
 pl="$HOME/Music/Playlists/#Fair Use.m3u"
 base="$HOME/Music"
@@ -27,10 +27,9 @@ while read -r relative; do
     }
 
     # Extract relevant information
-    tags="$(id3ted -l "$f")"
-    artist="$(echo "$tags" | sed -n "s/^TPE1: //p")"
-    title="$(echo "$tags" | sed -n "s/^TIT2: //p")"
-    url="$(echo "$tags" | sed -n "s/^WXXX: \[origin\]: //p")"
+    artist="$(rsid3 --TPE1 -- "$f")"
+    title="$(rsid3 --TIT2 -- "$f")"
+    url="$(rsid3 --WXXX origin -- "$f")"
 
     # Exit if any information is missing
     if [ -z "$artist" ] || [ -z "$title" ] || [ -z "$url" ]; then

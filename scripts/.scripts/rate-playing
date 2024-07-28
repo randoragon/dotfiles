@@ -6,6 +6,9 @@
 # I no longer use this script, because I've found that rating each track in
 # my library doesn't serve a useful purpose to me. A simple "Favorites" playlist
 # suffices as means of giving extra love to some pieces over others.
+#
+# DEPENDENCIES:
+# - rsid3
 
 MUSIC_DIR=~/Music
 PLAYLIST_DIR=${MUSIC_DIR}/Playlists
@@ -62,7 +65,7 @@ printf '%s\n' "$file" >>"$plfile"
 sed -i '/^$/d' "$plfile"
 
 # Print notification
-title="$(id3ted -l "${MUSIC_DIR}/${file}" | sed -n 's/^TIT2: //p')"
+title="$(rsid3 --TIT2 -- "${MUSIC_DIR}/${file}")"
 stars=
 for i in $(seq "$rating"); do
     stars="★$stars"

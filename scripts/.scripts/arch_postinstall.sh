@@ -401,23 +401,6 @@ for i in sent; do
     sectionend
 done
 
-# Install id3ted
-section "Installing id3ted"
-if [ -n "$need_music" ]; then
-    cd ~/Software
-    if [ -n "$(command -v id3ted)" ]; then
-        printf "id3ted already installed, skipping.\n"
-    else
-        git clone https://github.com/muennich/id3ted
-        cd ~/Software/id3ted
-        sudo make install
-        printf "done.\n"
-    fi
-else
-    echo "'music'" disabled, skipping.
-fi
-sectionend
-
 section "Installing ledger"
 if [ -n "$need_accounting" ]; then
     if [ -n "$(command -v ledger)" ]; then

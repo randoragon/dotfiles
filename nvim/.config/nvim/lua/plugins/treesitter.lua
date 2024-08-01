@@ -17,6 +17,7 @@ treesitter.setup {
 		"ledger",
 		"lua", "luadoc", "luap",
 		"markdown", "markdown_inline", "rst",
+		"nix",
 		"passwd",
 		"python",
 		"regex",

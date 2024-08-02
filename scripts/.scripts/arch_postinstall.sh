@@ -465,7 +465,6 @@ rm -f -- ~/.bashrc ~/.bash_profile
 if [ -n "$overwrite_dotfiles" ]; then
     cd ~/dotfiles
     [ -n "$need_music" ] && sstow beets
-    [ -n "$need_gui" ] && sstow carla
     ddetach cronie
     sstow git
     ddetach gpg

@@ -1,5 +1,18 @@
 # .DotFiles
 
+**DISCLAIMER 1**  
+As of June 30th 2024, I began an experimental transition to Wayland on the
+`wayland-river` branch. This ended up being a success, but I never merged that
+branch into `master`. As such, the `wayland-river` branch contains some newer
+configuration than `master`.
+
+**DISCLAIMER 2**  
+As of August 2024, after 4 years of happily using Arch Linux, I finally took the
+plunge and transitioned to NixOS. As such, all of the configuration here has
+been migrated to <https://github.com/randoragon/nixos-config>, where it will be
+maintained. I don't anticipate anything new to happen in this repository. It
+will stay here as a public archive.
+
 ## Overview
 
 This repository holds my Arch Linux configuration files (a lot of it is analogical to other distros).

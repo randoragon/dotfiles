@@ -15,7 +15,7 @@ will stay here as a public archive.
 
 ## Overview
 
-This repository holds my Arch Linux configuration files (a lot of it is analogical to other distros).
+This repository holds my Arch Linux configuration files (a lot of it is analogous to other distros).
 Everything is managed by **GNU Stow**. To copy this repository's configuration into your computer, follow these steps:
 
 ```sh
